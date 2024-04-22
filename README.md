@@ -9,4 +9,10 @@
 ### Class Hierarchies, etc.
 following classes which are not part of hierarchies, and are often present only as a single instance:
 
+* <samp>ImageAnimator</samp>
+* <samp>UserInterface</samp>
+* <samp>RunState</samp>
+* <samp>PlottingMachinery</samp>
+* <samp>HelpViewerNode</samp>
+* <samp>HelpViewer</samp>
 * <samp>UserInterface</samp>
