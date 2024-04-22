@@ -6,7 +6,7 @@
 * web typesetting is done using the [KaTeX library](https://www.katex.org/)
 * dependencies include:
 
-### Class Hierarchies, etc.
+### Classes, Hierarchies, etc.
 The following classes, which are roughly listed from "largest" (i.e., "outermost") to "smallest," are not part of large class hierarchies, and are often present only as a single instance:
 
 * <samp>SSNS</samp> = **S**imple **S**tochastic and **N**onlinear **S**imulator
@@ -17,6 +17,6 @@ The following classes, which are roughly listed from "largest" (i.e., "outermost
 * <samp>HelpViewerNode</samp>
 * <samp>HelpViewer</samp>
 
-A few select notes:
+A few notes:
 
-* <samp>SSNS</samp>, as the name suggests, is the JavaScript class that encompasses all app logic.  It is instantiated between a pair of <samp>script</samp> tags at the very end of <samp>SSNS.html</samp>
+* <samp>SSNS</samp>, as the name suggests, is the JavaScript class that encompasses all app logic.  It is instantiated between a pair of <samp>script</samp> tags at the very end of [<samp>SSNS.html</samp>](SSNS.html)
