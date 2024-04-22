@@ -5,3 +5,8 @@
 * plotting relies on the [flot library](https://www.flotcharts.org/), or, for heatmaps, the native HTML canvas element
 * web typesetting is done using the [KaTeX library](https://www.katex.org/)
 * dependencies include:
+
+### Class Hierarchies, etc.
+following classes which are not part of hierarchies, and are often present only as a single instance:
+
+* UserInterface
