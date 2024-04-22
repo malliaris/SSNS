@@ -20,3 +20,7 @@ The following classes, which are roughly listed from "largest" (i.e., "outermost
 A few notes:
 
 * <samp>SSNS</samp>, as the name suggests, is the JavaScript class that encompasses all app logic.  It is instantiated between a pair of <samp>script</samp> tags at the very end of [<samp>SSNS.html</samp>](SSNS.html)
+* <samp>HelpViewer</samp> is a modal-lightbox-based network of help pages, each corresponding to a <samp>HelpViewerNode</samp>; see the [Help Viewer](#help-viewer) section for details and a "sitemap" of node pages.
+
+### Help Viewer
+blah blah
