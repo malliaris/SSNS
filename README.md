@@ -7,12 +7,16 @@
 * dependencies include:
 
 ### Class Hierarchies, etc.
-following classes which are not part of hierarchies, and are often present only as a single instance:
+The following classes, which are roughly listed from "largest" (i.e., "outermost") to "smallest," are not part of large class hierarchies, and are often present only as a single instance:
 
-* <samp>ImageAnimator</samp>
+* <samp>SSNS</samp> = **S**imple **S**tochastic and **N**onlinear **S**imulator
 * <samp>UserInterface</samp>
-* <samp>RunState</samp>
 * <samp>PlottingMachinery</samp>
+* <samp>RunState</samp>
+* <samp>UINI</samp> = **U**ser **I**nterface **N**umerical **I**nput
 * <samp>HelpViewerNode</samp>
 * <samp>HelpViewer</samp>
-* <samp>UserInterface</samp>
+
+A few select notes:
+
+* <samp>SSNS</samp>, as the name suggests, is the JavaScript class that encompasses all app logic.  It is instantiated between a pair of <samp>script</samp> tags at the very end of <samp>SSNS.html</samp>
