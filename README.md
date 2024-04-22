@@ -9,4 +9,4 @@
 ### Class Hierarchies, etc.
 following classes which are not part of hierarchies, and are often present only as a single instance:
 
-* UserInterface
+* <samp>UserInterface</samp>
