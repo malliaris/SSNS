@@ -8,9 +8,14 @@
 
 ### Where To Find Information
 
-If you're interested in knowing more about the **SSNS** app and its code, there are three places to look:
+If you're interested in knowing more about the **SSNS** app and its code, here are some places to look:
 
-* the Help Viewer which is integrated into the app itself; visit [tedm.us/SSNS](https://tedm.us/SSNS/) and click the big yellow question mark
+* the Help Viewer which is integrated into the app itself; visit [tedm.us/SSNS](https://tedm.us/SSNS) and click the big yellow question mark
+* the class diagrams located in [<samp>/class_diagrams/</samp>](/class_diagrams/), which capture the basic, object-oriented structure of the code
+* the JavaScript source code located in the [<samp>/js/</samp>](/js/) directory and HTML markup code located in [<samp>SSNS.html</samp>](SSNS.html)
+* this README
+
+While the source code has plenty of comments, 
 
 ### Classes, Hierarchies, etc.
 
