@@ -1,5 +1,8 @@
 # SSNS
-**S**imple **S**tochastic and **N**onlinear **S**imulator, a web app
+
+### Overview
+
+**SSNS** is a web app that offers interactive exploration **S**imple **S**tochastic and **N**onlinear **S**imulator
 
 * interface with [Bootstrap](https://getbootstrap.com/) so that app is easy to use from both mobile and desktop browsers
 * plotting relies on the [flot library](https://www.flotcharts.org/), or, for heatmaps, the native HTML canvas element
@@ -14,6 +17,8 @@ If you're interested in knowing more about the **SSNS** app and its code, here a
 * the [<samp>/class_diagrams/</samp>](/class_diagrams/), which capture the basic, object-oriented structure of the code
 * the JavaScript source code located in the [<samp>/js/</samp>](/js/) directory and HTML markup code located in [<samp>SSNS.html</samp>](SSNS.html)
 * this README
+
+<a target="_blank" href="/class_diagrams/TrajSeg_composition.svg"><img src="/class_diagrams/TrajSeg_composition_-_no_section_label.svg" style="width:350px; "></a>
 
 While the source code has plenty of comments, it is perhaps not the best place to start.  The app aims to be simple, intuitive, and accessible, so a lot can be learned by bouncing back and forth between the user interface and help viewer.  There is plenty of overlap between the content of the help viewer pages and this README.  In general, the former is organized as a linked network, with each node having ~1 page of information when displayed on a mobile device.  The latter is more verbose, more focused on the code/computation, and doesn't touch on the conceptual side of things.
 
