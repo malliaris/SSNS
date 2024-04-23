@@ -6,6 +6,12 @@
 * web typesetting is done using the [KaTeX library](https://www.katex.org/)
 * dependencies include:
 
+### Where To Find Information
+
+If you're interested in knowing more about the **SSNS** app and its code, there are three places to look:
+
+* the Help Viewer which is integrated into the app itself; visit [tedm.us/SSNS](https://tedm.us/SSNS/) and click the big yellow question mark
+
 ### Classes, Hierarchies, etc.
 
 The central class of the **SSNS** app is the <samp>Trajectory</samp>.  Each system type has its own, <samp>Trajectory</samp> subclass.  A <samp>Trajectory</samp> object is composed of a <samp>ModelCalc</samp> (which performs all model-specific calculations), one or more <samp>TrajSeg</samp> objects to hold the trajectory data, and supporting variables related to time, etc.  The <samp>TrajSeg</samp> represents the portion of a trajectory where the system evolved with a particular set of system parameter values, and is thus composed of a <samp>Params</samp> object and one or more <samp>Coords</samp> objects.  Each <samp>Coords</samp> object hold all dependent variable(s) data for a single time step &mdash; it could be a single scalar integer value, or a large 2D matrix of floating point values.   , ution allows for   es,  part of large class hierarchies
@@ -50,10 +56,10 @@ console.log messages
 
 <table>
 <tbody>
-<tr><td>plot of trajectory(ies); time on the horizontal axis; fixed size window follows current time</td><td>XT</td></tr>
-<tr><td>plot of non-time-dependent function, e.g., a probability distribution, that refreshes each time step</td><td>HX</td></tr>
-<tr><td>heat map array of tiles that refreshes each time step; variable value indicated by color of tile</td><td>HM</td></tr>
-<tr><td>phase plane plot with one data point, e.g., (x, y) dependent variable values, for each of a fixed number of past time steps</td><td>PP</td></tr>
+<tr><td>plot of trajectory(ies); time on the horizontal axis; fixed size window follows current time</td><td><samp>XT</samp></td></tr>
+<tr><td>plot of non-time-dependent function, e.g., a probability distribution, that refreshes each time step</td><td><samp>HX</samp></td></tr>
+<tr><td>heat map array of tiles that refreshes each time step; variable value indicated by color of tile</td><td><samp>HM</samp></td></tr>
+<tr><td>phase plane plot with one data point, e.g., (x, y) dependent variable values, for each of a fixed number of past time steps</td><td><samp>PP</samp></td></tr>
 </tbody>
 </table>
 
