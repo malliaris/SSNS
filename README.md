@@ -24,7 +24,9 @@ A few notes:
 
 ### Input/Output
 
-OUtputting trajectory data is not implemented/planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.   
+Input to the app is done only via the user interface.  On loading of the page, the app shows the default system type and plots it's trajectory.  At that point, the trajectory consists only of a single time point: the default initial condition &mdash;.  Pressing "play" at One sometimes confusing point is that 
+
+Outputting trajectory data is not implemented/planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.   
 
 ### Help Viewer
 blah blah
