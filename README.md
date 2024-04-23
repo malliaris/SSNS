@@ -31,7 +31,7 @@ In addition to buttons, checkboxes, etc., the app has many text input fields for
 In a "layer" one below the raw input fields, each HTML input is managed by an instance of the <samp>UINI</samp> (**U**ser **I**nterface **N**umerical **I**nput) class.  The goals of this setup are:
 
 * take full advantage of HTML  <samp>&lt;input type="number" ... &gt;</samp> features, which include a first round of input validation that removes white space and most non-numeric characters
-* 
+* subclassing for <samp>int</samp> vs. <samp>float</samp> types, with appropriate treatment of leading zeros, etc.  (Note that this is an SSNS UINI distinction &mdash; JavaScript has only a single multipurpose <samp>Number</samp> type.)
 
 Outputting trajectory data is not implemented, nor planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.  Similarly, reading saved trajectory in from disk is neither implemented nor planned.
 
