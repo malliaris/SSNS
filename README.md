@@ -18,7 +18,7 @@ If you're interested in knowing more about the **SSNS** app and its code, here a
 * the JavaScript source code located in the [<samp>/js/</samp>](/js/) directory and HTML markup code located in [<samp>SSNS.html</samp>](SSNS.html)
 * this README
 
-<center><a target="_blank" href="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><img src="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg" style="width:350px; "></a></center>
+<a href="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><img src="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"></a>
 
 While the source code has plenty of comments, it is perhaps not the best place to start.  The app aims to be simple, intuitive, and accessible, so a lot can be learned by bouncing back and forth between the user interface and help viewer.  There is plenty of overlap between the content of the help viewer pages and this README.  In general, the former is organized as a linked network, with each node having ~1 page of information when displayed on a mobile device.  The latter is more verbose, more focused on the code/computation, and doesn't touch on the conceptual side of things.
 
