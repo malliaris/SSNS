@@ -28,7 +28,7 @@ Input to the app is done only via the user interface.  On loading of the page, t
 
 In addition to the buttons, checkboxes, and radio button selectors, the app has many text input fields for passing in numbers.  Each is input field "block" has a label with symbol/word on a colored background to the left of the input field itself.  Some blocks also have a dedicated "apply" button or related controls to the right.  Each input field uses an HTML <samp>input</samp> element with <samp>type="number"</samp> under the hood.  Note that the presence of small increment/decrement arrows, the popup of numeric keyboards, etc. will all vary by browser and mobile/desktop.
 
-Outputting trajectory data is not implemented/planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.   
+Outputting trajectory data is not implemented, nor planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.  Similarly, reading saved trajectory in from disk is neither implemented nor planned.
 
 ### Help Viewer
 blah blah
