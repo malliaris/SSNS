@@ -28,9 +28,9 @@ Input to the app is done only via the user interface.  On loading of the page, t
 
 In addition to buttons, checkboxes, etc., the app has many text input fields for passing in numbers.  Each input field is presented in a "block," with a symbol/word label on a blue or green background on the left.  Some blocks also have a dedicated "apply" button or related controls to the right.  Under the hood, each input field uses an HTML <samp>&lt;input&gt;</samp> element with <samp>type="number"</samp>.  Note that the presence of small increment/decrement arrows, the popup of numeric keyboards, etc. will all depend on choice of browser and mobile vs. desktop.
 
-In a "layer" one below the raw input fields, each HTML input is managed by an instance of the <samp>UINI</samp> (**U**ser **I**nterface **N**umerical **I**nput) class.  The goals of this setup are:
+In a "layer" one below the raw input fields, each HTML input is managed by an instance of the <samp>UINI</samp> (**U**ser **I**nterface **N**umerical **I**nput) class.  The idea is to both take full advantage of existing web functionality (<samp>&lt;input type="number" ... &gt;</samp>'s features, JavaScript event listeners, etc.) and allow for customized handling where necessary.  The setup includes:
 
-* take full advantage of HTML  <samp>&lt;input type="number" ... &gt;</samp> features, which include a first round of input validation that removes white space and most non-numeric characters
+* a first round of input validation via <samp>&lt;input type="number" ... &gt;</samp>: removal of white space and most non-numeric characters
 * subclassing for <samp>int</samp> vs. <samp>float</samp> types, with appropriate treatment of leading zeros, etc.  (Note that this is an SSNS UINI distinction &mdash; JavaScript has only a single multipurpose <samp>Number</samp> type.)
 
 Outputting trajectory data is not implemented, nor planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.  Similarly, reading saved trajectory in from disk is neither implemented nor planned.
