@@ -30,8 +30,9 @@ In addition to buttons, checkboxes, etc., the app has many text input fields for
 
 In a "layer" one below the raw input fields, each HTML input is managed by an instance of the <samp>UINI</samp> (**U**ser **I**nterface **N**umerical **I**nput) class.  The idea is to both take full advantage of existing web functionality (<samp>&lt;input type="number" ... &gt;</samp>'s features, JavaScript event listeners, etc.) and allow for customized handling where necessary.  The setup includes:
 
-* a first round of input validation via <samp>&lt;input type="number" ... &gt;</samp>: removal of white space and most non-numeric characters
-* subclassing for <samp>int</samp> vs. <samp>float</samp> types, with appropriate treatment of leading zeros, etc.  (Note that this is an SSNS UINI distinction &mdash; JavaScript has only a single multipurpose <samp>Number</samp> type.)
+* a first round of input validation via <samp>&lt;input type="number"&gt;</samp> with removal of white space and most non-numeric characters
+* subclassing for <samp>int</samp> vs. <samp>float</samp> types, with appropriate treatment of leading zeros, etc.  (Note that this is an SSNS UINI distinction &mdash; JavaScript has only a single multipurpose <samp>Number</samp> type; we rely on the <samp>Number.isInteger()</samp> method.)
+* use of the <samp>&lt;input type="number"&gt;</samp>'s <samp>value</samp> attribute to store the quantity's default value, which is then loaded in <samp>UINI</samp> constructor
 
 Outputting trajectory data is not implemented, nor planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.  Similarly, reading saved trajectory in from disk is neither implemented nor planned.
 
