@@ -7,9 +7,12 @@
 * dependencies include:
 
 ### Classes, Hierarchies, etc.
+
+The central class of the **SSNS** app is the <samp>Trajectory</samp>.  Each system type has its own, <samp>Trajectory</samp> subclass.  A <samp>Trajectory</samp> object is composed of a <samp>ModelCalc</samp> (which performs all model-specific calculations), one or more <samp>TrajSeg</samp> objects to hold the trajectory data, and supporting variables related to time, etc.  The <samp>TrajSeg</samp> represents the portion of a trajectory where the system evolved with a particular set of system parameter values, and is thus composed of a <samp>Params</samp> object and one or more <samp>Coords</samp> objects.  Each <samp>Coords</samp> object hold all dependent variable(s) data for a single time step &mdash; it could be a single scalar integer value, or a large 2D matrix of floating point values.   , ution allows for   es,  part of large class hierarchies
+
 The following classes, which are roughly listed from "largest" (i.e., "outermost") to "smallest," are not part of large class hierarchies, and are often present only as a single instance:
 
-* <samp>SSNS</samp> = **S**imple **S**tochastic and **N**onlinear **S**imulator
+* <samp>Simulator</samp>
 * <samp>UserInterface</samp>
 * <samp>PlottingMachinery</samp>
 * <samp>RunState</samp>
@@ -19,7 +22,7 @@ The following classes, which are roughly listed from "largest" (i.e., "outermost
 
 A few notes:
 
-* <samp>SSNS</samp>, as the name suggests, is the JavaScript class that encompasses all app logic.  It is instantiated between a pair of <samp>script</samp> tags at the very end of [<samp>SSNS.html</samp>](SSNS.html)
+* <samp>Simulator</samp> is the JavaScript class that encompasses all **SSNS** app logic.  It is instantiated between a pair of <samp>script</samp> tags at the very end of [<samp>SSNS.html</samp>](SSNS.html)
 * <samp>HelpViewer</samp> is a modal-lightbox-based network of help pages, each corresponding to a <samp>HelpViewerNode</samp>; see the [Help Viewer](#help-viewer) section for details and a "sitemap" of node pages.
 
 ### Input/Output
