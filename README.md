@@ -46,6 +46,24 @@ Keyboard shortcuts
 
 console.log messages
 
+
+
+<table>
+<tbody>
+<tr><td>plot of trajectory(ies); time $$t$$ on the horizontal axis; fixed size <a class="hv_link" onclick="window.ia.ui.hv.show_view('HV_C_DELAY_WINDOW'); ">window</a> follows current $$ t $$</td>
+<td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><i class="fas fa-fw fa-lg fa-arrow-trend-up"></i></span></td></tr>
+<tr><td>plot of non-$$t$$-dependent function, e.g., a probability distribution $$ P(x) $$, that refreshes each $$ t $$</td>
+<td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><i class="fas fa-fw fa-lg fa-chart-simple"></i></span></td></tr>
+<tr><td><a &&WLHeat_map>heat map</a> array of tiles that refreshes each $$ t $$; variable value indicated by color of tile</td>
+<td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><i class="fab fa-fw fa-lg fa-buromobelexperte"></i></span></td></tr>
+<tr><td>phase plane plot with one data point, e.g., $$ [ x(t), y(t) ] $$ for each of a fixed number of past time steps</td>
+<td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><i class="fas fa-fw fa-lg fa-arrows-spin"></i></span></td></tr>
+</tbody>
+</table>
+
+
+
+
 ### Help Viewer
 blah blah
 
