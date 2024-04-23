@@ -15,8 +15,8 @@ If you're interested in knowing more about the **SSNS** app and its code, here a
 
 * the help viewer which is integrated into the app itself; visit [tedm.us/SSNS](https://tedm.us/SSNS) and click the big yellow "?"
 * the JavaScript source code located in the [<samp>/js/</samp>](/js/) directory and HTML markup code located in [<samp>SSNS.html</samp>](SSNS.html)
-* this README
-* the [<samp>/class_diagrams/</samp>](/class_diagrams/), which capture the basic, object-oriented structure of the code; individual diagrams (example below) have both <samp>svg</samp> and <samp>pdf</samp> versions, and [<samp>all.pdf</samp>](/class_diagrams/all.pdf) contains them all
+* the README document you are currently viewing
+* the [<samp>/class_diagrams/</samp>](/class_diagrams/), which capture the basic, object-oriented structure of the code; individual diagrams (example below) have both <samp>svg</samp> and <samp>pdf</samp> versions, and [<samp>all.pdf</samp>](/class_diagrams/all.pdf) contains them all diagrams
 
 <a href="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><img src="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"></a>
 
