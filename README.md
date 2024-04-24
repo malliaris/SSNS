@@ -38,7 +38,16 @@ A few notes:
 
 ## External Libraries, Dependencies
 
-lib50
+SSNS library dependencies include:
+
+data structures, statistics, and random number generation with stdlib.js
+plotting with flot (except for heatmaps, which use HTML <samp>canvas</samp>)
+responsive web interface with Bootstrap
+web typesetting with KaTeX
+jQuery for interacting with the DOM
+Font Awesome for nifty icons
+for convenience, the GitHub has a minified bundle of the above js dependencies with version info within it
+in addition to js, the app uses CSS; the <samp>SSNS.hmtl</samp> <samp>head</samp> section has a small amount of SSNS-specific styling, as well as stylesheet links for Bootstrap and KaTeX
 
 ## Abbreviations, Labels, etc.
 
