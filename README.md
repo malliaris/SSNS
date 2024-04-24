@@ -134,7 +134,7 @@ Most of the SSNS system types require the storing of the values of small number 
 The system types where computational strategy required the most thought were the spin systems, where a 2D field of values for each time step makes grid size both update and plotting memory footprint
   canvas element
 
-  The past few decades have seen incredible developments in the use graphics of specialized GPU hardware WebGL <a href="//kjslag.github.io/XY/">here XY
+  The past few decades have seen incredible developments in the use graphics of specialized GPU hardware WebGL <a href="//kjslag.github.io/XY/">here</a> XY
 WebGPU
 GPGPU machine learning
 <samp>PRMS</samp> and <samp>CTRL</samp>
