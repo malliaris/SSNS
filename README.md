@@ -41,17 +41,9 @@ A few notes:
 * <samp>Simulator</samp> is the JavaScript class that encompasses all **SSNS** app logic.  It is instantiated between a pair of <samp>script</samp> tags at the very end of [<samp>SSNS.html</samp>](SSNS.html)
 * <samp>HelpViewer</samp> is a modal-lightbox-based network of help pages, each corresponding to a <samp>HelpViewerNode</samp>; see the [Help Viewer](#help-viewer) section for details and a "sitemap" of node pages.
 
-### Abbreviations, Terms, etc.
+### Abbreviations, Labels, etc.
 
-<table>
-<tbody>
-<tr><td>trajectory over time; think: x(t)</td><td><samp>XT</samp></td></tr>
-<tr><td>non-time-dependent function; think: histogram H(x)</td><td><samp>HX</samp></td></tr>
-<tr><td>array quantitatively colored tiles; think: Heat Map</td><td><samp>HM</samp></td></tr>
-<tr><td>dependent variable data point, e.g., [ x(t), y(t) ]; think: Phase Plane</td><td><samp>PP</samp></td></tr>
-</tbody>
-</table>
-
+Many variable names, HTML id string, etc. use two-letter abbreviations to indicate, e.g., inheritance, but remain relatively short.  For example, when simulating with the Logistic Map system type, the derived <samp>Trajectory</samp> class being used under the hood is <samp>Trajectory_LM</samp>
 
 <table>
 <tbody>
