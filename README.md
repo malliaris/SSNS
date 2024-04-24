@@ -15,7 +15,7 @@ Being a web app, **SSNS** makes heavy use of HTML/CSS.  The computation and logi
 
 <a href="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><img src="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"></a>
 
-While the source code has plenty of comments, it is perhaps not the best place to start.  The app aims to be simple, intuitive, and accessible, so a lot can be learned by bouncing back and forth between the user interface and help viewer.  There is plenty of overlap between the content of the help viewer pages and this README.  In general, the former is organized as a linked network, with each node having ~1 page of information when displayed on a mobile device.  The latter is more verbose, more focused on the code/computation, and doesn't touch on the conceptual side of things.
+While the source code has plenty of comments, it is perhaps not the best place to start.  The app aims to be simple, intuitive, and accessible, so a lot can be learned by bouncing back and forth between the user interface and help viewer.  There is plenty of overlap between the content of the help viewer pages and this README.  However, the former is organized as a linked network, with each node having ~1 page of information when displayed on a mobile device.  The latter is more verbose, more focused on the code/computation, and doesn't touch on the conceptual side of things.
 
 ## Classes, Hierarchies, etc.
 
