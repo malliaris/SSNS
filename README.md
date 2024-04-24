@@ -6,10 +6,9 @@ Being a web app, **SSNS** makes heavy use of HTML/CSS.  The computation and logi
 
 ## Where To Find Things
 
-If you're interested in knowing more about the **SSNS** app and its code, here are some places to look:
+**SSNS** can always be found "live" at [tedm.us/SSNS](https://tedm.us/SSNS).  If you're interested in knowing more about the app's design and code, here are some places to look:
 
-* the app can always be found "live" at [tedm.us/SSNS](https://tedm.us/SSNS)
-* there is a help viewer integrated into the app itself; visit [tedm.us/SSNS](https://tedm.us/SSNS) and click the big yellow "?"
+* the app's integrated help viewer; visit [tedm.us/SSNS](https://tedm.us/SSNS) and click the big yellow "?"
 * the JavaScript source code located in the [<samp>/js/</samp>](/js/) directory, and the HTML markup code located in [<samp>SSNS.html</samp>](SSNS.html)
 * the README document you are currently viewing
 * the [<samp>/class_diagrams/</samp>](/class_diagrams/), which capture the basic, object-oriented structure of the code; individual diagrams (example below) have both <samp>svg</samp> and <samp>pdf</samp> versions, and [<samp>all.pdf</samp>](/class_diagrams/all.pdf) contains all diagrams
