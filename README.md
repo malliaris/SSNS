@@ -81,7 +81,7 @@ Many JavaScript variable names in the code use two-letter abbreviations to indic
 </tbody>
 </table>
 
-These abbreviations are also used in HTML element id attributes.  For instance <samp>UI_P_SP_MN_mu</samp> "expands" to User Interface &mdash; Parameters &mdash; Stochastic Processes &mdash; Moran Model &mdash; parameter mu.
+These abbreviations are also used in HTML element id attributes.  For instance <samp>UI_P_SP_MN_mu</samp> "expands" to User Interface &mdash; Parameters &mdash; Stochastic Processes &mdash; Moran Model &mdash; parameter mu.  Every two-letter abbreviation above is unique ***across all categories***.
 
 ### Input/Output
 
