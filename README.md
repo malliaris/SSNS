@@ -50,7 +50,8 @@ Many JavaScript variable names in the code use two-letter abbreviations to indic
 <table>
 <tbody>
 <tr><th colspan="2">general</th></tr>
-<tr><td>**U**ser **I**nterface **N**umerical **I**nput</td><td><samp>UINI</samp></td></tr>
+<tr><td>Simple Stochastic and Nonlinear Simulator</td><td><samp>SSNS</samp></td></tr>
+<tr><td>User Interface Numerical Input</td><td><samp>UINI</samp></td></tr>
 <tr><td>System Type</td><td><samp>ST</samp></td></tr>
 <tr><td>Plot Type</td><td><samp>PT</samp></td></tr>
 <tr><td>User Interface</td><td><samp>UI</samp></td></tr>
