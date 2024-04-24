@@ -101,18 +101,6 @@ console.log messages
 
 
 
-<table>
-<tbody>
-<tr><td>plot of trajectory(ies); time on the horizontal axis; fixed size window follows current time</td><td><samp>XT</samp></td></tr>
-<tr><td>plot of non-time-dependent function, e.g., a probability distribution, that refreshes each time step</td><td><samp>HX</samp></td></tr>
-<tr><td>heat map array of tiles that refreshes each time step; variable value indicated by color of tile</td><td><samp>HM</samp></td></tr>
-<tr><td>phase plane plot with one data point, e.g., (x, y) dependent variable values, for each of a fixed number of past time steps</td><td><samp>PP</samp></td></tr>
-</tbody>
-</table>
-
-
-
-
 ## Help Viewer
 blah blah
 
