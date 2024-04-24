@@ -2,7 +2,7 @@
 
 ### Overview
 
-**SSNS** is a web app that offers interactive exploration **S**imple **S**tochastic and **N**onlinear **S**imulator
+**SSNS** is a web app that offers interactive exploration of various simple models/maps/equations/processes from a variety STEM fields.  The common theme is that they all involve straightforward update equations and display stochastic and/or nonlinear behavior.  In that sense, **SSNS** is a **S**imple **S**tochastic and **N**onlinear **S**imulator. 
 
 * interface with [Bootstrap](https://getbootstrap.com/) so that app is easy to use from both mobile and desktop browsers
 * plotting relies on the [flot library](https://www.flotcharts.org/), or, for heatmaps, the native HTML canvas element
@@ -56,7 +56,7 @@ Many JavaScript variable names in the code use two-letter abbreviations to indic
 <tr><td>Plot Type</td><td><samp>PT</samp></td></tr>
 <tr><td>User Interface</td><td><samp>UI</samp></td></tr>
 <tr><td>Help Viewer</td><td><samp>HV</samp></td></tr>
-<tr><th colspan="2">categories of system types</th></tr>
+<tr><th colspan="2">areas of system types</th></tr>
 <tr><td>Stochastic Processes</td><td><samp>SP</samp></td></tr>
 <tr><td>Statistical Mechanics</td><td><samp>SM</samp></td></tr>
 <tr><td>Nonlinear Dynamics</td><td><samp>ND</samp></td></tr>
