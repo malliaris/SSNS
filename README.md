@@ -1,13 +1,10 @@
 # SSNS
 
-### Overview
+## Overview
 
-**SSNS** is a web app that offers interactive exploration of various simple models/maps/equations/processes from a variety STEM fields.  The common theme is that they all involve straightforward update equations and display stochastic and/or nonlinear behavior.  In that sense, **SSNS** is a **S**imple **S**tochastic and **N**onlinear **S**imulator. 
+**SSNS** is a web app that offers interactive exploration of various simple models/maps/equations/processes from a variety STEM fields.  The common theme is that they all involve straightforward update equations and display stochastic and/or nonlinear behavior.  In that sense, **SSNS** is a **S**imple **S**tochastic and **N**onlinear **S**imulator.
 
-* interface with [Bootstrap](https://getbootstrap.com/) so that app is easy to use from both mobile and desktop browsers
-* plotting relies on the [flot library](https://www.flotcharts.org/), or, for heatmaps, the native HTML canvas element
-* web typesetting is done using the [KaTeX library](https://www.katex.org/)
-* dependencies include:
+Being a web app, **SSNS** makes heavy use of HTML/CSS.  The computation and logic is all coded in object-oriented JavaScript and carried out client-side in the web browser.  In terms of external libraries, the user interface is built with [Bootstrap](https://getbootstrap.com/) for nifty components and responsive viewing on both mobile and desktop browsers.  Plotting relies on the [flot library](https://www.flotcharts.org/), or, for heatmaps, the native HTML canvas element.  Web typesetting is done using the [KaTeX library](https://www.katex.org/).
 
 ### Where To Find Information
 
