@@ -92,7 +92,7 @@ Many JavaScript variable names in the code use two-letter abbreviations to indic
 
 These abbreviations are also used in HTML element id attributes.  For instance <samp>UI_P_SP_MN_mu</samp> "expands" to User Interface &mdash; Parameters &mdash; Stochastic Processes &mdash; Moran Model &mdash; parameter mu.  Every two-letter abbreviation above is unique ***across all categories***.
 
-## Choice of Language
+## Computation in JavaScript
 
 The core of the app is ~3000 lines of object-oriented JavaScript.  JavaScript is not naturally suited to scientific computation, but it was the logical choice given the following factors and requirements considered during planning:
 
