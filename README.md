@@ -36,6 +36,14 @@ A few notes:
 * <samp>Simulator</samp> is the JavaScript class that encompasses all **SSNS** app logic.  It is instantiated between a pair of <samp>script</samp> tags at the very end of [<samp>SSNS.html</samp>](SSNS.html)
 * <samp>HelpViewer</samp> is a modal-lightbox-based network of help pages, each corresponding to a <samp>HelpViewerNode</samp>; see the [Help Viewer](#help-viewer) section for details and a "sitemap" of node pages.
 
+## Performance
+
+Performance
+
+## External Libraries, Dependencies
+
+lib50
+
 ## Abbreviations, Labels, etc.
 
 If trying to orient yourself in the code, the table of abbreviations below should keep things from feeling like total alphabet soup!
