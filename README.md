@@ -59,12 +59,12 @@ A few notes:
 <tr><td>System Type</td><td><samp>ST</samp></td></tr>
 <tr><td>Plot Type</td><td><samp>PT</samp></td></tr>
 <tr><td>Help Viewer</td><td><samp>HV</samp></td></tr>
-<tr><th>categories of system types</th></tr>
+<tr><th colspan="2">categories of system types</th></tr>
 <tr><td>Stochastic Processes</td><td><samp>SP</samp></td></tr>
 <tr><td>Statistical Mechanics</td><td><samp>SM</samp></td></tr>
 <tr><td>Nonlinear Dynamics</td><td><samp>ND</samp></td></tr>
 <tr><td>Fluid Dynamics</td><td><samp>FD</samp></td></tr>
-<tr><th>system types</th></tr>
+<tr><th colspan="2">system types</th></tr>
 <tr><td>Random Walk</td><td><samp>RW</samp></td></tr>
 <tr><td>Moran Model</td><td><samp>MN</samp></td></tr>
 <tr><td>M/M/1 Queue</td><td><samp>QU</samp></td></tr>
@@ -76,7 +76,7 @@ A few notes:
 <tr><td>Gingerbread-man Map</td><td><samp>GM</samp></td></tr>
 <tr><td>1D Euler Shock Tube</td><td><samp>EU</samp></td></tr>
 <tr><td>Rigid Planar Flow</td><td><samp>PF</samp></td></tr>
-<tr><th>plot types</th></tr>
+<tr><th colspan="2">plot types</th></tr>
 <tr><td>trajectory x(t)</td><td><samp>XT</samp></td></tr>
 <tr><td>histogram H(x)</td><td><samp>HX</samp></td></tr>
 <tr><td>Heat Map</td><td><samp>HM</samp></td></tr>
