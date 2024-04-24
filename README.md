@@ -55,7 +55,7 @@ A few notes:
 
 <table>
 <tbody>
-<tr><th>general</th></tr>
+<tr><th colspan="2">general</th></tr>
 <tr><td>System Type</td><td><samp>ST</samp></td></tr>
 <tr><td>Plot Type</td><td><samp>PT</samp></td></tr>
 <tr><td>Help Viewer</td><td><samp>HV</samp></td></tr>
