@@ -89,10 +89,10 @@ The core of the app is ~3000 lines of object-oriented JavaScript.  JavaScript is
 <ul><li>app should be relatively quick to load in a web browser without installation of any software, plugins, etc.</li>
 <li>code should run client-side, and, after loading, should not require an internet connection (i.e., no Ajax)</li>
 <li>language selected should have classes and inheritance to allow for good code organization (js added these features ~2015)</li>
-<li>there should be <a class="hv_link" onclick="window.ia.ui.hv.show_view('HV_CODE_DEPENDENCIES'); ">external libraries</a> to incorporate, e.g., for <a &&WLPlot_(graphics)>plotting</a> and <a &&WLPseudorandom_number_generator>random numbers</a></li>
-<li><a &&WLJava_applet>Java applets</a> filled this "niche" for many years, but are now extinct</li></ul>
+<li>there should be external libraries to incorporate, e.g., for plotting and random numbers</li>
+<li>Java applets filled this "niche" for many years, but are now extinct</li></ul>
 
-The code's performance, limitations, etc. are discussed <a class="hv_link" onclick="window.ia.ui.hv.show_view('HV_CODE_LIMITATIONS'); ">here</a> <a class="hv_link" onclick="window.ia.ui.hv.show_view('HV_CODE_IO'); ">VALIDATION</a>.  The js <a &&WLSource_code>source code</a>, with its accompanying user interface <samp>SSNS.<a &&WLHTML>hmtl</a></samp>, are freely available on <a target="_blank" href="//github.com/malliaris/SSNS">GitHub <i class="fa-brands fa-github" style="color: black; "></i></a>.  And, of course, you can always get a quick peek by viewing the source <a &&WLView-source_URI_scheme>in your browser</a>.
+The code's performance, limitations, etc. are discussed here VALIDATION.  The js source code, with its accompanying user interface <samp>SSNS.hmtl</samp>, are freely available on.  And, of course, you can always get a quick peek by viewing the source in your browser.
 
 ## Input/Output
 
