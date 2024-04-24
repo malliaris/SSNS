@@ -84,11 +84,11 @@ These abbreviations are also used in HTML element id attributes.  For instance <
 
 ## Choice of Language
 
-The core of the app is ~3000 lines of <a &&WLObject-oriented_programming>object-oriented</a> <a &&WLJavaScript>JavaScript</a> (on <a target="_blank" href="//github.com/malliaris/SSNS">GitHub <i class="fa-brands fa-github" style="color: black; "></i></a>).  JavaScript ("js") is not naturally suited to scientific computation, but it was the logical choice given the following factors and requirements considered during planning:
+The core of the app is ~3000 lines of object-oriented JavaScript.  JavaScript is not naturally suited to scientific computation, but it was the logical choice given the following factors and requirements considered during planning:
 
 <ul><li>app should be relatively quick to load in a web browser without installation of any software, plugins, etc.</li>
-<li>code should run <a &&WLClient–server_model>client-side</a>, and, after loading, should not require an internet connection (i.e., no <a &&WLAjax_(programming)>Ajax</a>)</li>
-<li><a &&WLProgramming_language>language</a> selected should have <a &&WLClass_(computer_programming)>classes</a> and <a &&WLInheritance_(object-oriented_programming)>inheritance</a> to allow for good <a class="hv_link" onclick="window.ia.ui.hv.show_view('HV_CODE_ORGANIZATION'); ">code organization</a> (js <a &&WLECMAScript_version_history#ES2015>added these features ~2015</a>)</li>
+<li>code should run client-side, and, after loading, should not require an internet connection (i.e., no Ajax)</li>
+<li>language selected should have classes and inheritance to allow for good code organization (js added these features ~2015)</li>
 <li>there should be <a class="hv_link" onclick="window.ia.ui.hv.show_view('HV_CODE_DEPENDENCIES'); ">external libraries</a> to incorporate, e.g., for <a &&WLPlot_(graphics)>plotting</a> and <a &&WLPseudorandom_number_generator>random numbers</a></li>
 <li><a &&WLJava_applet>Java applets</a> filled this "niche" for many years, but are now extinct</li></ul>
 
