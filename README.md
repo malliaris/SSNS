@@ -90,7 +90,7 @@ Many of the code's JavaScript variable names use two-letter abbreviations to ind
 </tbody>
 </table>
 
-These abbreviations are also used in HTML element <samp>&lt;id&gt;</samp> attributes.  For instance <samp>UI_P_SP_MN_mu</samp> stands for "User Interface &mdash; Parameters &mdash; Stochastic Processes &mdash; Moran Model &mdash; parameter mu."  Every two-letter abbreviation above is unique ***across all categories***.
+These abbreviations are also used in HTML element <samp>id</samp> attributes.  For instance <samp>UI_P_SP_MN_mu</samp> stands for "User Interface &mdash; Parameters &mdash; Stochastic Processes &mdash; Moran Model &mdash; parameter mu."  Every two-letter abbreviation above is unique ***across all categories***.
 
 ## Computation in JavaScript
 
