@@ -31,7 +31,8 @@ There is also an inheritance hierarchy for the <samp>PlotType</samp> class.  It 
 
 The following classes, which are roughly listed from "largest" (i.e., "outermost") to "smallest," are not part of the <samp>Trajectory</samp> "ecosystem."  They are not part of large class hierarchies, and are often present only as a single instance:
 
-* <samp>Simulator</samp>
+* <samp>Simulator</samp><br/>lksjdflkdjf asldkjf lsdkjf
+
 * <samp>UserInterface</samp>
 * <samp>PlottingMachinery</samp>
 * <samp>RunState</samp>
