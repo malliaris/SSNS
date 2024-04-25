@@ -54,7 +54,7 @@ in addition to js, the app uses CSS; the <samp>SSNS.hmtl</samp> <samp>head</samp
 
 If trying to orient yourself in the code, the table of abbreviations below should keep things from feeling like total alphabet soup!
 
-Many JavaScript variable names in the code use two-letter abbreviations to indicate category, subcategory, etc.  For example, when simulating with the Logistic Map (<samp>LM</samp>) system type, the derived <samp>Trajectory</samp> class being used is <samp>Trajectory_LM</samp>.  <samp>PlotType</samp> derived classes contain two such abbreviations, e.g., <samp>PlotTypeXT_LM</samp>.
+Many JavaScript variable names in the code use two-letter abbreviations to indicate category, subcategory, etc.  For example, when simulating with the Logistic Map (<samp>LM</samp>) system type, the derived <samp>Trajectory</samp> class being used is <samp>Trajectory_LM</samp>.  <samp>PlotType</samp> derived classes contain two such abbreviations, e.g., <samp>PlotTypeXT_LM</samp>; the first corresponds to the intermediate level in the <samp>PlotType</samp> [class hierarchy](#classes-hierarchies-etc), and the second, to the leaf node level.
 
 <table>
 <tbody>
