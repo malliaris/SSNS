@@ -29,7 +29,7 @@ Each <samp>Coords</samp> object hold all dependent variable data for a single ti
 
 There is also an inheritance hierarchy for the <samp>PlotType</samp> class.  It does not have a diagram, but is fairly straightforward and described in the section on [abbreviations](#abbreviations-labels-etc).
 
-The following classes, which are roughly listed from "largest" (i.e., "outermost") to "smallest," are not part of the <samp>Trajectory</samp> are not part of large class hierarchies, and are often present only as a single instance:
+The following classes, which are roughly listed from "largest" (i.e., "outermost") to "smallest," are not part of the <samp>Trajectory</samp> "ecosystem."  They are not part of large class hierarchies, and are often present only as a single instance:
 
 * <samp>Simulator</samp>
 * <samp>UserInterface</samp>
@@ -41,8 +41,8 @@ The following classes, which are roughly listed from "largest" (i.e., "outermost
 
 A few notes:
 
-* <samp>Simulator</samp> is the JavaScript class that encompasses all **SSNS** app logic.  It is instantiated between a pair of <samp>script</samp> tags at the very end of [<samp>SSNS.html</samp>](SSNS.html)
-* <samp>HelpViewer</samp> is a modal-lightbox-based network of help pages, each corresponding to a <samp>HelpViewerNode</samp>; see the [Help Viewer](#help-viewer) section for details and a "sitemap" of node pages.
+* <samp>Simulator</samp> is the JavaScript class that encompasses all **SSNS** app logic.  It is instantiated between a pair of <samp>script</samp> tags at the very end of [<samp>SSNS.html</samp>](SSNS.html).
+* <samp>HelpViewer</samp> is a modal-lightbox-based network of help pages integrated into the app.  It can always be accessed by clicking the big yellow "?".  Each help page is represented by a <samp>HelpViewerNode</samp> object, and identified by an <samp>id</samp> attribute like <samp>HV_ST_XY</samp> (the page for system type <samp>XY</samp>).  See the [abbreviations](#abbreviations-labels-etc) and [Help Viewer "Sitemap"](#help-viewer-sitemap) sections for more.
 
 The **SSNS** JavaScript code is separated into several source files, all located in the [<samp>/js/</samp>](/js/) directory.  The following table indicates which of the above-described classes each source file contains.
 
@@ -160,8 +160,7 @@ GPGPU machine learning
 a errors
 HTML 5 video element
 
-## Help Viewer
-blah blah
+## Help Viewer "Sitemap"
 
 	    HV_HOME
 		HV_USING
