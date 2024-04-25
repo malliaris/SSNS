@@ -37,7 +37,7 @@ The following classes, which are roughly listed from "largest" (i.e., "outermost
 * <samp>RunState</samp><br/>Trajectory creation/navigation can be done either in a continuous-action mode (e.g., hit "Record" and let it run), or in one-off step/jumps.  This class keeps track of what mode the app is in, what direction it is "running," etc.
 * <samp>UINI</samp> = **U**ser **I**nterface **N**umerical **I**nput<br/>See [Input/Output](#inputoutput) section.
 * <samp>HelpViewerNode</samp>
-* <samp>HelpViewer</samp><br/>A modal-lightbox-based network of help pages integrated into the app.  It can always be accessed by clicking the big yellow "?".  Each help page is represented by a <samp>HelpViewerNode</samp> object, and identified by an <samp>id</samp> attribute like <samp>HV_ST_XY</samp> (the page for system type <samp>XY</samp>).  See the [abbreviations](#abbreviations-labels-etc) and [Help Viewer "Sitemap"](#help-viewer-sitemap) sections for more.
+* <samp>HelpViewer</samp><br/>A modal-lightbox-based network of help pages integrated into the app.  It can always be accessed by clicking the big yellow "?".  Each help page is represented by a <samp>HelpViewerNode</samp> object, and identified by an <samp>id</samp> attribute like <samp>HV_ST_XY</samp> (which is the help page for system type <samp>XY</samp>).  See the [abbreviations](#abbreviations-labels-etc) and [Help Viewer "Sitemap"](#help-viewer-sitemap) sections for more.
 
 The **SSNS** JavaScript code is separated into several source files, all located in the [<samp>/js/</samp>](/js/) directory.  The following table indicates which of the above-described classes each source file contains.
 
