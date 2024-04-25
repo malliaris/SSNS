@@ -108,11 +108,11 @@ These abbreviations are also used in HTML element <samp>id</samp> attributes.  F
 
 ## Computation in JavaScript
 
-The core of the app is ~3000 lines of object-oriented JavaScript.  JavaScript is not naturally suited to scientific computation, but it was the logical choice given the following factors and requirements considered during planning:
+The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  JavaScript has evolved over many years as the programming language of the web.  Needless to say, is not naturally suited to scientific computation, but it was the logical choice given the following factors:
 
-<ul><li>app should be relatively quick to load in a web browser without installation of any software, plugins, etc.; Java applets filled this "niche" for many years, but are now extinct; code should run client-side, and, after loading, should not require an internet connection (i.e., no Ajax)</li>
+<ul><li>we wanted the app to be relatively quick to load in a web browser without installation of anything; to keep things simple, the code should run client-side, and, after loading, should not need to communicate further with the server (i.e., no Ajax); years ago, Java code in the form of an applet might have been considered, but not anymore 😀</li>
 <li>The code's The js source code, with its accompanying user interface <samp>SSNS.hmtl</samp>, are freely available on.  And, of course, you can always get a quick peek by viewing the source in your browser.</li>
-<li>language selected should have classes and inheritance to allow for good code organization (js added these features ~2015)</li>
+<li>When it comes to object-oriented programming, JavaScript is probably not the first languages that comes to mind.  Happily, the updated JavaScript standard ~2015 was a big step forward in that it added, among other things, "true" classes.  The language, prior to these additions, used "object" to refer to a key-value-pair container  has a meaning other than a class instance</li>
 <li>there should be external libraries to incorporate, e.g., for plotting and random numbers</li>
 <li>fff</li></ul>
 
