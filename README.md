@@ -110,13 +110,12 @@ These abbreviations are also used in HTML element <samp>id</samp> attributes.  F
 
 The core of the app is ~3000 lines of object-oriented JavaScript.  JavaScript is not naturally suited to scientific computation, but it was the logical choice given the following factors and requirements considered during planning:
 
-<ul><li>app should be relatively quick to load in a web browser without installation of any software, plugins, etc.</li>
-<li>code should run client-side, and, after loading, should not require an internet connection (i.e., no Ajax)</li>
+<ul><li>app should be relatively quick to load in a web browser without installation of any software, plugins, etc.; Java applets filled this "niche" for many years, but are now extinct; code should run client-side, and, after loading, should not require an internet connection (i.e., no Ajax)</li>
+<li>The code's The js source code, with its accompanying user interface <samp>SSNS.hmtl</samp>, are freely available on.  And, of course, you can always get a quick peek by viewing the source in your browser.</li>
 <li>language selected should have classes and inheritance to allow for good code organization (js added these features ~2015)</li>
 <li>there should be external libraries to incorporate, e.g., for plotting and random numbers</li>
-<li>Java applets filled this "niche" for many years, but are now extinct</li></ul>
+<li>fff</li></ul>
 
-The code's performance, limitations, etc. are discussed here VALIDATION.  The js source code, with its accompanying user interface <samp>SSNS.hmtl</samp>, are freely available on.  And, of course, you can always get a quick peek by viewing the source in your browser.
 
 ## Input/Output
 
