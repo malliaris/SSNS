@@ -19,7 +19,7 @@ While the source code has plenty of comments, it is perhaps not the best place t
 
 ## Classes, Hierarchies, etc.
 
-The example class diagram pictured above and its companions in the [<samp>/class_diagrams/</samp>](/class_diagrams/) directory capture the structure of the **SSNS** code.  Individual diagrams will be linked to in this section as they apply.
+The example class diagram pictured above and its companions in the [<samp>/class_diagrams/</samp>](/class_diagrams/) directory capture the structure of the **SSNS** code.  Individual diagrams will be linked to in this section as they come up.
 
 The central class of the **SSNS** app is the <samp>Trajectory</samp>.  Each system type has its own <a href="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><samp>Trajectory</samp> subclass</a>, which would appear as a leaf node on the inheritance tree.  The corresponding two-letter [abbreviation](#abbreviations-labels-etc) is affixed to give the subclass its name, e.g., <samp>Trajectory_XY</samp>.  There are also a number of intermediate-level subclasses to allow for code reuse, e.g., <samp>Trajectory_Stoch</samp>.  Since the XY model utilizes stochastic machinery, <samp>Trajectory_XY</samp> inherits from <samp>Trajectory_Stoch</samp>, which in turn inherits from <samp>Trajectory</samp>.
 
