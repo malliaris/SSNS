@@ -29,7 +29,7 @@ Each <samp>Coords</samp> object hold all dependent variable data for a single ti
 
 There is also an inheritance hierarchy for the <samp>PlotType</samp> class.  It does not have a diagram, but is fairly straightforward and described in the section on [abbreviations](#abbreviations-labels-etc).
 
-The following classes, which are roughly listed from "largest" (i.e., "outermost") to "smallest," are not part of the <samp>Trajectory</samp> "ecosystem."  They are not part of large class hierarchies, and are often present only as a single instance:
+The following classes, which are listed roughly from "largest" (i.e., "outermost") to "smallest," are not part of the <samp>Trajectory</samp> "ecosystem."  They are not part of large class hierarchies, and are often present only as a single instance:
 
 * <samp>Simulator</samp><br/>Class that encompasses all **SSNS** app logic.  Instantiated between a pair of <samp>script</samp> tags at end of [<samp>SSNS.html</samp>](SSNS.html).
 * <samp>UserInterface</samp>
@@ -44,9 +44,9 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <table>
 <tbody>
 <tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp>A</samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp>A</samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp>A</samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp>FILL INNNNNNNNNNNNNNNN</samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp>FILL INNNNNNNNNNNNNNNN</samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp>FILL INNNNNNNNNNNNNNNN</samp></td></tr>
 </tbody>
 </table>
 
