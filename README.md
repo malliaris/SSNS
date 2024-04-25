@@ -27,6 +27,8 @@ A <samp>Trajectory</samp> object holds all the data that is generated as the sys
 
 Each <samp>Coords</samp> object hold all dependent variable data for a single time step &mdash; it could be a single scalar value, or a large 2D matrix of  values, integer or floating point, etc.  There are system-type-dependent class hierarchies for <a href="/class_diagrams/Coords_inheritance.svg"><samp>Coords</samp></a> objects, <a href="/class_diagrams/Params_inheritance.svg"><samp>Params</samp></a> objects, and <a href="/class_diagrams/ModelCalc_inheritance.svg"><samp>ModelCalc</samp></a> objects.  It made things a tad awkward in places, but it proved possible to push all system-type-dependent code out of the <samp>TrajSeg</samp> class, so that it does not have a hierarchy.
 
+There is also an inheritance hierarchy for the <samp>PlotType</samp> class.  It does not have a diagram, but is fairly straightforward and described in the section on [abbreviations](#abbreviations-labels-etc).
+
 The following classes, which are roughly listed from "largest" (i.e., "outermost") to "smallest," are not part of large class hierarchies, and are often present only as a single instance:
 
 * <samp>Simulator</samp>
