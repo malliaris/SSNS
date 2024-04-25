@@ -46,6 +46,15 @@ A few notes:
 
 The **SSNS** JavaScript code is separated into several source files, all located in the [<samp>/js/</samp>](/js/) directory.  The following table indicates which of the above-described classes each source file contains.
 
+<table>
+<tbody>
+<tr><td>System Type</td><td><samp>ST</samp></td></tr>
+<tr><td>Plot Type</td><td><samp>PT</samp></td></tr>
+<tr><td>User Interface</td><td><samp>UI</samp></td></tr>
+<tr><td>Help Viewer</td><td><samp>HV</samp></td></tr>
+</tbody>
+</table>
+
 ## External Libraries, Dependencies
 
 SSNS library dependencies include:
