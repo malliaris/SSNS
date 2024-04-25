@@ -48,10 +48,10 @@ The **SSNS** JavaScript code is separated into several source files, all located
 
 <table>
 <tbody>
-<tr><td>System Type</td><td><samp>ST</samp></td></tr>
-<tr><td>Plot Type</td><td><samp>PT</samp></td></tr>
-<tr><td>User Interface</td><td><samp>UI</samp></td></tr>
-<tr><td>Help Viewer</td><td><samp>HV</samp></td></tr>
+<tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp>A</samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp>A</samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp>A</samp></td></tr>
 </tbody>
 </table>
 
