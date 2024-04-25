@@ -108,12 +108,12 @@ These abbreviations are also used in HTML element <samp>id</samp> attributes.  F
 
 ## Computation in JavaScript
 
-The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  JavaScript has evolved over many years as the programming language of the web.  Needless to say, is not naturally suited to scientific computation, but it was the logical choice given the following factors:
+The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  JavaScript has evolved over many years as the programming language of the web.  Needless to say, is not naturally suited to scientific computation, but it was the logical choice.  The design-stage though process went something like this:
 
-<ul><li>we wanted the app to be relatively quick to load in a web browser without installation of anything; to keep things simple, the code should run client-side, and, after loading, should not need to communicate further with the server (i.e., no Ajax); years ago, Java code in the form of an applet might have been considered, but not anymore 😀</li>
+<ul><li>ideally the app would be quick to load in a web browser without installation of anything; to keep things simple, the code would run client-side, and, after loading, would not need to communicate further with the server (i.e., no Ajax); years ago, Java code in the form of an applet might have been considered, but not anymore 😀</li>
 <li>The code's The js source code, with its accompanying user interface <samp>SSNS.hmtl</samp>, are freely available on.  And, of course, you can always get a quick peek by viewing the source in your browser.</li>
 <li>When it comes to object-oriented programming, JavaScript is probably not the first languages that comes to mind.  Happily, the updated JavaScript standard ~2015 was a big step forward in that it added, among other things, "true" classes.  The language, prior to these additions, used "object" to refer to a key-value-pair container  has a meaning other than a class instance</li>
-<li>there should be external libraries to incorporate, e.g., for plotting and random numbers</li>
+<li>It's always nice to be able to "outsource" various tasks via the incorporation of external libraries.  For the more typical scientific computing needs like pseudorandom number generation and plotting, the JavaScript offerings were not great.  On the other hand, </li>
 <li>fff</li></ul>
 
 
