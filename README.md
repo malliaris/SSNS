@@ -31,11 +31,11 @@ There is also an inheritance hierarchy for the <samp>PlotType</samp> class.  It 
 
 The following classes, which are roughly listed from "largest" (i.e., "outermost") to "smallest," are not part of the <samp>Trajectory</samp> "ecosystem."  They are not part of large class hierarchies, and are often present only as a single instance:
 
-* <samp>Simulator</samp><br/>The JavaScript class that encompasses all **SSNS** app logic.  It is instantiated between a pair of <samp>script</samp> tags at the very end of [<samp>SSNS.html</samp>](SSNS.html).
+* <samp>Simulator</samp><br/>Class that encompasses all **SSNS** app logic.  Instantiated between a pair of <samp>script</samp> tags at end of [<samp>SSNS.html</samp>](SSNS.html).
 * <samp>UserInterface</samp>
 * <samp>PlottingMachinery</samp>
-* <samp>RunState</samp>
-* <samp>UINI</samp> = **U**ser **I**nterface **N**umerical **I**nput<br/>See [Input/Output](#input-output) section.
+* <samp>RunState</samp><br/>Trajectory creation/navigation can be done either in a continuous-action mode (e.g., hit "Record" and let it run), or in one-off step/jumps.  This class keeps track of what mode the app is in, what direction it is "running," etc.
+* <samp>UINI</samp> = **U**ser **I**nterface **N**umerical **I**nput<br/>See [Input/Output](#inputoutput) section.
 * <samp>HelpViewerNode</samp>
 * <samp>HelpViewer</samp><br/>A modal-lightbox-based network of help pages integrated into the app.  It can always be accessed by clicking the big yellow "?".  Each help page is represented by a <samp>HelpViewerNode</samp> object, and identified by an <samp>id</samp> attribute like <samp>HV_ST_XY</samp> (the page for system type <samp>XY</samp>).  See the [abbreviations](#abbreviations-labels-etc) and [Help Viewer "Sitemap"](#help-viewer-sitemap) sections for more.
 
