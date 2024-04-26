@@ -2,7 +2,7 @@
 
 **SSNS** is a web app that offers interactive exploration of various simple models/maps/equations/processes from a variety STEM fields.  The common theme is that they all involve straightforward update equations and display stochastic and/or nonlinear behavior.  In that sense, **SSNS** is a **S**imple **S**tochastic and **N**onlinear **S**imulator.
 
-Being a web app, **SSNS** makes heavy use of HTML/CSS.  All computation and logic is done in object-oriented JavaScript &mdash; a "back-end" that actually runs client-side in the web browser.  The front-end is a user interface built with [Bootstrap](https://getbootstrap.com/) and [flot](https://www.flotcharts.org/) plotting.  Read on for details!
+Being a web app, **SSNS** makes heavy use of HTML/CSS.  All computation and logic is done in object-oriented JavaScript &mdash; a "back-end" that actually runs client-side in the web browser.  The front-end is a user interface built with [Bootstrap](https://getbootstrap.com/) and [flot](https://www.flotcharts.org/) plotting.  Read on for details...
 
 ## Where To Find Things
 
@@ -10,7 +10,7 @@ Being a web app, **SSNS** makes heavy use of HTML/CSS.  All computation and logi
 
 * the app's integrated help viewer; visit [tedm.us/SSNS](https://tedm.us/SSNS) and click the big yellow "?"
 * the JavaScript source located in [<samp>/js/</samp>](/js/), and the HTML source in [<samp>SSNS.html</samp>](SSNS.html)
-* this README document!
+* this README document
 * the [<samp>/class_diagrams/</samp>](/class_diagrams/), which summarize the structure of the code; individual diagrams (example below) in both <samp>svg</samp> and <samp>pdf</samp>, and [<samp>all.pdf</samp>](/class_diagrams/all.pdf), which contains all diagrams
 
 <a href="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><img src="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"></a>
@@ -52,18 +52,14 @@ The **SSNS** JavaScript code is separated into several source files, all located
 
 ## External Libraries, Dependencies
 
- on both mobile and desktop browsers
-, or, for heatmaps, the native HTML <samp>&lt;canvas&gt;</samp> element.  Web typesetting is done using the [KaTeX library](https://www.katex.org/).
-for nifty components and responsive viewing
-
 SSNS library dependencies include:
 
 * data structures, statistics, and random number generation with stdlib.js
-* plotting with flot (except for heatmaps, which use HTML <samp>canvas</samp>)
-* responsive web interface with Bootstrap
-* web typesetting with KaTeX
-* jQuery for interacting with the DOM
-* Font Awesome for nifty icons
+* plotting with flot (except for heatmaps, which use the native HTML <samp>&lt;canvas&gt;</samp> element)
+* responsive web interface with Bootstrap on both mobile and desktop browsers;  nifty components
+* web typesetting with [KaTeX library](https://www.katex.org/)
+* [jQuery](https://jquery.com/)<br/>for interacting with the DOM
+* [Font Awesome](https://fontawesome.com/)<br/>for nifty icons
 
 for convenience, the GitHub has a minified bundle of the above js dependencies with version info within it
 in addition to js, the app uses CSS; the <samp>SSNS.hmtl</samp> <samp>head</samp> section has a small amount of SSNS-specific styling, as well as stylesheet links for Bootstrap and KaTeX
