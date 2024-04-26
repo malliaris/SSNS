@@ -133,7 +133,11 @@ In a "layer" one below the raw input fields, each HTML input is managed by an in
 
 Outputting trajectory data is not implemented, nor planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.  Ditto for reading saved trajectory in from disk.
 
-For those who favor the keyboard over the mouse, <samp>Tab</samp>ing through input buttons/fields is sometimes convenient, with <samp>Enter</samp> to repeatedly "press" the currently selected button and up/down arrows to change the value in the currently selected numerical input.
+For those who favor the keyboard over the mouse and are on desktop, not mobile:
+
+* hit <samp>TAB</samp> to cycle through input buttons/fields; <samp>SHIFT-TAB</samp> to reverse
+* if a button is currently selected, hit or hold <samp>ENTER</samp> to repeatedly "press" it
+* if a numerical input is currently selected, hit or hold up/down arrows to change the value
 
 Browser development tools are indispensable when doing development, but can also be handy when just running the code.  <samp>console.log()</samp> is used a fair amount to print informational messages to the JavaScript console.
 
