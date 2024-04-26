@@ -61,8 +61,7 @@ There are many fantastic libraries for various web needs out there!  **SSNS** re
 * [jQuery](https://jquery.com/)<br/>for simple and concise interaction with the HTML DOM
 * [Font Awesome](https://fontawesome.com/)<br/>for nifty icons
 
-for convenience, the GitHub has a minified bundle of the above js dependencies with version info within it
-in addition to js, the app uses CSS; the <samp>SSNS.hmtl</samp> <samp>head</samp> section has a small amount of SSNS-specific styling, as well as stylesheet links for Bootstrap and KaTeX
+For convenience, a minified bundle of all of these JavaScript dependencies is available in [<samp>SSNS_dependencies.js</samp>](SSNS_dependencies.js).  There is version info within it.  As for stylesheets, the [<samp>SSNS.html</samp>](SSNS.html) <samp>&lt;head&gt;</samp> section links to the CSS files for the Bootstrap and KaTeX libraries, as well as [<samp>SSNS.css</samp>](SSNS.css), which contains a small amount of **SSNS**-specific styling.
 
 ## Abbreviations, Labels, etc.
 
