@@ -129,15 +129,15 @@ In the "layer" just below the HTML input fields, each input is managed by an ins
 * use of the <samp>&lt;input&gt;</samp> element's <samp>min</samp> and <samp>max</samp> attributes to store the quantity's range; if user input is received that ***is*** a decipherable number, but is out of range, it is immediately "auto-corrected" to the nearest in-range value
 * the pushing of previously entered valid values back to the UI; this occurs for system parameters when crossing <samp>TrajSeg</samp> boundaries during "playback"
 
-Outputting trajectory data is not implemented, nor planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.  Ditto for reading saved trajectory in from disk.
+Outputting trajectory data is not implemented, nor planned, but would be very doable, e.g., by saving to disk or opening a new tab with text data.  Screenshots are always possible, of course 😀.  Reading saved trajectory data from disk also not implemented, nor planned, but doable.
 
-For those who favor the keyboard over the mouse and are on desktop, not mobile:
+For those who favor keyboard over mouse and desktop over mobile:
 
 * hit <samp>TAB</samp> to cycle through input buttons/fields; <samp>SHIFT-TAB</samp> to reverse
 * if a button is currently selected, hit or hold <samp>ENTER</samp> to repeatedly "press" it
 * if a numerical input is currently selected, hit or hold up/down arrows to change the value
 
-Browser development tools are indispensable when doing development, but can also be handy when just running the code.  <samp>console.log()</samp> is used a fair amount to print informational messages to the JavaScript console.
+Browser developer tools are indispensable when doing development, but also handy when running the code.  A number of <samp>console.log()</samp> statements are embedded in the JavaScript to print informational messages for convenience.
 
 ## Performance
 
