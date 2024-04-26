@@ -52,13 +52,13 @@ The **SSNS** JavaScript code is separated into several source files, all located
 
 ## External Libraries, Dependencies
 
-SSNS library dependencies include:
+There are many fantastic libraries for various web needs out there!  **SSNS** relies on:
 
-* [stdlib.js](https://stdlib.io/)<br/>data structures, statistics, and random number generation
-* [flot](https://www.flotcharts.org/)<br/>for plotting (except for heatmaps, which use the native HTML <samp>&lt;canvas&gt;</samp> element)
-* [Bootstrap](https://getbootstrap.com/)<br/>responsive web interface with  on both mobile and desktop browsers;  nifty components
+* [stdlib.js](https://stdlib.io/)<br/>for data structures, statistics, and pseudorandom number generation
+* [Bootstrap](https://getbootstrap.com/)<br/>for nifty UI components and responsive layout that displays well on both mobile and desktop browsers
+* [flot](https://www.flotcharts.org/)<br/>for plotting trajectory data (except for heat maps, which use the native HTML <samp>&lt;canvas&gt;</samp> element)
 * [KaTeX library](https://www.katex.org/)<br/>for typesetting of math expressions
-* [jQuery](https://jquery.com/)<br/>for interacting with the DOM
+* [jQuery](https://jquery.com/)<br/>for simple and concise interaction with the HTML DOM
 * [Font Awesome](https://fontawesome.com/)<br/>for nifty icons
 
 for convenience, the GitHub has a minified bundle of the above js dependencies with version info within it
