@@ -52,7 +52,7 @@ The **SSNS** JavaScript code is separated into several source files, all located
 
 ## External Libraries, Dependencies
 
-There are many fantastic libraries for various web needs out there!  **SSNS** relies on:
+There are many fantastic JavaScript libraries out there!  **SSNS** relies on:
 
 * [stdlib.js](https://stdlib.io/)<br/>for data structures, statistics, and pseudorandom number generation
 * [Bootstrap](https://getbootstrap.com/)<br/>for nifty UI components and responsive layout that displays well on both mobile and desktop browsers
