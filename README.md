@@ -57,7 +57,7 @@ There are many fantastic JavaScript libraries out there!  **SSNS** relies on:
 * [stdlib.js](https://stdlib.io/)<br/>for data structures, statistics, and pseudorandom number generation
 * [Bootstrap](https://getbootstrap.com/)<br/>for nifty UI components and responsive layout that displays well on both mobile and desktop browsers
 * [flot](https://www.flotcharts.org/)<br/>for creating plots of trajectory data (flot does not have support for heat maps, so the native HTML <samp>&lt;canvas&gt;</samp> element is used instead)
-* [KaTeX library](https://www.katex.org/)<br/>for typesetting of math expressions
+* [KaTeX](https://www.katex.org/)<br/>for typesetting of math expressions
 * [jQuery](https://jquery.com/)<br/>for simple and concise interaction with the HTML DOM
 * [Font Awesome](https://fontawesome.com/)<br/>for nifty icons
 
