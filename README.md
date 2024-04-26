@@ -126,8 +126,8 @@ In the "layer" just below the HTML input fields, each input is managed by an ins
 * subclasses <samp>UINI_int</samp> and <samp>UINI_float</samp>, with appropriate treatment of leading zeros, etc.  (JavaScript has only a single multipurpose <samp>Number</samp> type, so we rely on <samp>Number.isInteger()</samp>)
 * use of the <samp>&lt;input&gt;</samp> element's <samp>value</samp> attribute to store the quantity's default value (read on app load by <samp>UINI</samp> constructor) and subsequent user-entered values
 * an internal, "official," validated value for the quantity; it sits between the UI and <samp>Trajectory</samp> "insertion points"; if user input is received that is ***not*** a decipherable number, this internal value is immediately pushed back to the UI
-* use of the <samp>&lt;input&gt;</samp> element's <samp>min</samp> and <samp>max</samp> attributes to store the quantity's range; if input is received that <strong><em>is</em></strong> decipherable as a number, but is out of range, the input field value is immediately "auto-corrected" to the nearest in-range value
-* the pushing of previously entered valid values back to the input field; this occurs for system parameters in moving from one <samp>TrajSeg</samp> to another in the replaying of a recorded <samp>Trajectory</samp>
+* use of the <samp>&lt;input&gt;</samp> element's <samp>min</samp> and <samp>max</samp> attributes to store the quantity's range; if user input is received that ***is*** a decipherable number, but is out of range, it is immediately "auto-corrected" to the nearest in-range value
+* the pushing of previously entered valid values back to the UI; this occurs for system parameters when crossing <samp>TrajSeg</samp> boundaries during "playback"
 
 Outputting trajectory data is not implemented, nor planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.  Ditto for reading saved trajectory in from disk.
 
