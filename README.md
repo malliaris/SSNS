@@ -131,11 +131,11 @@ In a "layer" one below the raw input fields, each HTML input is managed by an in
 * use of the <samp>&lt;input type="number"&gt;</samp> attributes <samp>min</samp> and <samp>max</samp> to store the quantity's range; if input is received that <strong><em>is</em></strong> decipherable as a number, but is out of range, the input field value is immediately "auto-corrected" to the nearest in-range value
 * the pushing of previously entered valid values back to the input field; this occurs for system parameters in moving from one <samp>TrajSeg</samp> to another in the replaying of a recorded <samp>Trajectory</samp>
 
-Outputting trajectory data is not implemented, nor planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.  Similarly, reading saved trajectory in from disk is neither implemented nor planned.
+Outputting trajectory data is not implemented, nor planned, but would be very doable... either saving to disk through the browser or just opening a new tab with text data.  And screenshots are always possible, of course 😀.  Ditto for reading saved trajectory in from disk.
 
-Keyboard shortcuts
+For those who favor the keyboard over the mouse, <samp>Tab</samp>ing through input buttons/fields is sometimes convenient, with <samp>Enter</samp> to repeatedly "press" the currently selected button and up/down arrows to change the value in the currently selected numerical input.
 
-console.log messages
+Browser development tools are indispensable when doing development, but can also be handy when just running the code.  <samp>console.log()</samp> is used a fair amount to print informational messages to the JavaScript console.
 
 ## Performance
 
