@@ -111,9 +111,9 @@ The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  Java
 <li>The code's The js source code, with its accompanying user interface <samp>SSNS.hmtl</samp>, are freely available on.  And, of course, you can always get a quick peek by viewing the source in your browser.</li>
 <li>JavaScript is not known for its object-oriented programming capabilities.  It has long had entities called "objects," but the term refers to a particular type of key-value-pair container rather than a class instance.  Happily, the 2015 revised standard added, among other things, "true" classes with inheritance, standard nomenclature, etc.  It is still not possible to have multiple constructors (due to fundamental language limitations), but there are workarounds for this.  Overall, JavaScript met the code's anticipated  needs just fine.</li>
 <li>As for external library offerings, JavaScript was strong in some areas, but weak in others.  Web plotting libraries seem to lean toward data explorationFor the more typical scientific computing needs like pseudorandom number generation and plotting, the JavaScript offerings were not great.  On the other hand, </li>
-<li>fff</li></ul>
+<li>fff [structural](#inputoutput)</li></ul>
 
-[structural](#inputoutput)
+
 
 ## Input/Output
 
