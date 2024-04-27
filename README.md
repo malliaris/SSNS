@@ -145,7 +145,7 @@ Browser developer tools are indispensable when doing development, but also handy
 
 * If you happen to spot a lingering bug, please [report it](https://github.com/malliaris/SSNS/issues).  Comments/suggestions/suspected-bugs also welcome!
 
-* Most of the SSNS system types track one or maybe a handful of dependent variables over time, and thus have a derived <samp>Coords</samp> object with a relatively small memory footprint.  Notable exceptions are the <samp>SM</samp> spin systems <samp>IS</samp> and <samp>XY</samp> &mdash; for them, a <samp>Coords</samp> object holds a 2D field of spin values, and thus can be orders of magnitude larger.  Since we don't want to put the task of **SSNS** memory management on the browser &#x1F642; 
+* Most of the SSNS system types track one or maybe a handful of dependent variables over time, and thus have a derived <samp>Coords</samp> object with a relatively small memory footprint.  Notable exceptions are the <samp>SM</samp> spin systems <samp>IS</samp> and <samp>XY</samp> &mdash; for them, a <samp>Coords</samp> object holds a 2D field of spin values, and thus can be orders of magnitude larger.  Since we don't want to put the task of **SSNS** memory management on the browser &#x1F642;, our choices for capping the footprint of these spin systems are: (1) statically cap both grid size <samp>N</samp> and max duration <samp>t_max</samp> (2) adaptive caps so that larger grids are allowed for shorter trajectories, and vice versa (3)
 
   canvas element
 
