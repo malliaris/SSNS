@@ -141,19 +141,15 @@ For those who favor keyboard over mouse and desktop over mobile:
 
 Browser developer tools are indispensable when doing development, but also handy when running the code.  A number of <samp>console.log()</samp> statements are embedded in the JavaScript to print informational messages for convenience.
 
-## To Do/Add/Explore
+## To Do/Fix/Add/Explore
 
-If you happen to spot a lingering bug, please [report it](https://github.com/malliaris/SSNS/issues)
-If you happen to spot a lingering bug, please [report it](/issues)
+* If you happen to spot a lingering bug, please [report it](https://github.com/malliaris/SSNS/issues).  Comments/suggestions/suspected-bugs also welcome!
 
-Scientific computing is often geared toward performance, taking advantage, for example, of parallel execution on a computer cluster.  This being a client-side web app, the actual computation takes place in the web browser of your device.  (Closing the browser tab or window is a totally reasonable way to stop all app code execution!)
+* Most of the SSNS system types track one or maybe a handful of dependent variables over time, and thus have a derived <samp>Coords</samp> object with a relatively small memory footprint.  Notable exceptions are the <samp>SM</samp> spin systems <samp>IS</samp> and <samp>XY</samp>: their <samp>Coords</samp> objects hold a 2D field of spin values, and thus can be orders of magnitude larger.
 
-Most of the SSNS system types require the storing of the values of small number of variables for each time step, and are thus not computationally intensive.  For the stochastic processes, our strategy is to follow a small number of individual trajectories, while large ensembles are only tracked in the aggregate.
-
-The system types where computational strategy required the most thought were the spin systems, where a 2D field of values for each time step makes grid size both update and plotting memory footprint
   canvas element
 
-  The past few decades have seen incredible developments in the use graphics of specialized GPU hardware WebGL <a href="//kjslag.github.io/XY/">here</a> XY
+ GPU hardware WebGL <a href="//kjslag.github.io/XY/">here</a> XY
 WebGPU
 GPGPU machine learning
 <samp>PRMS</samp> and <samp>CTRL</samp>
