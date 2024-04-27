@@ -109,10 +109,9 @@ The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  Java
 
 * ideally the app would be quick to load in a web browser without installation of anything; to keep things simple, the code would run client-side, and, after loading, would not need to communicate further with the server (i.e., no Ajax); years ago, Java code in the form of an applet might have been considered, but not anymore 😀
 * The code's The js source code, with its accompanying user interface <samp>SSNS.hmtl</samp>, are freely available on.  And, of course, you can always get a quick peek by viewing the source in your browser.
-* JavaScript is not known for its object-oriented programming capabilities.  It has long had entities called "objects," but the term refers to a particular type of key-value-pair container rather than a class instance.  Happily, the 2015 revised standard added, among other things, "true" classes with inheritance, standard nomenclature, etc.  It is still not possible to have multiple constructors (due to fundamental language limitations), but there are workarounds for this.  Overall, JavaScript met the code's anticipated  needs just fine.
+* JavaScript is not known for its object-oriented programming capabilities.  It has long had entities called "objects," but the term refers to a particular type of key-value-pair container rather than a class instance.  Happily, the 2015 revised standard added, among other things, "true" classes with inheritance, standard nomenclature, etc.  It is still not possible to have multiple constructors (due to fundamental language limitations), but there are workarounds for this.  Overall, JavaScript met the code's anticipated [structural](#classes-hierarchies-etc) needs just fine.
 * As for external library offerings, JavaScript was strong in some areas, but weak in others.  Web plotting libraries seem to lean toward data explorationFor the more typical scientific computing needs like pseudorandom number generation and plotting, the JavaScript offerings were not great.  On the other hand,
-* fff [structural](#inputoutput)
-
+* fff 
 
 
 ## Input/Output
