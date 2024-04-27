@@ -144,6 +144,7 @@ Browser developer tools are indispensable when doing development, but also handy
 ## To Do/Add/Explore
 
 If you happen to spot a lingering bug, please [report it](https://github.com/malliaris/SSNS/issues)
+If you happen to spot a lingering bug, please [report it](/issues)
 
 Scientific computing is often geared toward performance, taking advantage, for example, of parallel execution on a computer cluster.  This being a client-side web app, the actual computation takes place in the web browser of your device.  (Closing the browser tab or window is a totally reasonable way to stop all app code execution!)
 
