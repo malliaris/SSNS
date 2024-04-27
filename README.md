@@ -105,10 +105,10 @@ These abbreviations are also used in HTML element <samp>id</samp> attributes.  F
 
 ## Computation in JavaScript
 
-The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  JavaScript has evolved over many years as the programming language of the web.  Needless to say, is not naturally suited to scientific computation, but it was the logical choice.  The design-stage though process went something like this:
+The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  The JavaScript language has evolved over many years as the programming language of the web.  Scientific computation has never been its forte, but it was the logical choice for us.  The design-stage thinking went something like this:
 
-* ideally the app would be quick to load in a web browser without installation of anything; to keep things simple, the code would run client-side, and, after loading, would not need to communicate further with the server (i.e., no Ajax); years ago, Java code in the form of an applet might have been considered, but not anymore 😀
-* The code's The js source code, with its accompanying user interface <samp>SSNS.hmtl</samp>, are freely available on.  And, of course, you can always get a quick peek by viewing the source in your browser.
+* The app needed to load relatively quickly in a web browser, and without the need to install anything.  To keep things simple, the code would run client-side, and, after loading, would not need to communicate further with the server (i.e., no Ajax).  Years ago, Java code in the form of an applet might have been considered, but not anymore 😀
+* The app needed to be straightforward to use, and accessible.  With JavaScript, an enormous number of tools are available to facilitate .  And, of course, you can always get a quick peek by viewing the source in your browser.
 * JavaScript is not known for its object-oriented programming capabilities.  It has long had "objects," but the term refers to a particular type of key-value-pair container rather than a class instance.  Happily, the 2015 revised standard added, among other things, "true" classes, with inheritance, standard nomenclature, etc.  It is still not possible to have multiple constructors (due to fundamental language limitations), but there are workarounds for this.  Overall, JavaScript met the code's anticipated [structural](#classes-hierarchies-etc) needs just fine.
 * As for external library offerings, JavaScript was strong in some areas, but weak in others.  Web plotting libraries seem to lean toward data explorationFor the more typical scientific computing needs like pseudorandom number generation and plotting, the JavaScript offerings were not great.  On the other hand,
 * fff 
