@@ -105,7 +105,7 @@ These abbreviations are also used in HTML element <samp>id</samp> attributes.  F
 
 ## Computation in JavaScript
 
-The decision write the **SSNS** code in JavaScript was not a hard one.  The requirements:
+The decision write the **SSNS** code in JavaScript was not a hard one.  The requirements were, roughly:
 
 * app should be accessible by web browser and not require installation of anything
 * app should have a good, responsive UI
@@ -113,13 +113,15 @@ The decision write the **SSNS** code in JavaScript was not a hard one.  The requ
 * computation won't be too intense, but language/library setup should provide vectors, random numbers, etc.
 * language/library setup should offer standard object-oriented programming capabilities
 
+Pure client-side JavaScript was really the only option that satisfied all these requirements, and, in particular, could maintain a rapid user-compute-output "loop."  It was also the simplest choice, free from complicating factors such as: repeated web requests, Ajax, transimission of data/graphics, dependence on sustained network connectivity.  Years ago, Java code in the form of an applet might have been considered, but not anymore 😀
 
+The choice of JavaScript  
   To keep things simple, the code would run client-side
 , and would not need to communicate further with the server (i.e., no Ajax).
 
 The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  The JavaScript language has evolved over many years as the programming language of the web.  Scientific computation has never been its forte, but it was the logical choice for us.  The design-stage thinking went something like this:
 
-* The app needed to load relatively quickly in a web browser, and without the need to install anything.  To keep things simple, the code would run client-side, and, after loading, would not need to communicate further with the server (i.e., no Ajax).  Years ago, Java code in the form of an applet might have been considered, but not anymore 😀 The app needed to be straightforward to use, and accessible.  With JavaScript, an enormous number of tools are available to facilitate .  WEB DEV TOOLS, JS CONSOLE you can always get a quick peek by viewing the source in your browser.
+* The app needed to load relatively quickly in a web browser, and without the need to install anything.  To keep things simple, the code would run client-side, and, after loading, would not need to communicate further with the server (i.e., no Ajax).  The app needed to be straightforward to use, and accessible.  With JavaScript, an enormous number of tools are available to facilitate .  WEB DEV TOOLS, JS CONSOLE you can always get a quick peek by viewing the source in your browser.
 * JavaScript is not known for its object-oriented programming capabilities.  It has long had "objects," but the term refers to a particular type of key-value-pair container rather than a class instance.  Happily, the 2015 revised standard added, among other things, "true" classes, with inheritance, standard nomenclature, etc.  It is still not possible to have multiple constructors (due to fundamental language limitations), but there are workarounds for this.  Overall, JavaScript met the code's anticipated [structural](#classes-hierarchies-etc) needs just fine.
 * Good, straightforward plotting was needed.  The doesn't seem to be a single web plotting library that offers, say, what [matplotlib](https://matplotlib.org/) does in the Python world.  Most refined web plotting libraries tend to focus on data exploration and novel visualization techniques.  The [flot](https://www.flotcharts.org/) library served our purposes for the most part.  It is lightweight and has good auto-scaling.
 * Solid pseudorandom number generating capabilities were needed.  JavaScript's <samp>Math.random()</samp> does not appear to allow seeding or accessing the generator's state, but [stdlib.js](https://stdlib.io/) proved sufficient in this area.
