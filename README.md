@@ -105,6 +105,16 @@ These abbreviations are also used in HTML element <samp>id</samp> attributes.  F
 
 ## Computation in JavaScript
 
+The decision write the **SSNS** code in JavaScript was not a hard one.  The requirements:
+
+* app should load relatively quickly in a web browser and not require installation of anything
+* app should have a good, responsive UI
+* computation won't be too intense, but language/library setup should provide vectors, random numbers, etc.
+
+
+.  To keep things simple, the code would run client-side
+, and would not need to communicate further with the server (i.e., no Ajax).
+
 The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  The JavaScript language has evolved over many years as the programming language of the web.  Scientific computation has never been its forte, but it was the logical choice for us.  The design-stage thinking went something like this:
 
 * The app needed to load relatively quickly in a web browser, and without the need to install anything.  To keep things simple, the code would run client-side, and, after loading, would not need to communicate further with the server (i.e., no Ajax).  Years ago, Java code in the form of an applet might have been considered, but not anymore 😀 The app needed to be straightforward to use, and accessible.  With JavaScript, an enormous number of tools are available to facilitate .  WEB DEV TOOLS, JS CONSOLE you can always get a quick peek by viewing the source in your browser.
