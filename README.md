@@ -107,12 +107,14 @@ These abbreviations are also used in HTML element <samp>id</samp> attributes.  F
 
 The decision write the **SSNS** code in JavaScript was not a hard one.  The requirements:
 
-* app should load relatively quickly in a web browser and not require installation of anything
+* app should be accessible by web browser and not require installation of anything
 * app should have a good, responsive UI
+* app should have good graphical output, plots, etc.
 * computation won't be too intense, but language/library setup should provide vectors, random numbers, etc.
+* language/library setup should offer standard object-oriented programming capabilities
 
 
-.  To keep things simple, the code would run client-side
+  To keep things simple, the code would run client-side
 , and would not need to communicate further with the server (i.e., no Ajax).
 
 The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  The JavaScript language has evolved over many years as the programming language of the web.  Scientific computation has never been its forte, but it was the logical choice for us.  The design-stage thinking went something like this:
