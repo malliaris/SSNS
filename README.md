@@ -121,10 +121,13 @@ With the multitude of options for HTML/CSS/js projects, the first two requiremen
 
 * When it came to finding JavaScript versions of the basic scientific computing tools present, e.g., in Python NumPy/SciPy, the only truly difficult category was pseudorandom number generation.  JavaScript's <samp>Math.random()</samp> does not appear to allow seeding or accessing the generator's state, and there are not too many other options.  Luckily, we found [stdlib.js](https://stdlib.io/), which proved sufficient in this area.
 
+* It was great to see that the 2015 JavaScript revision added, among other things, "true" classes.  (It has long had "objects," but that term refers to a key-value-pair container, not a class instance.)  Certain OOP features like multiple constructors are not possible, but, overall, pure JavaScript met the code's [structural](#classes-hierarchies-etc) needs just fine!
+
+
 The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  The JavaScript language has evolved over many years as the programming language of the web.  Scientific computation has never been its forte, but it was the logical choice for us.  The design-stage thinking went something like this:
 
 * The app needed to load relatively quickly in a web browser, and without the need to install anything.  To keep things simple, the code would run client-side, and, after loading, would not need to communicate further with the server (i.e., no Ajax).  The app needed to be straightforward to use, and accessible.  With JavaScript, an enormous number of tools are available to facilitate .  WEB DEV TOOLS, JS CONSOLE you can always get a quick peek by viewing the source in your browser.
-* JavaScript is not known for its object-oriented programming capabilities.  It has long had "objects," but the term refers to a particular type of key-value-pair container rather than a class instance.  Happily, the 2015 revised standard added, among other things, "true" classes, with inheritance, standard nomenclature, etc.  It is still not possible to have multiple constructors (due to fundamental language limitations), but there are workarounds for this.  Overall, JavaScript met the code's anticipated [structural](#classes-hierarchies-etc) needs just fine.
+
 
 * TOUCH ON THESE??? [Bootstrap](https://getbootstrap.com/)<br/>for UI components and responsive layout that displays well on both mobile and desktop browsers [Font Awesome](https://fontawesome.com/)<br/>for nifty icons
 
