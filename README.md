@@ -107,30 +107,25 @@ These abbreviations are also used in HTML element <samp>id</samp> attributes.  F
 
 The decision write the **SSNS** code in JavaScript was not a hard one.  The requirements were, roughly:
 
-* app should be accessible by web browser and not require installation of anything
+* app should be accessible by web browser, quick to load, and not require installation of anything
 * app should have a good, responsive UI
-* app should have good graphical output, plots, etc.
 * computation won't be too intense, but language/library setup should provide vectors, random numbers, etc.
 * language/library setup should offer standard object-oriented programming capabilities
+* app should have good graphical output, plots, etc.
 
 Pure client-side JavaScript was really the only option that satisfied all these requirements, and, in particular, could maintain a rapid feedback loop between user action, computation, and plot output.  It was also the simplest choice, free from complicating factors such as: repeated web requests, Ajax, transimission of data/graphics, dependence on sustained network connectivity.  Years ago, Java code in the form of an applet might have been considered, but not anymore 😀.
 
-With the multitude of options for HTML/CSS/js projects, the first two requirements above were not hard to satisfy.  The last three, however, required a bit more care and testing before finding a satisfactory setup (in the same order as above):
-
-* There doesn't seem to be a JavaScript plotting library that does what [matplotlib](https://matplotlib.org/), say, does in the Python world.  Many web options focus on data exploration and novel visualization techniques, and we needed straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library filled most of our needs and has good auto-scaling functionality.  The HTML <samp>&lt;canvas&gt;</samp> element was added to the mix for plotting heat maps.
+With the multitude of options for HTML/CSS/js projects, the first two requirements above were not hard to satisfy.  The last three, however, required a bit more trying and testing to get a satisfactory setup.  In the same order as above:
 
 * When it came to finding JavaScript versions of the basic scientific computing tools present, e.g., in Python NumPy/SciPy, the only truly difficult category was pseudorandom number generation.  JavaScript's <samp>Math.random()</samp> does not appear to allow seeding or accessing the generator's state, and there are not too many other options.  Luckily, we found [stdlib.js](https://stdlib.io/), which proved sufficient in this area.
 
 * It was great to see that the 2015 JavaScript revision added, among other things, "true" classes.  (It has long had "objects," but that term refers to a key-value-pair container, not a class instance.)  Certain OOP features like multiple constructors are not possible, but, overall, pure JavaScript met the code's [structural](#classes-hierarchies-etc) needs just fine!
 
+* There doesn't seem to be a JavaScript plotting library that does what [matplotlib](https://matplotlib.org/), say, does in the Python world.  Many web options focus on data exploration and novel visualization techniques, and we needed straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library filled most of our needs and has good auto-scaling functionality.  The HTML <samp>&lt;canvas&gt;</samp> element was added to the mix for plotting heat maps.
 
-The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  The JavaScript language has evolved over many years as the programming language of the web.  Scientific computation has never been its forte, but it was the logical choice for us.  The design-stage thinking went something like this:
+With all tricky needs met, it was easy to put in the pieces in the areas where HTML/CSS/js excels, like UI, icons, etc.  The more or less finalized list of dependencies is [here](#external-libraries-dependencies).
 
-* The app needed to load relatively quickly in a web browser, and without the need to install anything.  To keep things simple, the code would run client-side, and, after loading, would not need to communicate further with the server (i.e., no Ajax).  The app needed to be straightforward to use, and accessible.  With JavaScript, an enormous number of tools are available to facilitate .  WEB DEV TOOLS, JS CONSOLE you can always get a quick peek by viewing the source in your browser.
-
-
-* TOUCH ON THESE??? [Bootstrap](https://getbootstrap.com/)<br/>for UI components and responsive layout that displays well on both mobile and desktop browsers [Font Awesome](https://fontawesome.com/)<br/>for nifty icons
-
+that The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  The JavaScript language has evolved over many years as the programming language of the web.  an enormous number of tools are available to facilitate .  WEB DEV TOOLS, JS CONSOLE you can always get a quick peek by viewing the source in your browser. 
 
 
 ## Input/Output
