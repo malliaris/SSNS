@@ -125,8 +125,11 @@ With the multitude of options for HTML/CSS/js projects, the first two requiremen
 
 With all tricky needs met, it was easy to put in the pieces in the areas where HTML/CSS/js excels, like UI, icons, etc.  The more or less finalized list of dependencies is [here](#external-libraries-dependencies).
 
-that The core of the **SSNS** app is ~3000 lines of object-oriented JavaScript.  The JavaScript language has evolved over many years as the programming language of the web.  an enormous number of tools are available to facilitate .  WEB DEV TOOLS, JS CONSOLE you can always get a quick peek by viewing the source in your browser. 
+* Controlling execution is easy: Load the app and feel free to leave it dormant in a browser tab &mdash; any generated data just sits there.  Close the tab/window any time to kill the app, even if it is running.
 
+* WEB DEV TOOLS, JS CONSOLE
+
+* you can always get a quick peek by viewing the source in your browser
 
 ## Input/Output
 
