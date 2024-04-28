@@ -127,9 +127,9 @@ With all tricky needs met, it was easy to put in the pieces in the areas where H
 
 * Controlling execution is easy: Load the app and feel free to leave it dormant in a browser tab &mdash; any generated data just sits there.  Close the tab/window any time to kill the app, even if it is running.
 
-* WEB DEV TOOLS, JS CONSOLE
+* Browser developer tools both aid in development of the app and provide useful information when running it.  Specifically, the JavaScript console will show "INFO:..." messages (e.g., when switching system type), in addition to errors.
 
-* you can always get a quick peek by viewing the source in your browser
+* The app source code is available both here on GitHub, but also by selecting "View Source" in the browser for quick reference.
 
 ## Input/Output
 
