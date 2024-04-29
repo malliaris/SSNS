@@ -115,7 +115,7 @@ The decision write the **SSNS** code in JavaScript was not a hard one.  The requ
 
 Pure client-side JavaScript was really the only option that satisfied all these requirements, and, in particular, could maintain a rapid feedback loop between user action, computation, and plot output.  It was also the simplest choice, free from complicating factors such as: repeated web requests, Ajax, transimission of data/graphics, dependence on sustained network connectivity.  Years ago, Java code in the form of an applet might have been considered, but not anymore 😀.
 
-With the multitude of options for HTML/CSS/js projects, the first two requirements above were not hard to satisfy.  The last three, however, required a bit more trying and testing to get a satisfactory setup.  In the same order as above:
+While the first two requirements above were easily met, the last three required some trying and testing.  Briefly commenting on those three, in the same order as above:
 
 * When it came to finding JavaScript versions of the basic scientific computing tools present, e.g., in Python NumPy/SciPy, the only truly difficult category was pseudorandom number generation.  JavaScript's <samp>Math.random()</samp> does not appear to allow seeding or accessing the generator's state, and there are not too many other options.  Luckily, we found [stdlib.js](https://stdlib.io/), which proved sufficient in this area.
 
@@ -127,7 +127,7 @@ With all tricky needs met, it was easy to put in the pieces in the areas where H
 
 * Controlling execution is easy: Load the app and feel free to leave it dormant in a browser tab &mdash; any generated data just sits there.  Close the tab/window any time to kill the app, even if it is running.
 
-* Browser developer tools both aid in development of the app and provide useful information when running it.  Specifically, the JavaScript console will show "INFO:..." messages (e.g., when switching system type), in addition to errors.
+* Browser developer tools both aid in development of the app and provide useful information when running it.  Specifically, the JavaScript console will show "INFO: ..." messages (e.g., when switching system type), in addition to errors.
 
 * The app source code is available both here on GitHub, but also by selecting "View Source" in the browser for quick reference.
 
