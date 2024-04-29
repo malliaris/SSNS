@@ -113,9 +113,9 @@ The decision to write the **SSNS** code in JavaScript was not a hard one.  The r
 * language/library setup should offer standard object-oriented programming capabilities
 * app should have good graphical plot output
 
-Pure, client-side JavaScript was really the only option that met all these requirements.  Also, in particular, pure Javascript offered the best chance of maintaining a rapid feedback loop between (1) user action, (2) computation, and (3) plot output.  It was also the simplest choice, free from complicating factors such as: repeated web requests, Ajax, transimission of data/graphics, dependence on sustained network connectivity.  Years ago, Java code in the form of an applet might have been considered, but not anymore 😀.
+Pure, client-side JavaScript was really the only option that met all these requirements.  Also, in particular, pure Javascript offered the best chance of maintaining a rapid feedback loop between (1) user action, (2) computation, and (3) plot output.  It was also the simplest choice, free from complicating factors such as: repeated web requests, Ajax, transmission of data/graphics, dependence on sustained network connectivity.  Years ago, <em>Java</em> code in the form of an applet might have been considered, but not anymore 😀.
 
-While the first two requirements above were easily met, the last three required some trying and testing.  Briefly commenting on those three, in the same order as above:
+While the first two requirements above were easily met, the last three required some trying and testing.  Briefly commenting on those three, in order:
 
 * Of all the scientific computing needs, pseudorandom number generation proved to be the trickiest to satisfy.  JavaScript's <samp>Math.random()</samp> does not appear to allow seeding or accessing the generator's state.  The closest thing to a JavaScript stand-in for NumPy/SciPy appears to be [stdlib.js](https://stdlib.io/), which fortunately proved sufficient for our purposes.
 
@@ -123,7 +123,7 @@ While the first two requirements above were easily met, the last three required 
 
 * There doesn't seem to be a JavaScript equivalent of the Python plotting library [matplotlib](https://matplotlib.org/).  Many web plotting packages focus on data exploration and novel visualization techniques, while we just needed something straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library proved to be a good option.  It has very nice auto-scaling functionality.  Its capabilities were supplemented by the HTML <samp>&lt;canvas&gt;</samp> element for heat maps.
 
-The current (finalized?) list of dependencies is [here](#external-libraries-dependencies).  With the more difficult requirements met, it was easy to focus on the areas where HTML/CSS/js excels, namely: UI, icons, fonts, etc.  Also, having the **SSNS** code reside and run purely on the client-side contributes to a positive user experience:
+The current (finalized?) list of dependencies is [here](#external-libraries-dependencies).  With the more difficult requirements met, it was easy to focus on the areas where HTML/CSS/js excels, namely: UI, icons, fonts, etc.  Also, having the **SSNS** code reside and run purely on the client-side had some advantages for user experience:
 
 * Controlling execution is easy: the app can be loaded, used, and then left dormant in a browser tab &mdash; any generated data just sits there.  Closing the tab/window at any time will close the app, even if it is running.
 
