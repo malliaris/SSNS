@@ -121,9 +121,9 @@ While the first two requirements above were easily met, the last three required 
 
 * It was great to see that, as part of its 2015 revised standard, JavaScript added "true" classes.  ("Objects" had long been part of the language, but the term refers to a key-value-pair container, not a class instance.)  Certain OOP features like multiple constructors are still not possible, but, overall, JavaScript met the code's [structural](#classes-hierarchies-etc) needs just fine.
 
-* There doesn't seem to be a JavaScript equivalent of the Python plotting library [matplotlib](https://matplotlib.org/).  Many web plotting packages focus on data exploration and novel visualization techniques, while we just needed something straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library proved to be a good option.  It has very nice auto-scaling functionality.  flot's capabilities were supplemented by the HTML <samp>&lt;canvas&gt;</samp> element for plotting heat maps.
+* There doesn't seem to be a JavaScript equivalent of the Python plotting library [matplotlib](https://matplotlib.org/).  Many web plotting packages focus on data exploration and novel visualization techniques, while we just needed something straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library proved to be a good option.  It has very nice auto-scaling functionality.  Its capabilities were supplemented by the HTML <samp>&lt;canvas&gt;</samp> element for heat maps.
 
-With all tricky needs met, it was easy to put in the pieces in the areas where HTML/CSS/js excels, like UI, icons, etc.  The more or less finalized list of dependencies is [here](#external-libraries-dependencies).
+The current (finalized?) list of dependencies is [here](#external-libraries-dependencies).  With the more difficult requirements met, it was easy to focus on the areas where HTML/CSS/js excels, namely: UI, icons, fonts, etc.  Having the **SSNS** code reside and run purely on the client-side  
 
 * Controlling execution is easy: Load the app and feel free to leave it dormant in a browser tab &mdash; any generated data just sits there.  Close the tab/window any time to kill the app, even if it is running.
 
