@@ -119,7 +119,7 @@ While the first two requirements above were easily met, the last three required 
 
 * Of all the scientific computing needs, pseudorandom number generation proved to be the trickiest to satisfy.  JavaScript's <samp>Math.random()</samp> does not appear to allow seeding or accessing the generator's state.  The closest thing to a JavaScript stand-in for NumPy/SciPy appears to be [stdlib.js](https://stdlib.io/), which fortunately proved sufficient for our purposes.
 
-* It was great to see that the 2015 JavaScript revision added, among other things, "true" classes.  (It has long had "objects," but that term refers to a key-value-pair container, not a class instance.)  Certain OOP features like multiple constructors are not possible, but, overall, pure JavaScript met the code's [structural](#classes-hierarchies-etc) needs just fine!
+* It was great to see that, as part of its 2015 revised standard, JavaScript added "true" classes.  (JavaScript "objects" had long been present, but the term refers to a key-value-pair container, not a class instance.)  Certain OOP features like multiple constructors are still not possible, but, overall, pure JavaScript met the code's [structural](#classes-hierarchies-etc) needs just fine.
 
 * There doesn't seem to be a JavaScript plotting library that does what [matplotlib](https://matplotlib.org/), say, does in the Python world.  Many web options focus on data exploration and novel visualization techniques, and we needed straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library filled most of our needs and has good auto-scaling functionality.  The HTML <samp>&lt;canvas&gt;</samp> element was added to the mix for plotting heat maps.
 
