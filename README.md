@@ -105,7 +105,7 @@ These abbreviations are also used in HTML element <samp>id</samp> attributes.  F
 
 ## Code Design
 
-The decision write the **SSNS** code in JavaScript was not a hard one.  The requirements were, roughly:
+The decision to write the **SSNS** code in JavaScript was not a hard one.  The requirements were, roughly:
 
 * app should be accessible by web browser, quick to load, and not require installation of anything
 * app should have a well-designed, easy-to-use, responsive UI
