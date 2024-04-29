@@ -123,13 +123,13 @@ While the first two requirements above were easily met, the last three required 
 
 * There doesn't seem to be a JavaScript equivalent of the Python plotting library [matplotlib](https://matplotlib.org/).  Many web plotting packages focus on data exploration and novel visualization techniques, while we just needed something straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library proved to be a good option.  It has very nice auto-scaling functionality.  Its capabilities were supplemented by the HTML <samp>&lt;canvas&gt;</samp> element for heat maps.
 
-The current (finalized?) list of dependencies is [here](#external-libraries-dependencies).  With the more difficult requirements met, it was easy to focus on the areas where HTML/CSS/js excels, namely: UI, icons, fonts, etc.  Having the **SSNS** code reside and run purely on the client-side  
+The current (finalized?) list of dependencies is [here](#external-libraries-dependencies).  With the more difficult requirements met, it was easy to focus on the areas where HTML/CSS/js excels, namely: UI, icons, fonts, etc.  Also, having the **SSNS** code reside and run purely on the client-side contributes to a positive user experience:
 
-* Controlling execution is easy: Load the app and feel free to leave it dormant in a browser tab &mdash; any generated data just sits there.  Close the tab/window any time to kill the app, even if it is running.
+* Controlling execution is easy: the app can be loaded, used, and then left dormant in a browser tab &mdash; any generated data just sits there.  Closing the tab/window at any time will close the app, even if it is running.
 
-* Browser developer tools both aid in development of the app and provide useful information when running it.  Specifically, the JavaScript console will show "INFO: ..." messages (e.g., when switching system type), in addition to errors.
+* Browser developer tools are designed to assist app developers, but they can provide useful information to app users as well.  Specifically, the JavaScript console will log an informational message, e.g., when switching system type.
 
-* The app source code is available both here on GitHub, but also by selecting "View Source" in the browser for quick reference.
+* The app source code is of course available on GitHub, but also viewable "under the hood" by selecting "View Source" in the browser.
 
 ## Input/Output
 
