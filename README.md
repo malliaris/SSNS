@@ -117,7 +117,7 @@ Pure, client-side JavaScript was really the only option that met all these requi
 
 While the first two requirements above were easily met, the last three required some trying and testing.  Briefly commenting on those three, in order:
 
-* Of all the scientific computing needs, pseudorandom number generation proved to be the trickiest to satisfy.  JavaScript's <samp>Math.random()</samp> does not appear to allow seeding or accessing the generator's state.  The closest thing to a JavaScript stand-in for NumPy/SciPy appears to be [stdlib.js](https://stdlib.io/), which fortunately proved sufficient for our purposes.
+* Of all the scientific computing needs, pseudorandom number generation proved to be the trickiest to satisfy.  JavaScript's <samp>Math.random()</samp> does not allow seeding or accessing the generator's state.  The closest thing to a JavaScript stand-in for NumPy/SciPy appears to be [stdlib.js](https://stdlib.io/), which fortunately proved sufficient for our purposes.
 
 * It was great to see that, as part of its 2015 revised standard, JavaScript added "true" classes.  ("Objects" had long been part of the language, but the term refers to a key-value-pair container, not a class instance.)  Certain OOP features like multiple constructors are still not possible, but, overall, JavaScript met the code's [structural](#classes-hierarchies-etc) needs just fine.
 
