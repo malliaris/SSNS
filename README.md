@@ -113,7 +113,7 @@ The decision to write the **SSNS** code in JavaScript was not a hard one.  The r
 * language/library setup should offer standard object-oriented programming capabilities
 * app should have good graphical plot output
 
-Pure client-side JavaScript was really the only option that satisfied all these requirements, and, in particular, could maintain a rapid feedback loop between user action, computation, and plot output.  It was also the simplest choice, free from complicating factors such as: repeated web requests, Ajax, transimission of data/graphics, dependence on sustained network connectivity.  Years ago, Java code in the form of an applet might have been considered, but not anymore 😀.
+Pure, client-side JavaScript was really the only option that met all these requirements.  Also, in particular, pure Javascript offered the best chance of maintaining a rapid feedback loop between (1) user action, (2) computation, and (3) plot output.  It was also the simplest choice, free from complicating factors such as: repeated web requests, Ajax, transimission of data/graphics, dependence on sustained network connectivity.  Years ago, Java code in the form of an applet might have been considered, but not anymore 😀.
 
 While the first two requirements above were easily met, the last three required some trying and testing.  Briefly commenting on those three, in the same order as above:
 
