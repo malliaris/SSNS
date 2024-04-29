@@ -123,7 +123,7 @@ While the first two requirements above were easily met, the last three required 
 
 * There doesn't seem to be a JavaScript equivalent of the Python plotting library [matplotlib](https://matplotlib.org/).  Many web plotting packages focus on data exploration and novel visualization techniques, while we just needed something straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library proved to be a good option.  It has very nice auto-scaling functionality.  Its capabilities were supplemented by the HTML <samp>&lt;canvas&gt;</samp> element for heat maps.
 
-The current (finalized?) list of dependencies is [here](#external-libraries-dependencies).  With the more difficult requirements met, it was easy to focus on the areas where HTML/CSS/js excels, namely: UI, icons, fonts, etc.  Also, having the **SSNS** code reside and run purely on the client-side had some advantages for user experience:
+The current (finalized?) list of dependencies is [here](#external-libraries-dependencies).  With the more difficult requirements met, it was easy to focus on the areas where HTML/CSS/js excels, namely: UI, icons, fonts, etc.  Also, having the **SSNS** code reside and run purely on the client-side has some advantages for user experience:
 
 * Controlling execution is easy: the app can be loaded, used, and then left dormant in a browser tab &mdash; any generated data just sits there.  Closing the tab/window at any time will close the app, even if it is running.
 
