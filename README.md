@@ -167,7 +167,7 @@ Browser developer tools are indispensable when doing development, but also handy
 * When it comes to web implementations of the <samp>XY</samp> model, ours pales in comparison to the one found <a href="//kjslag.github.io/XY/">here</a>, and for many reasons &#x1F642;.  One is that, despite always running on a device with a GPU, **SSNS** does not use the GPU for non-graphical computation!  With all the attention on machine learning, general purpose GPU ("GPGPU") computing is really progressing.  WebGL (which <samp>kjslag</samp>'s implementation uses) is about a decade old, and its successor, WebGPU, is coming out now.  This development comes on top of all the GPU technology progress spurred by HTML 5 <samp>&lt;video&gt;</samp>, streaming, etc.  It's not trivial to write code to execute on a GPU, but the potential performance jump alone is enough to keep this on the "to explore" list!
 
 * lower priority items
-  * not too familiar with how <samp>const</samp> functions in JavaScript, but change <samp>let</samp> to <samp>const</samp> wherever possible
+  * not too familiar with how <samp>const</samp>ness in JavaScript, but change <samp>let</samp> to <samp>const</samp> wherever possible
   * what about JavaScript "strict mode"?
 
 ## Help Viewer "Sitemap"
