@@ -174,6 +174,7 @@ Browser developer tools are indispensable when doing development, but also handy
 * lower priority items
   * not too familiar with how <samp>const</samp>ness works in JavaScript, but change <samp>let</samp> to <samp>const</samp> wherever possible
   * what about JavaScript "strict mode"?
+  * handle support for very old browsers?
 
 ## Help Viewer "Sitemap"
 
