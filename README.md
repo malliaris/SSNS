@@ -41,10 +41,28 @@ The **SSNS** JavaScript code is separated into several source files, all located
 
 <table>
 <tbody>
+<tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td></tr>
 <tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp>FILL INNNNNNNNNNNNNNNN</samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp>FILL INNNNNNNNNNNNNNNN</samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp>FILL INNNNNNNNNNNNNNNN</samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
 </tbody>
 </table>
 
