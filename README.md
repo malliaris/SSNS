@@ -45,7 +45,7 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td><td>convenience utility methods</td></tr>
 <tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp></td><td><strong>U</strong>ser <strong>I</strong>nterface <strong>N</strong>umerical <strong>I</strong>nput class</td></tr>
 <tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>RW.js</samp></td><td><samp>ModelCalc_RW</samp>, <samp>Params_RW</samp>, <samp>Coords_RW</samp>, <samp>Trajectory_RW</samp></td><td>system type RW (random walk)</td></tr>
 <tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
 <tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
 <tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
