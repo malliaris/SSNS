@@ -37,32 +37,24 @@ The following classes, which are listed roughly from "largest" (i.e., "outermost
 * <samp>HelpViewerNode</samp>
 * <samp>HelpViewer</samp><br/>A modal-lightbox-based network of help pages, always accessible by clicking the big yellow "?".  Each help page is represented by a <samp>HelpViewerNode</samp>, and identified by an <samp>id</samp> like <samp>HV_ST_XY</samp> (the **H**elp **V**iewer page for **S**ystem **T**ype <samp>XY</samp>).  See [abbreviations](#abbreviations-labels-etc) and [Help Viewer "Sitemap"](#help-viewer-sitemap) for more.
 
-The **SSNS** JavaScript code is separated into several source files, all located in the [<samp>/js/</samp>](/js/) directory.  The following table indicamention of CoordTransition_Spin, etc. tes which of the above-described classes each source file contains.
+The **SSNS** JavaScript code is separated into several source files, all located in the [<samp>/js/</samp>](/js/) directory.  The following table indicates which of the above-described classes each source file contains.
 
 <table>
 <tbody>
-<tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td></tr>
-<tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td></tr>
+<tr><th>file</th><th>contains classes</th><th>description</th></tr>
+<tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td><td></td></tr>
+<tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp></td><td></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
 </tbody>
 </table>
 
@@ -179,6 +171,15 @@ Browser developer tools are indispensable when doing development, but also handy
 * If you happen to spot a bug, please [report it](https://github.com/malliaris/SSNS/issues).  Comments, suggestions, and reports of confusing bug-like features also welcome!
 
 * short-term small/easy items
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * mention of CoordTransition_Spin, etc. ?
   * write HV_ST_CH help page
   * make sure HV_P_* help pages are complete/consistent
   * debug PlotTypeXT.update_window()
