@@ -59,10 +59,10 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td><td>convenience utility methods</td></tr>
 <tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp>, <samp>UINI_int</samp>, <samp>UINI_float</samp></td><td><strong>U</strong>ser <strong>I</strong>nterface <strong>N</strong>umerical <strong>I</strong>nput classes</td></tr>
 <tr><td><samp>PlotType.js</samp></td><td><samp>PlotType</samp></td><td><samp>PlotType</samp> base class</td></tr>
-<tr><td><samp>PlotTypeXT.js</samp></td><td><samp>PlotTypeXT</samp></td><td>all <samp>XT</samp> plot types classes</td></tr>
-<tr><td><samp>PlotTypeHX.js</samp></td><td><samp>PlotTypeHX</samp></td><td>all <samp>HX</samp> plot types classes</td></tr>
-<tr><td><samp>PlotTypeHM.js</samp></td><td><samp>PlotTypeHM</samp></td><td>all <samp>HM</samp> plot types classes</td></tr>
-<tr><td><samp>PlotTypePP.js</samp></td><td><samp>PlotTypePP</samp></td><td>all <samp>PP</samp> plot types classes</td></tr>
+<tr><td><samp>PlotTypeXT.js</samp></td><td><samp>PlotTypeXT_*</samp></td><td>all <samp>XT</samp> plot type classes</td></tr>
+<tr><td><samp>PlotTypeHX.js</samp></td><td><samp>PlotTypeHX_*</samp></td><td>all <samp>HX</samp> plot type classes</td></tr>
+<tr><td><samp>PlotTypeHM.js</samp></td><td><samp>PlotTypeHM_*</samp></td><td>all <samp>HM</samp> plot type classes</td></tr>
+<tr><td><samp>PlotTypePP.js</samp></td><td><samp>PlotTypePP_*</samp></td><td>all <samp>PP</samp> plot type classes</td></tr>
 <tr><td><samp>PlottingMachinery.js</samp></td><td><samp>PlottingMachinery</samp></td><td>general plotting infrastructure</td></tr>
 <tr><td><samp>help_viewer.js</samp></td><td><samp>HelpViewerNode</samp>, <samp>HelpViewer</samp></td><td>help viewer classes</td></tr>
 <tr><td><samp>RunState.js</samp></td><td><samp>RunState</samp></td><td>Simulator helper class</td></tr>
