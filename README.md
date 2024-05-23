@@ -60,6 +60,10 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <tr><td><samp>GM.js</samp></td><td><samp>ModelCalc_GM</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_GM</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_GM</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_GM</samp></td><td>system type <samp>GM</samp>&nbsp;&nbsp;&nbsp;(gingerbread-man map)</td></tr>
 <tr><td><samp>EU.js</samp></td><td><samp>ModelCalc_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_EU</samp></td><td>system type <samp>EU</samp>&nbsp;&nbsp;&nbsp;(1D Euler shock tube)</td></tr>
 <tr><td><samp>PF.js</samp></td><td><samp>ModelCalc_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_PF</samp></td><td>system type <samp>PF</samp>&nbsp;&nbsp;&nbsp;(rigid planar flow)</td></tr>
+
+<tr><td><samp>PlottingMachinery.js</samp></td><td><samp>PlottingMachinery</samp></td><td>general plotting infrastructure</td></tr>
+
+
 </tbody>
 </table>
 
