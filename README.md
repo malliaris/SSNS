@@ -45,7 +45,9 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td><td>convenience utility methods</td></tr>
 <tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp>,&nbsp;&nbsp;&nbsp;<samp>UINI_int</samp>,&nbsp;&nbsp;&nbsp;<samp>UINI_float</samp></td><td><strong>U</strong>ser <strong>I</strong>nterface <strong>N</strong>umerical <strong>I</strong>nput classes</td></tr>
 
-<tr><td><samp>trajectory_base.js</samp></td><td><samp>ModelCalc</samp>,&nbsp;&nbsp;&nbsp;<samp>Params</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords</samp>,&nbsp;&nbsp;&nbsp;<samp>TrajSeg</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory</samp></td><td>trajectory base classes</td></tr>
+<tr><td><samp>traj_base.js</samp></td><td><samp>ModelCalc</samp>,&nbsp;&nbsp;&nbsp;<samp>Params</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords</samp>,&nbsp;&nbsp;&nbsp;<samp>TrajSeg</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory</samp></td><td>trajectory base classes</td></tr>
+
+<tr><td><samp>traj_intermed.js</samp></td><td><samp>ModelCalc_Stoch</samp>,<pre>   </pre><samp>Trajectory_Stoch</samp>,&nbsp;&nbsp;&nbsp;<samp>CoordTransition_Spin</samp>,&nbsp;&nbsp;&nbsp;<samp>ModelCalc_SP</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_SP</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_SP_finite</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_SP_semiinf</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_SP</samp>,&nbsp;&nbsp;&nbsp;<samp>ModelCalc_Spin</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_Spin</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_Spin</samp></td><td>trajectory intermediate classes</td></tr>
 
 
 <tr><td><samp>RW.js</samp></td><td><samp>ModelCalc_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_RW</samp></td><td>system type <samp>RW</samp>&nbsp;&nbsp;&nbsp;(random walk)</td></tr>
