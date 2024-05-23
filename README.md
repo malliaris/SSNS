@@ -42,8 +42,8 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <table>
 <tbody>
 <tr><th>file</th><th>contains classes</th><th>description</th></tr>
-<tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td><td></td></tr>
-<tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp></td><td></td></tr>
+<tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td><td>convenience utility methods</td></tr>
+<tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp></td><td>**U**ser **I**nterface **N**umerical **I**nput class</td></tr>
 <tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
 <tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
 <tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
