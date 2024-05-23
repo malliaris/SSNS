@@ -42,13 +42,8 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <table>
 <tbody>
 <tr><th>file</th><th>contains classes</th><th>description</th></tr>
-<tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td><td>convenience utility methods</td></tr>
-<tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp>,&nbsp;&nbsp;&nbsp;<samp>UINI_int</samp>,&nbsp;&nbsp;&nbsp;<samp>UINI_float</samp></td><td><strong>U</strong>ser <strong>I</strong>nterface <strong>N</strong>umerical <strong>I</strong>nput classes</td></tr>
-
 <tr><td><samp>traj_base.js</samp></td><td><samp>ModelCalc</samp>,&nbsp;&nbsp;&nbsp;<samp>Params</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords</samp>,&nbsp;&nbsp;&nbsp;<samp>TrajSeg</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory</samp></td><td>trajectory base classes</td></tr>
-
 <tr><td><samp>traj_intermed.js</samp></td><td><samp>ModelCalc_Stoch</samp>, <samp>Trajectory_Stoch</samp>, <samp>CoordTransition_Spin</samp>, <samp>ModelCalc_SP</samp>, <samp>Coords_SP</samp>, <samp>Coords_SP_finite</samp>, <samp>Coords_SP_semiinf</samp>, <samp>Trajectory_SP</samp>, <samp>ModelCalc_Spin</samp>, <samp>Params_Spin</samp>, <samp>Coords_Spin</samp></td><td>trajectory intermediate classes</td></tr>
-
 <tr><td><samp>system_types/RW.js</samp></td><td><samp>ModelCalc_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_RW</samp></td><td>system type <samp>RW</samp>&nbsp;&nbsp;&nbsp;(random walk)</td></tr>
 <tr><td><samp>system_types/MN.js</samp></td><td><samp>ModelCalc_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_MN</samp></td><td>system type <samp>MN</samp>&nbsp;&nbsp;&nbsp;(Moran model)</td></tr>
 <tr><td><samp>system_types/CH.js</samp></td><td><samp>ModelCalc_CH</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_CH</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_CH</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_CH</samp></td><td>system type <samp>CH</samp>&nbsp;&nbsp;&nbsp;(chemical system)</td></tr>
@@ -61,7 +56,13 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <tr><td><samp>system_types/EU.js</samp></td><td><samp>ModelCalc_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_EU</samp></td><td>system type <samp>EU</samp>&nbsp;&nbsp;&nbsp;(1D Euler shock tube)</td></tr>
 <tr><td><samp>system_types/PF.js</samp></td><td><samp>ModelCalc_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_PF</samp></td><td>system type <samp>PF</samp>&nbsp;&nbsp;&nbsp;(rigid planar flow)</td></tr>
 
+<tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td><td>convenience utility methods</td></tr>
+<tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp>, <samp>UINI_int</samp>, <samp>UINI_float</samp></td><td><strong>U</strong>ser <strong>I</strong>nterface <strong>N</strong>umerical <strong>I</strong>nput classes</td></tr>
 <tr><td><samp>PlottingMachinery.js</samp></td><td><samp>PlottingMachinery</samp></td><td>general plotting infrastructure</td></tr>
+<tr><td><samp>help_viewer.js</samp></td><td><samp>HelpViewerNode</samp>, <samp>HelpViewer</samp></td><td>general plotting infrastructure</td></tr>
+<tr><td><samp>RunState.js</samp></td><td><samp>RunState</samp></td><td>Simulator helper class</td></tr>
+<tr><td><samp>UserInterface.js</samp></td><td><samp>UserInterface</samp></td><td>main <strong>SSNS</strong>strong> user interface class</td></tr>
+<tr><td><samp>Simulator.js</samp></td><td><samp>Simulator</samp></td><td>outermost <strong>SSNS</strong>strong> container class</td></tr>
 
 
 </tbody>
