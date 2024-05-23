@@ -46,15 +46,16 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp></td><td><strong>U</strong>ser <strong>I</strong>nterface <strong>N</strong>umerical <strong>I</strong>nput class</td></tr>
 <tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
 <tr><td><samp>RW.js</samp></td><td><samp>ModelCalc_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_RW</samp></td><td>system type RW (random walk)</td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
-<tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
+<tr><td><samp>MN.js</samp></td><td><samp>ModelCalc_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_MN</samp></td><td>system type MN (Moran model)</td></tr>
+<tr><td><samp>CH.js</samp></td><td><samp>ModelCalc_CH</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_CH</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_CH</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_CH</samp></td><td>system type CH (chemical system)</td></tr>
+<tr><td><samp>QU.js</samp></td><td><samp>ModelCalc_QU</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_QU</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_QU</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_QU</samp></td><td>system type QU (M/M/1 queue)</td></tr>
+<tr><td><samp>IG.js</samp></td><td><samp>ModelCalc_IG</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_IG</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_IG</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_IG</samp></td><td>system type IG (2D ideal gas)</td></tr>
+<tr><td><samp>IS.js</samp></td><td><samp>ModelCalc_IS</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_IS</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_IS</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_IS</samp></td><td>system type IS (2D Ising model)</td></tr>
+<tr><td><samp>XY.js</samp></td><td><samp>ModelCalc_XY</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_XY</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_XY</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_XY</samp></td><td>system type XY (XY model)</td></tr>
+<tr><td><samp>LM.js</samp></td><td><samp>ModelCalc_LM</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_LM</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_LM</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_LM</samp></td><td>system type LM (logistic map)</td></tr>
+<tr><td><samp>GM.js</samp></td><td><samp>ModelCalc_GM</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_GM</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_GM</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_GM</samp></td><td>system type GM (gingerbread-man map)</td></tr>
+<tr><td><samp>EU.js</samp></td><td><samp>ModelCalc_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_EU</samp></td><td>system type EU (1D Euler shock tube)</td></tr>
+<tr><td><samp>PF.js</samp></td><td><samp>ModelCalc_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_PF</samp></td><td>system type PF (rigid planar flow)</td></tr>
 </tbody>
 </table>
 
