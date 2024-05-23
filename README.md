@@ -37,7 +37,7 @@ The following classes, which are listed roughly from "largest" (i.e., "outermost
 * <samp>HelpViewerNode</samp>
 * <samp>HelpViewer</samp><br/>A modal-lightbox-based network of help pages, always accessible by clicking the big yellow "?".  Each help page is represented by a <samp>HelpViewerNode</samp>, and identified by an <samp>id</samp> like <samp>HV_ST_XY</samp> (the **H**elp **V**iewer page for **S**ystem **T**ype <samp>XY</samp>).  See [abbreviations](#abbreviations-labels-etc) and [Help Viewer "Sitemap"](#help-viewer-sitemap) for more.
 
-The **SSNS** JavaScript code is separated into several source files, all located in the [<samp>/js/</samp>](/js/) directory.  The following table indicates which of the above-described classes each source file contains.
+The **SSNS** JavaScript code is separated into several source files, all located in the [<samp>/js/</samp>](/js/) and [<samp>/js/system_types</samp>](/js/system_types/) directories.  The following table indicates which of the above-described classes each source file contains.
 
 <table>
 <tbody>
