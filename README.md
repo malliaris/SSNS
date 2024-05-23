@@ -61,8 +61,8 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <tr><td><samp>PlottingMachinery.js</samp></td><td><samp>PlottingMachinery</samp></td><td>general plotting infrastructure</td></tr>
 <tr><td><samp>help_viewer.js</samp></td><td><samp>HelpViewerNode</samp>, <samp>HelpViewer</samp></td><td>general plotting infrastructure</td></tr>
 <tr><td><samp>RunState.js</samp></td><td><samp>RunState</samp></td><td>Simulator helper class</td></tr>
-<tr><td><samp>UserInterface.js</samp></td><td><samp>UserInterface</samp></td><td>main <strong>SSNS</strong>strong> user interface class</td></tr>
-<tr><td><samp>Simulator.js</samp></td><td><samp>Simulator</samp></td><td>outermost <strong>SSNS</strong>strong> container class</td></tr>
+<tr><td><samp>UserInterface.js</samp></td><td><samp>UserInterface</samp></td><td>main <strong>SSNS</strong> user interface class</td></tr>
+<tr><td><samp>Simulator.js</samp></td><td><samp>Simulator</samp></td><td>outermost <strong>SSNS</strong> container class</td></tr>
 
 
 </tbody>
