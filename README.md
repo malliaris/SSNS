@@ -47,8 +47,7 @@ The **SSNS** JavaScript code is separated into several source files, all located
 
 <tr><td><samp>traj_base.js</samp></td><td><samp>ModelCalc</samp>,&nbsp;&nbsp;&nbsp;<samp>Params</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords</samp>,&nbsp;&nbsp;&nbsp;<samp>TrajSeg</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory</samp></td><td>trajectory base classes</td></tr>
 
-<tr><td><samp>traj_intermed.js</samp></td><td><samp>ModelCalc_Stoch</samp>,<pre>   </pre><samp>Trajectory_Stoch</samp>,&nbsp;&nbsp;&nbsp;<samp>CoordTransition_Spin</samp>,&nbsp;&nbsp;&nbsp;<samp>ModelCalc_SP</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_SP</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_SP_finite</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_SP_semiinf</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_SP</samp>,&nbsp;&nbsp;&nbsp;<samp>ModelCalc_Spin</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_Spin</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_Spin</samp></td><td>trajectory intermediate classes</td></tr>
-
+<tr><td><samp>traj_intermed.js</samp></td><td><samp>ModelCalc_Stoch</samp>, <samp>Trajectory_Stoch</samp>, <samp>CoordTransition_Spin</samp>, <samp>ModelCalc_SP</samp>, <samp>Coords_SP</samp>, <samp>Coords_SP_finite</samp>, <samp>Coords_SP_semiinf</samp>, <samp>Trajectory_SP</samp>, <samp>ModelCalc_Spin</samp>, <samp>Params_Spin</samp>, <samp>Coords_Spin</samp></td><td>trajectory intermediate classes</td></tr>
 
 <tr><td><samp>RW.js</samp></td><td><samp>ModelCalc_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_RW</samp></td><td>system type <samp>RW</samp>&nbsp;&nbsp;&nbsp;(random walk)</td></tr>
 <tr><td><samp>MN.js</samp></td><td><samp>ModelCalc_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_MN</samp></td><td>system type <samp>MN</samp>&nbsp;&nbsp;&nbsp;(Moran model)</td></tr>
