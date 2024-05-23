@@ -43,7 +43,7 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <tbody>
 <tr><th>file</th><th>contains classes</th><th>description</th></tr>
 <tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td><td>convenience utility methods</td></tr>
-<tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp></td><td><strong>U</strong>ser <strong>I</strong>nterface <strong>N</strong>umerical <strong>I</strong>nput class</td></tr>
+<tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp>&nbsp;&nbsp;&nbsp;<samp>UINI_int</samp>&nbsp;&nbsp;&nbsp;<samp>UINI_float</samp></td><td><strong>U</strong>ser <strong>I</strong>nterface <strong>N</strong>umerical <strong>I</strong>nput class</td></tr>
 <tr><td><samp>.js</samp></td><td><samp></samp></td><td></td></tr>
 <tr><td><samp>RW.js</samp></td><td><samp>ModelCalc_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_RW</samp></td><td>system type <samp>RW</samp>&nbsp;&nbsp;&nbsp;(random walk)</td></tr>
 <tr><td><samp>MN.js</samp></td><td><samp>ModelCalc_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_MN</samp></td><td>system type <samp>MN</samp>&nbsp;&nbsp;&nbsp;(Moran model)</td></tr>
