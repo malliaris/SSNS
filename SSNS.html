@@ -58,7 +58,7 @@
 
 <nav class="navbar navbar-expand-lg w-100 py-0 px-1 px-md-2 px-lg-3">
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_collapse">&#x2630;</button>
-<a id="navbar_message" class="navbar-brand">Welcome to <strong>SSNS</strong>.  Click <button type="button" class="btn btn-sm emulated_help_btn"><img height="15" width="10" src="https://tedm.us/static/images/SSNS_TEMP/question_mark.svg"></button> for intro/help.</a>
+<a id="navbar_message" class="navbar-brand">Welcome to <strong>SSNS</strong>.  Click <button type="button" class="btn btn-sm emulated_help_btn"><img height="15" width="10" src="https://tedm.us/static/images/SSNS/question_mark.svg"></button> for intro/help.</a>
 <div id="navbar_collapse" class="collapse navbar-collapse justify-content-end">
 <ul class="navbar-nav">
 <li class="nav-item"><a class="nav-link pl-2" href="#">link 1</a></li>
@@ -136,7 +136,7 @@
 </button>
 
 <button type="button" class="btn btn-ssns-emphasis px-0 flex-fill" onclick="window.sim.ui.hv.help_btn_pressed(); ">
-<img id="UI_help_btn_qm" height="30" width="20" src="https://tedm.us/static/images/SSNS_TEMP/question_mark.svg">
+<img id="UI_help_btn_qm" height="30" width="20" src="https://tedm.us/static/images/SSNS/question_mark.svg">
 </button>
 
 </div>
@@ -542,7 +542,7 @@
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_USING" class="hv_view" data-ready="1" data-hvmh="How to use">
-<img id="hv_ssns_screenshot" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/using_-_LM_example.png">
+<img id="hv_ssns_screenshot" src="https://tedm.us/static/images/SSNS/hv_interface_pics/using_-_LM_example.png">
 <p>At right is a screenshot of <strong>SSNS</strong> in action.  The <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PLOT_AREA'); ">plot area</a> occupies the upper part of the screen.  Below that is the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_MAIN_PANEL'); ">main panel</a> which contains one button bar with <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">continuous-action navigation</a> commands and another with 3 toggle-able dropdown areas: <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-calculator"></i></button>, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-sliders"></i></button>, and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); "><samp>SYS</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm" style="padding: 0 0.35rem; ">$$ \texttt{AB} $$</i></button>.</p>
 
 <p>The <strong>SSNS</strong> app is like an audio recorder in that <strong><em>playback can only occur after some data is recorded</em></strong>.  In the screenshot, the currently loaded <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system type</a> is <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_LM'); ">$$ \texttt{LM} $$</a>, 12 time steps have been recorded, and the current time is $$t = 9$$.</p>
@@ -559,14 +559,14 @@ text-align: center; vertical-align: middle !important;
 
 <p><strong>SSNS</strong> has four different <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_PLOT_TYPES'); ">plot types</a>, each filling a different visualization "niche."  The <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-arrow-trend-up"></i></button> plot type (the app's "flagship") is great for exploring <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Dynamical_system">time-dependent</a> behavior like the approach to a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Steady_state">steady</a> or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/List_of_types_of_equilibrium">equilibrium</a> state.  Here it is in action:</p>
 
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/TrajSeg_illustrated.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/TrajSeg_illustrated.png">
 
 <p>The black circle follows the current time ($$t = 57$$, here) and matches the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">main panel</a>'s time indicator.  The grey vertical band (at $$78$$, here) indicates $$ t_{\mathrm{edge}} $$, the end of the <em>recorded</em> trajectory ($$ t_{\mathrm{edge}} \le \; $$<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_T_0_MAX_STOP'); ">$$ t_{\mathrm{max}} $$</a>).  <strong>SSNS</strong> trajectories are sequences of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_ORGANIZATION'); ">$$\texttt{TrajSeg}$$ objects</a>.  A change of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">parameter values</a> generates a new $$\texttt{TrajSeg}$$ segment and cycles the plot color.  The screenshot above shows 4 of them: red, green, blue, and red again.</p>
 
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_MAIN_PANEL" class="hv_view" data-ready="1" data-hvmh="Main Panel">
-<p>The <strong>SSNS</strong> main panel contains two button bars.  The first contains the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">continuous-action commands</a> with the (non-clickable) time-step indicator on the right.  The second bar's buttons are, from left to right: <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-calculator"></i></button> for general inputs, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-sliders"></i></button> for system-type-specific inputs, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); "><samp>SYS</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm" style="padding: 0 0.35rem; ">$$ \texttt{AB} $$</i></button> for choosing the system type, and <button type="button" class="btn btn-sm emulated_help_btn"><img height="15" width="10" src="https://tedm.us/static/images/SSNS_TEMP/question_mark.svg"></button> for this <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_HELP_VIEWER'); ">help viewer</a>.</p>
+<p>The <strong>SSNS</strong> main panel contains two button bars.  The first contains the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">continuous-action commands</a> with the (non-clickable) time-step indicator on the right.  The second bar's buttons are, from left to right: <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-calculator"></i></button> for general inputs, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-sliders"></i></button> for system-type-specific inputs, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); "><samp>SYS</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm" style="padding: 0 0.35rem; ">$$ \texttt{AB} $$</i></button> for choosing the system type, and <button type="button" class="btn btn-sm emulated_help_btn"><img height="15" width="10" src="https://tedm.us/static/images/SSNS/question_mark.svg"></button> for this <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_HELP_VIEWER'); ">help viewer</a>.</p>
 
 <p><strong>SSNS</strong> uses <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/JavaScript">JavaScript</a> and the Bootstrap <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_DEPENDENCIES'); ">library</a> to <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Responsive_web_design">adapt</a> the app interface to different screen widths across <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mobile_device">devices</a>.  "Responsive" behaviors include:</p>
 
@@ -580,7 +580,7 @@ text-align: center; vertical-align: middle !important;
 
 <div id="HV_PRMS_DROPDOWN" class="hv_view" data-ready="1" data-hvmh="PRMS Dropdown">
 <p>When a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system type</a> is selected, its <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Parameter_space">parameters</a> populate the <samp>PRMS</samp> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-sliders"></i></button> dropdown area.  A parameter could be, say, a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_mu'); ">mutation rate</a> in a biological model, or <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_T'); ">temperature</a> in a physical model, like so:</p>
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/PRMS_example_-_T_parameter.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/PRMS_example_-_T_parameter.png">
 
 <p>The input field has the current value ($$1.2$$, here) and, on the left, the parameter's symbol ($$T$$) on a colored background.  The color indicates when a changed value takes effect &mdash; <span class="ctrl_eff_immed px-2 py-0 mr-1">blue</span><strong>:</strong> immediately, or at next recorded step; <span class="ctrl_eff_reload px-2 py-0 mr-1">green</span><strong>:</strong> a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RELOAD_CMDS'); ">reload</a> is needed.  <strong><em>Any of the colored symbol backgrounds in the</em></strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> <em><strong>and</em></strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> <em><strong>dropdown areas can be clicked to view the corresponding quantity's help page</em></strong>.</p>
 
@@ -601,7 +601,7 @@ text-align: center; vertical-align: middle !important;
 
 <p>Navigation within the help viewer is done via <a class="hv_link" style="cursor: text; ">light blue links</a>.  They are present in page text, the breadcrumbs, and a rudimentary back button <a class="hv_link" style="cursor: text; "><i class="fas fa-fw fa-arrow-left"></i></a>.  External links (usually to Wikipedia) are in <a class="hv_ext_link">this shade of blue</a>.</p>
 
-Launching the help viewer with <button type="button" class="btn btn-sm emulated_help_btn"><img height="15" width="10" src="https://tedm.us/static/images/SSNS_TEMP/question_mark.svg"></button> shows the last displayed page.  Alternatively, clicking a colored symbol background in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> or <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> dropdown areas opens the corresponding quantity's page.  The viewer can always be closed with <i class="fas fa-xl fa-xmark hv_close_btn"></i>.  Also, if viewing the page for a system type, click the <a class="hv_link" style="cursor: text; "><i class="fa-solid fa-up-right-from-square"></i></a> next to its name to close the viewer and load it in the main interface.</p>
+Launching the help viewer with <button type="button" class="btn btn-sm emulated_help_btn"><img height="15" width="10" src="https://tedm.us/static/images/SSNS/question_mark.svg"></button> shows the last displayed page.  Alternatively, clicking a colored symbol background in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> or <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> dropdown areas opens the corresponding quantity's page.  The viewer can always be closed with <i class="fas fa-xl fa-xmark hv_close_btn"></i>.  Also, if viewing the page for a system type, click the <a class="hv_link" style="cursor: text; "><i class="fa-solid fa-up-right-from-square"></i></a> next to its name to close the viewer and load it in the main interface.</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_COMPUTATION" class="hv_view" data-ready="1" data-hvmh="Computation">
@@ -629,13 +629,13 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 <div id="HV_CODE_ORGANIZATION" class="hv_view" data-ready="1" data-hvmh="Code Organization">
 <p>The collection of all <strong>SSNS</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system types</a> can be grouped in many different ways &mdash; think of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Venn_diagram">Venn diagrams</a>.  This suggests the use of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Object-oriented_programming">classes</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">inheritance</a> in structuring the <strong>SSNS</strong> code.  Here is the inheritance <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Tree_structure">hierarchy</a> for the $$\texttt{Trajectory}$$ class:</p>
 
-<a target="_blank" href="//tedm.us/static/images/SSNS_TEMP/class_diagrams/Trajectory_inheritance.svg"><img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"></a>
+<a target="_blank" href="//tedm.us/static/images/SSNS/Trajectory_inheritance.svg"><img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/Trajectory_inheritance_-_no_section_label.svg"></a>
 
 <p>Similar hierarchies exist for the $$\texttt{Params}$$, $$\texttt{Coords}$$, $$\texttt{ModelCalc}$$, and $$\texttt{PlotType}$$ classes.</p>
 
 <p>We can also consider class <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Composition_over_inheritance">composition</a>.  Each $$\texttt{Trajectory}$$ is composed of a $$\texttt{ModelCalc}$$ object (to perform all system-type-specific calculations) and one or more $$\texttt{TrajSeg}$$ objects.  A $$\texttt{TrajSeg}$$ represents the segment of a trajectory evolved with a specific set of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Parameter_space">parameters values</a>.  It contains a single $$\texttt{Params}$$ and one or more $$\texttt{Coords}$$ objects, as shown here:</p>
 
-<a target="_blank" href="//tedm.us/static/images/SSNS_TEMP/class_diagrams/TrajSeg_composition.svg"><img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/class_diagrams/TrajSeg_composition_-_no_section_label.svg"></a>
+<a target="_blank" href="//tedm.us/static/images/SSNS/TrajSeg_composition.svg"><img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/TrajSeg_composition_-_no_section_label.svg"></a>
 
 <p>Finally, each $$\texttt{Coords}$$ object holds all <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Dependent_and_independent_variables">dependent variable</a> data for a single time step &mdash; it could be, e.g., a single scalar value, or a large 2D matrix of values.  See GitHub <i class="fa-brands fa-github" style="color: black; "></i> for more <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/tree/main/class_diagrams">class diagrams</a>, <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/blob/main/README.md#abbreviations-labels-etc">abbreviation info</a>, etc.</p>
 </div><!-- CLOSES div class="hv_view" -->
@@ -1016,7 +1016,7 @@ parameters are speed of upper, lower boundaries and of "observer", pressure grad
 
 <div id="HV_C_CONTINUOUS_CMDS" class="hv_view" data-ready="1" data-hvmh="Continuous Action Commands">
 <p>At the top of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_MAIN_PANEL'); ">main panel</a>, always in view, is this button bar:</p>
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/continuous_cmd_bar.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/continuous_cmd_bar.png">
 <p>It offers four commands for continuous trajectory navigation.  In the spot of the fifth "button" is the current time step indicator.  Specifically:</p>
 
 <table class="table table-bordered table-sm">
@@ -1039,7 +1039,7 @@ parameters are speed of upper, lower boundaries and of "observer", pressure grad
 
 <div id="HV_C_ONE_STEP_CMDS" class="hv_view" data-ready="1" data-hvmh="One Step Commands">
 <p>Unlike their <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">continuous-action counterparts</a> (which put <strong>SSNS</strong> in "run mode"), these one-step commands:</p>
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/one_step_cmd_bar.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/one_step_cmd_bar.png">
 <p>offer trajectory navigation in single steps or jumps.  Their button bar is in the toggle-able <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp> dropdown area</a>.  Commands include:</p>
 
 <table class="table table-bordered table-sm">
@@ -1062,7 +1062,7 @@ parameters are speed of upper, lower boundaries and of "observer", pressure grad
 
 <div id="HV_C_PLOT_TYPES" class="hv_view" data-ready="1" data-hvmh="Plot Type Bar">
 <p>For each <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system type</a>, output is visualized with one or more plot types, selectable via this bar in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp> dropdown area</a>:</p>
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/plot_type_bar.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/plot_type_bar.png">
 
 <table class="table table-bordered table-sm">
 <tbody>
@@ -1082,7 +1082,7 @@ parameters are speed of upper, lower boundaries and of "observer", pressure grad
 
 <div id="HV_C_T_DT_JUMP" class="hv_view" data-ready="1" data-hvmh="Trajectory Jumps">
 <p>The following two controls allow the user to make jumps in a recorded trajectory.</p>
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/t_delta_t_jumps.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/t_delta_t_jumps.png">
 
 <p>To jump to an arbitrary new time, enter it in the $$ t_{\mathrm{jump}} $$ field and press <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-turn-down" data-fa-transform="rotate--90"></i></button>.  To change the current time by a <em>jump of a given size</em>, enter it in the $$ \Delta t $$ field and press <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-turn-down" data-fa-transform="rotate--90"></i></button>.  $$ \Delta t $$ can have any <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Sign_(mathematics)">sign</a>.</p>
 
@@ -1094,7 +1094,7 @@ parameters are speed of upper, lower boundaries and of "observer", pressure grad
 
 <p>The following two controls adjust the visual behavior of the app.  As their <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">blue background indicates</a>, updated values are used immediately.</p>
 
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/delay_window.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/delay_window.png">
 
 <p><span class="ctrl_eff_immed p-1">$$ \mathrm{delay} $$</span> sets the number of milliseconds between steps during <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">continuous recording/playback</a>.  Its value roughly determines the speed of trajectory motion (with $$ 0 \, \mathrm{ms} $$ of delay being the fastest).</p>
 
@@ -1104,7 +1104,7 @@ parameters are speed of upper, lower boundaries and of "observer", pressure grad
 
 <div id="HV_C_T_0_MAX_STOP" class="hv_view" data-ready="1" data-hvmh="Trajectory Start/Stop">
 <p>The following three controls have to do with trajectory start/stop times.  The symbol background colors are discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">here</a>.</p>
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/t_0_max_stop.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/t_0_max_stop.png">
 <p>Trajectory recording starts at $$ t_0 $$ and <em>cannot exceed</em> $$ t_{\mathrm{max}} $$.  Both $$ t_0 $$ and $$ t_{\mathrm{max}} $$ can have any <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Sign_(mathematics)">sign</a>, as long as $$ t_0 < t_{\mathrm{max}} $$.  $$ \; t_0 $$ defaults to $$ 0 $$ and its value <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_T_MAX_REACHED'); ">affects</a> $$ t_{\mathrm{max}} $$'s possible values.  $$ \; t_{\mathrm{max}} $$ should not to be confused with <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PLOT_AREA'); ">$$ t_{\mathrm{edge}} $$</a>.</p>
 
 <p>If $$ t_{\mathrm{stop}} $$ is enabled with its checkbox, the app will exit <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">continuous play/recording mode</a> when $$ t = t_{\mathrm{stop}} $$.  When coordinated with <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">parameter values</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RNG_RECR_TRAJ'); ">random seed</a>, this feature can be used to, say, revisit a particular feature in a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">stochastic trajectory</a>.</p>
@@ -1112,10 +1112,10 @@ parameters are speed of upper, lower boundaries and of "observer", pressure grad
 
 <div id="HV_C_RNG_RECR_TRAJ" class="hv_view" data-ready="1" data-hvmh="RNG/Trajectory">
 <p>The following two controls affect the handling of random numbers and are only visible/applicable for <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">stochastic</a> system types.  The control name background colors are discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">here</a>.</p>
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/rng_recreate_traj.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/rng_recreate_traj.png">
 <p><span class="ctrl_eff_reload p-1">$$ \mathrm{RNG \, seed} $$</span> is simply the value passed to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Pseudorandom_number_generator">pseudorandom number generator</a> to initialize its <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/State_(computer_science)">state</a>.  The <span class="ctrl_eff_immed p-1">$$ \mathrm{recreate \, trajectory} $$</span> control is more subtle, and we illustrate with the following scenario:</p>
 
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/recreate_traj_illustrated.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/recreate_traj_illustrated.png">
 
 <p>In the top trace, the stochastic process is recorded out to $$ t = 22 $$.  In the middle trace, we've rewound to $$ t = 10 $$.  If we then re-record to $$ t = 22 $$ with <span class="ctrl_eff_immed p-1">$$ \mathrm{recreate \, trajectory} $$</span> <strong><em>enabled</em></strong>, the top trace is reproduced.  If, on the other hand, we re-record with it <strong><em>disabled</em></strong>, we will get new output, e.g., the bottom trace.</p>
 
@@ -1126,7 +1126,7 @@ parameters are speed of upper, lower boundaries and of "observer", pressure grad
 <div id="HV_C_SP_ENSEMBLE" class="hv_view" data-ready="1" data-hvmh="Ensemble Members">
 
 <p>When learning a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">stochastic process</a> like the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_MN'); ">Moran model</a>, it's best to examine both individual trajectories (e.g., with <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_PLOT_TYPES'); ">plot type</a> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0" style="margin-right: 1px; "><i class="fas fa-fw fa-lg fa-arrow-trend-up"></i></button>) <em>and</em> aggregate <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">ensemble</a> behavior (e.g., with <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0" style="margin-right: 1px; "><i class="fas fa-fw fa-lg fa-chart-simple"></i></button>).  In these <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> dropdown settings:</p>
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/NI_NG_ensemble.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/NI_NG_ensemble.png">
 
 <p>$$N_i$$ sets the number of $$i$$ndividuals for the former plot type, while $$N_g$$ sets the number of $$g$$roup members for the latter.  As the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">green background</a> indicates, a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RELOAD_CMDS'); ">reload</a> is necessary for new values to take effect.</p>
 
@@ -1136,7 +1136,7 @@ parameters are speed of upper, lower boundaries and of "observer", pressure grad
 
 <div id="HV_C_RELOAD_CMDS" class="hv_view" data-ready="1" data-hvmh="Reload Commands">
 <p>A trajectory can always be "rewound" and re-recorded.  A more controlled reset, however, is provided by these commands:</p>
-<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS_TEMP/hv_interface_pics/reload_cmd_bar.png">
+<img class="hv_fw_img" src="https://tedm.us/static/images/SSNS/hv_interface_pics/reload_cmd_bar.png">
 
 <p>The <strong>SSNS</strong> code is <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_ORGANIZATION'); ">organized</a> into <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Class_(computer_programming)">classes</a>.  Recording and storage of trajectory data is handled by the $$\texttt{Trajectory}$$ class.  Since each <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system type</a> has its own version of this class, its data will still be there if the user explores another and then returns.  Certain <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">parameter changes</a> require <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Class_(computer_programming)">re-instantiation</a> of the $$\texttt{Trajectory}$$ to take effect.  The user can choose to:</p>
 

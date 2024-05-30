@@ -161,8 +161,8 @@ class Simulator {
 	    this.update_plot_and_UI();
 	    break;
 	case "CK":
-	    this.trjs[this.ST].check_integrity();
-	    this.trjs[this.ST].output_curr_vals();
+	    //this.trjs[this.ST].check_integrity();
+	    //this.trjs[this.ST].output_curr_vals();
 	    break;
 	default:
 	    console.log("ERROR 912352: bad code");

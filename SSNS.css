@@ -42,6 +42,10 @@
     background-color: #999999;
     border-color: #ffffff;
 }
+.btn-ssns-emphasis:hover {  /* needed on mobile (!) */
+    color: #ffffff;
+    background-color: #999999;
+}
 .btn-ssns-demo {
     color: #ffffff;
     background-color: #bbbbbb;
