@@ -183,14 +183,6 @@ Browser developer tools are indispensable when doing development, but also handy
 * If you happen to spot a bug, please [report it](https://github.com/malliaris/SSNS/issues).  Comments, suggestions, and reports of confusing bug-like features also welcome!
 
 * short-term small/easy items
-  * 
-  * 
-  * 
-  * 
-  * 
-  * 
-  * 
-  * 
   * mention of CoordTransition_Spin, etc. ?
   * write HV_ST_CH help page
   * make sure HV_P_* help pages are complete/consistent
