@@ -4,10 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Atom Simulation</title>
-
+    <style>
+        #canvasContainer {
+            overflow: auto;
+            margin-top: 0px;
+        }
+    </style>
 </head>
     <body>
-
+    <div>
+        <label for="boxWidth">Box Width:</label>
+        <input type="number" id="boxWidth" value="5">
+        <br>
+        <label for="boxHeight">Box Height:</label>
+        <input type="number" id="boxHeight" value="2">
+        <br>
+        <label for="initialVx">Initial X Velocity:</label>
+        <input type="number" id="initialVx" value="1">
+        <br>
+        <label for="initialVy">Initial Y Velocity:</label>
+        <input type="number" id="initialVy" value="2">
+        <br>
+        <label for="maxSteps">Max Steps:</label>
+        <input type="number" id="maxSteps" value="999">
+        <br>
+        <label for="mode">Mode (0-bounce / 1-wrap):</label>
+        <input type="number" id="mode" value="0">
+        <br>
+        <button id="startSimulation">Start Simulation</button>
+    </div>
+    <div id="canvasContainer"></div>
     <script src="js/AtomSimulate.js"></script>
     </body>
 </html>
