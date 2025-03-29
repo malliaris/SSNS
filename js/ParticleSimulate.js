@@ -141,4 +141,4 @@ document.getElementById('startSimulation').addEventListener('click', function() 
         draw(); // Redraw all atoms
         stepCount++;
     }, 100); // 100 == 1/10 of a second
-});
+})
