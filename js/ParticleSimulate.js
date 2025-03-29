@@ -5,8 +5,8 @@ class Atom {
         this.vx = vx;
         this.vy = vy;
     }
-
-    updatePosition(timeStep, boxWidth, boxHeight) {
+/*
+    updatePosition(timeStep, boxWidth, boxHeight, mode) {
         let newX = this.x + this.vx * timeStep;
         let newY = this.y + this.vy * timeStep;
 
@@ -31,7 +31,35 @@ class Atom {
         } else {
             this.y = newY;
         }
-    }
+    }*/
+    if (mode) {
+            // Wrap mode
+            if (newX < -boxWidth / 2) {
+                this.x = newX + boxWidth;
+            } else if (newX > boxWidth / 2) {
+                this.x = newX - boxWidth;
+            } else {
+                this.x = newX;
+            }
+
+            if (newY < -boxHeight / 2) {
+                this.y = newY + boxHeight;
+            } else if (newY > boxHeight / 2) {
+                this.y = newY - boxHeight;
+            } else {
+                this.y = newY;
+            }
+        } else {
+            // Bounce mode
+            if (newX < -boxWidth / 2 || newX > boxWidth / 2) {
+                this.vx *= -1;
+            }
+            if (newY < -boxHeight / 2 || newY > boxHeight / 2) {
+                this.vy *= -1;
+            }
+            this.x = newX;
+            this.y = newY;
+        }
 }
 
 // User input for boundary, number of particles, and velocity magnitude
@@ -41,8 +69,6 @@ document.getElementById('startSimulation').addEventListener('click', function() 
     //const startX = 0;
     //const startY = 0;
     const userVelocity = parseFloat(document.getElementById('velocityMagnitude').value);
-    //const startVx = parseFloat(document.getElementById('initialVx').value) / 10;
-    //const startVy = parseFloat(document.getElementById('initialVy').value) / 10;
     const numParticles = parseInt(document.getElementById('numParticles').value);
     const maxSteps = parseInt(document.getElementById('maxSteps').value);
     const mode = parseInt(document.getElementById('mode').value);
