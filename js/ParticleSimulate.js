@@ -35,11 +35,23 @@ class Atom {
 }
 
 // User input for boundary, number of particles, and velocity magnitude
-const userBoxWidth = parseFloat(prompt("Enter the width of the box:"));
-const userBoxHeight = parseFloat(prompt("Enter the height of the box:"));
-const userVelocity = parseFloat(prompt("Enter the velocity magnitude of the particles:")) / 10;		// replace with temp request add temp to vmag conversion
-const numParticles = parseInt(prompt("Enter the number of particles:"));
-const maxSteps = parseInt(prompt("Enter the number of time steps before stopping:"));
+document.getElementById('startSimulation').addEventListener('click', function() {
+    const userBoxWidth = parseFloat(document.getElementById('boxWidth').value);
+    const userBoxHeight = parseFloat(document.getElementById('boxHeight').value);
+    //const startX = 0;
+    //const startY = 0;
+    const userVelocity = parseFloat(document.getElementById('velocityMagnitude').value);
+    //const startVx = parseFloat(document.getElementById('initialVx').value) / 10;
+    //const startVy = parseFloat(document.getElementById('initialVy').value) / 10;
+    const numParticles = parseInt(document.getElementById('numParticles').value);
+    const maxSteps = parseInt(document.getElementById('maxSteps').value);
+    const mode = parseInt(document.getElementById('mode').value);
+
+//const userBoxWidth = parseFloat(prompt("Enter the width of the box:"));
+//const userBoxHeight = parseFloat(prompt("Enter the height of the box:"));
+//const userVelocity = parseFloat(prompt("Enter the velocity magnitude of the particles:")) / 10;		// replace with temp request add temp to vmag conversion
+//const numParticles = parseInt(prompt("Enter the number of particles:"));
+//const maxSteps = parseInt(prompt("Enter the number of time steps before stopping:"));
 
 // Initialize with random starting positions
 function getRandomPosition() {
