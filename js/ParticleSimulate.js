@@ -83,7 +83,7 @@ document.getElementById('startSimulation').addEventListener('click', function ()
     canvas.id = "simulationCanvas";
     canvas.width = userBoxWidth * 100;
     canvas.height = userBoxHeight * 100;
-    canvas.style.border = "2px solid black";
+    canvas.style.border = "1px solid black";
 
     const button = document.getElementById('startSimulation');
     const buttonTop = button.getBoundingClientRect().top;
