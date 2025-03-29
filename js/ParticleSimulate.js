@@ -10,7 +10,7 @@ class Atom {
         let newX = this.x + this.vx * timeStep;
         let newY = this.y + this.vy * timeStep;
 
-        if (mode === 1) {
+        if (mode) {
             // Wrap mode
             if (newX < -boxWidth / 2) {
                 this.x = newX + boxWidth;
@@ -62,6 +62,7 @@ document.getElementById('startSimulation').addEventListener('click', function ()
 
     const particles = [];
 
+    // create numParticles number of particles in a random starting position moving in a random direction
     for (let i = 0; i < numParticles; i++) {
         const angle = getRandomAngle();  // Random direction (angle)
 
