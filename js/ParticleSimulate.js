@@ -45,7 +45,7 @@ class Atom {
 document.getElementById('startSimulation').addEventListener('click', function () {
     const userBoxWidth = parseFloat(document.getElementById('boxWidth').value);
     const userBoxHeight = parseFloat(document.getElementById('boxHeight').value);
-    const userVelocity = parseFloat(document.getElementById('velocityMagnitude').value);
+    const userVelocity = parseFloat(document.getElementById('velocityMagnitude').value) / 10;
     const numParticles = parseInt(document.getElementById('numParticles').value);
     const maxSteps = parseInt(document.getElementById('maxSteps').value);
     const mode = parseInt(document.getElementById('mode').value);
