@@ -83,12 +83,31 @@ for (let i = 0; i < numParticles; i++) {
 
 // Canvas setup
 document.body.innerHTML = '<canvas id="simulationCanvas"></canvas>';
-const canvas = document.getElementById("simulationCanvas");
-const ctx = canvas.getContext("2d");
+//const canvas = document.getElementById("simulationCanvas");
+
+const canvas = document.createElement('canvas');
+canvas.id = "simulationCanvas";
+    
+//const ctx = canvas.getContext("2d");
 canvas.width = userBoxWidth * 100;
 canvas.height = userBoxHeight * 100;
 canvas.style.border = "2px solid black";
 
+// get simulation button object for position top and height
+    const button = document.getElementById('startSimulation');
+    const buttonTop = button.getBoundingClientRect().top;
+    const buttonHeight = button.offsetHeight
+
+    const canvasContainer = document.getElementById('canvasContainer');
+    canvasContainer.style.position = "absolute";
+    canvasContainer.style.top = `${buttonTop + buttonHeight}px`;
+    canvasContainer.innerHTML = '';
+    canvasContainer.style.width = `${canvas.width * 1.5}px`;
+    canvasContainer.style.height = `${canvas.height * 1.5}px`;
+    canvasContainer.appendChild(canvas);
+    
+const ctx = canvas.getContext("2d");
+    
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
