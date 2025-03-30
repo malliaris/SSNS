@@ -44,15 +44,11 @@ class Atom {
 
 // User input for boundary and initial conditions
 document.getElementById('startSimulation').addEventListener('click', function() {
-    const userBoxWidth = parseFloat(document.getElementById('boxWidth').value);
-    const userBoxHeight = parseFloat(document.getElementById('boxHeight').value);
-    const startX = 0;
-    const startY = 0;
-    const startVx = parseFloat(document.getElementById('initialVx').value) / 10;
-    const startVy = parseFloat(document.getElementById('initialVy').value) / 10;
+    const width = 5; 
+    const height = 5;
     const maxSteps = parseInt(document.getElementById('maxSteps').value);
     const mode = parseInt(document.getElementById('mode').value);
-    const N = parseInt(document.getElementById('nAtoms').value);
+    const N = parseInt(document.getElementById('particles').value);
 
     //let atom = new Atom(startX, startY, startVx, startVy, 1);
     const timeStep = 0.50;
@@ -61,43 +57,33 @@ document.getElementById('startSimulation').addEventListener('click', function() 
     // Create a canvas for visualization
     const canvas = document.createElement('canvas');
     canvas.id = "simulationCanvas";
-    canvas.width = userBoxWidth * 100;
-    canvas.height = userBoxHeight * 100;
+    canvas.width = width * 100;
+    canvas.height = height * 100;
     canvas.style.border = "1px solid black";
 
 //         Math.random()*userBoxWidth/2, 
-// Math.random()*userBoxHeight/2, 
-    function getRandomPositionX() {
-        return Math.random() * userBoxWidth - (userBoxWidth / 2);// random between -width/2 and +width/2
-    }
-    function getRandomPositionY() {
-        return Math.random() * userBoxHeight - (userBoxHeight / 2);
-    }
-    
-    // Generate random angle (in radians) between 0 and 2 * PI (360)
-    function getRandomAngle() {
-        return Math.random() * Math.PI * 2; // Random angle between 0 and 2π (360 degrees)
-    }
+// Math.random()*userBoxHeight/2,
+
 
     const particles = [];
+    const vel = initialVelocity();
 
     for(let i=0; i< N; i++){
-    const angle = getRandomAngle();  // Random direction (angle)
+        const angle = getRandomAngle();  // Random direction (angle)
 
-    // Calculate the x and y components of the velocity based on the random angle
-    const vx = startVx * Math.cos(angle); // X velocity component
-    const vy = startVy * Math.sin(angle); // Y velocity component
+        // Calculate the x and y components of the velocity based on the random angle
+        const vx = vel * Math.cos(angle)*0.01; // X velocity component
+        const vy = vel * Math.sin(angle)*0.01; // Y velocity component
 
-    const atom = new Atom(
-        getRandomPositionX(),
-        getRandomPositionY(),
-        vx,  // Random X velocity component
-        vy   // Random Y velocity component
-    );
-    particles.push(atom);
+        const atom = new Atom(
+            getRandomPositionX(),
+            getRandomPositionY(),
+            vx,  // Random X velocity component
+            vy   // Random Y velocity component
+        );
+        particles.push(atom);
     }
 
-    console.log("HELLO WORLD");
     // get simulation button object for position top and height
     const button = document.getElementById('startSimulation');
     const buttonTop = button.getBoundingClientRect().top;
@@ -113,6 +99,26 @@ document.getElementById('startSimulation').addEventListener('click', function() 
 
     const ctx = canvas.getContext("2d");
 
+
+    function initialVelocity(){
+        const m = 6.44*Math.pow(10, -24); // Considering Helium
+        const k = 1.381*Math.pow(10, -23);
+        const T = parseInt(document.getElementById('temperature').value);
+        const pi = Math.PI;
+        const vel = (4/pi)*Math.pow((k*T/m), 0.5);
+        return vel;
+    }
+    function getRandomPositionX() {
+        return Math.random() * width - (width / 2);// random between -width/2 and +width/2
+    }
+    function getRandomPositionY() {
+        return Math.random() * height - (height / 2);
+    }
+    
+    // Generate random angle (in radians) between 0 and 2 * PI (360)
+    function getRandomAngle() {
+        return Math.random() * Math.PI * 2; // Random angle between 0 and 2π (360 degrees)
+    }
     function draw() {
          ctx.clearRect(0, 0, canvas.width, canvas.height);
         
@@ -143,7 +149,7 @@ document.getElementById('startSimulation').addEventListener('click', function() 
         //atom.updatePosition(timeStep, userBoxWidth, userBoxHeight, mode);
         //});
         for (let i = 0; i < N; i++) {
-            particles[i].updatePosition(timeStep, userBoxWidth, userBoxHeight);
+            particles[i].updatePosition(timeStep, width, height);
             console.log(`Atom Position: (${particles[i].x.toFixed(2)}, ${particles[i].y.toFixed(2)})`);
         }
         draw();
