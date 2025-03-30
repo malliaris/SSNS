@@ -31,9 +31,15 @@ class Atom {
             // Bounce mode
             if (newX < -boxWidth / 2 || newX > boxWidth / 2) {
                 this.vx *= -1; // Reverse velocity in X
+
+                // prevents particles from getting stuck in boundaries
+                this.x = Math.max(-boxWidth / 2, Math.min(boxWidth / 2, newX));
             }
             if (newY < -boxHeight / 2 || newY > boxHeight / 2) {
                 this.vy *= -1; // Reverse velocity in Y
+
+                // prevents particles from getting stuck in boundaries
+                this.y = Math.max(-boxHeight / 2, Math.min(boxHeight / 2, newY));
             }
             this.x = newX;
             this.y = newY;
@@ -119,20 +125,30 @@ document.getElementById('startSimulation').addEventListener('click', function ()
     let stepCount = 0;
     const timeStep = 0.50;
 
-    const interval = setInterval(() => {
+    // replace with RAF optimize the animate interval
+    let lastTimestamp = 0;
+
+    // control animation to be 30 FPS
+    const frameInterval = 1000 / 30;
+    function animate(timestamp) {
         if (stepCount >= maxSteps) {
-            clearInterval(interval);
             console.log("Simulation stopped after " + maxSteps + " time steps.");
             return;
         }
 
-        // Update positions and draw each atom
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].updatePosition(timeStep, userBoxWidth, userBoxHeight, mode);
-        }
+        if (timestamp - lastTimestamp >= frameInterval) {
 
-        draw(); // Redraw all atoms
-        stepCount++;
-    }, 100); // 100 ms interval (roughly 10 FPS)
+            // update particles position
+            particles.forEach(atom => {
+                atom.updatePosition(timeStep, userBoxWidth, userBoxHeight, mode);
+            });
+
+            draw();
+            stepCount++;
+            lastTimestamp = timestamp;
+        }
+        requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
 });
 
