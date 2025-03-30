@@ -53,7 +53,6 @@ document.getElementById('startSimulation').addEventListener('click', function ()
     const userBoxHeight = parseFloat(document.getElementById('boxHeight').value);
     const userVelocity = parseFloat(document.getElementById('velocityMagnitude').value) / 10;
     const numParticles = parseInt(document.getElementById('numParticles').value);
-    const maxSteps = parseInt(document.getElementById('maxSteps').value);
     const mode = parseInt(document.getElementById('mode').value);
 
     // Initialize with random starting positions
@@ -107,35 +106,29 @@ document.getElementById('startSimulation').addEventListener('click', function ()
     const ctx = canvas.getContext("2d");
 
     function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'red';
         // Draw each atom
-        for (let i = 0; i < particles.length; i++) {
-            let drawX = (canvas.width / 2) + particles[i].x * 100;
-            let drawY = (canvas.height / 2) - particles[i].y * 100;
+        particles.forEach(atom => {
+            const drawX = (canvas.width / 2) + atom.x * 100;
+            const drawY = (canvas.height / 2) - atom.y * 100;
 
             ctx.beginPath();
             ctx.arc(drawX, drawY, 5, 0, Math.PI * 2);
-            ctx.fillStyle = "red";
             ctx.fill();
-            ctx.closePath();
-        }
+        });
     }
 
-    let stepCount = 0;
     const timeStep = 0.50;
 
-    // replace with RAF optimize the animate interval
+    // replace with RAF optimize the animate playing
     let lastTimestamp = 0;
 
     // control animation to be 30 FPS
+    // formula: final FPS = 1000 / targetFPS
     const frameInterval = 1000 / 30;
     function animate(timestamp) {
-        if (stepCount >= maxSteps) {
-            console.log("Simulation stopped after " + maxSteps + " time steps.");
-            return;
-        }
-
         if (timestamp - lastTimestamp >= frameInterval) {
 
             // update particles position
@@ -144,7 +137,6 @@ document.getElementById('startSimulation').addEventListener('click', function ()
             });
 
             draw();
-            stepCount++;
             lastTimestamp = timestamp;
         }
         requestAnimationFrame(animate);
