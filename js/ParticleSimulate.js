@@ -56,8 +56,8 @@ document.getElementById('startSimulation').addEventListener('click', function ()
     const mode = parseInt(document.getElementById('mode').value);
 
     // Initialize with random starting positions
-    function getRandomPosition() {
-        return Math.random() * (userBoxWidth / 2) * 2 - (userBoxWidth / 2); // random between -width/2 and +width/2
+    function getRandomPosition(range) {
+        return Math.random() * range * 2 - range;
     }
 
     // Generate random angle (in radians) between 0 and 2 * PI (360)
@@ -76,8 +76,8 @@ document.getElementById('startSimulation').addEventListener('click', function ()
         const vy = userVelocity * Math.sin(angle); // Y velocity component
 
         const atom = new Atom(
-            getRandomPosition(),
-            getRandomPosition(),
+            getRandomPosition(userBoxWidth / 2),
+            getRandomPosition(userBoxHeight / 2),
             vx,  // Random X velocity component
             vy   // Random Y velocity component
         );
