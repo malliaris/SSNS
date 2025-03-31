@@ -48,12 +48,35 @@ class Atom {
 }
 
 // User input for boundary, number of particles, and velocity magnitude
+let animationId = null;
 document.getElementById('startSimulation').addEventListener('click', function () {
+    // clean previous animation frame resource
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+        const canvasContainer = document.getElementById('canvasContainer');
+        canvasContainer.innerHTML = '';
+    }
+
+    // validate the user input
+    function validateInput(input) {
+        if (isNaN(input.value) || input.value < 0) {
+            return false;
+        }
+        return true;
+    }
+
     const userBoxWidth = parseFloat(document.getElementById('boxWidth').value);
     const userBoxHeight = parseFloat(document.getElementById('boxHeight').value);
     const userVelocity = parseFloat(document.getElementById('velocityMagnitude').value) / 10;
     const numParticles = parseInt(document.getElementById('numParticles').value);
     const mode = parseInt(document.getElementById('mode').value);
+
+    // validate the input
+    if (!validateInput(userBoxWidth) || !validateInput(userBoxHeight) || !validateInput(userVelocity)
+        || !validateInput(numParticles)) {
+        alert('Please enter the valid number for all fields.');
+        return;
+    }
 
     // Initialize with random starting positions
     function getRandomPosition(range) {
@@ -139,8 +162,8 @@ document.getElementById('startSimulation').addEventListener('click', function ()
             draw();
             lastTimestamp = timestamp;
         }
-        requestAnimationFrame(animate);
+        animationId = requestAnimationFrame(animate);
     }
-    requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
 });
 
