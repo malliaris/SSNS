@@ -55,6 +55,7 @@ document.getElementById('startSimulation').addEventListener('click', function ()
         cancelAnimationFrame(animationId);
         const canvasContainer = document.getElementById('canvasContainer');
         canvasContainer.innerHTML = '';
+        animationId = null;
     }
 
     // validate the user input
