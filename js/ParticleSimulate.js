@@ -60,7 +60,8 @@ document.getElementById('startSimulation').addEventListener('click', function ()
 
     // validate the user input
     function validateInput(input) {
-        if (isNaN(input.value) || input.value < 0) {
+        console.log("Input value: ", input);
+        if (isNaN(input) || input < 0.0) {
             return false;
         }
         return true;
