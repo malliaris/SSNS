@@ -165,15 +165,33 @@ document.getElementById('startSimulation').addEventListener('click', function() 
     const timeStep = 0.50;
     let stepCount = 0;
 
-    // Create a canvas for visualization
-    const canvas = document.createElement('canvas');
-    canvas.id = "simulationCanvas";
-    canvas.width = width * 100;
-    canvas.height = height * 100;
-    canvas.style.border = "1px solid black";
+    // Get or create the canvas for visualization
+    let atomCanvas = document.getElementById('simulationCanvas');
+    let distributionCanvas = document.getElementById('distributionCanvas');
 
-//         Math.random()*userBoxWidth/2, 
-// Math.random()*userBoxHeight/2,
+    if (!atomCanvas) {
+        atomCanvas = document.createElement('canvas');
+        atomCanvas.id = 'simulationCanvas';
+        atomCanvas.width = width * 100;
+        atomCanvas.height = height * 100;
+        atomCanvas.style.border = "1px solid black";
+        document.getElementById('atomContainer').appendChild(atomCanvas);
+    } else {
+        const ctx = atomCanvas.getContext('2d');
+        ctx.clearRect(0, 0, atomCanvas.width, atomCanvas.height);
+    }
+
+    if (!distributionCanvas) {
+        distributionCanvas = document.createElement('canvas');
+        distributionCanvas.id = 'distributionCanvas';
+        distributionCanvas.width = width * 200;
+        distributionCanvas.height = height * 100;
+        distributionCanvas.style.border = "1px solid blue";
+        document.getElementById('canvasContainer').appendChild(distributionCanvas);
+    } else {
+        const dtr = distributionCanvas.getContext('2d');
+        dtr.clearRect(0, 0, distributionCanvas.width, distributionCanvas.height);
+    }
 
 
     const particles = [];
@@ -194,29 +212,6 @@ document.getElementById('startSimulation').addEventListener('click', function() 
         particles.push(atom);
     }
 
-    // get simulation button object for position top and height
-    const canvasContainer = document.getElementById('canvasContainer');
-    const distributionContainer = document.getElementById('atomContainer');
-    const anotherCanvasDiv = document.createElement('div');
-    anotherCanvasDiv.id = 'distributionContainer'
-
-    const atomCanvas = document.createElement('canvas');
-    atomCanvas.id = 'simulationCanvas';
-    atomCanvas.width = width*100; // Set your desired width
-    atomCanvas.height = height*100; // Set your desired height
-    atomCanvas.style.border = "1px solid black";
-    distributionContainer.appendChild(atomCanvas);
-
-    const distributionCanvas = document.createElement('canvas');
-    distributionCanvas.id = 'distributionCanvas';
-    distributionCanvas.width = width*200; // Set your desired width
-    distributionCanvas.height = height*100; // Set your desired height
-    distributionCanvas.style.border = "1px solid blue";
-    canvasContainer.appendChild(distributionCanvas); // Append to the main container
-
-    const button = document.getElementById('startSimulation');
-    const buttonTop = button.getBoundingClientRect().top;
-    const buttonHeight = button.offsetHeight
 
     // Atoms container
 
@@ -230,8 +225,7 @@ document.getElementById('startSimulation').addEventListener('click', function() 
         const m = 6.44*Math.pow(10, -24); // Considering Helium
         const k = 1.381*Math.pow(10, -23);
         const T = parseInt(document.getElementById('temperature').value);
-        const pi = Math.PI;
-        const vel = (4/pi)*Math.pow((k*T/m), 0.5)*Math.random()*10;
+        const vel = Math.pow((k*T/m), 0.5)*Math.random()*10;
         return vel;
     }
 
