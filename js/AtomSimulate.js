@@ -247,37 +247,53 @@ document.getElementById('startSimulation').addEventListener('click', function() 
    // let velocities = []; // Declare vel outside the drawDistribution function
     //let freq = []; // Declare freq outside the drawDistribution function
     
+    
     function calculateVelocityDistribution(particles) {
-        velocities = particles.map(p => Math.sqrt(p.vx * p.vx + p.vy * p.vy));
+        freq = [];
+        velocities = [];
+    
+        for (let i = 0; i < particles.length; i++) {
+            let iv = Math.sqrt(particles[i].vx * particles[i].vx + particles[i].vy * particles[i].vy);
+            velocities.push(iv);
+        }
         velocities.sort((a, b) => a - b);
     
-        let frequencyMap = new Map();
-        for (let velocity of velocities) {
-            let roundedVelocity = Math.round(velocity * 100) / 100; // Round velocity to two decimal places
-            frequencyMap.set(roundedVelocity, (frequencyMap.get(roundedVelocity) || 0) + 1);
-        }
+        if (velocities.length > 0) {
+            let pValue = Math.round(velocities[0] * Math.pow(10, 10)) / Math.pow(10, 10); // Round to handle precision
+            freq.push(1); // Initialize the first frequency count
+            let j = 0; // Index for frequencies
     
-        // Convert map to arrays for drawing
-        velocities = [...frequencyMap.keys()];
-        freq = [...frequencyMap.values()];
+            for (let i = 1; i < velocities.length; i++) {
+                let cValue = Math.round(velocities[i] * Math.pow(10, 10)) / Math.pow(10, 10); // Round to handle precision
+                if (Math.abs(cValue - pValue) < 0.005) { // Check if they are "close enough"
+                    freq[j]++;
+                } else {
+                    freq.push(1); // Initialize the next frequency count
+                    j++;
+                    pValue = cValue;
+                }
+            }
+        }
     }
+    
     
     function drawDistribution() {
         dtr.clearRect(0, 0, distributionCanvas.width, distributionCanvas.height);
         if (!velocities.length || !freq.length) return;
     
         const maxFrequency = Math.max(...freq);
-        const barWidth = (distributionCanvas.width / velocities.length) * 0.5;
-        let x = (distributionCanvas.width * 0.1) / 24 // Starting position with margin
+        // Calculate the width of each bar based on the number of unique velocities
+        const barWidth = Math.max(1, (distributionCanvas.width * 0.8) / freq.length); // Ensure at least 1 pixel width
+        const spacing = (distributionCanvas.width * 0.2) / (freq.length + 1); // Calculate spacing to distribute bars
+        let x = spacing; // Starting position with initial spacing
     
-        for (let i = 0; i < velocities.length; i++) {
+        for (let i = 0; i < freq.length; i++) {
             const barHeight = (freq[i] / maxFrequency) * (distributionCanvas.height * 0.8);
             dtr.fillStyle = "blue";
             dtr.fillRect(x, distributionCanvas.height - barHeight, barWidth, barHeight);
-            x += barWidth + 1; // Move to next bar position
+            x += barWidth + spacing; // Move to next bar position including spacing
         }
     }
-    
 
     function draw() {
         ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
