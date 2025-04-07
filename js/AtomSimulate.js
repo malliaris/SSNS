@@ -154,7 +154,10 @@ separateParticles(particle1, particle2) {
 }
 
 // User input for boundary and initial conditions
+let interval;
 document.getElementById('startSimulation').addEventListener('click', function() {
+    clearInterval(interval);
+
     const width = 5; 
     const height = 5;
     const maxSteps = parseInt(document.getElementById('maxSteps').value);
@@ -271,7 +274,7 @@ document.getElementById('startSimulation').addEventListener('click', function() 
             const barHeight = (freq[i] / maxFrequency) * (distributionCanvas.height * 0.8);
             dtr.fillStyle = "blue";
             dtr.fillRect(x, distributionCanvas.height - barHeight, barWidth, barHeight);
-            x += barWidth + 5; // Move to next bar position
+            x += barWidth + 1; // Move to next bar position
         }
     }
     
@@ -310,7 +313,7 @@ document.getElementById('startSimulation').addEventListener('click', function() 
         }
     }
 
-    const interval = setInterval(() => {
+    interval = setInterval(() => {
         if (stepCount >= maxSteps) {
             clearInterval(interval);
             console.log("Simulation stopped after " + maxSteps + " time steps.");
@@ -332,3 +335,6 @@ document.getElementById('startSimulation').addEventListener('click', function() 
     }, 100);
 
 })
+
+
+// https://kouki-chan.github.io/IG/AtomSimulateTest.html
