@@ -85,8 +85,9 @@
 <div id="plot_y_axis_lbl"></div>
 
 <div id="plot_flot" class="plot_target"></div>
-<canvas id="plot_HM_IS" class="plot_target"></canvas>
-<canvas id="plot_HM_XY" class="plot_target"></canvas>
+<canvas id="plot_CV_Gas" class="plot_target"></canvas>
+<canvas id="plot_CV_IS" class="plot_target"></canvas>
+<canvas id="plot_CV_XY" class="plot_target"></canvas>
 
 <div id="plot_x_axis_lbl"></div>
 
@@ -198,6 +199,30 @@
 </div><!-- CLOSES div class="row" -->
 
 
+<div class="row" id="UI_P_SM_IG">
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_N'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ N $$ </span></div><input id="UI_P_SM_IG_N" class="form-control" type="number" min="1" max="10000" step="1" value="10000" onchange="Params_IG.N.try_update(this.value); "></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_V'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ V $$ </span></div><input id="UI_P_SM_IG_V" class="form-control" type="number" min="0.1" max="1.0" step="0.1" value="1.0" onchange="Params_IG.V.try_update(this.value); "></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_T'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ k_B T $$ </span></div><input id="UI_P_SM_IG_T" class="form-control" type="number" min="0.0" max="1000000000" step="0.01" value="0.01" onchange="Params_IG.T.try_update(this.value); "></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick=""><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \mathrm{B.C.} $$ </span></div><span id="UI_P_SM_IG_BCx" class="form-control lrg_bg_areas" onclick="alert('BCx'); "> $$ x: \mathrm{per.} $$ </span><span id="UI_P_SM_IG_BCy" class="form-control lrg_bg_areas" onclick="alert('BCy'); "><span> $$ y: \mathrm{refl.} $$ </span><span style="color: transparent; text-shadow: 0 0 0 black; ">&#128070;</span></span></div></div>
+
+</div><!-- CLOSES div class="row" -->
+
+
+<div class="row" id="UI_P_SM_HS">
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_N'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ N $$ </span></div><input id="UI_P_SM_HS_N" class="form-control" type="number" min="1" max="10000" step="1" value="100" onchange="Params_HS.UINI_N.try_update(this.value); "></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_T'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ k_B T_0 $$ </span></div><input id="UI_P_SM_HS_T" class="form-control" type="number" min="0.0" max="1000000000" step="0.01" value="1" onchange="Params_HS.UINI_T.try_update(this.value); "></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_v_pist'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ v_{\mathrm{pist.}} $$ </span></div><input id="UI_P_SM_HS_v_pist" class="form-control" type="number" min="-100" max="100" step="0.1" value="0.3" onchange="Params_HS.UINI_v_pist.try_update(this.value); "></div></div>
+
+</div><!-- CLOSES div class="row" -->
+
+
 <div class="row" id="UI_P_SM_IS">
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_T'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ T $$ </span></div><input id="UI_P_SM_IS_T" class="form-control" type="number" min="0.0" max="1000000000" step="0.01" value="0.0" onchange="Params_IS.T.try_update(this.value); "></div></div>
@@ -277,7 +302,7 @@
 <div class="btn-group btn-group-lg d-flex">
 <button id="UI_PT_XT_btn" type="button" class="btn btn-ssns px-0 w-100"><span class="plot_icon_axes p-1"><i class="fas fa-fw fa-lg fa-arrow-trend-up"></i></span></button>
 <button id="UI_PT_HX_btn" type="button" class="btn btn-ssns px-0 w-100"><span class="plot_icon_axes p-1"><i class="fas fa-fw fa-lg fa-chart-simple"></i></span></button>
-<button id="UI_PT_HM_btn" type="button" class="btn btn-ssns px-0 w-100"><span class="plot_icon_axes p-1"><i class="fab fa-fw fa-lg fa-buromobelexperte"></i></span></button>
+<button id="UI_PT_CV_btn" type="button" class="btn btn-ssns px-0 w-100"><span class="plot_icon_axes p-1"><i class="fab fa-fw fa-lg fa-buromobelexperte"></i></span></button>
 <button id="UI_PT_PP_btn" type="button" class="btn btn-ssns px-0 w-100"><span class="plot_icon_axes p-1"><i class="fas fa-fw fa-lg fa-arrows-spin"></i></span></button>
 </div>
 </div><!-- CLOSES div class="col-12 ..." -->
@@ -330,7 +355,7 @@
 <div class="input-group-append"><div class="input-group-text lrg_bg_areas"><input type="checkbox" id="UI_CTRL_use_t_stop"></div></div></div>
 </div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1 UI_CTRL_STOCH">
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1 UI_CTRL_STOCH UI_CTRL_Gas_IC">
 <div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_C_RNG_RECR_TRAJ'); "><span class="input-group-text d-inline-flex justify-content-center ctrl_eff_reload"> $$ \mathrm{RNG \, seed} $$ </span></div>
 <input type="number" class="form-control" id="UI_CTRL_rng_seed" min="1" max="4294967295" step="1" value="1" onchange="ModelCalc_Stoch.rng_seed.try_update(this.value); "></div>
 </div>
@@ -386,11 +411,11 @@
 <label class="form-check-label w-100" for="UI_ST_SP">stochastic processes</label>
 </div>
 <div id="UI_ST_SM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); ">
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); " checked>
 <label class="form-check-label w-100" for="UI_ST_SM">statistical mechanics</label>
 </div>
 <div id="UI_ST_ND_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_ND" value="ND" onchange="window.sim.ui.update_ST_area_settings(); " checked>
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_ND" value="ND" onchange="window.sim.ui.update_ST_area_settings(); ">
 <label class="form-check-label w-100" for="UI_ST_ND">nonlinear dynamics</label>
 </div>
 <div id="UI_ST_FD_form_check" class="form-check pl-4 py-1">
@@ -422,22 +447,26 @@
 
 <div id="UI_ST_area_SM">
 <div id="UI_ST_SM_IG_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); " disabled>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_SM_IG">2D ideal gas ($$ \texttt{IG} $$)</label>
+</div>
+<div id="UI_ST_SM_HS_form_check" class="form-check pl-4 py-1">
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_HS" value="HS" onchange="window.sim.process_cmd('ST'); " disabled>
+<label class="form-check-label w-100" for="UI_ST_SM_HS">2D hard sphere gas ($$ \texttt{HS} $$)</label>
 </div>
 <div id="UI_ST_SM_IS_form_check" class="form-check pl-4 py-1">
 <input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IS" value="IS" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_SM_IS">2D Ising model ($$ \texttt{IS} $$)</label>
 </div>
 <div id="UI_ST_SM_XY_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_XY" value="XY" onchange="window.sim.process_cmd('ST'); ">
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_XY" value="XY" onchange="window.sim.process_cmd('ST'); " checked>
 <label class="form-check-label w-100" for="UI_ST_SM_XY">XY model ($$ \texttt{XY} $$)</label>
 </div>
 </div>
 
 <div id="UI_ST_area_ND">
 <div id="UI_ST_ND_LM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_LM" value="LM" onchange="window.sim.process_cmd('ST'); " checked>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_LM" value="LM" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_ND_LM">logistic map ($$ \texttt{LM} $$)</label>
 </div>
 <div id="UI_ST_ND_GM_form_check" class="form-check pl-4 py-1">
@@ -772,15 +801,16 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_SA_SM" class="hv_view" data-ready="1" data-hvmh="Statistical Mechanics">
-<p>Statistical mechanics is the branch of physics that forms the connection between <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Microstate_(statistical_mechanics)">microstates</a> and macrostates for systems with very many (<a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Avogadro_constant">$$ \sim \negthickspace 10^{23} $$</a>) particles.  The field provides theoretical underpinnings for (its older cousin) <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamics">thermodynamics</a>, and has produced many surprising observations such as <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Universality_(dynamical_systems)">universality</a>.</p>
+<p>Statistical mechanics is the branch of physics that forms the connection between <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Microstate_(statistical_mechanics)">microstates</a> and macrostates for systems with very many (<a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Avogadro_constant">$$ \sim \negthickspace 10^{23} $$</a>) particles.  The field provides theoretical underpinnings for (its older cousin) <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamics">thermodynamics</a>, and has produced many surprising observations such as <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Universality_(dynamical_systems)">universality</a>.  <strong>SSNS</strong> implements the following statistical mechanical system types:</p>
 
-<p><strong>SSNS</strong> implements the following statistical mechanical system types:</p>
-
-<ul><li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IS'); ">Ising model</a></li>
+<ul>
+<li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IG'); ">2D Ideal Gas</a></li>
+<li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); ">2D hard sphere gas</a></li>
+<li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IS'); ">2D Ising model</a></li>
 <li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_XY'); ">XY model</a></li>
-<li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); ">2D ideal gas</a></li></ul>
+</ul>
 
-<p>The first two are examples of spin systems, which are described more generally <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">here</a>.  Also relevant are these brief comments on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">statistical ensembles</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PHASE_TRANSITIONS'); ">phase transitions</a>.</p>
+<p>The first and second are more intuitive in the sense that they involve circular gas "particles" bouncing around a container.  The third and fourth are examples of spin systems, which are described more generally <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">here</a>.  Also relevant are these brief comments on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">statistical ensembles</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PHASE_TRANSITIONS'); ">phase transitions</a>.</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_SA_ND" class="hv_view" data-ready="1" data-hvmh="Nonlinear Dynamics">
@@ -833,13 +863,12 @@ The variable $$ x $$ represents the number of individuals that possess version $
 <p>We also allow for a difference in fitness between $$ A $$ and $$ A^{\ast} $$, as quantified by a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Selection_coefficient">selection coefficient</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_s'); ">$$ s $$</a>.  More detail, including how these ideas relate to my past research, can be found <a target="_blank" class="hv_ext_link" href="https://tedm.us/evolution">here</a>.</p>
 </div><!-- CLOSES div class="hv_view" -->
 
-<div id="HV_ST_IG" class="hv_view" data-ready="1" data-hvmh="2D Ideal Gas">
-<!--
+<div id="HV_ST_IG" class="hv_view" data-ready="1" data-hvmh="Ideal Gas">
+<p>I believe surveys have shown that the single best-remembered equation from introductory science classes is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Ideal_gas">ideal gas</a> law, usually memorized by students as $$P V = n R T$$.  For our <strong>SSNS</strong> implementation, we'll change symbols $$P \to p$$ for pressure and $$n R \to N R / N_A \to N k_B$$ since it's easier to specify <em>number</em> of particles $$N$$ rather than <em>number of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mole_(unit)">moles</a></em> of particles $$n$$.  Thus, we have:</p>
+  
+%% p V = N k_B T %%
 
- * mention that stochasticity enters thru random initial positions and velocities drawn from T-dependent distribution
-
-<a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/"></a>
--->
+<p>Also, we'll specify our temperatures in energy units (effectively setting the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a>, $$k_B$$, to 1).  Recall that temperature in these contexts is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_temperature">absolute</a>, so that $$k_B T \ge 0$$.  We have also implemented the iIsing model's slightly more complicated cousin, the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_XY'); ">XY model</a>.  Further implementation details and a short description of spin system <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Time_evolution">dynamics</a> can be found <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">here</a>.  mention that stochasticity enters thru random initial positions and velocities drawn from T-dependent distribution  </p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_ST_IS" class="hv_view" data-ready="1" data-hvmh="Ising Model">
@@ -1172,14 +1201,31 @@ parameters are speed of upper, lower boundaries and of "observer", pressure grad
 <!------------------------------------------------------------------------------------------------->
 <!------------------------------------------------------------------------------------------------->
 
-<script src="/static/js/SSNS_dependencies.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/array-base-linspace@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/random-base-normal@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/random-base-chi@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/random-base-chisquare@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/math-base-special-modf@umd/browser.js"></script>
+<!-- <script src="/static/js/SSNS_dependencies_TESTING.js"></script> -->
+
+<script src="/static/js/SSNS_dependencies_without_js-sdsl.js"></script>
+<script src="https://unpkg.com/js-sdsl/dist/umd/js-sdsl.min.js"></script>
+<script>
+  const {PriorityQueue, OrderedMap, OrderedSet} = sdsl;
+</script>
+
+
 <script src="/static/js/SSNS/CU.js"></script>
+<!-- <script src="/static/js/SSNS/DLL.js"></script> -->
 <script src="/static/js/SSNS/UINI.js"></script>
 <script src="/static/js/SSNS/traj_base.js"></script>
 <script src="/static/js/SSNS/traj_intermed.js"></script>
+<script src="/static/js/SSNS/system_types/gas.js"></script>
 <script src="/static/js/SSNS/system_types/RW.js"></script>
 <script src="/static/js/SSNS/system_types/MN.js"></script>
 <script src="/static/js/SSNS/system_types/CH.js"></script>
+<script src="/static/js/SSNS/system_types/IG.js"></script>
+<script src="/static/js/SSNS/system_types/HS.js"></script>
 <script src="/static/js/SSNS/system_types/IS.js"></script>
 <script src="/static/js/SSNS/system_types/XY.js"></script>
 <script src="/static/js/SSNS/system_types/LM.js"></script>
@@ -1187,7 +1233,7 @@ parameters are speed of upper, lower boundaries and of "observer", pressure grad
 <script src="/static/js/SSNS/PlotType.js"></script>
 <script src="/static/js/SSNS/PlotTypeXT.js"></script>
 <script src="/static/js/SSNS/PlotTypeHX.js"></script>
-<script src="/static/js/SSNS/PlotTypeHM.js"></script>
+<script src="/static/js/SSNS/PlotTypeCV.js"></script>
 <script src="/static/js/SSNS/PlotTypePP.js"></script>
 <script src="/static/js/SSNS/PlottingMachinery.js"></script>
 <script src="/static/js/SSNS/help_viewer.js"></script>

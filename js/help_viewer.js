@@ -85,7 +85,7 @@ class HelpViewer {
 
 	// basic/miscellaneous settings
 	this.sim = sim;
-	this.initial_view = "HV_P_ND_LM_x_0";  // default setting
+	this.initial_view = "HV_ST_IG";  // default setting
 	this.curr_view = "";
 	this.prev_view = "";
 	this.show_on_load = false;  // whether to show HelpViewer on app loading
@@ -172,6 +172,9 @@ class HelpViewer {
 		    ]),
 
 		    new HelpViewerNode("HV_SA_SM", [
+
+			new HelpViewerNode("HV_ST_IG", [
+			]),
 
 			new HelpViewerNode("HV_ST_IS", [
 

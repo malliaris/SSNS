@@ -25,6 +25,13 @@ class PlotTypeHX extends PlotType {
 	    fillColor: "rgba(50, 50, 255, 0.5)"
 	}
     };
+    static flot_data_opts_theory_plot = {
+	color: "rgba(240, 120, 20, 1.0)",
+	lines: {
+	    show: true,
+	    lineWidth: 2,
+	}
+    };
 
     constructor() {
 
@@ -48,6 +55,63 @@ class PlotTypeHX extends PlotType {
 
     plot(t) {
 	$.plot($("#" + this.get_html_targ_id_str()), this.get_flot_data_series(t), this.get_flot_gen_opts());
+    }
+}
+
+class PlotTypeHX_Gas extends PlotTypeHX {
+
+    constructor(trj) {
+
+	super();
+
+	this.trj = trj;
+	this.flot_data_opts_hist = copy(PlotTypeHX.flot_data_opts_histogram);
+	this.flot_data_opts_theory = copy(PlotTypeHX.flot_data_opts_theory_plot);
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\mathrm{ \\# \\; particles}";
+    }
+
+    get_ext_x_axis_lbl_str() {
+	return "\\mathrm{ particle \\; speed}";
+    }
+
+    get_flot_data_series(t) {
+
+	let data_series = [];
+	let curr_gsh = this.trj.get_x(t).gsh;  // current gas speed histogram object, from which we will draw all data
+
+	// load histogram data
+	let hist_data = curr_gsh.get_flot_hist_data();  // flot library does not have histograms, so we must create data ("anchor" gaps, etc.)
+	this.flot_data_opts_hist["data"] = hist_data;
+	data_series.push(this.flot_data_opts_hist);
+	
+	// load theoretical functional form over-plot (2D Maxwell-Boltzmann speed distribution)
+	let vL = 0.0;  //curr_gsh.get_x_val_min();
+	let vR = curr_gsh.get_x_val_max();
+	let mult_fctr = GasSpeedHistogram.bin_width * this.trj.N;  // multiply pdf by bin width to get a probability, and by N to get expected num particles
+	let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, this.trj.T, this.trj.m, mult_fctr);
+	this.flot_data_opts_theory["data"] = theory_data;
+	data_series.push(this.flot_data_opts_theory);
+
+	return data_series;
+    }
+
+    get_flot_gen_opts() { return {}; }
+}
+
+class PlotTypeHX_IG extends PlotTypeHX_Gas {
+
+    constructor(trj) {
+	super(trj);
+    }
+}
+
+class PlotTypeHX_HS extends PlotTypeHX_Gas {
+
+    constructor(trj) {
+	super(trj);
     }
 }
 

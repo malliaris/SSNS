@@ -7,7 +7,7 @@
 //
 class PlotType {
 
-    static registered_PTs = ["XT", "HX", "HM", "PP"];
+    static registered_PTs = ["XT", "HX", "CV", "PP"];
     static square_plot_width;   // may eventually tweak method of assigning numbers, so keep width/height separate for "square" plots
     static square_plot_height;  // may eventually tweak method of assigning numbers, so keep width/height separate for "square" plots
     static non_square_plot_width;
@@ -58,9 +58,9 @@ class PlotType {
 	CU.sk("plot_y_axis_lbl", this.get_ext_y_axis_lbl_str());
     }
 
+    // *** ASSUMES bin width of 1 and that x VALUES ARE CONSECUTIVE ***
     // take flot line plot data [ [x0, y0], [x1, y1], ... ], and return histogram data; x coordinates all shifted
     // left by 1/2 and an extra pair appended with x right-shifted and same y as the former last pair
-    // *** ASSUMES x VALUES ARE CONSECUTIVE ***
     get_hist_data_flot(line_plot_data) {
 	let hist_data = [];
 	for (let i = 0; i < line_plot_data.length; i++) {

@@ -221,7 +221,6 @@ class Trajectory {
 	} else {  // otherwise, we can add a step, and figure out the details...
 	    if (this.t < this.t_edge) {  // if we're back from the edge of the recorded trajectory...
 		this.truncate_traj();  // ... truncate it in preparation for new segment
-
 		if ((this.mc.model_is_stoch()) && CU.gcb("UI_CTRL_rng_recreate_traj")) {
 		    this.set_rng_states_from_edge_vals();  // (add explanation of this functionality somewhere)
 		}

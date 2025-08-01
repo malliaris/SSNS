@@ -43,6 +43,12 @@ class UserInterface {
 	Params_CH.alpha = new UINI_float(this, "UI_P_SP_CH_alpha", true);
 	Params_CH.beta = new UINI_float(this, "UI_P_SP_CH_beta", true);
 	Coords_CH.x_0 = new UINI_int(this, "UI_P_SP_CH_x_0", false);
+	Params_IG.N = new UINI_int(this, "UI_P_SM_IG_N", false);
+	Params_IG.V = new UINI_float(this, "UI_P_SM_IG_V", false);
+	Params_IG.T = new UINI_float(this, "UI_P_SM_IG_T", false);
+	Params_HS.UINI_N = new UINI_int(this, "UI_P_SM_HS_N", false);
+	Params_HS.UINI_T = new UINI_float(this, "UI_P_SM_HS_T", false);
+	Params_HS.UINI_v_pist = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  // can be thought of as v_pist_0 in that the internal value may change within a timestep
 	Params_IS.T = new UINI_float(this, "UI_P_SM_IS_T", true);
 	Coords_IS.N = new UINI_int(this, "UI_P_SM_IS_N", false);
 	Params_XY.T = new UINI_float(this, "UI_P_SM_XY_T", true);
@@ -53,6 +59,12 @@ class UserInterface {
 	Coords_GM.y_0 = new UINI_float(this, "UI_P_ND_GM_y_0", false);
 
 	// other UI stuff
+	for (let ST_val of Simulator.unregistered_STs.values()) {  // if any disabled ST's have parameter HTML content (e.g., while under development), hide it
+	    let id_str = "#UI_P_" + Simulator.lookup_area_from_ST[ST_val] + "_" + ST_val;  // reconstruct, e.g., #UI_P_SM_IS
+	    if ($(id_str).length != 0) {  // check for existence of tag
+		$(id_str).hide();
+	    }   
+	}
 	this.dropdown_show_vals = {};  // a bool for each dropdown indicating whether is is to be shown or hidden
 	this.dropdown_show_vals["UI_parameters"] = true;  // #UI_parameters dropdown default setting
 	this.dropdown_show_vals["UI_controls"] = true;  // #UI_controls dropdown default setting
@@ -176,7 +188,7 @@ class UserInterface {
 
     update_plot_type_buttons() {
 
-	for (let PT_val of PlotType.registered_PTs.values()) {  // iterate over ["XT", "HX", "HM", ...]
+	for (let PT_val of PlotType.registered_PTs.values()) {  // iterate over ["XT", "HX", "CV", ...]
 
 	    let ui_btn_str = "#UI_PT_" + PT_val + "_btn";  // id for the Bootstrap button
 
@@ -311,6 +323,7 @@ class UserInterface {
 	    }
 	} else {
 	    $(".UI_CTRL_STOCH").hide();
+	    $(".UI_CTRL_Gas_IC").show();  // some ST (e.g., IG) use random numbers to generate IC, but are not "stoch", i.e., time evolution is deterministic
 	}
 	if (this.sim.PT == "XT") {  // window size input only applies to PlotTypeXT
 	    $("#UI_window_size_input_group").show();

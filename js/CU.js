@@ -62,6 +62,14 @@ class CU {
     	let arr_to_sort = [ va, vb, vc ];  // assemble array of all three
 	return arr_to_sort.sort( (U,V) => U - V )[1];  // after sorting numerically, the middle value (index [1]) is the one we want...
     }
+    static incr_entry_OM(om, k) {  // for OrderedMap om (from js-sdsl library), if om[k] exists, do om[k] += 1, else insert om[k] = 1
+	let orig_v = om.getElementByKey(k);
+	if (orig_v == undefined) {
+	    om.setElement(k, 1);
+	} else {
+	    om.setElement(k, orig_v + 1);
+	}
+    }
     static add_to_entry_OM(om, k, v) {  // for OrderedMap om (from js-sdsl library), if om[k] exists, do om[k] += v, else insert om[k] = v
 	if (v > 0) {  // don't do anything if v == 0
 	    let orig_v = om.getElementByKey(k);

@@ -320,6 +320,33 @@ class PlotTypeXT_MN extends PlotTypeXT_SP {
     }
 }
 
+class PlotTypeXT_IG extends PlotTypeXT_rect {
+
+    constructor(trj) {
+
+	super();
+	this.trj = trj;
+	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
+	this.set_ylim_flot(this.flot_gen_opts, 0, 2);
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\mathrm{gas \\; pressure, \\; etc.}";
+    }
+
+    get_flot_data_series(t) {
+	this.update_window();  // updates values of this.t_L/i/f/R; consider small class to encapsulate window t's and return it from call
+	this.update_x_axis_flot(this.flot_gen_opts, this.t_L, this.t_R, this.trj.t_edge);
+
+	let fds = [];  // fds = flot_data_series
+	let fxn_obj = t => {return this.trj.get_x(t).PVoNkT_x_t_avg; };
+	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
+	fxn_obj = t => {return this.trj.get_x(t).PVoNkT_y_t_avg; };
+	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
+	return fds;
+    }
+}
+
 class PlotTypeXT_LM extends PlotTypeXT_rect {
 
     constructor(trj) {

@@ -3,8 +3,6 @@
 ////////  IG = Ideal Gas (from SM = Statistical Mechanics)  /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 // class to "wrap" the particle update code, which gets used for both the x and y directions
 //
 // * in another language, we would have a method instead of a class and pass in references, e.g., &vx or &vy, but that's not possible in js

@@ -12,6 +12,7 @@ class Simulator {
 
     static registered_ST_areas = [ "SP", "SM", "ND", "FD" ];
     static registered_STs = [];  // filled in populate_ST_info_from_html()
+    static unregistered_STs = [];  // filled in populate_ST_info_from_html()
     static lookup_area_from_ST = {};  // filled in populate_ST_info_from_html()
 
     constructor() {
@@ -47,6 +48,8 @@ class Simulator {
 	    });
 	    disabled_STs.each( function( index, input_element ){
 		let ST_val = input_element.value;
+		Simulator.unregistered_STs.push(ST_val);
+		Simulator.lookup_area_from_ST[ST_val] = ST_area;  // (occasionally useful, even if ST is disabled)
 		let div_id_str = id_prefix_str + ST_val + "_form_check";
 		$("#" + div_id_str).addClass("ST_unselected_disabled");
 	    });
@@ -65,6 +68,12 @@ class Simulator {
 	    break;
 	case "CH":
 	    this.trjs["CH"] = new Trajectory_CH(this);
+	    break;
+	case "IG":
+	    this.trjs["IG"] = new Trajectory_IG(this);
+	    break;
+	case "HS":
+	    this.trjs["HS"] = new Trajectory_HS(this);
 	    break;
 	case "IS":
 	    this.trjs["IS"] = new Trajectory_IS(this);
@@ -161,8 +170,8 @@ class Simulator {
 	    this.update_plot_and_UI();
 	    break;
 	case "CK":
-	    //this.trjs[this.ST].check_integrity();
-	    //this.trjs[this.ST].output_curr_vals();
+	    //alert("HWWW");
+	    //console.log("vppp TEST 1:", $("#vppp").val());////////////
 	    break;
 	default:
 	    console.log("ERROR 912352: bad code");
