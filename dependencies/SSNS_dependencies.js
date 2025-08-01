@@ -198,4 +198,4 @@ var e,r;e=this,r=function(){"use strict";var e="function"==typeof Object.defineP
 /*
  * adapted "installation instructions" for using js-sdsl in browser: https://js-sdsl.org/#/README?id=for-browser
  */
-const {OrderedMap} = sdsl;
+const {PriorityQueue, OrderedMap} = sdsl;
