@@ -7,6 +7,27 @@ class ModelCalc_PF extends ModelCalc {
 
     constructor() {
 	super();
+
+	this.mat_dim = 5 + 2;  // N + 2
+	this.update_matrix = zeros([ this.mat_dim, this.mat_dim ], {'dtype': 'float64'});
+	let eta = 0.1;
+	for (let i = 0; i < this.mat_dim; i++) {
+	    for (let j = 0; j < this.mat_dim; j++) {
+
+		if (j == i) {
+		    this.update_matrix.set(i, j, 1.0 - 2.0*eta);
+		}
+		if (j == i - 1) {
+		    this.update_matrix.set(i, j, eta);
+		}
+		if (j == i + 1) {
+		    this.update_matrix.set(i, j, eta);
+		}
+	    }
+	}
+
+
+
     }
 
     model_is_stoch() {return false; }
@@ -16,6 +37,9 @@ class ModelCalc_PF extends ModelCalc {
     }
 }
 
+
+
+/*
 class Params_LM extends Params {
 
     static r = undefined;  // = new UINI_float(this, "UI_P_ND_LM_r", true);  assignment occurs in UserInterface(); see discussion there
@@ -389,3 +413,4 @@ class Trajectory_IG extends Trajectory {
 	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
     }
 }
+*/

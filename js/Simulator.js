@@ -171,15 +171,16 @@ class Simulator {
 	    break;
 	case "CK":
 	    //alert("HWWW");
-	    //console.log("vppp TEST 1:", $("#vppp").val());////////////
-
-	    var A = new Float64Array( [ 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 ] );
-	    console.log(A);////////////
-	    var x = new Float64Array( [ 1.0, 1.0, 1.0 ] );
-	    var y = new Float64Array( [ 1.0, 1.0 ] );
-
 	    //dgemv( 'row-major', 'no-transpose', 2, 3, 1.0, A, 3, x, 1, 1.0, y, 1 );
-	    // y => <Float64Array>[ 7.0, 16.0 ]
+
+	    //let sspins = zeros([ 3, 2 ], {'dtype': 'float64'});
+	    //console.log(sspins._buffer);
+	    //console.log(sspins.shape[0]);
+	    //console.log(sspins.shape[1]);
+
+	    let dmc = new ModelCalc_PF();
+	    console.log("YUYUYYYYY", dmc.update_matrix.get(2, 1));
+	    console.log("YUYUYYYYY", dmc.update_matrix.get(2, 2));
 
 	    break;
 	default:
