@@ -264,11 +264,20 @@
 
 
 <div class="row" id="UI_P_FD_PF">
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \Delta p $$ </span></div><input id="UI_P_FD_PF_Dpol" class="form-control" type="number" min="-100" max="100" step="1" value="1" onchange=""></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ U_{top} $$ </span></div><input id="UI_P_FD_PF_Ut" class="form-control" type="number" min="-100" max="100" step="1" value="1" onchange=""></div></div>
+  
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ U_{bot.} $$ </span></div><input id="UI_P_FD_PF_Ub" class="form-control" type="number" min="-100" max="100" step="1" value="1" onchange=""></div></div>
+  
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ N $$ </span></div><input id="UI_P_FD_PF_N" class="form-control" type="number" min="2" max="100" step="1" value="7" onchange=""></div></div>
+  
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \mu $$ </span></div><input id="UI_P_FD_PF_mu" class="form-control" type="number" min="2" max="100" step="1" value="7" onchange=""></div></div>
+  
 <!--
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ TI $$ </span></div><input id="UI_TI" class="form-control" type="number" value="777" onchange="alert(window.sim.ui.yields_valid_int(this.value)); "></div></div>
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ TF $$ </span></div><input id="UI_TF" type="number" class="form-control" min="-0.7" max="2.8" step="0.1" value="0.4" onchange="window.sim.TF.try_update(this.value); "></div></div>
--->
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ D $$ </span></div><input type="number" class="form-control"></div></div><div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ D $$ </span></div><input type="number" class="form-control"></div></div><div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ D $$ </span></div><input type="number" class="form-control"></div></div><div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ D $$ </span></div><input type="number" class="form-control"></div></div><div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ D $$ </span></div><input type="number" class="form-control"></div></div><div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ D $$ </span></div><input type="number" class="form-control"></div></div><div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ D $$ </span></div><input type="number" class="form-control"></div></div><div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ D $$ </span></div><input type="number" class="form-control"></div></div><div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ D $$ </span></div><input type="number" class="form-control"></div></div><div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend"><span class="input-group-text"> $$ D $$ </span></div><input type="number" class="form-control"></div></div>
+-->
 </div><!-- CLOSES div class="row" -->
 
 
@@ -411,7 +420,7 @@
 <label class="form-check-label w-100" for="UI_ST_SP">stochastic processes</label>
 </div>
 <div id="UI_ST_SM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); " checked>
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); ">
 <label class="form-check-label w-100" for="UI_ST_SM">statistical mechanics</label>
 </div>
 <div id="UI_ST_ND_form_check" class="form-check pl-4 py-1">
@@ -419,7 +428,7 @@
 <label class="form-check-label w-100" for="UI_ST_ND">nonlinear dynamics</label>
 </div>
 <div id="UI_ST_FD_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_FD" value="FD" onchange="window.sim.ui.update_ST_area_settings(); ">
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_FD" value="FD" onchange="window.sim.ui.update_ST_area_settings(); " checked>
 <label class="form-check-label w-100" for="UI_ST_FD">fluid dynamics</label>
 </div>
 </div>
