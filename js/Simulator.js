@@ -179,9 +179,11 @@ class Simulator {
 	    //console.log(sspins.shape[1]);
 
 	    let dmc = new ModelCalc_PF();
-	    console.log("YUYUYYYYY", dmc.update_matrix.get(2, 1));
-	    console.log("YUYUYYYYY", dmc.update_matrix.get(2, 2));
-
+	    console.log("YUYUYYYYY", dmc.matrix_M.get(2, 1));
+	    console.log("YUYUYYYYY", dmc.matrix_M.get(2, 2));
+	    let dp = new Params_PF();
+	    console.log("YUYUYYYYY", Params_PF.UINI_N.v);
+			
 	    break;
 	default:
 	    console.log("ERROR 912352: bad code");
