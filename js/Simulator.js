@@ -88,7 +88,7 @@ class Simulator {
 	    this.trjs["GM"] = new Trajectory_GM(this);
 	    break;
 	case "PF":
-	    this.trjs["PF"] = new Trajectory_LM(this);  // DUMMY FOR TESTING.... FIX WHEN READY
+	    this.trjs["PF"] = new Trajectory_PF(this);
 	    break;
 	default:
 	    throw new Error("ERROR 298291: Invalid ST_str!  Exiting...");
@@ -171,12 +171,6 @@ class Simulator {
 	    break;
 	case "CK":
 	    //alert("HWWW");
-	    //dgemv( 'row-major', 'no-transpose', 2, 3, 1.0, A, 3, x, 1, 1.0, y, 1 );
-
-	    let dtraj = new Trajectory_PF(this);
-	    //console.log("YUYUYYYYY", dtraj.mc.matrix_M._buffer);
-	    console.log("YUYUYYYYY", dtraj.get_cx().vs._buffer);
-			
 	    break;
 	default:
 	    console.log("ERROR 912352: bad code");

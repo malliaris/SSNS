@@ -73,8 +73,8 @@ class PlottingMachinery {
 	    break;
 	case "PF":
 	    this.plots["PF"] = {};
-	    this.plots["PF"]["XT"] = new PlotTypeXT_PF(this.sim.trjs["LM"]);  // TEMPORARY, TO ALLOW FOR TESTING!!!
-	    break;  // DUMMY FOR TESTING.... FIX WHEN READY
+	    this.plots["PF"]["HX"] = new PlotTypeHX_PF(this.sim.trjs["PF"]);
+	    break;
 	default:
 	    throw new Error("ERROR 298290: Invalid ST_str!  Exiting...");
 	}
