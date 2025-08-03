@@ -8,8 +8,6 @@ class ModelCalc_PF extends ModelCalc {
     constructor() {
 	super();
 
-	let eta = 0.1;//////////////////////
-
 	// allocate and initialize matrix_M, which multiplies Coords_PF velocity vector v to update it
 	this.matrix_M = zeros([ Params_PF.mv_dim, Params_PF.mv_dim ], {'dtype': 'float64'});
 	for (let i = 0; i < Params_PF.mv_dim; i++) {
@@ -21,13 +19,13 @@ class ModelCalc_PF extends ModelCalc {
 		for (let j = 0; j < Params_PF.mv_dim; j++) {  // for each interior row i...
 
 		    if (j == i) {
-			this.matrix_M.set(i, j, 1.0 - 2.0*eta);  // make the diagonal element 1 - 2*eta
+			this.matrix_M.set(i, j, 1.0 - 2.0*Params_PF.zeta);  // make the diagonal element 1 - 2*zeta
 		    }
 		    if (j == i - 1) {
-			this.matrix_M.set(i, j, eta);  // make the off-diagonal elements eta here...
+			this.matrix_M.set(i, j, Params_PF.zeta);  // make the off-diagonal elements zeta here...
 		    }
 		    if (j == i + 1) {
-			this.matrix_M.set(i, j, eta);  // ... and here
+			this.matrix_M.set(i, j, Params_PF.zeta);  // ... and here
 		    }
 		}
 	    }
@@ -44,13 +42,24 @@ class ModelCalc_PF extends ModelCalc {
 
 class Params_PF extends Params {
 
-    static UINI_N;  // = new UINI_int(this, "UI_P_FD_PF_N", false);  assignment occurs in UserInterface(); see discussion there    
+    static UINI_Dpol;  // = new UINI_float(this, "UI_P_FD_PF_Dpol", true);  assignment occurs in UserInterface(); see discussion there;  Dpol = Delta p / l
+    static UINI_Ut;  // = new UINI_float(this, "UI_P_FD_PF_Ut", true);  assignment occurs in UserInterface(); see discussion there;  Ut = U of top plate
+    static UINI_Ub;  // = new UINI_float(this, "UI_P_FD_PF_Ub", true);  assignment occurs in UserInterface(); see discussion there;  Ub = U of bottom plate
+    static UINI_mu;  // = new UINI_float(this, "UI_P_FD_PF_mu", false);  assignment occurs in UserInterface(); see discussion there
+    static mu;
+    static UINI_N;  // = new UINI_int(this, "UI_P_FD_PF_N", false);  assignment occurs in UserInterface(); see discussion there
     static N;
     static mv_dim;  // mv_dim = matrix vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
+    static Dtorho = 0.1;  // autocalculate this eventually?  Dtorho = Delta t / rho
+    static zeta;  // zeta = mu * N * Dtorho  set in Trajectory_PF constructor
 
-    constructor() {
+    constructor(Dpol_val, Ut_val, Ub_val) {
 	super();
-	//this.r = r_val;
+
+	this.Dpol = Dpol_val;
+	this.eta = Params_PF.Dtorho * this.Dpol;  // eta = Delta t * Delta p / (rho * l)
+	this.Ut = Ut_val;
+	this.Ub = Ub_val;
 
 	// summarize physical parameter values
 	//console.log("physical parameter value summary:");
@@ -58,11 +67,16 @@ class Params_PF extends Params {
     }
 
     push_vals_to_UI() {
-	//Params_LM.r.push_to_UI(this.r);
+	Params_PF.UINI_Dpol.push_to_UI(this.Dpol);
+	Params_PF.UINI_Ut.push_to_UI(this.Ut);
+	Params_PF.UINI_Ub.push_to_UI(this.Ub);
     }
 
     get_info_str() {
-	//return "r = " + this.r;
+	return "Dpol = " + this.Dpol;
+	return "eta = " + this.eta;
+	return "Ut = " + this.Ut;
+	return "Ub = " + this.Ub;
     }
 }
 
@@ -89,6 +103,7 @@ class Coords_PF extends Coords {
 		for (let j = 0; j < Params_PF.mv_dim; j++) {
 		    new_val += this.mc.matrix_M.get(i, j) * this.c_prev.vs.get(j);
 		}
+		// this.p.eta
 		this.vs.set(i, new_val);
 	    }
 	}
@@ -99,8 +114,10 @@ class Trajectory_PF extends Trajectory {
 
     constructor(sim) {
 
+	Params_PF.mu = Params_PF.UINI_mu.v;
 	Params_PF.N = Params_PF.UINI_N.v;
 	Params_PF.mv_dim = Params_PF.N + 2;  // mv_dim = matrix vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
+	Params_PF.zeta = Params_PF.mu * Params_PF.N * Params_PF.Dtorho;
 
 	super(sim);  // NOTE: all static vars used in ModelCalc/etc. constructors should precede this, while all local this.* vars should follow this
     }
@@ -110,7 +127,7 @@ class Trajectory_PF extends Trajectory {
     }
 
     gp() {  // gp = get Params object    
-	return new Params_PF();
+	return new Params_PF(Params_PF.UINI_Dpol.v, Params_PF.UINI_Ut.v, Params_PF.UINI_Ub.v);
     }
 
     gc_ic(mc) {  // gc_ic = get Coords, initial condition
