@@ -82,28 +82,37 @@ class Params_PF extends Params {
 
 class Coords_PF extends Coords {
 
+    static temp_vs;
+    
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
 	super(...args);
 
-	if (this.constructing_init_cond) {
+	if (this.constructing_init_cond) {  // NOTE: Params_PF.UINI_Ut/b.v passed in extra_args since they are simultaneously parameters and part of coordinate vector
 
-	    //this.vs = new float64Array(Params_PF.mv_dim);
 	    this.vs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
-	    //for (let i = 0; i < Params_PF.mv_dim; i++) {
-	    this.vs.set(0, 1.7);
-	    this.vs.set(Params_PF.mv_dim - 1, 3.3);
+	    this.vs.set(0, this.extra_args[0]);  // this is Ut
+	    this.vs.set(Params_PF.mv_dim - 1, this.extra_args[1]);  // this is Ub
 
 	} else {
 
-	    // periodically check back whether stdlib-js blas/base/dgemv routine is available via jsdelivr cdn!!!
+	    // it's a bit odd since Ut and Ub are simultaneously parameters and, in some sense, part of the coordinate vector...  We choose not to mess with c_prev.vs
+	    // and not to check whether Ut/Ub values have changed, but rather to always make a copy of vs and assign Ut/UB as first/last entries, respectively, then
+	    // calculate matrix-vector product...
+	    Coords_PF.temp_vs = copy(this.c_prev.vs);
+	    Coords_PF.temp_vs.set(0, this.p.Ut);
+	    Coords_PF.temp_vs.set(Params_PF.mv_dim - 1, this.p.Ub);
+
+	    // matrix-vector product;  periodically check back whether stdlib-js blas/base/dgemv routine is available via jsdelivr cdn!!!
 	    this.vs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
 	    for (let i = 0; i < Params_PF.mv_dim; i++) {  // doh!!!  matrix-vector product done by hand!!!
 		let new_val = 0.0;
 		for (let j = 0; j < Params_PF.mv_dim; j++) {
-		    new_val += this.mc.matrix_M.get(i, j) * this.c_prev.vs.get(j);
+		    new_val += this.mc.matrix_M.get(i, j) * Coords_PF.temp_vs.get(j);
 		}
-		// this.p.eta
+		if ((i > 0) && (i < Params_PF.mv_dim - 1)) {
+		    new_val += this.p.eta;  // only interior entries "feel the pressure" haha :-)
+		}
 		this.vs.set(i, new_val);
 	    }
 	}
@@ -118,6 +127,7 @@ class Trajectory_PF extends Trajectory {
 	Params_PF.N = Params_PF.UINI_N.v;
 	Params_PF.mv_dim = Params_PF.N + 2;  // mv_dim = matrix vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
 	Params_PF.zeta = Params_PF.mu * Params_PF.N * Params_PF.Dtorho;
+	Coords_PF.temp_vs = empty('float64', [ Params_PF.mv_dim ]);  // used in matrix-vector product in Coords_PF constructor
 
 	super(sim);  // NOTE: all static vars used in ModelCalc/etc. constructors should precede this, while all local this.* vars should follow this
     }
@@ -131,7 +141,7 @@ class Trajectory_PF extends Trajectory {
     }
 
     gc_ic(mc) {  // gc_ic = get Coords, initial condition
-	return new Coords_PF(mc, []);
+	return new Coords_PF(mc, [ Params_PF.UINI_Ut.v, Params_PF.UINI_Ub.v ]);  // Ut and Ub are simultaneously parameters and part of the coordinate vector
     }
 
     gc_nv(mc, p, c_prev) {  // gc_nv = get Coords, new value
