@@ -8,25 +8,30 @@ class ModelCalc_PF extends ModelCalc {
     constructor() {
 	super();
 
-	this.mat_dim = 5 + 2;  // N + 2
-	this.matrix_M = zeros([ this.mat_dim, this.mat_dim ], {'dtype': 'float64'});
-	let eta = 0.1;
-	for (let i = 0; i < this.mat_dim; i++) {
-	    for (let j = 0; j < this.mat_dim; j++) {
+	let eta = 0.1;//////////////////////
 
-		if (j == i) {
-		    this.matrix_M.set(i, j, 1.0 - 2.0*eta);
-		}
-		if (j == i - 1) {
-		    this.matrix_M.set(i, j, eta);
-		}
-		if (j == i + 1) {
-		    this.matrix_M.set(i, j, eta);
+	// allocate and initialize matrix_M, which multiplies Coords_PF velocity vector v to update it
+	this.matrix_M = zeros([ Params_PF.mv_dim, Params_PF.mv_dim ], {'dtype': 'float64'});
+	for (let i = 0; i < Params_PF.mv_dim; i++) {
+
+	    if ((i == 0) || (i == Params_PF.mv_dim - 1)) {
+		this.matrix_M.set(i, i, 1.0);  // these diagonal entries keep the boundary v's unchanged
+	    } else {
+
+		for (let j = 0; j < Params_PF.mv_dim; j++) {  // for each interior row i...
+
+		    if (j == i) {
+			this.matrix_M.set(i, j, 1.0 - 2.0*eta);  // make the diagonal element 1 - 2*eta
+		    }
+		    if (j == i - 1) {
+			this.matrix_M.set(i, j, eta);  // make the off-diagonal elements eta here...
+		    }
+		    if (j == i + 1) {
+			this.matrix_M.set(i, j, eta);  // ... and here
+		    }
 		}
 	    }
 	}
-
-
 
     }
 
@@ -41,6 +46,7 @@ class Params_PF extends Params {
 
     static UINI_N;  // = new UINI_int(this, "UI_P_FD_PF_N", false);  assignment occurs in UserInterface(); see discussion there    
     static N;
+    static mv_dim;  // mv_dim = matrix vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
 
     constructor() {
 	super();
@@ -60,10 +66,7 @@ class Params_PF extends Params {
     }
 }
 
-/*
-class Coords_LM extends Coords {
-
-    static x_0 = undefined;  // = new UINI_float(this, "UI_P_ND_LM_x_0", true);  assignment occurs in UserInterface(); see discussion there
+class Coords_PF extends Coords {
 
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
@@ -71,136 +74,54 @@ class Coords_LM extends Coords {
 
 	if (this.constructing_init_cond) {
 
-	    this.x = this.extra_args[0];
+	    //this.vs = new float64Array(Params_PF.mv_dim);
+	    this.vs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
+	    //for (let i = 0; i < Params_PF.mv_dim; i++) {
+	    this.vs.set(0, 1.7);
+	    this.vs.set(Params_PF.mv_dim - 1, 3.3);
 
 	} else {
 
-	    this.x = this.mc.get_x_new(this.p, this.c_prev.x);
-	}
-    }
-
-    output() {
-	console.log("x =", this.x);
-    }
-}
-
-
-class Coords_IS extends Coords_Spin {
-
-    static N = undefined;  // = new UINI_int(this, "UI_P_SM_IS_N", false);  assignment occurs in UserInterface(); see discussion there    
-
-    constructor(...args) {  // see discussion of # args at definition of abstract Coords()
-
-	super(...args);
-
-	let N = this.extra_args[0];
-
-	if (this.constructing_init_cond) {
-
-	    this.spins = zeros([ N, N ], {'dtype': 'int8'});
-	    Coords_Spin.randomize_spins_arr(this.spins, this.get_rand_spin_val.bind(this));
-	    this.prev_trans = null;  // since IC was not arrived at via a transition
-
-	} else {
-
-	    let x = this.get_rand_index(N);  // pick a random site, both x...
-	    let y = this.get_rand_index(N);  // ... and y
-	    let old_val = this.c_prev.spins.get(x, y);
-	    let proposed_val = this.flip_spin_val(old_val);  // only possible basic move is to flip the spin
-	    let Delta_E = this.mc.get_Delta_E_proposed_move(proposed_val, this.c_prev.spins, x, y);
-	    let move_accepted = this.mc.accept_move(Delta_E, this.p.T);
-	    this.spins = copy(this.c_prev.spins);
-	    if (move_accepted) {
-		this.flip_spin(this.spins, x, y);
+	    // periodically check back whether stdlib-js blas/base/dgemv routine is available via jsdelivr cdn!!!
+	    this.vs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
+	    for (let i = 0; i < Params_PF.mv_dim; i++) {  // doh!!!  matrix-vector product done by hand!!!
+		let new_val = 0.0;
+		for (let j = 0; j < Params_PF.mv_dim; j++) {
+		    new_val += this.mc.matrix_M.get(i, j) * this.c_prev.vs.get(j);
+		}
+		this.vs.set(i, new_val);
 	    }
-	    let new_val = this.spins.get(x, y);
-	    let pts = new CoordTransition_Spin(x, y, old_val, new_val, move_accepted, Delta_E);
-	    this.c_prev.next_trans = pts;
-	    this.prev_trans = pts;
-	}
-
-    }
-
-}
-
-class Coords_IG extends Coords {
-
-    constructor(...args) {  // see discussion of # args at definition of abstract Coords()
-
-	super(...args);
-
-	this.gpud = new GasParticleUpdate();
-
-	if (this.constructing_init_cond) {
-
-	    this.gsh = new GasSpeedHistogram();
-	    this.particles = new Array();
-	    this.initialize_particles_etc();
-
-	    // initialize quantities involved in time-averaging
-	    this.num_t_avg_contribs = 0;
-	    this.P_x_cumul = 0.0;
-	    this.P_y_cumul = 0.0;
-
-	} else {
-
-	    this.gsh = GasSpeedHistogram.copy(this.c_prev.gsh);
-	    this.particles = copy(this.c_prev.particles);
-
-	    // copy over quantities involved in time-averaging
-	    this.num_t_avg_contribs = this.c_prev.num_t_avg_contribs;
-	    this.P_x_cumul = this.c_prev.P_x_cumul;
-	    this.P_y_cumul = this.c_prev.P_y_cumul;
-
-	    this.update_state(Params_IG.dt);
 	}
     }
-
 }
 
-class Trajectory_IG extends Trajectory {
+class Trajectory_PF extends Trajectory {
 
     constructor(sim) {
 
-	// Volume V is achieved by setting Lx = V and Ly = 1
-	Params_IG.Lx = Params_IG.V.v;
-	Params_IG.Ly = 1;
+	Params_PF.N = Params_PF.UINI_N.v;
+	Params_PF.mv_dim = Params_PF.N + 2;  // mv_dim = matrix vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
 
-	super(sim);
-
-	// still figuring out best way to store parameter values...
-	this.N = Params_IG.N.v;
-	this.T = Params_IG.T.v;
-	this.V = Params_IG.V.v;
-	this.m = Params_IG.m;
+	super(sim);  // NOTE: all static vars used in ModelCalc/etc. constructors should precede this, while all local this.* vars should follow this
     }
 
     gmc() {  // gmc = get ModelCalc object
-	return new ModelCalc_IG();
+	return new ModelCalc_PF();
     }
 
-    gp() {  // gp = get Params object
-
-
-    // still figuring out best way to store parameter values...
-    Params_PF.N = Params_PF.UINI_N.v;
-    this.N = Params_PF.N;
-
-
-    
-	return new Params_IG(Params_IG.x_BC_refl, Params_IG.y_BC_refl);
+    gp() {  // gp = get Params object    
+	return new Params_PF();
     }
 
     gc_ic(mc) {  // gc_ic = get Coords, initial condition
-	return new Coords_IG(mc, [ Params_IG.N.v ]);
+	return new Coords_PF(mc, []);
     }
 
     gc_nv(mc, p, c_prev) {  // gc_nv = get Coords, new value
-	return new Coords_IG(mc, p, c_prev, [ Params_IG.N.v ]);
+	return new Coords_PF(mc, p, c_prev, []);
     }
 
     get_max_num_t_steps() {
 	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
     }
 }
-*/

@@ -173,16 +173,9 @@ class Simulator {
 	    //alert("HWWW");
 	    //dgemv( 'row-major', 'no-transpose', 2, 3, 1.0, A, 3, x, 1, 1.0, y, 1 );
 
-	    //let sspins = zeros([ 3, 2 ], {'dtype': 'float64'});
-	    //console.log(sspins._buffer);
-	    //console.log(sspins.shape[0]);
-	    //console.log(sspins.shape[1]);
-
-	    let dmc = new ModelCalc_PF();
-	    console.log("YUYUYYYYY", dmc.matrix_M.get(2, 1));
-	    console.log("YUYUYYYYY", dmc.matrix_M.get(2, 2));
-	    let dp = new Params_PF();
-	    console.log("YUYUYYYYY", Params_PF.UINI_N.v);
+	    let dtraj = new Trajectory_PF(this);
+	    //console.log("YUYUYYYYY", dtraj.mc.matrix_M._buffer);
+	    console.log("YUYUYYYYY", dtraj.get_cx().vs._buffer);
 			
 	    break;
 	default:
