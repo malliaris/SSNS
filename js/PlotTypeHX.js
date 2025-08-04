@@ -234,7 +234,17 @@ class PlotTypeHX_PF extends PlotTypeHX {
     get_flot_data_series(t) {
 
 	let data_series = [];
-	console.log(this.trj.get_x(t).vs._buffer);/////////
+	//console.log(this.trj.get_x(t).vs._buffer);/////////
+	console.log("typeof", ndarray2array(this.trj.get_x(t).vs));/////////
+
+	let curr_v_vect = ndarray2array(this.trj.get_x(t).vs);  // CRUDE PRELIMINARY VISUALIZATION
+	let hist_data = [];
+	for (let i = 0; i < curr_v_vect.length; i++) {
+	    hist_data.push( [ i, curr_v_vect[i] ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	}
+	this.flot_data_opts_hist["data"] = hist_data;
+	data_series.push(this.flot_data_opts_hist);
+
 	/*
 	let curr_gsh = this.trj.get_x(t).gsh;  // current gas speed histogram object, from which we will draw all data
 
