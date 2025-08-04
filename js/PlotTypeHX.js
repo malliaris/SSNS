@@ -240,8 +240,10 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let curr_v_vect = ndarray2array(this.trj.get_x(t).vs);  // CRUDE PRELIMINARY VISUALIZATION
 	let hist_data = [];
 	for (let i = 0; i < curr_v_vect.length; i++) {
-	    hist_data.push( [ i, curr_v_vect[i] ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    hist_data.push( [ i - 1.0, curr_v_vect[i] ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
+	let extra_pair = [ hist_data.at(-1)[0] + 1.0, hist_data.at(-1)[1] ];  // add extra pair to "terminate" the histogram at right edge
+	hist_data.push(extra_pair);
 	this.flot_data_opts_hist["data"] = hist_data;
 	data_series.push(this.flot_data_opts_hist);
 
