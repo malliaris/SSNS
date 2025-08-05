@@ -220,7 +220,7 @@ class PlotTypeHX_PF extends PlotTypeHX {
 
 	this.trj = trj;
 	this.flot_data_opts_hist = copy(PlotTypeHX.flot_data_opts_histogram);
-	//this.flot_data_opts_theory = copy(PlotTypeHX.flot_data_opts_theory_plot);
+	this.flot_data_opts_theory = copy(PlotTypeHX.flot_data_opts_theory_plot);
     }
 
     get_ext_y_axis_lbl_str() {
@@ -235,7 +235,7 @@ class PlotTypeHX_PF extends PlotTypeHX {
 
 	let data_series = [];
 	//console.log(this.trj.get_x(t).vs._buffer);/////////
-	console.log("typeof", ndarray2array(this.trj.get_x(t).vs));/////////
+	console.log(ndarray2array(this.trj.get_x(t).vs));/////////
 
 	let curr_v_vect = ndarray2array(this.trj.get_x(t).vs);  // CRUDE PRELIMINARY VISUALIZATION
 	let hist_data = [];
@@ -247,22 +247,17 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	this.flot_data_opts_hist["data"] = hist_data;
 	data_series.push(this.flot_data_opts_hist);
 
-	/*
-	let curr_gsh = this.trj.get_x(t).gsh;  // current gas speed histogram object, from which we will draw all data
-
-	// load histogram data
-	let hist_data = curr_gsh.get_flot_hist_data();  // flot library does not have histograms, so we must create data ("anchor" gaps, etc.)
-	this.flot_data_opts_hist["data"] = hist_data;
-	data_series.push(this.flot_data_opts_hist);
-	
 	// load theoretical functional form over-plot (2D Maxwell-Boltzmann speed distribution)
-	let vL = 0.0;  //curr_gsh.get_x_val_min();
-	let vR = curr_gsh.get_x_val_max();
-	let mult_fctr = GasSpeedHistogram.bin_width * this.trj.N;  // multiply pdf by bin width to get a probability, and by N to get expected num particles
-	let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, this.trj.T, this.trj.m, mult_fctr);
+	let curr_params = this.trj.segs[this.trj.get_si(t)].p;
+	let Dpol = curr_params.Dpol;
+	let Ut = curr_params.Ut;
+	let Ub = curr_params.Ub;
+	let N = Params_PF.N;
+	let mu = Params_PF.mu;
+	let theory_data = this.trj.mc.get_fluid_planar_flow_thr_curve(Ub, Ut, N, mu, Dpol, 100);  // !!!!!!!!!! Ut and Ub REVERSED FOR NOW... FIGURE THIS OUT!!!!!!
 	this.flot_data_opts_theory["data"] = theory_data;
 	data_series.push(this.flot_data_opts_theory);
-	*/
+
 	return data_series;
     }
 

@@ -35,8 +35,28 @@ class ModelCalc_PF extends ModelCalc {
 
     model_is_stoch() {return false; }
 
-    get_x_new(p, x) {
-	//return (p.r * x * (1.0 - x));
+    // get a single value of the quadratic theory curve from solving true fluid equations (cf. Kundu 6th ed. section 9.2)
+    get_fluid_planar_flow_thr_val(Ut, Ub, h, mu, Dpdx, y) {
+
+	let Cc = Ub;
+	let Cl = (Ut - Ub) / h;
+	//let Cq = 0.028 * Dpdx / mu;///  DID A FITTING TO CHECK FORM!!!  FIND ACTUAL THEORY/SIM MISMATCH!!!!!  GET RID OF 0.028 and put back 0.5
+	let Cq = 0.5 * Dpdx / (h * mu);///  DID A FITTING TO CHECK FORM!!!  FIND ACTUAL THEORY/SIM MISMATCH!!!!!  GET RID OF 0.028 and put back 0.5
+	return Cc + Cl*y + Cq*y*(h - y);
+    }
+
+    // get curve (i.e., vector of values) of the quadratic theory curve from solving true fluid equations (cf. Kundu 6th ed. section 9.2)
+    get_fluid_planar_flow_thr_curve(Ut, Ub, h, mu, Dpdx, num_points) {
+
+	let arr_to_return = [];
+	let y_vals = linspace(0, h, num_points);
+	for (let i = 0; i < num_points; i++) {
+
+	    let y = y_vals[i];
+	    let u_y = this.get_fluid_planar_flow_thr_val(Ut, Ub, h, mu, Dpdx, y);
+	    arr_to_return.push( [ y, u_y ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	}
+	return arr_to_return;
     }
 }
 
