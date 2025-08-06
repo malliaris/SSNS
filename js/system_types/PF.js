@@ -36,6 +36,14 @@ class ModelCalc_PF extends ModelCalc {
     model_is_stoch() {return false; }
 
     // get a single value of the quadratic theory curve from solving true fluid equations (cf. Kundu 6th ed. section 9.2)
+    get_analytical_steady_state_thr_val(Dpol, Ut, Ub, N, mu, i) {
+
+	let alpha = Dpol / ( N * mu );
+	console.log("alpha =", alpha);////////
+	//return Cc + Cl*y + Cq*y*(h - y);
+    }
+
+    // get a single value of the quadratic theory curve from solving true fluid equations (cf. Kundu 6th ed. section 9.2)
     get_fluid_planar_flow_thr_val(Ut, Ub, h, mu, Dpdx, y) {
 
 	let Cc = Ub;
@@ -70,7 +78,8 @@ class Params_PF extends Params {
     static UINI_N;  // = new UINI_int(this, "UI_P_FD_PF_N", false);  assignment occurs in UserInterface(); see discussion there
     static N;
     static mv_dim;  // mv_dim = matrix vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
-    static Dtorho = 0.1;  // autocalculate this eventually?  Dtorho = Delta t / rho
+    static UINI_Dtorho;  // = new UINI_float(this, "UI_P_FD_PF_Dtorho", false);  assignment occurs in UserInterface(); see discussion there
+    static Dtorho;// = 0.1;  // autocalculate this eventually?  Dtorho = Delta t / rho
     static zeta;  // zeta = mu * N * Dtorho  set in Trajectory_PF constructor
 
     constructor(Dpol_val, Ut_val, Ub_val) {
@@ -111,8 +120,8 @@ class Coords_PF extends Coords {
 	if (this.constructing_init_cond) {  // NOTE: Params_PF.UINI_Ut/b.v passed in extra_args since they are simultaneously parameters and part of coordinate vector
 
 	    this.vs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
-	    this.vs.set(0, this.extra_args[0]);  // this is Ut
-	    this.vs.set(Params_PF.mv_dim - 1, this.extra_args[1]);  // this is Ub
+	    this.vs.set(0, this.extra_args[1]);  // this is ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
+	    this.vs.set(Params_PF.mv_dim - 1, this.extra_args[0]);  // this is ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
 
 	} else {
 
@@ -120,8 +129,8 @@ class Coords_PF extends Coords {
 	    // and not to check whether Ut/Ub values have changed, but rather to always make a copy of vs and assign Ut/UB as first/last entries, respectively, then
 	    // calculate matrix-vector product...
 	    Coords_PF.temp_vs = copy(this.c_prev.vs);
-	    Coords_PF.temp_vs.set(0, this.p.Ut);
-	    Coords_PF.temp_vs.set(Params_PF.mv_dim - 1, this.p.Ub);
+	    Coords_PF.temp_vs.set(0, this.p.Ub);  // ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
+	    Coords_PF.temp_vs.set(Params_PF.mv_dim - 1, this.p.Ut);  // ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
 
 	    // matrix-vector product;  periodically check back whether stdlib-js blas/base/dgemv routine is available via jsdelivr cdn!!!
 	    this.vs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
@@ -146,6 +155,7 @@ class Trajectory_PF extends Trajectory {
 	Params_PF.mu = Params_PF.UINI_mu.v;
 	Params_PF.N = Params_PF.UINI_N.v;
 	Params_PF.mv_dim = Params_PF.N + 2;  // mv_dim = matrix vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
+	Params_PF.Dtorho = Params_PF.UINI_Dtorho.v;
 	Params_PF.zeta = Params_PF.mu * Params_PF.N * Params_PF.Dtorho;
 	Coords_PF.temp_vs = empty('float64', [ Params_PF.mv_dim ]);  // used in matrix-vector product in Coords_PF constructor
 

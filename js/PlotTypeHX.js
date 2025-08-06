@@ -224,20 +224,20 @@ class PlotTypeHX_PF extends PlotTypeHX {
     }
 
     get_ext_y_axis_lbl_str() {
-	return "";//\\mathrm{ \\# \\; particles}";
+	return "\\mathrm{ slab \\; velocity \\; (m/s)}";
     }
 
     get_ext_x_axis_lbl_str() {
-	return "";//\\mathrm{ particle \\; speed}";
+	return "\\mathrm{ slab \\; \\# }";
     }
 
     get_flot_data_series(t) {
 
 	let data_series = [];
-	//console.log(this.trj.get_x(t).vs._buffer);/////////
 	console.log(ndarray2array(this.trj.get_x(t).vs));/////////
 
-	let curr_v_vect = ndarray2array(this.trj.get_x(t).vs);  // CRUDE PRELIMINARY VISUALIZATION
+	// plot the individual slab velocities in histogram form
+	let curr_v_vect = ndarray2array(this.trj.get_x(t).vs);
 	let hist_data = [];
 	for (let i = 0; i < curr_v_vect.length; i++) {
 	    hist_data.push( [ i - 1.0, curr_v_vect[i] ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
@@ -247,16 +247,18 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	this.flot_data_opts_hist["data"] = hist_data;
 	data_series.push(this.flot_data_opts_hist);
 
-	// load theoretical functional form over-plot (2D Maxwell-Boltzmann speed distribution)
+	// plot theoretical steady-state curve for true fluid system
 	let curr_params = this.trj.segs[this.trj.get_si(t)].p;
 	let Dpol = curr_params.Dpol;
 	let Ut = curr_params.Ut;
 	let Ub = curr_params.Ub;
 	let N = Params_PF.N;
 	let mu = Params_PF.mu;
-	let theory_data = this.trj.mc.get_fluid_planar_flow_thr_curve(Ub, Ut, N, mu, Dpol, 100);  // !!!!!!!!!! Ut and Ub REVERSED FOR NOW... FIGURE THIS OUT!!!!!!
+	let theory_data = this.trj.mc.get_fluid_planar_flow_thr_curve(Ut, Ub, N, mu, Dpol, 100);
 	this.flot_data_opts_theory["data"] = theory_data;
 	data_series.push(this.flot_data_opts_theory);
+
+	this.trj.mc.get_analytical_steady_state_thr_val(Dpol, Ut, Ub, N, mu, 0);/////////
 
 	return data_series;
     }
