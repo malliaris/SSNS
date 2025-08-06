@@ -70,7 +70,8 @@ class ModelCalc_PF extends ModelCalc {
 		    v_val += this.matrix_S.get(i, j) * alpha;
 		}
 	    }
-	    arr_to_return.push( [ i, v_val ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    let y_val = i + 0.5;
+	    arr_to_return.push( [ y_val, v_val ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	//console.log("arr_to_return =", arr_to_return);////////
 	return arr_to_return;

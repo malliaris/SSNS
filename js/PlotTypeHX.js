@@ -25,11 +25,21 @@ class PlotTypeHX extends PlotType {
 	    fillColor: "rgba(50, 50, 255, 0.5)"
 	}
     };
-    static flot_data_opts_theory_plot = {
+    static flot_data_opts_theory_curve = {
 	color: "rgba(240, 120, 20, 1.0)",
 	lines: {
 	    show: true,
 	    lineWidth: 2,
+	}
+    };
+
+    static flot_data_opts_theory_points = {
+	color: "rgba(240, 120, 20, 1.0)",
+	points: {
+	    show: true,
+	    radius: 4,
+	    fill: 0.8,
+	    fillColor: null,
 	}
     };
 
@@ -66,7 +76,7 @@ class PlotTypeHX_Gas extends PlotTypeHX {
 
 	this.trj = trj;
 	this.flot_data_opts_hist = copy(PlotTypeHX.flot_data_opts_histogram);
-	this.flot_data_opts_theory = copy(PlotTypeHX.flot_data_opts_theory_plot);
+	this.flot_data_opts_theory = copy(PlotTypeHX.flot_data_opts_theory_curve);
     }
 
     get_ext_y_axis_lbl_str() {
@@ -220,7 +230,8 @@ class PlotTypeHX_PF extends PlotTypeHX {
 
 	this.trj = trj;
 	this.flot_data_opts_hist = copy(PlotTypeHX.flot_data_opts_histogram);
-	this.flot_data_opts_theory = copy(PlotTypeHX.flot_data_opts_theory_plot);
+	this.flot_data_opts_analyt_ss_points = copy(PlotTypeHX.flot_data_opts_theory_points);
+	this.flot_data_opts_theory = copy(PlotTypeHX.flot_data_opts_theory_curve);
     }
 
     get_ext_y_axis_lbl_str() {
@@ -256,8 +267,8 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let mu = Params_PF.mu;
 	//let theory_data = this.trj.mc.get_fluid_planar_flow_thr_curve(Ut, Ub, N, mu, Dpol, 100);
 	let theory_data = this.trj.mc.get_analytical_steady_state_thr_vect(Dpol, Ub, Ut, N, mu, 0);/////////  Ub <--> Ut !!!!!! FIXXXXXXXXX!!!!!!
-	this.flot_data_opts_theory["data"] = theory_data;
-	data_series.push(this.flot_data_opts_theory);
+	this.flot_data_opts_analyt_ss_points["data"] = theory_data;
+	data_series.push(this.flot_data_opts_analyt_ss_points);
 
 	return data_series;
     }
