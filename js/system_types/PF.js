@@ -8,7 +8,7 @@ class ModelCalc_PF extends ModelCalc {
     constructor() {
 	super();
 
-	// allocate and initialize matrix_M, which multiplies Coords_PF velocity vector v to update it
+	// allocate and initialize matrix_M (which updates Coords_PF velocity vector v)
 	this.matrix_M = zeros([ Params_PF.mv_dim, Params_PF.mv_dim ], {'dtype': 'float64'});
 	for (let i = 0; i < Params_PF.mv_dim; i++) {
 
@@ -31,16 +31,49 @@ class ModelCalc_PF extends ModelCalc {
 	    }
 	}
 
+	// allocate and initialize matrix_S (used to calculate analytical steady state)
+	this.matrix_S = zeros([ Params_PF.N, Params_PF.N ], {'dtype': 'float64'});
+	for (let i = 0; i < Params_PF.N; i++) {
+	    for (let j = 0; j < Params_PF.N; j++) {  // for each interior row i...
+		this.matrix_S.set(i, j, this.get_inv_mtrx_val_analytical_steady_state(i, j, Params_PF.N));
+	    }
+	}
     }
 
     model_is_stoch() {return false; }
 
-    // get a single value of the quadratic theory curve from solving true fluid equations (cf. Kundu 6th ed. section 9.2)
-    get_analytical_steady_state_thr_val(Dpol, Ut, Ub, N, mu, i) {
+    // get inverse matrix value used to calculate analytical steady state value
+    get_inv_mtrx_val_analytical_steady_state(i, j, N) {
+	
+	if (i <= j) {
+	    return -1.0 * (N - j) * (i + 1.0) / (N + 1.0);
+	} else {  // i < j, so we swap i <--> j
+	    return -1.0 * (N - i) * (j + 1.0) / (N + 1.0);
+	}
+    }
 
-	let alpha = Dpol / ( N * mu );
-	console.log("alpha =", alpha);////////
-	//return Cc + Cl*y + Cq*y*(h - y);
+    // get vector of the analytical steady state values
+    get_analytical_steady_state_thr_vect(Dpol, Ut, Ub, N, mu) {
+
+	let alpha = -1.0 * Dpol / ( N * mu );
+	//console.log("alpha =", alpha);////////
+	let arr_to_return = [];
+
+	for (let i = 0; i < N; i++) {
+	    let v_val = 0.0;
+	    for (let j = 0; j < N; j++) {
+		if (j == 0) {
+		    v_val += this.matrix_S.get(i, j) * (alpha - Ut);
+		} else if (j == N - 1) {
+		    v_val += this.matrix_S.get(i, j) * (alpha - Ub);
+		} else {  // 1 <= j <= N - 2
+		    v_val += this.matrix_S.get(i, j) * alpha;
+		}
+	    }
+	    arr_to_return.push( [ i, v_val ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	}
+	//console.log("arr_to_return =", arr_to_return);////////
+	return arr_to_return;
     }
 
     // get a single value of the quadratic theory curve from solving true fluid equations (cf. Kundu 6th ed. section 9.2)

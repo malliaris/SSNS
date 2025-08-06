@@ -254,11 +254,10 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let Ub = curr_params.Ub;
 	let N = Params_PF.N;
 	let mu = Params_PF.mu;
-	let theory_data = this.trj.mc.get_fluid_planar_flow_thr_curve(Ut, Ub, N, mu, Dpol, 100);
+	//let theory_data = this.trj.mc.get_fluid_planar_flow_thr_curve(Ut, Ub, N, mu, Dpol, 100);
+	let theory_data = this.trj.mc.get_analytical_steady_state_thr_vect(Dpol, Ub, Ut, N, mu, 0);/////////  Ub <--> Ut !!!!!! FIXXXXXXXXX!!!!!!
 	this.flot_data_opts_theory["data"] = theory_data;
 	data_series.push(this.flot_data_opts_theory);
-
-	this.trj.mc.get_analytical_steady_state_thr_val(Dpol, Ut, Ub, N, mu, 0);/////////
 
 	return data_series;
     }
