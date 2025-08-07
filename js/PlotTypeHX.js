@@ -231,7 +231,7 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	this.trj = trj;
 	this.flot_data_opts_hist = copy(PlotTypeHX.flot_data_opts_histogram);
 	this.flot_data_opts_analyt_ss_points = copy(PlotTypeHX.flot_data_opts_theory_points);
-	this.flot_data_opts_theory = copy(PlotTypeHX.flot_data_opts_theory_curve);
+	this.flot_data_opts_true_fluid_curve = copy(PlotTypeHX.flot_data_opts_theory_curve);
     }
 
     get_ext_y_axis_lbl_str() {
@@ -245,7 +245,12 @@ class PlotTypeHX_PF extends PlotTypeHX {
     get_flot_data_series(t) {
 
 	let data_series = [];
-	console.log(ndarray2array(this.trj.get_x(t).vs));/////////
+	let curr_params = this.trj.segs[this.trj.get_si(t)].p;
+	let Dpol = curr_params.Dpol;
+	let Ut = curr_params.Ut;
+	let Ub = curr_params.Ub;
+	let N = Params_PF.N;
+	let mu = Params_PF.mu;
 
 	// plot the individual slab velocities in histogram form
 	let curr_v_vect = ndarray2array(this.trj.get_x(t).vs);
@@ -258,18 +263,16 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	this.flot_data_opts_hist["data"] = hist_data;
 	data_series.push(this.flot_data_opts_hist);
 
-	// plot theoretical steady-state curve for true fluid system
-	let curr_params = this.trj.segs[this.trj.get_si(t)].p;
-	let Dpol = curr_params.Dpol;
-	let Ut = curr_params.Ut;
-	let Ub = curr_params.Ub;
-	let N = Params_PF.N;
-	let mu = Params_PF.mu;
-	//let theory_data = this.trj.mc.get_fluid_planar_flow_thr_curve(Ut, Ub, N, mu, Dpol, 100);
-	let theory_data = this.trj.mc.get_analytical_steady_state_thr_vect(Dpol, Ub, Ut, N, mu, 0);/////////  Ub <--> Ut !!!!!! FIXXXXXXXXX!!!!!!
-	this.flot_data_opts_analyt_ss_points["data"] = theory_data;
+	// plot analytical steady-state points
+	let theory_data_1 = this.trj.mc.get_analytical_steady_state_thr_vect(Dpol, Ub, Ut, N, mu, 0);/////////  Ub <--> Ut !!!!!! FIXXXXXXXXX!!!!!!
+	this.flot_data_opts_analyt_ss_points["data"] = theory_data_1;
 	data_series.push(this.flot_data_opts_analyt_ss_points);
 
+	// plot theoretical steady-state curve for true fluid system
+	let theory_data_2 = this.trj.mc.get_fluid_planar_flow_thr_curve(Ut, Ub, N, mu, Dpol, 100);
+	this.flot_data_opts_true_fluid_curve["data"] = theory_data_2;
+	data_series.push(this.flot_data_opts_true_fluid_curve);
+	
 	return data_series;
     }
 
