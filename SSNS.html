@@ -263,6 +263,21 @@
 </div><!-- CLOSES div class="row" -->
 
 
+<div class="row" id="UI_P_FD_SH">
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ N $$ </span></div><input id="UI_P_FD_SH_N" class="form-control" type="number" min="3" max="1001" step="1" value="100" onchange=""></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \rho_L $$ </span></div><input id="UI_P_FD_SH_rhoL" class="form-control" type="number" min="0" max="100" step="0.1" value="10" onchange=""></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \rho_R $$ </span></div><input id="UI_P_FD_SH_rhoR" class="form-control" type="number" min="0" max="100" step="0.1" value="1" onchange=""></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ p_L $$ </span></div><input id="UI_P_FD_SH_pL" class="form-control" type="number" min="0" max="100" step="0.1" value="8" onchange=""></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ p_R $$ </span></div><input id="UI_P_FD_SH_pR" class="form-control" type="number" min="0" max="100" step="0.1" value="2" onchange=""></div></div>
+
+</div><!-- CLOSES div class="row" -->
+
+
 <div class="row" id="UI_P_FD_PF">
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \Delta p / \ell $$ </span></div><input id="UI_P_FD_PF_Dpol" class="form-control" type="number" min="-100" max="100" step="0.1" value="0.3" onchange="Params_PF.UINI_Dpol.try_update(this.value); "></div></div>
@@ -487,12 +502,12 @@
 </div>
 
 <div id="UI_ST_area_FD">
-<div id="UI_ST_FD_EU_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_FD_EU" value="EU" onchange="window.sim.process_cmd('ST'); " disabled>
-<label class="form-check-label w-100" for="UI_ST_FD_EU">1D Euler shock tube ($$ \texttt{EU} $$)</label>
+<div id="UI_ST_FD_SH_form_check" class="form-check pl-4 py-1">
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_FD_SH" value="SH" onchange="window.sim.process_cmd('ST'); " checked>
+<label class="form-check-label w-100" for="UI_ST_FD_SH">shock tube ($$ \texttt{SH} $$)</label>
 </div>
 <div id="UI_ST_FD_PF_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_FD_PF" value="PF" onchange="window.sim.process_cmd('ST'); " checked>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_FD_PF" value="PF" onchange="window.sim.process_cmd('ST'); " disabled>
 <label class="form-check-label w-100" for="UI_ST_FD_PF">rigid planar flow ($$ \texttt{PF} $$)</label>
 </div>
 </div>
@@ -712,7 +727,7 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 
 <p>Here is a sample of the <strong>SSNS</strong> future items to address/explore list on <a target="_blank" href="//github.com/malliaris/SSNS/blob/main/README.md#to-dofixaddexplore">GitHub <i class="fa-brands fa-github" style="color: black; "></i></a>:</p>
 
-<ul><li>System types that are disabled in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); "><samp>SYS</samp></a> dropdown are either under maintenance or not yet written.  The planned <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_FD'); ">fluids</a> systems <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_EU'); "><samp>EU</samp></a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_PF'); "><samp>PF</samp></a> will require a bit of work &mdash; not quite as simple as <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); "><samp>GM</samp></a>! &#x1F609;</li>
+<ul><li>System types that are disabled in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); "><samp>SYS</samp></a> dropdown are either under maintenance or not yet written.  The planned <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_FD'); ">fluids</a> systems <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_SH'); "><samp>SH</samp></a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_PF'); "><samp>PF</samp></a> will require a bit of work &mdash; not quite as simple as <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); "><samp>GM</samp></a>! &#x1F609;</li>
 <li>The <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_ORGANIZATION'); "><samp>Coords</samp></a> <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Computer_memory">memory footprint</a> for most system types is tiny, the main exception being the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">spin systems</a>.  One easy improvement would be to adapt <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_N'); ">$$ N_{\mathrm{max}} $$</a> based on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_T_0_MAX_STOP'); ">$$ t_{\mathrm{max}} $$</a>, so that larger grids are allowed for shorter trajectories, and vice versa.  Alternatively, we could refactor to avoid storing the entire spin array at each time step. See <a target="_blank" href="//github.com/malliaris/SSNS/blob/main/README.md#to-dofixaddexplore"><samp>gh</samp> <i class="fa-brands fa-github" style="color: black; "></i></a>.</li>
 <li>When it comes to <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); "><samp>XY</samp></a> models, ours pales in comparison to <a target="_blank" class="hv_ext_link" href="//kjslag.github.io/XY/">this one</a> &#x1F92F;.  One reason is that <strong>SSNS</strong> does not use the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Graphics_processing_unit">GPU</a> for non-graphical computation.  Code must be adapted for <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units">GPGPU</a>, but the performance gains can be huge.</li></ul>
 </div><!-- CLOSES div class="hv_view" -->
@@ -841,7 +856,7 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 
 <p>One central dimensionless fluid parameter is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Reynolds_number">Reynolds number</a> $$\mathrm{Re}$$, which quantifies the relative importance of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Inertia">inertial</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity">viscous</a> forces.  When $$\mathrm{Re} \ll 1$$, the flow is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Laminar_flow">laminar</a>, with adjacent fluid layers sliding by each other.  In such conditions, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Run-and-tumble_motion">bacteria</a> can't drift and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Stokes_flow#Demonstration_of_time-reversibility">dye droplets "unmix."</a>  An extremely simplified treatment of laminar flow is given in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><samp>PF</samp> system type</a>.</p>
 
-<p>The opposite flow regime is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Turbulence">turbulent</a>, corresponding to $$\mathrm{Re} \gg 1$$.  The flow is rough, full of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Eddy_(fluid_dynamics)">eddies</a>, and often <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a>.  <a target="_blank" class="hv_ext_link" href="https://tedm.us/computational_science">Computation</a> is essential in supplementing <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Scientific_theory">theory</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Experiment">experiment</a>.  While an <strong>SSNS</strong> simulation of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Karman_vortex_street">vortex shedding</a> would be nice, implementing it would bring numerous challenges (see <a target="_blank" href="//github.com/malliaris/SSNS/blob/main/README.md#to-dofixaddexplore">GitHub <i class="fa-brands fa-github" style="color: black; "></i></a>).  A more sensible implementation is the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); ">1D Euler shock tube</a>.</p>
+<p>The opposite flow regime is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Turbulence">turbulent</a>, corresponding to $$\mathrm{Re} \gg 1$$.  The flow is rough, full of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Eddy_(fluid_dynamics)">eddies</a>, and often <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a>.  <a target="_blank" class="hv_ext_link" href="https://tedm.us/computational_science">Computation</a> is essential in supplementing <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Scientific_theory">theory</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Experiment">experiment</a>.  While an <strong>SSNS</strong> simulation of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Karman_vortex_street">vortex shedding</a> would be nice, implementing it would bring numerous challenges (see <a target="_blank" href="//github.com/malliaris/SSNS/blob/main/README.md#to-dofixaddexplore">GitHub <i class="fa-brands fa-github" style="color: black; "></i></a>).  A more sensible implementation is the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); ">Sod shock tube</a>.</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 
@@ -918,10 +933,10 @@ The variable $$ x $$ represents the number of individuals that possess version $
 
 </div><!-- CLOSES div class="hv_view" -->
 
-<div id="HV_ST_EU" class="hv_view" data-ready="1" data-hvmh="1D Euler Shock Tube">
+<div id="HV_ST_SH" class="hv_view" data-ready="1" data-hvmh="Sod Shock Tube">
 <!--
 For a fluid that is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Approximation">assumed</a> to have no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity">viscosity</a> and no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermal_conductivity_and_resistivity">thermal conductivity</a>, the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Navier–Stokes_equations">Navier-Stokes equations</a> reduce to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Euler_equations_(fluid_dynamics)">Euler equations</a>.
-1D Euler <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Sod_shock_tube">shock tube</a>
+1D Euler <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Sod_shock_tube">Sod shock tube</a>
 -->
 </div><!-- CLOSES div class="hv_view" -->
 
