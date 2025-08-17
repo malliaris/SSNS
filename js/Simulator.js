@@ -88,7 +88,7 @@ class Simulator {
 	    this.trjs["GM"] = new Trajectory_GM(this);
 	    break;
 	case "SH":
-	    this.trjs["SH"] = new Trajectory_GM(this);  // FIX WHEN READY
+	    this.trjs["SH"] = new Trajectory_SH(this);
 	    break;
 	case "PF":
 	    this.trjs["PF"] = new Trajectory_PF(this);
