@@ -113,6 +113,25 @@ class UINI_int extends UINI {
     }
 }	
 
+class UINI_even_int extends UINI_int {
+
+    constructor(ui, id_str, indicate_params_changed) {
+
+	super(ui, id_str, indicate_params_changed);
+    }
+
+    yields_valid_value(str_val) {
+
+	if (UINI.yields_valid_int(str_val)) {  // if it's a valid integer...
+	    let valid_int = parseInt(str_val);
+	    if (valid_int % 2 == 0) {  // ... and is even...
+		return true;  // ... we accept it
+	    }
+	}
+	return false;
+    }
+}	
+
 class UINI_float extends UINI {
 
     constructor(ui, id_str, indicate_params_changed) {

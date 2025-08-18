@@ -9,6 +9,14 @@ class ModelCalc_SH extends ModelCalc {
 
     constructor() {
 	super();
+
+	this.p = empty('float64', [ Params_SH.N ]);  // vector of pressure values
+	this.c = empty('float64', [ Params_SH.N ]);  // vector of speed-of-sound values
+	this.u = empty('float64', [ Params_SH.N ]);  // vector of velocity values
+	this.m = empty('float64', [ Params_SH.N ]);  // vector of mach number values
+	this.F1 = empty('float64', [ Params_SH.N ]);  // vector of flux element (rho*u) values
+	this.F2 = empty('float64', [ Params_SH.N ]);  // vector of flux element (rho*u^2 + p) values
+	this.F3 = empty('float64', [ Params_SH.N ]);  // vector of flux element (rho*e*u + p*u) values
     }
 
     model_is_stoch() {return false; }
@@ -82,13 +90,6 @@ class ModelCalc_SH extends ModelCalc {
       r = zeros(1,nx);
       ru = zeros(1,nx);
       rE = zeros(1,nx);
-      p = zeros(1,nx);
-      c = zeros(1,nx);
-      u = zeros(1,nx);
-      m = zeros(1,nx);
-      F1 = zeros(1,nx);
-      F2 = zeros(1,nx);
-      F3 = zeros(1,nx);
 
       for i = 1:nx, r(i) = r_right;ru(i) = 0.0;rE(i) = p_right/(gg - 1);end
       for i = 1:nx/2; r(i) = r_left; rE(i) = p_left/(gg - 1); end
@@ -165,9 +166,12 @@ class Coords_SH extends Coords {
 
 	super(...args);
 
-	if (this.constructing_init_cond) {  // NOTE: Params_SH.UINI_Ut/b.v passed in extra_args since they are simultaneously parameters and part of coordinate vector
+	if (this.constructing_init_cond) {
 
-	    //Coords_PF.temp_vs = empty('float64', [ Params_PF.mv_dim ]);
+	    this.rho = empty('float64', [ Params_SH.N ]);  // vector of rho (i.e., density) grid values
+	    this.rhou = empty('float64', [ Params_SH.N ]);  // vector of rho*u grid values
+	    this.rhoe = empty('float64', [ Params_SH.N ]);  // vector of rho*e grid values
+
 	    //this.vs = zeros([ Params_SH.mv_dim ], {'dtype': 'float64'});
 	    //this.vs.set(0, this.extra_args[1]);  // this is ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
 
