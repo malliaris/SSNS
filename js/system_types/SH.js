@@ -10,6 +10,69 @@ class ModelCalc_SH extends ModelCalc {
     }
 
     model_is_stoch() {return false; }
+
+    /*
+
+      nx = 40*256;
+      tfinal = 0.005;
+      xl = 10.0;
+      time = 0;
+      gg = 1.4;
+      h = xl/(nx - 1);
+
+      for i = 1:nx,x(i) = h*(i - 1);end
+
+      p_left = 100000;
+      p_right = 10000;
+      r_left = 1;
+      r_right = 0.125;
+      //???u_left = 0;
+      r = zeros(1,nx);
+      ru = zeros(1,nx);
+      rE = zeros(1,nx);
+      p = zeros(1,nx);
+      c = zeros(1,nx);
+      u = zeros(1,nx);
+      m = zeros(1,nx);
+      F1 = zeros(1,nx);
+      F2 = zeros(1,nx);
+      F3 = zeros(1,nx);
+
+      for i = 1:nx, r(i) = r_right;ru(i) = 0.0;rE(i) = p_right/(gg - 1);end
+      for i = 1:nx/2; r(i) = r_left; rE(i) = p_left/(gg - 1); end
+
+      cmax = sqrt( max(gg*p_right/r_right,gg*p_left/r_left) );
+      dt = 0.45*h/cmax;
+      maxstep = tfinal/dt;
+      
+      for istep = 1:maxstep
+        for i = 1:nx,p(i) = (gg - 1)*(rE(i) - 0.5*(ru(i)*ru(i)/r(i)));end
+	for i = 1:nx,c(i) = sqrt( gg*p(i)/r(i) );end
+	for i = 1:nx,u(i) = ru(i)/r(i);end;
+	for i = 1:nx,m(i) = u(i)/c(i);end
+
+	// Find fluxes
+	for i = 1:nx - 1
+	  F1(i) = 0.5*(ru(i + 1) + ru(i)) - 0.5*(abs(ru(i + 1)) - abs(ru(i)));
+	  F2(i) = 0.5*(u(i + 1)*ru(i + 1) + p(i + 1) + u(i)*ru(i) + p(i)) - 0.5*(abs(u(i + 1))*ru(i + 1) - abs(u(i))*ru(i)) - 0.5*(p(i + 1)*m(i + 1) - p(i)*m(i));
+	  F3(i) = 0.5*(u(i + 1)*(rE(i + 1) + p(i + 1)) + u(i)*(rE(i) + p(i))) - 0.5*(abs(u(i + 1))*rE(i + 1) - abs(u(i))*rE(i)) - 0.5*(p(i + 1)*c(i + 1) - p(i)*c(i));
+	  if m(i) > 1, F2(i) = ru(i)*u(i) + p(i);
+	    F3(i) = (rE(i) + p(i))*u(i);end
+	  if m(i) < -1, F2(i) = ru(i + 1)*u(i + 1) + p(i + 1);
+	    F3(i) = (rE(i + 1) + p(i + 1))*u(i + 1);end
+	end
+
+	// Update solution
+	for i = 2:nx - 2
+	  r(i) = r(i) - (dt/h)*(F1(i) - F1(i - 1));
+	  ru(i) = ru(i) - (dt/h)*(F2(i) - F2(i - 1));
+	  rE(i) = rE(i) - (dt/h)*(F3(i) - F3(i - 1));
+	end
+
+	time = time + dt//???,istep
+
+      end
+    */
 }
 
 class Params_SH extends Params {
