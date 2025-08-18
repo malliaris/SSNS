@@ -77,8 +77,16 @@ class ModelCalc_SH extends ModelCalc {
 
 class Params_SH extends Params {
 
-    static UINI_mu;  // = new UINI_float(this, "UI_P_FD_SH_mu", false);  assignment occurs in UserInterface(); see discussion there
-    static mu;
+    static UINI_N;  // = new UINI_int(this, "UI_P_FD_SH_N", false);  assignment occurs in UserInterface(); see discussion there
+    static N;
+    static UINI_rhoL;  // = new UINI_float(this, "UI_P_FD_SH_rhoL", false);  assignment occurs in UserInterface(); see discussion there
+    static rhoL;
+    static UINI_rhoR;  // = new UINI_float(this, "UI_P_FD_SH_rhoR", false);  assignment occurs in UserInterface(); see discussion there
+    static rhoR;
+    static UINI_pL;  // = new UINI_float(this, "UI_P_FD_SH_pL", false);  assignment occurs in UserInterface(); see discussion there
+    static pL;
+    static UINI_pR;  // = new UINI_float(this, "UI_P_FD_SH_pR", false);  assignment occurs in UserInterface(); see discussion there
+    static pR;
 
     constructor() {
 	super();
@@ -125,7 +133,11 @@ class Trajectory_SH extends Trajectory {
 
     constructor(sim) {
 
-	//Params_SH.mu = Params_SH.UINI_mu.v;
+	Params_SH.N = Params_SH.UINI_N.v;
+	Params_SH.rhoL = Params_SH.UINI_rhoL.v;
+	Params_SH.rhoR = Params_SH.UINI_rhoR.v;
+	Params_SH.pL = Params_SH.UINI_pL.v;
+	Params_SH.pR = Params_SH.UINI_pR.v;
 
 	super(sim);  // NOTE: all static vars used in ModelCalc/etc. constructors should precede this, while all local this.* vars should follow this
     }
