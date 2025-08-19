@@ -32,7 +32,6 @@ class PlotTypeHX extends PlotType {
 	    lineWidth: 2,
 	}
     };
-
     static flot_data_opts_theory_points = {
 	color: "rgba(240, 120, 20, 1.0)",
 	points: {
@@ -224,12 +223,22 @@ class PlotTypeHX_CH extends PlotTypeHX_SP_semiinf {
 
 class PlotTypeHX_SH extends PlotTypeHX {
 
+    static flot_data_opts_curve = {
+	lines: {
+	    show: true,
+	    lineWidth: 2,
+	}
+    };
+
     constructor(trj) {
 
 	super();
 
 	this.trj = trj;
-	this.flot_data_opts_prelim = copy(PlotTypeHX.flot_data_opts_theory_curve);
+	this.flot_data_opts_rho_x = copy(PlotTypeHX_SH.flot_data_opts_curve);
+	this.flot_data_opts_rho_x.color = "rgba(240, 120, 20, 1.0)";
+	this.flot_data_opts_p_x = copy(PlotTypeHX_SH.flot_data_opts_curve);
+	this.flot_data_opts_p_x.color = "rgba(20, 20, 240, 1.0)";
     }
 
     get_ext_y_axis_lbl_str() {
@@ -247,16 +256,16 @@ class PlotTypeHX_SH extends PlotTypeHX {
 	let rho_data = [];
 	let p_data = [];
 	let coords = this.trj.get_x(t);
-	let rho_vect = coords.rho;
-	this.trj.mc.load_p_vector(coords.rho, coords.rhou, coords.rhoe);
+	this.trj.mc.load_derived_vectors_pcum(coords.rho, coords.rhou, coords.rhoe);
 	for (let i = 0; i < N; i++) {
-	    rho_data.push( [ i, rho_vect.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	    p_data.push( [ i, this.trj.mc.p.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    rho_data.push( [ i, coords.rho.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    p_data.push( [ i, (this.trj.mc.p.get(i) / Params_SH.pL) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	//console.log("rho_data", rho_data);
-	//this.flot_data_opts_prelim["data"] = rho_data;
-	this.flot_data_opts_prelim["data"] = p_data;
-	data_series.push(this.flot_data_opts_prelim);
+	this.flot_data_opts_rho_x["data"] = rho_data;
+	data_series.push(this.flot_data_opts_rho_x);
+	this.flot_data_opts_p_x["data"] = p_data;
+	data_series.push(this.flot_data_opts_p_x);
 
 	return data_series;
     }
