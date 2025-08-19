@@ -18,9 +18,24 @@ class ModelCalc_SH extends ModelCalc {
 	this.F1 = empty('float64', [ Params_SH.N ]);  // vector of flux element (rho*u) values
 	this.F2 = empty('float64', [ Params_SH.N ]);  // vector of flux element (rho*u^2 + p) values
 	this.F3 = empty('float64', [ Params_SH.N ]);  // vector of flux element (rho*e*u + p*u) values
+
+	this.calc_dt();
     }
 
     model_is_stoch() {return false; }
+
+    get_c(p, rho) {  // speed of sound for a perfect gas
+	return Math.sqrt(ModelCalc_SH.gamma * p / rho);
+    }
+    
+    calc_dt() {
+
+	let cL = this.get_c(Params_SH.pL, Params_SH.rhoL);
+	let cR = this.get_c(Params_SH.pR, Params_SH.rhoR);
+	let cmax = Math.max(cL, cR);
+	Params_SH.ds = 0.45 * Params_SH.h / cmax;
+	Params_SH.dsoh = 0.45 / cmax;  // for convenience
+    }
 
     load_derived_vectors_pcum(rho, rhou, rhoe) {
 
@@ -137,7 +152,7 @@ class Params_SH extends Params {
 
     static L_x = 10.0;  // length of x-domain
     static h;  // spacing between consecutive grid points
-    static ds = 0.01;  // EVENTUALLY USE ALGORITHM TO SET VALUE via CFL condition or similar???
+    static ds;
     static dsoh;
     
     static UINI_N;  // = new UINI_even_int(this, "UI_P_FD_SH_N", false);  assignment occurs in UserInterface(); see discussion there
@@ -231,7 +246,6 @@ class Trajectory_SH extends Trajectory {
 	Params_SH.pR = Params_SH.UINI_pR.v;
 
 	Params_SH.h = Params_SH.L_x / (Params_SH.N - 1);  // spacing between consecutive grid points
-	Params_SH.dsoh = Params_SH.ds / Params_SH.h;  // for convenience
 
 	super(sim);  // NOTE: all static vars used in ModelCalc/etc. constructors should precede this, while all local this.* vars should follow this
     }
