@@ -41,7 +41,33 @@ class ModelCalc_SH extends ModelCalc {
 	    this.m.set(i, m_val);
 	}
     }
-    
+
+    load_flux_vectors(rho, rhou, rhoe) {
+
+	for (let i = 0; i < Params_SH.N - 1; i++) {  // ??? for i = 1:nx - 1
+	    this.F1.set(i, 0.5*(rhou.get(i + 1) + rhou.get(i)) - 0.5*(Math.abs(rhou.get(i + 1)) - Math.abs(rhou.get(i))));
+	    this.F2.set(i, 0.5*(this.u.get(i + 1)*rhou.get(i + 1) + this.p.get(i + 1) + this.u.get(i)*rhou.get(i) + this.p.get(i)) - 0.5*(Math.abs(this.u.get(i + 1))*rhou.get(i + 1) - Math.abs(this.u.get(i))*rhou.get(i)) - 0.5*(this.p.get(i + 1)*this.m.get(i + 1) - this.p.get(i)*this.m.get(i)));  // SPLIT UP!
+	    this.F3.set(i, 0.5*(this.u.get(i + 1)*(rhoe.get(i + 1) + this.p.get(i + 1)) + this.u.get(i)*(rhoe.get(i) + this.p.get(i))) - 0.5*(Math.abs(this.u.get(i + 1))*rhoe.get(i + 1) - Math.abs(this.u.get(i))*rhoe.get(i)) - 0.5*(this.p.get(i + 1)*this.c.get(i + 1) - this.p.get(i)*this.c.get(i)));  // SPLIT UP!
+
+	    if (this.m.get(i) > 1.0) {
+		this.F2.set(i, rhou.get(i)*this.u.get(i) + this.p.get(i));
+		this.F3.set(i, (rhoe.get(i) + this.p.get(i))*this.u.get(i));
+	    } else if (this.m.get(i) < -1.0) {
+		this.F2.set(i, rhou.get(i + 1)*this.u.get(i + 1) + this.p.get(i + 1));
+		this.F3.set(i, (rhoe.get(i + 1) + this.p.get(i + 1))*this.u.get(i + 1));
+	    }
+	}
+    }
+
+    load_new_state_vectors(c_prev, rho, rhou, rhoe) {
+
+	for (let i = 2; i < Params_SH.N - 2; i++) {  // ??? for i = 1:nx - 1 ??? for i = 2:nx - 2
+	    rho.set(i, c_prev.rho.get(i) - Params_SH.dsoh*(this.F1.get(i) - this.F1.get(i - 1)));
+	    rhou.set(i, c_prev.rhou.get(i) - Params_SH.dsoh*(this.F2.get(i) - this.F2.get(i - 1)));
+	    rhoe.set(i, c_prev.rhoe.get(i) - Params_SH.dsoh*(this.F3.get(i) - this.F3.get(i - 1)));
+	}
+    }
+
     /*
 
       nx = 40*256;
@@ -104,34 +130,6 @@ class ModelCalc_SH extends ModelCalc {
 
       end
 
-
-
-
-
-
-      for istep = 1:maxstep
-
-	// Find fluxes
-	for i = 1:nx - 1
-	  F1(i) = 0.5*(ru(i + 1) + ru(i)) - 0.5*(abs(ru(i + 1)) - abs(ru(i)));
-	  F2(i) = 0.5*(u(i + 1)*ru(i + 1) + p(i + 1) + u(i)*ru(i) + p(i)) - 0.5*(abs(u(i + 1))*ru(i + 1) - abs(u(i))*ru(i)) - 0.5*(p(i + 1)*m(i + 1) - p(i)*m(i));
-	  F3(i) = 0.5*(u(i + 1)*(rE(i + 1) + p(i + 1)) + u(i)*(rE(i) + p(i))) - 0.5*(abs(u(i + 1))*rE(i + 1) - abs(u(i))*rE(i)) - 0.5*(p(i + 1)*c(i + 1) - p(i)*c(i));
-	  if m(i) > 1, F2(i) = ru(i)*u(i) + p(i);
-	    F3(i) = (rE(i) + p(i))*u(i);end
-	  if m(i) < -1, F2(i) = ru(i + 1)*u(i + 1) + p(i + 1);
-	    F3(i) = (rE(i + 1) + p(i + 1))*u(i + 1);end
-	end
-
-	// Update solution
-	for i = 2:nx - 2
-	  r(i) = r(i) - (dt/h)*(F1(i) - F1(i - 1));
-	  ru(i) = ru(i) - (dt/h)*(F2(i) - F2(i - 1));
-	  rE(i) = rE(i) - (dt/h)*(F3(i) - F3(i - 1));
-	end
-
-	time = time + dt
-
-      end
     */
 }
 
@@ -140,6 +138,7 @@ class Params_SH extends Params {
     static L_x = 10.0;  // length of x-domain
     static h;  // spacing between consecutive grid points
     static ds = 0.01;  // EVENTUALLY USE ALGORITHM TO SET VALUE via CFL condition or similar???
+    static dsoh;
     
     static UINI_N;  // = new UINI_even_int(this, "UI_P_FD_SH_N", false);  assignment occurs in UserInterface(); see discussion there
     static N;
@@ -195,20 +194,28 @@ class Coords_SH extends Coords {
 		this.rhoe.set(i, Params_SH.pR / ModelCalc_SH.gammam1);
 	    }
 	    //this.vs = zeros([ Params_SH.mv_dim ], {'dtype': 'float64'});
-	    console.log(this.rho._buffer);/////
-	    console.log(this.rhou._buffer);/////
-	    console.log(this.rhoe._buffer);/////
+	    //console.log(this.rho._buffer);/////
+	    //console.log(this.rhou._buffer);/////
+	    //console.log(this.rhoe._buffer);/////
 
 	} else {
 
 	    this.mc.load_derived_vectors_pcum(this.c_prev.rho, this.c_prev.rhou, this.c_prev.rhoe);
-	    console.log(this.mc.p._buffer);/////
-	    console.log(this.mc.c._buffer);/////
-	    console.log(this.mc.u._buffer);/////
-	    console.log(this.mc.m._buffer);/////
+	    console.log("p", this.mc.p._buffer);/////
+	    console.log("c", this.mc.c._buffer);/////
+	    console.log("u", this.mc.u._buffer);/////
+	    console.log("m", this.mc.m._buffer);/////
+	    this.mc.load_flux_vectors(this.c_prev.rho, this.c_prev.rhou, this.c_prev.rhoe);
+	    console.log("1", this.mc.F1._buffer);/////
+	    console.log("2", this.mc.F2._buffer);/////
+	    console.log("3", this.mc.F3._buffer);/////
 	    this.rho = empty('float64', [ Params_SH.N ]);  // vector of rho (i.e., density) grid values
 	    this.rhou = empty('float64', [ Params_SH.N ]);  // vector of rho*u grid values
 	    this.rhoe = empty('float64', [ Params_SH.N ]);  // vector of rho*e grid values
+	    this.mc.load_new_state_vectors(this.c_prev, this.rho, this.rhou, this.rhoe);
+	    console.log("r ", this.rho._buffer);/////
+	    console.log("ru", this.rhou._buffer);/////
+	    console.log("re", this.rhoe._buffer);/////
 	}
     }
 }
@@ -224,6 +231,7 @@ class Trajectory_SH extends Trajectory {
 	Params_SH.pR = Params_SH.UINI_pR.v;
 
 	Params_SH.h = Params_SH.L_x / (Params_SH.N - 1);  // spacing between consecutive grid points
+	Params_SH.dsoh = Params_SH.ds / Params_SH.h;  // for convenience
 
 	super(sim);  // NOTE: all static vars used in ModelCalc/etc. constructors should precede this, while all local this.* vars should follow this
     }
