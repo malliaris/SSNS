@@ -222,6 +222,47 @@ class PlotTypeHX_CH extends PlotTypeHX_SP_semiinf {
     }
 }
 
+class PlotTypeHX_SH extends PlotTypeHX {
+
+    constructor(trj) {
+
+	super();
+
+	this.trj = trj;
+	this.flot_data_opts_prelim = copy(PlotTypeHX.flot_data_opts_theory_curve);
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\rho, p, u, M (x)";
+    }
+
+    get_ext_x_axis_lbl_str() {
+	return "x";
+    }
+
+    get_flot_data_series(t) {
+
+	let data_series = [];
+	//let curr_params = this.trj.segs[this.trj.get_si(t)].p;
+	//let Ub = curr_params.Ub;
+	//let N = Params_SH.N;
+
+	//let rho_vect = ndarray2array(this.trj.get_x(t).rho);
+	let rho_vect = this.trj.get_x(t).rho;
+	let prelim_data = [];
+	for (let i = 0; i < rho_vect.length; i++) {
+	    prelim_data.push( [ i, rho_vect.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	}
+	console.log("prelim_data", prelim_data);
+	this.flot_data_opts_prelim["data"] = prelim_data;
+	data_series.push(this.flot_data_opts_prelim);
+
+	return data_series;
+    }
+
+    get_flot_gen_opts() { return {}; }
+}
+
 class PlotTypeHX_PF extends PlotTypeHX {
 
     constructor(trj) {
