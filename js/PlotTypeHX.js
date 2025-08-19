@@ -243,18 +243,19 @@ class PlotTypeHX_SH extends PlotTypeHX {
     get_flot_data_series(t) {
 
 	let data_series = [];
-	//let curr_params = this.trj.segs[this.trj.get_si(t)].p;
-	//let Ub = curr_params.Ub;
-	//let N = Params_SH.N;
-
-	//let rho_vect = ndarray2array(this.trj.get_x(t).rho);
-	let rho_vect = this.trj.get_x(t).rho;
-	let prelim_data = [];
-	for (let i = 0; i < rho_vect.length; i++) {
-	    prelim_data.push( [ i, rho_vect.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	let N = Params_SH.N;
+	let rho_data = [];
+	let p_data = [];
+	let coords = this.trj.get_x(t);
+	let rho_vect = coords.rho;
+	this.trj.mc.load_p_vector(coords.rho, coords.rhou, coords.rhoe);
+	for (let i = 0; i < N; i++) {
+	    rho_data.push( [ i, rho_vect.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    p_data.push( [ i, this.trj.mc.p.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
-	console.log("prelim_data", prelim_data);
-	this.flot_data_opts_prelim["data"] = prelim_data;
+	//console.log("rho_data", rho_data);
+	//this.flot_data_opts_prelim["data"] = rho_data;
+	this.flot_data_opts_prelim["data"] = p_data;
 	data_series.push(this.flot_data_opts_prelim);
 
 	return data_series;

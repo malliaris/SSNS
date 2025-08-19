@@ -24,10 +24,46 @@ class ModelCalc_SH extends ModelCalc {
 
     model_is_stoch() {return false; }
 
-    get_c(p, rho) {  // speed of sound for a perfect gas
-	return Math.sqrt(ModelCalc_SH.gamma * p / rho);
+    get_p(rho_val, rhou_val, rhoe_val) {  // gas pressure p value
+	return ModelCalc_SH.gammam1 * (rhoe_val - 0.5*rhou_val*rhou_val/rho_val);
     }
     
+    get_c(p_val, rho_val) {  // get speed of sound value for a perfect gas
+	return Math.sqrt(ModelCalc_SH.gamma * p_val / rho_val);
+    }
+    
+    get_u(rho_val, rhou_val) {  // get gas velocity u value
+	return rhou_val / rho_val;
+    }
+    
+    get_m(u_val, c_val) {  // get gas Mach number m value
+	return u_val / c_val;
+    }
+    
+    load_p_vector(rho, rhou, rhoe) {
+	for (let i = 0; i < Params_SH.N; i++) {
+	    this.p.set(i, this.get_p(rho.get(i), rhou.get(i), rhoe.get(i)));
+	}
+    }
+
+    load_c_vector(p, rho) {
+	for (let i = 0; i < Params_SH.N; i++) {
+	    this.c.set(i, this.get_c(p.get(i), rho.get(i)));
+	}
+    }
+
+    load_u_vector(rho, rhou) {
+	for (let i = 0; i < Params_SH.N; i++) {
+	    this.u.set(i, this.get_u(rho.get(i), rhou.get(i)));
+	}
+    }
+
+    load_m_vector(u, c) {
+	for (let i = 0; i < Params_SH.N; i++) {
+	    this.m.set(i, this.get_m(u.get(i), c.get(i)));
+	}
+    }
+
     calc_dt() {
 
 	let cL = this.get_c(Params_SH.pL, Params_SH.rhoL);
@@ -37,24 +73,13 @@ class ModelCalc_SH extends ModelCalc {
 	Params_SH.dsoh = 0.45 / cmax;  // for convenience
     }
 
+    // NOTE: each of these derived quantities is used in calculating flux vectors in load_flux_vectors(); ORDER BELOW IS IMPORTANT!!!
     load_derived_vectors_pcum(rho, rhou, rhoe) {
 
-	for (let i = 0; i < Params_SH.N; i++) {
-	    let p_val = ModelCalc_SH.gammam1 * (rhoe.get(i) - 0.5 * rhou.get(i) * rhou.get(i) / rho.get(i));
-	    this.p.set(i, p_val);
-	}
-	for (let i = 0; i < Params_SH.N; i++) {
-	    let c_val = Math.sqrt( ModelCalc_SH.gamma * this.p.get(i) / rho.get(i) );
-	    this.c.set(i, c_val);
-	}
-	for (let i = 0; i < Params_SH.N; i++) {
-	    let u_val = rhou.get(i) / rho.get(i);
-	    this.u.set(i, u_val);
-	}
-	for (let i = 0; i < Params_SH.N; i++) {
-	    let m_val = this.u.get(i) / this.c.get(i);
-	    this.m.set(i, m_val);
-	}
+	this.load_p_vector(rho, rhou, rhoe);
+	this.load_c_vector(this.p, rho);  // DEPENDS ON FRESH p CALCULATION ABOVE
+	this.load_u_vector(rho, rhou);
+	this.load_m_vector(this.u, this.c);  // DEPENDS ON FRESH u,c CALCULATIONS ABOVE
     }
 
     load_flux_vectors(rho, rhou, rhoe) {
