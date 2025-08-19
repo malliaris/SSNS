@@ -57,7 +57,7 @@ class UserInterface {
 	Coords_LM.x_0 = new UINI_float(this, "UI_P_ND_LM_x_0", false);
 	Coords_GM.x_0 = new UINI_float(this, "UI_P_ND_GM_x_0", false);
 	Coords_GM.y_0 = new UINI_float(this, "UI_P_ND_GM_y_0", false);
-	Params_SH.UINI_N = new UINI_int(this, "UI_P_FD_SH_N", false);
+	Params_SH.UINI_N = new UINI_even_int(this, "UI_P_FD_SH_N", false);  // even integer required!
 	Params_SH.UINI_rhoL = new UINI_float(this, "UI_P_FD_SH_rhoL", false);
 	Params_SH.UINI_rhoR = new UINI_float(this, "UI_P_FD_SH_rhoR", false);
 	Params_SH.UINI_pL = new UINI_float(this, "UI_P_FD_SH_pL", false);

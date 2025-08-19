@@ -6,6 +6,7 @@
 class ModelCalc_SH extends ModelCalc {
 
     static gamma = 1.4;  // perfect gas ratio of specific heats c_p / c_v
+    static gammam1 = 0.4;  // gammam1 = gamma - 1
 
     constructor() {
 	super();
@@ -21,6 +22,26 @@ class ModelCalc_SH extends ModelCalc {
 
     model_is_stoch() {return false; }
 
+    load_derived_vectors_pcum(rho, rhou, rhoe) {
+
+	for (let i = 0; i < Params_SH.N; i++) {
+	    let p_val = ModelCalc_SH.gammam1 * (rhoe.get(i) - 0.5 * rhou.get(i) * rhou.get(i) / rho.get(i));
+	    this.p.set(i, p_val);
+	}
+	for (let i = 0; i < Params_SH.N; i++) {
+	    let c_val = Math.sqrt( ModelCalc_SH.gamma * this.p.get(i) / rho.get(i) );
+	    this.c.set(i, c_val);
+	}
+	for (let i = 0; i < Params_SH.N; i++) {
+	    let u_val = rhou.get(i) / rho.get(i);
+	    this.u.set(i, u_val);
+	}
+	for (let i = 0; i < Params_SH.N; i++) {
+	    let m_val = this.u.get(i) / this.c.get(i);
+	    this.m.set(i, m_val);
+	}
+    }
+    
     /*
 
       nx = 40*256;
@@ -87,18 +108,8 @@ class ModelCalc_SH extends ModelCalc {
 
 
 
-      r = zeros(1,nx);
-      ru = zeros(1,nx);
-      rE = zeros(1,nx);
-
-      for i = 1:nx, r(i) = r_right;ru(i) = 0.0;rE(i) = p_right/(gg - 1);end
-      for i = 1:nx/2; r(i) = r_left; rE(i) = p_left/(gg - 1); end
 
       for istep = 1:maxstep
-        for i = 1:nx,p(i) = (gg - 1)*(rE(i) - 0.5*(ru(i)*ru(i)/r(i)));end
-	for i = 1:nx,c(i) = sqrt( gg*p(i)/r(i) );end
-	for i = 1:nx,u(i) = ru(i)/r(i);end;
-	for i = 1:nx,m(i) = u(i)/c(i);end
 
 	// Find fluxes
 	for i = 1:nx - 1
@@ -130,7 +141,7 @@ class Params_SH extends Params {
     static h;  // spacing between consecutive grid points
     static ds = 0.01;  // EVENTUALLY USE ALGORITHM TO SET VALUE via CFL condition or similar???
     
-    static UINI_N;  // = new UINI_int(this, "UI_P_FD_SH_N", false);  assignment occurs in UserInterface(); see discussion there
+    static UINI_N;  // = new UINI_even_int(this, "UI_P_FD_SH_N", false);  assignment occurs in UserInterface(); see discussion there
     static N;
     static UINI_rhoL;  // = new UINI_float(this, "UI_P_FD_SH_rhoL", false);  assignment occurs in UserInterface(); see discussion there
     static rhoL;
@@ -172,14 +183,32 @@ class Coords_SH extends Coords {
 	    this.rhou = empty('float64', [ Params_SH.N ]);  // vector of rho*u grid values
 	    this.rhoe = empty('float64', [ Params_SH.N ]);  // vector of rho*e grid values
 
+	    // set up initial condition; number of grid points N is UINI_even_int so we know that N/2 is also an integer
+	    for (let i = 0; i < Params_SH.N/2; i++) {  // left half
+		this.rho.set(i, Params_SH.rhoL);
+		this.rhou.set(i, 0.0);
+		this.rhoe.set(i, Params_SH.pL / ModelCalc_SH.gammam1);
+	    }
+	    for (let i = Params_SH.N/2; i < Params_SH.N; i++) {  // right half
+		this.rho.set(i, Params_SH.rhoR);
+		this.rhou.set(i, 0.0);
+		this.rhoe.set(i, Params_SH.pR / ModelCalc_SH.gammam1);
+	    }
 	    //this.vs = zeros([ Params_SH.mv_dim ], {'dtype': 'float64'});
-	    //this.vs.set(0, this.extra_args[1]);  // this is ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
+	    console.log(this.rho._buffer);/////
+	    console.log(this.rhou._buffer);/////
+	    console.log(this.rhoe._buffer);/////
 
 	} else {
 
-	    //Coords_SH.temp_vs = copy(this.c_prev.vs);
-	    //Coords_SH.temp_vs.set(0, this.p.Ub);  // ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
-
+	    this.mc.load_derived_vectors_pcum(this.c_prev.rho, this.c_prev.rhou, this.c_prev.rhoe);
+	    console.log(this.mc.p._buffer);/////
+	    console.log(this.mc.c._buffer);/////
+	    console.log(this.mc.u._buffer);/////
+	    console.log(this.mc.m._buffer);/////
+	    this.rho = empty('float64', [ Params_SH.N ]);  // vector of rho (i.e., density) grid values
+	    this.rhou = empty('float64', [ Params_SH.N ]);  // vector of rho*u grid values
+	    this.rhoe = empty('float64', [ Params_SH.N ]);  // vector of rho*e grid values
 	}
     }
 }
