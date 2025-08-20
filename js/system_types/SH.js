@@ -83,7 +83,14 @@ class ModelCalc_SH extends ModelCalc {
 	this.load_m_vector(this.u, this.c);  // DEPENDS ON FRESH u,c CALCULATIONS ABOVE
     }
 
+    // these flux vectors are used in load_new_state_vectors()
     load_flux_vectors(rho, rhou, rhoe) {
+
+	this.load_derived_vectors_pcum(rho, rhou, rhoe);
+	//console.log("p", this.p._buffer);/////
+	//console.log("c", this.c._buffer);/////
+	//console.log("u", this.u._buffer);/////
+	//console.log("m", this.m._buffer);/////
 
 	for (let i = 0; i < Params_SH.N - 1; i++) {  // ??? for i = 1:nx - 1
 	    this.F1.set(i, 0.5*(rhou.get(i + 1) + rhou.get(i)) - 0.5*(Math.abs(rhou.get(i + 1)) - Math.abs(rhou.get(i))));
@@ -102,76 +109,17 @@ class ModelCalc_SH extends ModelCalc {
 
     load_new_state_vectors(c_prev, rho, rhou, rhoe) {
 
+	this.load_flux_vectors(c_prev.rho, c_prev.rhou, c_prev.rhoe);
+	//console.log("1", this.F1._buffer);/////
+	//console.log("2", this.F2._buffer);/////
+	//console.log("3", this.F3._buffer);/////
+
 	for (let i = 2; i < Params_SH.N - 2; i++) {  // ??? for i = 1:nx - 1 ??? for i = 2:nx - 2
 	    rho.set(i, c_prev.rho.get(i) - Params_SH.dsoh*(this.F1.get(i) - this.F1.get(i - 1)));
 	    rhou.set(i, c_prev.rhou.get(i) - Params_SH.dsoh*(this.F2.get(i) - this.F2.get(i - 1)));
 	    rhoe.set(i, c_prev.rhoe.get(i) - Params_SH.dsoh*(this.F3.get(i) - this.F3.get(i - 1)));
 	}
     }
-
-    /*
-
-      nx = 40*256;
-      tfinal = 0.005;
-      xl = 10.0;
-      time = 0;
-      gg = 1.4;
-      h = xl/(nx - 1);
-
-      for i = 1:nx,x(i) = h*(i - 1);end
-
-      p_left = 100000;
-      p_right = 10000;
-      r_left = 1;
-      r_right = 0.125;
-      //???u_left = 0;
-      r = zeros(1,nx);
-      ru = zeros(1,nx);
-      rE = zeros(1,nx);
-      p = zeros(1,nx);
-      c = zeros(1,nx);
-      u = zeros(1,nx);
-      m = zeros(1,nx);
-      F1 = zeros(1,nx);
-      F2 = zeros(1,nx);
-      F3 = zeros(1,nx);
-
-      for i = 1:nx, r(i) = r_right;ru(i) = 0.0;rE(i) = p_right/(gg - 1);end
-      for i = 1:nx/2; r(i) = r_left; rE(i) = p_left/(gg - 1); end
-
-      cmax = sqrt( max(gg*p_right/r_right,gg*p_left/r_left) );
-      dt = 0.45*h/cmax;
-      maxstep = tfinal/dt;
-      
-      for istep = 1:maxstep
-        for i = 1:nx,p(i) = (gg - 1)*(rE(i) - 0.5*(ru(i)*ru(i)/r(i)));end
-	for i = 1:nx,c(i) = sqrt( gg*p(i)/r(i) );end
-	for i = 1:nx,u(i) = ru(i)/r(i);end;
-	for i = 1:nx,m(i) = u(i)/c(i);end
-
-	// Find fluxes
-	for i = 1:nx - 1
-	  F1(i) = 0.5*(ru(i + 1) + ru(i)) - 0.5*(abs(ru(i + 1)) - abs(ru(i)));
-	  F2(i) = 0.5*(u(i + 1)*ru(i + 1) + p(i + 1) + u(i)*ru(i) + p(i)) - 0.5*(abs(u(i + 1))*ru(i + 1) - abs(u(i))*ru(i)) - 0.5*(p(i + 1)*m(i + 1) - p(i)*m(i));
-	  F3(i) = 0.5*(u(i + 1)*(rE(i + 1) + p(i + 1)) + u(i)*(rE(i) + p(i))) - 0.5*(abs(u(i + 1))*rE(i + 1) - abs(u(i))*rE(i)) - 0.5*(p(i + 1)*c(i + 1) - p(i)*c(i));
-	  if m(i) > 1, F2(i) = ru(i)*u(i) + p(i);
-	    F3(i) = (rE(i) + p(i))*u(i);end
-	  if m(i) < -1, F2(i) = ru(i + 1)*u(i + 1) + p(i + 1);
-	    F3(i) = (rE(i + 1) + p(i + 1))*u(i + 1);end
-	end
-
-	// Update solution
-	for i = 2:nx - 2
-	  r(i) = r(i) - (dt/h)*(F1(i) - F1(i - 1));
-	  ru(i) = ru(i) - (dt/h)*(F2(i) - F2(i - 1));
-	  rE(i) = rE(i) - (dt/h)*(F3(i) - F3(i - 1));
-	end
-
-	time = time + dt//???,istep
-
-      end
-
-    */
 }
 
 class Params_SH extends Params {
@@ -194,21 +142,11 @@ class Params_SH extends Params {
 
     constructor() {
 	super();
-
-	//this.Dpol = Dpol_val;
-
-	// summarize physical parameter values
-	//console.log("physical parameter value summary:");
-	//console.log("N     :", Params_HS.N);
     }
 
-    push_vals_to_UI() {
-	//Params_SH.UINI_Dpol.push_to_UI(this.Dpol);
-    }
+    push_vals_to_UI() {}
 
-    get_info_str() {
-	//return "Dpol = " + this.Dpol;
-    }
+    get_info_str() {}
 }
 
 class Coords_SH extends Coords {
@@ -217,11 +155,11 @@ class Coords_SH extends Coords {
 
 	super(...args);
 
-	if (this.constructing_init_cond) {
+	this.rho = empty('float64', [ Params_SH.N ]);  // vector of rho (i.e., density) grid values
+	this.rhou = empty('float64', [ Params_SH.N ]);  // vector of rho*u grid values
+	this.rhoe = empty('float64', [ Params_SH.N ]);  // vector of rho*e grid values
 
-	    this.rho = empty('float64', [ Params_SH.N ]);  // vector of rho (i.e., density) grid values
-	    this.rhou = empty('float64', [ Params_SH.N ]);  // vector of rho*u grid values
-	    this.rhoe = empty('float64', [ Params_SH.N ]);  // vector of rho*e grid values
+	if (this.constructing_init_cond) {
 
 	    // set up initial condition; number of grid points N is UINI_even_int so we know that N/2 is also an integer
 	    for (let i = 0; i < Params_SH.N/2; i++) {  // left half
@@ -241,22 +179,10 @@ class Coords_SH extends Coords {
 
 	} else {
 
-	    this.mc.load_derived_vectors_pcum(this.c_prev.rho, this.c_prev.rhou, this.c_prev.rhoe);
-	    console.log("p", this.mc.p._buffer);/////
-	    console.log("c", this.mc.c._buffer);/////
-	    console.log("u", this.mc.u._buffer);/////
-	    console.log("m", this.mc.m._buffer);/////
-	    this.mc.load_flux_vectors(this.c_prev.rho, this.c_prev.rhou, this.c_prev.rhoe);
-	    console.log("1", this.mc.F1._buffer);/////
-	    console.log("2", this.mc.F2._buffer);/////
-	    console.log("3", this.mc.F3._buffer);/////
-	    this.rho = empty('float64', [ Params_SH.N ]);  // vector of rho (i.e., density) grid values
-	    this.rhou = empty('float64', [ Params_SH.N ]);  // vector of rho*u grid values
-	    this.rhoe = empty('float64', [ Params_SH.N ]);  // vector of rho*e grid values
 	    this.mc.load_new_state_vectors(this.c_prev, this.rho, this.rhou, this.rhoe);
-	    console.log("r ", this.rho._buffer);/////
-	    console.log("ru", this.rhou._buffer);/////
-	    console.log("re", this.rhoe._buffer);/////
+	    //console.log("r ", this.rho._buffer);/////
+	    //console.log("ru", this.rhou._buffer);/////
+	    //console.log("re", this.rhoe._buffer);/////
 	}
     }
 }

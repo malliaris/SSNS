@@ -281,7 +281,11 @@ class PlotTypeHX_SH extends PlotTypeHX {
 	return data_series;
     }
 
-    get_flot_gen_opts() { return {}; }
+    get_flot_gen_opts() {
+	let opts = {};
+	this.set_ylim_flot(opts, -0.05, 1.05);
+	return opts;
+    }
 }
 
 class PlotTypeHX_PF extends PlotTypeHX {
