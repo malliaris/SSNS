@@ -7,6 +7,7 @@ class ModelCalc_SH extends ModelCalc {
 
     static gamma = 1.4;  // perfect gas ratio of specific heats c_p / c_v
     static gammam1 = 0.4;  // gammam1 = gamma - 1
+    static cmax;
 
     constructor() {
 	super();
@@ -68,9 +69,9 @@ class ModelCalc_SH extends ModelCalc {
 
 	let cL = this.get_c(Params_SH.pL, Params_SH.rhoL);
 	let cR = this.get_c(Params_SH.pR, Params_SH.rhoR);
-	let cmax = Math.max(cL, cR);
-	Params_SH.ds = 0.45 * Params_SH.h / cmax;
-	Params_SH.dsoh = 0.45 / cmax;  // for convenience
+	ModelCalc_SH.cmax = Math.max(cL, cR);
+	Params_SH.ds = 0.45 * Params_SH.h / ModelCalc_SH.cmax;
+	Params_SH.dsoh = 0.45 / ModelCalc_SH.cmax;  // for convenience
     }
 
     // NOTE: each of these derived quantities is used in calculating flux vectors in load_flux_vectors(); ORDER BELOW IS IMPORTANT!!!

@@ -239,10 +239,14 @@ class PlotTypeHX_SH extends PlotTypeHX {
 	this.flot_data_opts_rho_x.color = "rgba(240, 120, 20, 1.0)";
 	this.flot_data_opts_p_x = copy(PlotTypeHX_SH.flot_data_opts_curve);
 	this.flot_data_opts_p_x.color = "rgba(20, 20, 240, 1.0)";
+	this.flot_data_opts_u_x = copy(PlotTypeHX_SH.flot_data_opts_curve);
+	this.flot_data_opts_u_x.color = "rgba(240, 20, 20, 1.0)";
+	this.flot_data_opts_m_x = copy(PlotTypeHX_SH.flot_data_opts_curve);
+	this.flot_data_opts_m_x.color = "rgba(20, 240, 20, 1.0)";
     }
 
     get_ext_y_axis_lbl_str() {
-	return "\\rho, p, u, M (x)";
+	return "\\rho, p, u/c_{\\mathrm{max}}, M (x)";
     }
 
     get_ext_x_axis_lbl_str() {
@@ -255,17 +259,24 @@ class PlotTypeHX_SH extends PlotTypeHX {
 	let N = Params_SH.N;
 	let rho_data = [];
 	let p_data = [];
+	let u_data = [];
+	let m_data = [];
 	let coords = this.trj.get_x(t);
 	this.trj.mc.load_derived_vectors_pcum(coords.rho, coords.rhou, coords.rhoe);
 	for (let i = 0; i < N; i++) {
 	    rho_data.push( [ i, coords.rho.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	    p_data.push( [ i, (this.trj.mc.p.get(i) / Params_SH.pL) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    u_data.push( [ i, (this.trj.mc.u.get(i) / ModelCalc_SH.cmax) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    m_data.push( [ i, this.trj.mc.m.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
-	//console.log("rho_data", rho_data);
 	this.flot_data_opts_rho_x["data"] = rho_data;
 	data_series.push(this.flot_data_opts_rho_x);
 	this.flot_data_opts_p_x["data"] = p_data;
 	data_series.push(this.flot_data_opts_p_x);
+	this.flot_data_opts_u_x["data"] = u_data;
+	data_series.push(this.flot_data_opts_u_x);
+	this.flot_data_opts_m_x["data"] = m_data;
+	data_series.push(this.flot_data_opts_m_x);
 
 	return data_series;
     }
