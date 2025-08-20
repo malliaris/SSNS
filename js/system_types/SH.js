@@ -16,9 +16,9 @@ class ModelCalc_SH extends ModelCalc {
 	this.c = empty('float64', [ Params_SH.N ]);  // vector of speed-of-sound values
 	this.u = empty('float64', [ Params_SH.N ]);  // vector of velocity values
 	this.m = empty('float64', [ Params_SH.N ]);  // vector of mach number values
-	this.F1 = empty('float64', [ Params_SH.N ]);  // vector of flux element (rho*u) values
-	this.F2 = empty('float64', [ Params_SH.N ]);  // vector of flux element (rho*u^2 + p) values
-	this.F3 = empty('float64', [ Params_SH.N ]);  // vector of flux element (rho*e*u + p*u) values
+	this.F1 = empty('float64', [ Params_SH.N - 1 ]);  // vector of flux element (rho*u) values
+	this.F2 = empty('float64', [ Params_SH.N - 1 ]);  // vector of flux element (rho*u^2 + p) values
+	this.F3 = empty('float64', [ Params_SH.N - 1 ]);  // vector of flux element (rho*e*u + p*u) values
 
 	this.calc_dt();
     }
@@ -87,12 +87,12 @@ class ModelCalc_SH extends ModelCalc {
     load_flux_vectors(rho, rhou, rhoe) {
 
 	this.load_derived_vectors_pcum(rho, rhou, rhoe);
-	//console.log("p", this.p._buffer);/////
-	//console.log("c", this.c._buffer);/////
-	//console.log("u", this.u._buffer);/////
-	//console.log("m", this.m._buffer);/////
+	console.log("p", this.p._buffer);/////
+	console.log("c", this.c._buffer);/////
+	console.log("u", this.u._buffer);/////
+	console.log("m", this.m._buffer);/////
 
-	for (let i = 0; i < Params_SH.N - 1; i++) {  // ??? for i = 1:nx - 1
+	for (let i = 0; i < Params_SH.N - 1; i++) {  // flux entries sit between grid points; for F1,F2,F3 vectors indices 0,1,2,... --> 1/2, 3/2, 5/2,...
 	    this.F1.set(i, 0.5*(rhou.get(i + 1) + rhou.get(i)) - 0.5*(Math.abs(rhou.get(i + 1)) - Math.abs(rhou.get(i))));
 	    this.F2.set(i, 0.5*(this.u.get(i + 1)*rhou.get(i + 1) + this.p.get(i + 1) + this.u.get(i)*rhou.get(i) + this.p.get(i)) - 0.5*(Math.abs(this.u.get(i + 1))*rhou.get(i + 1) - Math.abs(this.u.get(i))*rhou.get(i)) - 0.5*(this.p.get(i + 1)*this.m.get(i + 1) - this.p.get(i)*this.m.get(i)));  // SPLIT UP!
 	    this.F3.set(i, 0.5*(this.u.get(i + 1)*(rhoe.get(i + 1) + this.p.get(i + 1)) + this.u.get(i)*(rhoe.get(i) + this.p.get(i))) - 0.5*(Math.abs(this.u.get(i + 1))*rhoe.get(i + 1) - Math.abs(this.u.get(i))*rhoe.get(i)) - 0.5*(this.p.get(i + 1)*this.c.get(i + 1) - this.p.get(i)*this.c.get(i)));  // SPLIT UP!
@@ -110,15 +110,24 @@ class ModelCalc_SH extends ModelCalc {
     load_new_state_vectors(c_prev, rho, rhou, rhoe) {
 
 	this.load_flux_vectors(c_prev.rho, c_prev.rhou, c_prev.rhoe);
-	//console.log("1", this.F1._buffer);/////
-	//console.log("2", this.F2._buffer);/////
-	//console.log("3", this.F3._buffer);/////
+	console.log("1", this.F1._buffer);/////
+	console.log("2", this.F2._buffer);/////
+	console.log("3", this.F3._buffer);/////
 
+	//rho.set(0, c_prev.rho.get(0) - Params_SH.dsoh*this.F1.get(0));
+	//rhou.set(0, c_prev.rhou.get(0) - Params_SH.dsoh*this.F2.get(0));
+	//rhoe.set(0, c_prev.rhoe.get(0) - Params_SH.dsoh*this.F3.get(0));
+	
+	//for (let i = 1; i < Params_SH.N - 1; i++) {  // ??? for i = 1:nx - 1 ??? for i = 2:nx - 2
 	for (let i = 2; i < Params_SH.N - 2; i++) {  // ??? for i = 1:nx - 1 ??? for i = 2:nx - 2
 	    rho.set(i, c_prev.rho.get(i) - Params_SH.dsoh*(this.F1.get(i) - this.F1.get(i - 1)));
 	    rhou.set(i, c_prev.rhou.get(i) - Params_SH.dsoh*(this.F2.get(i) - this.F2.get(i - 1)));
 	    rhoe.set(i, c_prev.rhoe.get(i) - Params_SH.dsoh*(this.F3.get(i) - this.F3.get(i - 1)));
 	}
+
+	//rho.set(Params_SH.N - 1, c_prev.rho.get(Params_SH.N - 1) + Params_SH.dsoh*this.F1.get(Params_SH.N - 2));
+	//rhou.set(Params_SH.N - 1, c_prev.rhou.get(Params_SH.N - 1) + Params_SH.dsoh*this.F2.get(Params_SH.N - 2));
+	//rhoe.set(Params_SH.N - 1, c_prev.rhoe.get(Params_SH.N - 1) + Params_SH.dsoh*this.F3.get(Params_SH.N - 2));
     }
 }
 
@@ -172,17 +181,17 @@ class Coords_SH extends Coords {
 		this.rhou.set(i, 0.0);
 		this.rhoe.set(i, Params_SH.pR / ModelCalc_SH.gammam1);
 	    }
-	    //this.vs = zeros([ Params_SH.mv_dim ], {'dtype': 'float64'});
-	    //console.log(this.rho._buffer);/////
-	    //console.log(this.rhou._buffer);/////
-	    //console.log(this.rhoe._buffer);/////
+	    console.log(this.rho._buffer);/////
+	    console.log(this.rhou._buffer);/////
+	    console.log(this.rhoe._buffer);/////
+	    //console.log("this.rhoe.get(-1) =", this.rhoe.get(-1));/////
 
 	} else {
 
 	    this.mc.load_new_state_vectors(this.c_prev, this.rho, this.rhou, this.rhoe);
-	    //console.log("r ", this.rho._buffer);/////
-	    //console.log("ru", this.rhou._buffer);/////
-	    //console.log("re", this.rhoe._buffer);/////
+	    console.log("r ", this.rho._buffer);/////
+	    console.log("ru", this.rhou._buffer);/////
+	    console.log("re", this.rhoe._buffer);/////
 	}
     }
 }
