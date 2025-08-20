@@ -119,11 +119,18 @@ class ModelCalc_SH extends ModelCalc {
 	//rhoe.set(0, c_prev.rhoe.get(0) - Params_SH.dsoh*this.F3.get(0));
 	
 	//for (let i = 1; i < Params_SH.N - 1; i++) {  // ??? for i = 1:nx - 1 ??? for i = 2:nx - 2
-	for (let i = 2; i < Params_SH.N - 2; i++) {  // ??? for i = 1:nx - 1 ??? for i = 2:nx - 2
+	//for (let i = 2; i < Params_SH.N - 2; i++) {  // ??? for i = 1:nx - 1 ??? for i = 2:nx - 2
+	for (let i = 1; i < Params_SH.N - 1; i++) {  // ??? for i = 1:nx - 1 ??? for i = 2:nx - 2
 	    rho.set(i, c_prev.rho.get(i) - Params_SH.dsoh*(this.F1.get(i) - this.F1.get(i - 1)));
 	    rhou.set(i, c_prev.rhou.get(i) - Params_SH.dsoh*(this.F2.get(i) - this.F2.get(i - 1)));
 	    rhoe.set(i, c_prev.rhoe.get(i) - Params_SH.dsoh*(this.F3.get(i) - this.F3.get(i - 1)));
 	}
+	rho.set(0, rho.get(1));
+	rhou.set(0, rhou.get(1));
+	rhoe.set(0, rhoe.get(1));
+	rho.set(Params_SH.N - 1, rho.get(Params_SH.N - 2));
+	rhou.set(Params_SH.N - 1, rhou.get(Params_SH.N - 2));
+	rhoe.set(Params_SH.N - 1, rhoe.get(Params_SH.N - 2));
 
 	//rho.set(Params_SH.N - 1, c_prev.rho.get(Params_SH.N - 1) + Params_SH.dsoh*this.F1.get(Params_SH.N - 2));
 	//rhou.set(Params_SH.N - 1, c_prev.rhou.get(Params_SH.N - 1) + Params_SH.dsoh*this.F2.get(Params_SH.N - 2));
