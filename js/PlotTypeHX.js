@@ -246,7 +246,7 @@ class PlotTypeHX_SH extends PlotTypeHX {
     }
 
     get_ext_y_axis_lbl_str() {
-	return "\\textcolor{#f07814}{\\rho/\\rho_L} \\, , \\; \\textcolor{#0000ff}{p/p_L} \\, , \\; \\textcolor{#ff0000}{u/c_{\\mathrm{max}}} \\, , \\; \\textcolor{#00ff00}{\\mathrm{Ma}}";
+	return "\\textcolor{#f07814}{\\rho/\\rho_L} \\, , \\; \\textcolor{#0000ff}{p/p_L} \\, , \\; \\textcolor{#ff0000}{u/c_L} \\, , \\; \\textcolor{#00ff00}{\\mathrm{Ma}}";
     }
 
     get_ext_x_axis_lbl_str() {
@@ -266,7 +266,7 @@ class PlotTypeHX_SH extends PlotTypeHX {
 	for (let i = 0; i < N; i++) {
 	    rho_data.push( [ i, (coords.rho.get(i) / Params_SH.rhoL) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	    p_data.push( [ i, (this.trj.mc.p.get(i) / Params_SH.pL) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	    u_data.push( [ i, (this.trj.mc.u.get(i) / ModelCalc_SH.cmax) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    u_data.push( [ i, (this.trj.mc.u.get(i) / ModelCalc_SH.cL) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	    m_data.push( [ i, this.trj.mc.m.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	this.flot_data_opts_rho_x["data"] = rho_data;
@@ -287,8 +287,12 @@ class PlotTypeHX_SH extends PlotTypeHX {
 	let opts = {};
 	this.set_ylim_flot(opts, -0.05, 1.05);
 	//is_IC_Kundu_Fig_6_26_values() {  // analytical solution to Riemann problem requires root finding, which has only been done for **this IC** (numerics difficult in js!)
-	this.add_vert_line_flot(opts, 250, 1, "black");
-	this.add_horiz_line_flot(opts, 3.031301780506469*Params_SH.pR/Params_SH.pL, 1, "black");
+	this.add_horiz_line_flot(opts, ModelCalc_SH.p2/Params_SH.pL, 1, "black");  // fyi, p2 == p3
+	this.add_horiz_line_flot(opts, ModelCalc_SH.rho2/Params_SH.rhoL, 1, "black");
+	this.add_horiz_line_flot(opts, ModelCalc_SH.rho3/Params_SH.rhoL, 1, "black");
+	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.cL, 1, "black");  // fyi, u2 == u3
+	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.c2, 1, "black");
+	this.add_horiz_line_flot(opts, ModelCalc_SH.u3/ModelCalc_SH.c3, 1, "black");
 	this.add_vert_line_flot(opts, 500, 1, "black");
 	return opts;
     }

@@ -10,11 +10,15 @@ class ModelCalc_SH extends ModelCalc {
     static cL;  // aka c4
     static cR;  // aka c1
     static cmax;
+    static p2;
+    static p3;
     static c2;
     static c3;
     static u2;
     static u3;
     static u_shock;
+    static rho2;
+    static rho3;
 
     constructor() {
 	super();
@@ -28,6 +32,7 @@ class ModelCalc_SH extends ModelCalc {
 	this.F3 = empty('float64', [ Params_SH.N - 1 ]);  // vector of flux element (rho*e*u + p*u) values
 
 	this.calc_quantities();
+	this.set_analyt_soln_via_root_finding_Kundu_Fig_6_26_values();
     }
 
     model_is_stoch() {return false; }
@@ -55,6 +60,10 @@ class ModelCalc_SH extends ModelCalc {
     
     get_m(u_val, c_val) {  // get gas Mach number m value
 	return u_val / c_val;
+    }
+    
+    get_rho(p_val, c_val) {  // get gas density rho value
+	return ModelCalc_SH.gamma * p_val / (c_val*c_val);
     }
     
     load_p_vector(rho, rhou, rhoe) {
@@ -87,11 +96,30 @@ class ModelCalc_SH extends ModelCalc {
 
     set_analyt_soln_via_root_finding_Kundu_Fig_6_26_values() {  // analytical solution to Riemann problem requires root finding, which has only been done for **this IC** (numerics difficult in js!)
 
-	ModelCalc_SH.u2;
-	ModelCalc_SH.u3;
-	ModelCalc_SH.u_shock;
-        ModelCalc_SH.c2;
-	ModelCalc_SH.c3;
+	let p2_over_p1 = 3.031301780506469;  // from root finding with Python SciPy optimize.root_solver
+	ModelCalc_SH.p2 = p2_over_p1 * Params_SH.pR;  // pR aka p1
+	ModelCalc_SH.p3 = ModelCalc_SH.p2;
+	ModelCalc_SH.u2 = 5.0 * ModelCalc_SH.cL * (1.0 - Math.pow(ModelCalc_SH.p2/Params_SH.pL, 1.0/7.0));  // cL aka c4; pL aka p4
+	ModelCalc_SH.u3 = ModelCalc_SH.u2;
+	ModelCalc_SH.u_shock = ModelCalc_SH.cR * Math.sqrt( (6.0/7.0) * (p2_over_p1 - 1.0) + 1.0 );  // cR aka c1
+        ModelCalc_SH.c2 = ModelCalc_SH.cR * Math.sqrt( p2_over_p1 * (p2_over_p1 + 6.0) / (6.0*p2_over_p1 + 1.0) );  // cR aka c1
+	ModelCalc_SH.c3 = ModelCalc_SH.cL - (1.0/5.0)*ModelCalc_SH.u3;  // cL aka c4
+	ModelCalc_SH.rho2 = this.get_rho(ModelCalc_SH.p2, ModelCalc_SH.c2);
+	ModelCalc_SH.rho3 = this.get_rho(ModelCalc_SH.p3, ModelCalc_SH.c3);
+
+	console.log("ModelCalc_SH.p1 =", Params_SH.pR);
+	console.log("ModelCalc_SH.p2 =", ModelCalc_SH.p2);
+	console.log("ModelCalc_SH.p3 =", ModelCalc_SH.p3);
+	console.log("ModelCalc_SH.p4 =", Params_SH.pL);
+	console.log("ModelCalc_SH.u2 =", ModelCalc_SH.u2);
+	console.log("ModelCalc_SH.u3 =", ModelCalc_SH.u3);
+	console.log("ModelCalc_SH.c1 =", ModelCalc_SH.cR);
+	console.log("ModelCalc_SH.c2 =", ModelCalc_SH.c2);
+	console.log("ModelCalc_SH.c3 =", ModelCalc_SH.c3);
+	console.log("ModelCalc_SH.c4 =", ModelCalc_SH.cL);
+	console.log("ModelCalc_SH.uS =", ModelCalc_SH.u_shock);
+	console.log("ModelCalc_SH.rho2 =", ModelCalc_SH.rho2);
+	console.log("ModelCalc_SH.rho3 =", ModelCalc_SH.rho3);
     }
 
     // NOTE: each of these derived quantities is used in calculating flux vectors in load_flux_vectors(); ORDER BELOW IS IMPORTANT!!!
