@@ -104,14 +104,28 @@ class PlotType {
 	flot_gen_opts["yaxis"]["ticks"] = Array.from(Array(T - B + 1), (e,i) => i + B);  // like Python/NumPy's range/arange methods
     }
 
-    add_vert_line_flot(flot_gen_opts, x_loc, lw, clr_str) {  // add vertical line to flot_gen_opts obj passed in
-	if ( ! ("grid" in flot_gen_opts)) {
+    prepare_to_add_vert_horiz_lines_flot(flot_gen_opts) {  // make sure flot_gen_opts["grid"]["markings"] array exists
+	if ("grid" in flot_gen_opts) {
+	    if ( ! ("markings" in flot_gen_opts["grid"])) {
+		flot_gen_opts["grid"]["markings"] = [];
+	    }
+	} else {
 	    flot_gen_opts["grid"] = {};
+	    flot_gen_opts["grid"]["markings"] = [];
 	}
-	flot_gen_opts["grid"]["markings"] = [ { xaxis: { from: x_loc, to: x_loc }, lineWidth: lw, color: clr_str } ];
-    }    
+    }
 
-    remove_vert_line_flot(flot_gen_opts) {  // remove vertical line (and all other grid entries) from flot_gen_opts obj passed in
+    add_vert_line_flot(flot_gen_opts, x_loc, lw, clr_str) {  // add vertical line to flot_gen_opts obj passed in
+	this.prepare_to_add_vert_horiz_lines_flot(flot_gen_opts);
+	flot_gen_opts["grid"]["markings"].push( { xaxis: { from: x_loc, to: x_loc }, lineWidth: lw, color: clr_str } );
+    }
+
+    add_horiz_line_flot(flot_gen_opts, y_loc, lw, clr_str) {  // add horizontal line to flot_gen_opts obj passed in
+	this.prepare_to_add_vert_horiz_lines_flot(flot_gen_opts);
+	flot_gen_opts["grid"]["markings"].push( { yaxis: { from: y_loc, to: y_loc }, lineWidth: lw, color: clr_str } );
+    }
+
+    remove_vert_horiz_lines_flot(flot_gen_opts) {  // remove vertical and horizontal lines (and all other grid entries) from flot_gen_opts obj passed in
 	if ("grid" in flot_gen_opts) {
 	    flot_gen_opts["grid"]["markings"] = {};
 	}

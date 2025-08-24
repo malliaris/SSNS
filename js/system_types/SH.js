@@ -7,7 +7,14 @@ class ModelCalc_SH extends ModelCalc {
 
     static gamma = 1.4;  // perfect gas ratio of specific heats c_p / c_v
     static gammam1 = 0.4;  // gammam1 = gamma - 1
+    static cL;  // aka c4
+    static cR;  // aka c1
     static cmax;
+    static c2;
+    static c3;
+    static u2;
+    static u3;
+    static u_shock;
 
     constructor() {
 	super();
@@ -20,10 +27,19 @@ class ModelCalc_SH extends ModelCalc {
 	this.F2 = empty('float64', [ Params_SH.N - 1 ]);  // vector of flux element (rho*u^2 + p) values
 	this.F3 = empty('float64', [ Params_SH.N - 1 ]);  // vector of flux element (rho*e*u + p*u) values
 
-	this.calc_dt();
+	this.calc_quantities();
     }
 
     model_is_stoch() {return false; }
+
+    calc_quantities() {
+
+	ModelCalc_SH.cL = this.get_c(Params_SH.pL, Params_SH.rhoL);
+	ModelCalc_SH.cR = this.get_c(Params_SH.pR, Params_SH.rhoR);
+	ModelCalc_SH.cmax = Math.max(ModelCalc_SH.cL, ModelCalc_SH.cR);
+	Params_SH.ds = 0.45 * Params_SH.h / ModelCalc_SH.cmax;
+	Params_SH.dsoh = 0.45 / ModelCalc_SH.cmax;  // for convenience
+    }
 
     get_p(rho_val, rhou_val, rhoe_val) {  // gas pressure p value
 	return ModelCalc_SH.gammam1 * (rhoe_val - 0.5*rhou_val*rhou_val/rho_val);
@@ -65,13 +81,17 @@ class ModelCalc_SH extends ModelCalc {
 	}
     }
 
-    calc_dt() {
+    is_IC_Kundu_Fig_6_26_values() {  // analytical solution to Riemann problem requires root finding, which has only been done for **this IC** (numerics difficult in js!)
+	return ((Params_SH.pL == 100000) && (Params_SH.pR == 10000) && (Params_SH.rhoL == 1) && (Params_SH.rhoR == 0.125));
+    }
 
-	let cL = this.get_c(Params_SH.pL, Params_SH.rhoL);
-	let cR = this.get_c(Params_SH.pR, Params_SH.rhoR);
-	ModelCalc_SH.cmax = Math.max(cL, cR);
-	Params_SH.ds = 0.45 * Params_SH.h / ModelCalc_SH.cmax;
-	Params_SH.dsoh = 0.45 / ModelCalc_SH.cmax;  // for convenience
+    set_analyt_soln_via_root_finding_Kundu_Fig_6_26_values() {  // analytical solution to Riemann problem requires root finding, which has only been done for **this IC** (numerics difficult in js!)
+
+	ModelCalc_SH.u2;
+	ModelCalc_SH.u3;
+	ModelCalc_SH.u_shock;
+        ModelCalc_SH.c2;
+	ModelCalc_SH.c3;
     }
 
     // NOTE: each of these derived quantities is used in calculating flux vectors in load_flux_vectors(); ORDER BELOW IS IMPORTANT!!!

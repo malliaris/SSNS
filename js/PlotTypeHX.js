@@ -278,12 +278,18 @@ class PlotTypeHX_SH extends PlotTypeHX {
 	this.flot_data_opts_m_x["data"] = m_data;
 	data_series.push(this.flot_data_opts_m_x);
 
+
+	
 	return data_series;
     }
 
     get_flot_gen_opts() {
 	let opts = {};
 	this.set_ylim_flot(opts, -0.05, 1.05);
+	//is_IC_Kundu_Fig_6_26_values() {  // analytical solution to Riemann problem requires root finding, which has only been done for **this IC** (numerics difficult in js!)
+	this.add_vert_line_flot(opts, 250, 1, "black");
+	this.add_horiz_line_flot(opts, 3.031301780506469*Params_SH.pR/Params_SH.pL, 1, "black");
+	this.add_vert_line_flot(opts, 500, 1, "black");
 	return opts;
     }
 }

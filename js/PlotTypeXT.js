@@ -135,7 +135,7 @@ class PlotTypeXT extends PlotType {
     update_x_axis_flot(flot_gen_opts, L, R, edge) {
 	this.set_xlim_flot(flot_gen_opts, L, R);  // this.t_L/R define x range on plot
 	this.set_xticks_intgr_flot(flot_gen_opts, L, R);  // sensible ticks at every integer (flot seems to auto-hide some labels... ok for now)
-	this.remove_vert_line_flot(flot_gen_opts);  // prep for possible addition
+	this.remove_vert_horiz_lines_flot(flot_gen_opts);  // prep for possible addition
 	if ((L <= edge) && (edge <= R)) {  // if t_edge is within window, add a thick, vertical line there to guide the eye
 	    this.add_vert_line_flot(flot_gen_opts, edge, 4, "#999999");  // line width, color are last two args
 	}
