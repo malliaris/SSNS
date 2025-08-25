@@ -23,6 +23,7 @@ class ModelCalc_SH extends ModelCalc {
     constructor() {
 	super();
 
+	this.x = empty('float64', [ Params_SH.N ]);  // vector of x values
 	this.p = empty('float64', [ Params_SH.N ]);  // vector of pressure values
 	this.c = empty('float64', [ Params_SH.N ]);  // vector of speed-of-sound values
 	this.u = empty('float64', [ Params_SH.N ]);  // vector of velocity values
@@ -39,6 +40,9 @@ class ModelCalc_SH extends ModelCalc {
 
     calc_quantities() {
 
+	for (let i = 0; i < Params_SH.N; i++) {  // set the x coordinate values
+	    this.x.set(i, i*Params_SH.h);
+	}
 	ModelCalc_SH.cL = this.get_c(Params_SH.pL, Params_SH.rhoL);
 	ModelCalc_SH.cR = this.get_c(Params_SH.pR, Params_SH.rhoR);
 	ModelCalc_SH.cmax = Math.max(ModelCalc_SH.cL, ModelCalc_SH.cR);
@@ -225,6 +229,7 @@ class Coords_SH extends Coords {
 
 	if (this.constructing_init_cond) {
 
+	    this.s = 0.0;  // continuous time "clock" s (as opposed to SSNS time step t); start it at zero
 	    // set up initial condition; number of grid points N is UINI_even_int so we know that N/2 is also an integer
 	    for (let i = 0; i < Params_SH.N/2; i++) {  // left half
 		this.rho.set(i, Params_SH.rhoL);
@@ -236,6 +241,8 @@ class Coords_SH extends Coords {
 		this.rhou.set(i, 0.0);
 		this.rhoe.set(i, Params_SH.pR / ModelCalc_SH.gammam1);
 	    }
+	    this.x_contact_discont_analyt = Params_SH.L_x / 2;
+	    this.x_shock_analyt = Params_SH.L_x / 2;
 	    console.log(this.rho._buffer);/////
 	    console.log(this.rhou._buffer);/////
 	    console.log(this.rhoe._buffer);/////
@@ -243,7 +250,10 @@ class Coords_SH extends Coords {
 
 	} else {
 
+	    this.s = this.c_prev.s + Params_SH.ds;  // update clock
 	    this.mc.load_new_state_vectors(this.c_prev, this.rho, this.rhou, this.rhoe);
+	    this.x_shock_analyt = this.c_prev.x_shock_analyt + ModelCalc_SH.u_shock * Params_SH.ds;
+	    this.x_contact_discont_analyt = this.c_prev.x_contact_discont_analyt + ModelCalc_SH.u2 * Params_SH.ds;  // u2 == u3
 	    console.log("r ", this.rho._buffer);/////
 	    console.log("ru", this.rhou._buffer);/////
 	    console.log("re", this.rhoe._buffer);/////

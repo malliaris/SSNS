@@ -63,7 +63,7 @@ class PlotTypeHX extends PlotType {
     }
 
     plot(t) {
-	$.plot($("#" + this.get_html_targ_id_str()), this.get_flot_data_series(t), this.get_flot_gen_opts());
+	$.plot($("#" + this.get_html_targ_id_str()), this.get_flot_data_series(t), this.get_flot_gen_opts(t));
     }
 }
 
@@ -107,7 +107,7 @@ class PlotTypeHX_Gas extends PlotTypeHX {
 	return data_series;
     }
 
-    get_flot_gen_opts() { return {}; }
+    get_flot_gen_opts(t) { return {}; }
 }
 
 class PlotTypeHX_IG extends PlotTypeHX_Gas {
@@ -153,7 +153,7 @@ class PlotTypeHX_SP extends PlotTypeHX {
 	return data_series;
     }
 
-    get_flot_gen_opts() { return {}; }
+    get_flot_gen_opts(t) { return {}; }
 }
 
 class PlotTypeHX_SP_finite extends PlotTypeHX_SP {
@@ -264,10 +264,11 @@ class PlotTypeHX_SH extends PlotTypeHX {
 	let coords = this.trj.get_x(t);
 	this.trj.mc.load_derived_vectors_pcum(coords.rho, coords.rhou, coords.rhoe);
 	for (let i = 0; i < N; i++) {
-	    rho_data.push( [ i, (coords.rho.get(i) / Params_SH.rhoL) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	    p_data.push( [ i, (this.trj.mc.p.get(i) / Params_SH.pL) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	    u_data.push( [ i, (this.trj.mc.u.get(i) / ModelCalc_SH.cL) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	    m_data.push( [ i, this.trj.mc.m.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    let x_val = this.trj.mc.x.get(i);
+	    rho_data.push( [ x_val, (coords.rho.get(i) / Params_SH.rhoL) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    p_data.push( [ x_val, (this.trj.mc.p.get(i) / Params_SH.pL) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    u_data.push( [ x_val, (this.trj.mc.u.get(i) / ModelCalc_SH.cL) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    m_data.push( [ x_val, this.trj.mc.m.get(i) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	this.flot_data_opts_rho_x["data"] = rho_data;
 	data_series.push(this.flot_data_opts_rho_x);
@@ -283,7 +284,7 @@ class PlotTypeHX_SH extends PlotTypeHX {
 	return data_series;
     }
 
-    get_flot_gen_opts() {
+    get_flot_gen_opts(t) {
 	let opts = {};
 	this.set_ylim_flot(opts, -0.05, 1.05);
 	//is_IC_Kundu_Fig_6_26_values() {  // analytical solution to Riemann problem requires root finding, which has only been done for **this IC** (numerics difficult in js!)
@@ -293,7 +294,9 @@ class PlotTypeHX_SH extends PlotTypeHX {
 	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.cL, 1, "black");  // fyi, u2 == u3
 	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.c2, 1, "black");
 	this.add_horiz_line_flot(opts, ModelCalc_SH.u3/ModelCalc_SH.c3, 1, "black");
-	this.add_vert_line_flot(opts, 500, 1, "black");
+	this.add_vert_line_flot(opts, Params_SH.L_x / 2, 1, "black");
+	this.add_vert_line_flot(opts, this.trj.get_x(t).x_contact_discont_analyt, 1, "black");
+	this.add_vert_line_flot(opts, this.trj.get_x(t).x_shock_analyt, 1, "black");
 	return opts;
     }
 }
@@ -352,5 +355,5 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	return data_series;
     }
 
-    get_flot_gen_opts() { return {}; }
+    get_flot_gen_opts(t) { return {}; }
 }
