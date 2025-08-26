@@ -33,7 +33,7 @@ class ModelCalc_SH extends ModelCalc {
 	this.F3 = empty('float64', [ Params_SH.N - 1 ]);  // vector of flux element (rho*e*u + p*u) values
 
 	this.calc_quantities();
-	this.set_analyt_soln_via_root_finding_Kundu_Fig_6_26_values();
+	this.set_analyt_soln_values();
     }
 
     model_is_stoch() {return false; }
@@ -94,10 +94,6 @@ class ModelCalc_SH extends ModelCalc {
 	}
     }
 
-    is_IC_Kundu_Fig_6_26_values() {  // analytical solution to Riemann problem requires root finding, which has only been done for **this IC** (numerics difficult in js!)
-	return ((Params_SH.pL == 100000) && (Params_SH.pR == 10000) && (Params_SH.rhoL == 1) && (Params_SH.rhoR == 0.125));
-    }
-
     analyt_soln_implicit_eqn(p21, p41, rho41) {  // p21 = p2 / p1, etc.
 
 	let bsqrt = Math.sqrt( (6.0/7.0) * (p21 - 1.0) + 1.0 );  // bsqrt = bottom (of the fraction) square root
@@ -111,10 +107,9 @@ class ModelCalc_SH extends ModelCalc {
 	return this.analyt_soln_implicit_eqn(p21, p41, rho41);
     }
 
-    set_analyt_soln_via_root_finding_Kundu_Fig_6_26_values() {  // analytical solution to Riemann problem requires root finding, which has only been done for **this IC** (numerics difficult in js!)
+    set_analyt_soln_values() {  // analytical solution to Riemann problem requires root finding, which has only been done for **this IC** (numerics difficult in js!)
 
-	let p41 = Params_SH.pL / Params_SH.pR;  // pL aka p4; pR aka p1
-	//let p2_over_p1 = 3.031301780506469;  // from root finding with Python SciPy optimize.root_solver
+	let p41 = Params_SH.pL / Params_SH.pR;  // pL aka p4; pR aka p1; used as upper bound in bracket in next step
 	let p2_over_p1 = RootFinding.bisect_method(this.analyt_soln_implicit_eqn_for_root_finding.bind(this), 1.0, p41, 1e-15, 100);
 
 	ModelCalc_SH.p2 = p2_over_p1 * Params_SH.pR;  // pR aka p1
