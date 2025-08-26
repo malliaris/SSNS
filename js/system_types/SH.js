@@ -98,9 +98,25 @@ class ModelCalc_SH extends ModelCalc {
 	return ((Params_SH.pL == 100000) && (Params_SH.pR == 10000) && (Params_SH.rhoL == 1) && (Params_SH.rhoR == 0.125));
     }
 
+    analyt_soln_implicit_eqn(p21, p41, rho41) {  // p21 = p2 / p1, etc.
+
+	let bsqrt = Math.sqrt( (6.0/7.0) * (p21 - 1.0) + 1.0 );  // bsqrt = bottom (of the fraction) square root
+	return p41**(1/7) * ( 1.0 - (1.0/7.0) * Math.sqrt(rho41/p41) * (p21 - 1.0) / bsqrt ) - p21**(1/7);
+    }
+
+    analyt_soln_implicit_eqn_for_root_finding(p21) {  // p21 = p2 / p1
+
+	let p41 = Params_SH.pL / Params_SH.pR;  // pL aka p4; pR aka p1
+	let rho41 = Params_SH.rhoL / Params_SH.rhoR;  // rhoL aka rho4; rhoR aka rho1
+	return this.analyt_soln_implicit_eqn(p21, p41, rho41);
+    }
+
     set_analyt_soln_via_root_finding_Kundu_Fig_6_26_values() {  // analytical solution to Riemann problem requires root finding, which has only been done for **this IC** (numerics difficult in js!)
 
-	let p2_over_p1 = 3.031301780506469;  // from root finding with Python SciPy optimize.root_solver
+	let p41 = Params_SH.pL / Params_SH.pR;  // pL aka p4; pR aka p1
+	//let p2_over_p1 = 3.031301780506469;  // from root finding with Python SciPy optimize.root_solver
+	let p2_over_p1 = RootFinding.bisect_method(this.analyt_soln_implicit_eqn_for_root_finding.bind(this), 1.0, p41, 1e-15, 100);
+
 	ModelCalc_SH.p2 = p2_over_p1 * Params_SH.pR;  // pR aka p1
 	ModelCalc_SH.p3 = ModelCalc_SH.p2;
 	ModelCalc_SH.u2 = 5.0 * ModelCalc_SH.cL * (1.0 - Math.pow(ModelCalc_SH.p2/Params_SH.pL, 1.0/7.0));  // cL aka c4; pL aka p4
@@ -139,10 +155,6 @@ class ModelCalc_SH extends ModelCalc {
     load_flux_vectors(rho, rhou, rhoe) {
 
 	this.load_derived_vectors_pcum(rho, rhou, rhoe);
-	console.log("p", this.p._buffer);/////
-	console.log("c", this.c._buffer);/////
-	console.log("u", this.u._buffer);/////
-	console.log("m", this.m._buffer);/////
 
 	for (let i = 0; i < Params_SH.N - 1; i++) {  // flux entries sit between grid points; for F1,F2,F3 vectors indices 0,1,2,... --> 1/2, 3/2, 5/2,...
 	    this.F1.set(i, 0.5*(rhou.get(i + 1) + rhou.get(i)) - 0.5*(Math.abs(rhou.get(i + 1)) - Math.abs(rhou.get(i))));
@@ -162,9 +174,6 @@ class ModelCalc_SH extends ModelCalc {
     load_new_state_vectors(c_prev, rho, rhou, rhoe) {
 
 	this.load_flux_vectors(c_prev.rho, c_prev.rhou, c_prev.rhoe);
-	console.log("1", this.F1._buffer);/////
-	console.log("2", this.F2._buffer);/////
-	console.log("3", this.F3._buffer);/////
 
 	//rho.set(0, c_prev.rho.get(0) - Params_SH.dsoh*this.F1.get(0));
 	//rhou.set(0, c_prev.rhou.get(0) - Params_SH.dsoh*this.F2.get(0));
@@ -243,10 +252,6 @@ class Coords_SH extends Coords {
 	    }
 	    this.x_contact_discont_analyt = Params_SH.L_x / 2;
 	    this.x_shock_analyt = Params_SH.L_x / 2;
-	    console.log(this.rho._buffer);/////
-	    console.log(this.rhou._buffer);/////
-	    console.log(this.rhoe._buffer);/////
-	    //console.log("this.rhoe.get(-1) =", this.rhoe.get(-1));/////
 
 	} else {
 
@@ -254,9 +259,6 @@ class Coords_SH extends Coords {
 	    this.mc.load_new_state_vectors(this.c_prev, this.rho, this.rhou, this.rhoe);
 	    this.x_shock_analyt = this.c_prev.x_shock_analyt + ModelCalc_SH.u_shock * Params_SH.ds;
 	    this.x_contact_discont_analyt = this.c_prev.x_contact_discont_analyt + ModelCalc_SH.u2 * Params_SH.ds;  // u2 == u3
-	    console.log("r ", this.rho._buffer);/////
-	    console.log("ru", this.rhou._buffer);/////
-	    console.log("re", this.rhoe._buffer);/////
 	}
     }
 }

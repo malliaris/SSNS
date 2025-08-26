@@ -9,6 +9,29 @@
 // convenience utility (CU) methods -- all static, for easy access without instantiation
 // NOTE: for those that are CSS/jQuery-based and take string identifier argument, leave leading "#" off -- it will be added!
 
+class RootFinding {
+
+    // very basic bisection root bracketing routine... just returns NaN instead of root if methods fails for now...
+    static bisect_method(fxn, a, b, tolerance, max_iterations) {
+
+	if (Math.sign(fxn(a)) == Math.sign(fxn(b))) return NaN;  // fxn(a) and fxn(b) must have opposite signs
+	for (let i = 0; i < max_iterations; i++) {
+	    let c = (a + b)/2.0;  // new midpoint
+	    console.log("a,c,b = ", a, c, b);
+	    if ((fxn(c) == 0) || ((b - a)/2.0 < tolerance)) {
+		return c;
+	    }
+	    if (Math.sign(fxn(c)) == Math.sign(fxn(a))) {
+		a = c;
+	    } else {
+		b = c;
+	    }
+	}
+	return NaN;
+    }
+}
+
+
 class CU {
 
     static gs(str_id) {  // gs = get string

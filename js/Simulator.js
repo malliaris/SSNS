@@ -173,6 +173,7 @@ class Simulator {
 	    this.update_plot_and_UI();
 	    break;
 	case "CK":
+	    //console.log("yyyy", RootFinding.bisect_method(RootFinding.dummyf, -7, 0.9, 1e-15, 100));
 	    //alert("HWWW");
 	    break;
 	default:
