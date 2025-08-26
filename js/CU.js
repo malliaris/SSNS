@@ -11,7 +11,7 @@
 
 class RootFinding {
 
-    // very basic bisection root bracketing routine... just returns NaN instead of root if methods fails for now...
+    // basic bisection root bracketing routine... just returns NaN instead of root if methods fails for now...
     static bisect_method(fxn, a, b, tolerance, max_iterations) {
 
 	if (Math.sign(fxn(a)) == Math.sign(fxn(b))) return NaN;  // fxn(a) and fxn(b) must have opposite signs
