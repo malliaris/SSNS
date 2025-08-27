@@ -121,20 +121,6 @@ class ModelCalc_SH extends ModelCalc {
 	ModelCalc_SH.c3 = ModelCalc_SH.cL - (1.0/5.0)*ModelCalc_SH.u3;  // cL aka c4
 	ModelCalc_SH.rho2 = this.get_rho(ModelCalc_SH.p2, ModelCalc_SH.c2);
 	ModelCalc_SH.rho3 = this.get_rho(ModelCalc_SH.p3, ModelCalc_SH.c3);
-
-	console.log("ModelCalc_SH.p1 =", Params_SH.pR);
-	console.log("ModelCalc_SH.p2 =", ModelCalc_SH.p2);
-	console.log("ModelCalc_SH.p3 =", ModelCalc_SH.p3);
-	console.log("ModelCalc_SH.p4 =", Params_SH.pL);
-	console.log("ModelCalc_SH.u2 =", ModelCalc_SH.u2);
-	console.log("ModelCalc_SH.u3 =", ModelCalc_SH.u3);
-	console.log("ModelCalc_SH.c1 =", ModelCalc_SH.cR);
-	console.log("ModelCalc_SH.c2 =", ModelCalc_SH.c2);
-	console.log("ModelCalc_SH.c3 =", ModelCalc_SH.c3);
-	console.log("ModelCalc_SH.c4 =", ModelCalc_SH.cL);
-	console.log("ModelCalc_SH.uS =", ModelCalc_SH.u_shock);
-	console.log("ModelCalc_SH.rho2 =", ModelCalc_SH.rho2);
-	console.log("ModelCalc_SH.rho3 =", ModelCalc_SH.rho3);
     }
 
     // NOTE: each of these derived quantities is used in calculating flux vectors in load_flux_vectors(); ORDER BELOW IS IMPORTANT!!!
@@ -170,6 +156,7 @@ class ModelCalc_SH extends ModelCalc {
 
 	this.load_flux_vectors(c_prev.rho, c_prev.rhou, c_prev.rhoe);
 
+	// NOT CLEAR ON BEST WAY TO HANDLE BOUNDARY CONDITIONS...
 	//rho.set(0, c_prev.rho.get(0) - Params_SH.dsoh*this.F1.get(0));
 	//rhou.set(0, c_prev.rhou.get(0) - Params_SH.dsoh*this.F2.get(0));
 	//rhoe.set(0, c_prev.rhoe.get(0) - Params_SH.dsoh*this.F3.get(0));

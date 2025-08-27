@@ -17,7 +17,6 @@ class RootFinding {
 	if (Math.sign(fxn(a)) == Math.sign(fxn(b))) return NaN;  // fxn(a) and fxn(b) must have opposite signs
 	for (let i = 0; i < max_iterations; i++) {
 	    let c = (a + b)/2.0;  // new midpoint
-	    console.log("a,c,b = ", a, c, b);
 	    if ((fxn(c) == 0) || ((b - a)/2.0 < tolerance)) {
 		return c;
 	    }
