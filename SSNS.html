@@ -88,6 +88,7 @@
 <canvas id="plot_CV_Gas" class="plot_target"></canvas>
 <canvas id="plot_CV_IS" class="plot_target"></canvas>
 <canvas id="plot_CV_XY" class="plot_target"></canvas>
+<canvas id="plot_CV_PF" class="plot_target"></canvas>
 
 <div id="plot_x_axis_lbl"></div>
 
@@ -503,11 +504,11 @@
 
 <div id="UI_ST_area_FD">
 <div id="UI_ST_FD_SH_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_FD_SH" value="SH" onchange="window.sim.process_cmd('ST'); " checked>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_FD_SH" value="SH" onchange="window.sim.process_cmd('ST'); " disabled>
 <label class="form-check-label w-100" for="UI_ST_FD_SH">shock tube ($$ \texttt{SH} $$)</label>
 </div>
 <div id="UI_ST_FD_PF_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_FD_PF" value="PF" onchange="window.sim.process_cmd('ST'); " disabled>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_FD_PF" value="PF" onchange="window.sim.process_cmd('ST'); " checked>
 <label class="form-check-label w-100" for="UI_ST_FD_PF">rigid planar flow ($$ \texttt{PF} $$)</label>
 </div>
 </div>
@@ -857,6 +858,11 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 <p>One central dimensionless fluid parameter is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Reynolds_number">Reynolds number</a> $$\mathrm{Re}$$, which quantifies the relative importance of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Inertia">inertial</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity">viscous</a> forces.  When $$\mathrm{Re} \ll 1$$, the flow is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Laminar_flow">laminar</a>, with adjacent fluid layers sliding by each other.  In such conditions, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Run-and-tumble_motion">bacteria</a> can't drift and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Stokes_flow#Demonstration_of_time-reversibility">dye droplets "unmix."</a>  An extremely simplified treatment of laminar flow is given in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_PF'); "><samp>PF</samp> system type</a>.</p>
 
 <p>The opposite flow regime is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Turbulence">turbulent</a>, corresponding to $$\mathrm{Re} \gg 1$$.  The flow is rough, full of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Eddy_(fluid_dynamics)">eddies</a>, and often <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a>.  <a target="_blank" class="hv_ext_link" href="https://tedm.us/computational_science">Computation</a> is essential in supplementing <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Scientific_theory">theory</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Experiment">experiment</a>.  While an <strong>SSNS</strong> simulation of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Karman_vortex_street">vortex shedding</a> would be nice, implementing it would bring numerous challenges (see <a target="_blank" href="//github.com/malliaris/SSNS/blob/main/README.md#to-dofixaddexplore">GitHub <i class="fa-brands fa-github" style="color: black; "></i></a>).  A more sensible implementation is the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_SH'); ">Sod shock tube</a>.</p>
+
+<!--
+For a fluid that is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Approximation">assumed</a> to have no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity">viscosity</a> and no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermal_conductivity_and_resistivity">thermal conductivity</a>
+-->
+
 </div><!-- CLOSES div class="hv_view" -->
 
 
@@ -940,21 +946,15 @@ The variable $$ x $$ represents the number of individuals that possess version $
 
 <p>In the initial setup, there is no bulk flow on either side ($$u_L = u_R = 0$$), but the pressures and densities are imbalanced, e.g., $$p_L > p_R$$ and $$\rho_L > \rho_R$$.  At $$t = 0$$, the diaphragm is instantaneously removed and the gases are released &mdash; like a dam breaking.  Three waves emerge from the spot where the diaphragm was located: a rightward moving shock wave, a leftward moving rarefaction fan, and a rightward moving contact discontinuity in between them.  The shock and contact waves correspond to sudden jumps in gas conditions, so neither has significant width.  The rarefaction fan, on the other hand, grows steadily wider with time.  The gas on the far right and far left of the domain is undisturbed, having not "found out" about the changes yet.  In summary, the domain now consists of regions where &mdash; apart from the rarefaction fan &mdash; the within-region gas conditions stay fixed in time, and all region boundaries move apart from each other with fixed speed.</p>
 
-<p>We have not yet mentioned <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_N'); ">$$N$$</a>, an input parameter not directly related to the fluid flow, but to the numerical solution of the fluid equations &mdash; in this case, the 1D <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Euler_equations_(fluid_dynamics)">Euler equations</a>.  We take $$N$$ points evenly spaced along the tube and, for each, calculate and update a vector $$(\rho, \rho u, \rho e)$$ each time step.  (The first, second, and third components of the update equations enforce conservation of mass, momentum, and energy, respectively).  Our implementation sticks with simple choices for the numerical details: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_of_accuracy">first-order</a>, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Upwind_scheme">upwind</a> scheme with Zha-Bilgen <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Flux">flux</a> splitting.  The shock tube also happens to have an exact analytical solution, which allows easy comparison with our approximate, numerical results.  After a quick bit of numerical root finding to solve an <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Implicit_function">implicit equation</a>, we have the value of the gas variables in each region, and plot those that are constant as black dotted horizontal and vertical lines.</p>
+<p>We have not yet mentioned <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_N'); ">$$N$$</a>, an input parameter related not to the fluid flow directly, but to the numerical solution of the fluid equations &mdash; in this case, the 1D <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Euler_equations_(fluid_dynamics)">Euler equations</a>.  We take $$N$$ points evenly spaced along the tube and, for each, calculate and update a vector $$(\rho, \rho u, \rho e)$$ each time step.  (The first, second, and third components of the update equations enforce conservation of mass, momentum, and energy, respectively).  Our implementation sticks with simple choices for the numerical details: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_of_accuracy">first-order</a>, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Upwind_scheme">upwind</a> scheme with Zha-Bilgen <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Flux">flux</a> splitting.  The shock tube also happens to have an exact analytical solution, which allows easy comparison with our approximate, numerical results.  After a quick bit of numerical root finding to solve an <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Implicit_function">implicit equation</a>, we obtain the values of the gas variables in each region, and plot those that are constant as thin black horizontal/vertical lines.</p>
   
-<!--
-For a fluid that is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Approximation">assumed</a> to have no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity">viscosity</a> and no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermal_conductivity_and_resistivity">thermal conductivity</a>, the  .
-1D Euler 
--->
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_ST_PF" class="hv_view" data-ready="1" data-hvmh="Rigid Planar Flow">
-<!--
-<a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Hagen%E2%80%93Poiseuille_equation#Plane_Poiseuille_flow">plane Poiseuille flow</a>
-boundary layer
-3D system which is approx 2D since extends to inf in x, y directions and is really just a 1D field variable because of translational invariance
-parameters are speed of upper, lower boundaries and of "observer", pressure gradient, viscosity, layer thickness, num sheets... some might be redundant?
--->
+
+<p>This system, "Rigid Planar Flow", aims to capture the characteristic velocity profile, etc. of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Hagen%E2%80%93Poiseuille_equation#Plane_Poiseuille_flow">planar Poiseuille flow</a> without actually solving fluid equations.  The boundaries are the familiar pair of infinite parallel plates with fixed separation, but the layers of fluid are replaced by rigid slabs.  <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Laminar_flow">Laminar flow</a> is thus built in, and  Newton's 2nd Law for the $$i$$th slab is then: experiences a frictional force the slabs above and below it, with the force being proportional to the corresponding relative velocity.  In other words, instead of solving fluid equations in 2D, we take boundary layer 3D system which is approx 2D since extends to inf in x, y directions and is really just a 1D field variable because of translational invariance 
+<p>
+
 </div><!-- CLOSES div class="hv_view" -->
 
 

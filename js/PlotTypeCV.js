@@ -264,3 +264,44 @@ class PlotTypeCV_XY extends PlotTypeCV_Spin {
 	return hsl_str;
     }
 }
+
+class PlotTypeCV_PF extends PlotTypeCV {
+
+    constructor(trj) {
+
+	super();
+
+	this.trj = trj;
+	this.canv_dim = PlotType.square_plot_width;
+	this.setup_canvas();
+    }
+
+    get_ext_x_axis_lbl_str() {
+	return "x";
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "y";
+    }
+
+    get_html_targ_id_str() {
+	return "plot_CV_PF";
+    }
+
+    update_canvas(t) {
+
+	this.clear_canvas();
+	/*
+	for (let i = 0; i < this.trj.get_x(t).particles.length; i++) {
+
+	    let cp = this.trj.get_x(t).particles[i];  // cp = current particle
+	    this.draw_circle(cp.x, cp.y, cp.R, true, "black");
+	    }
+	    */
+    }
+
+    plot(t) {
+	this.update_canvas(t);
+    }
+}
+

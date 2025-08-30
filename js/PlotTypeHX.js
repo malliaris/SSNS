@@ -287,16 +287,15 @@ class PlotTypeHX_SH extends PlotTypeHX {
     get_flot_gen_opts(t) {
 	let opts = {};
 	this.set_ylim_flot(opts, -0.05, 1.05);
-	//is_IC_Kundu_Fig_6_26_values() {  // analytical solution to Riemann problem requires root finding, which has only been done for **this IC** (numerics difficult in js!)
-	this.add_horiz_line_flot(opts, ModelCalc_SH.p2/Params_SH.pL, 1, "black");  // fyi, p2 == p3
-	this.add_horiz_line_flot(opts, ModelCalc_SH.rho2/Params_SH.rhoL, 1, "black");
-	this.add_horiz_line_flot(opts, ModelCalc_SH.rho3/Params_SH.rhoL, 1, "black");
-	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.cL, 1, "black");  // fyi, u2 == u3
-	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.c2, 1, "black");
-	this.add_horiz_line_flot(opts, ModelCalc_SH.u3/ModelCalc_SH.c3, 1, "black");
-	this.add_vert_line_flot(opts, Params_SH.L_x / 2, 1, "black");
-	this.add_vert_line_flot(opts, this.trj.get_x(t).x_contact_discont_analyt, 1, "black");
-	this.add_vert_line_flot(opts, this.trj.get_x(t).x_shock_analyt, 1, "black");
+	this.add_horiz_line_flot(opts, ModelCalc_SH.p2/Params_SH.pL, 1, "#444444");  // fyi, p2 == p3
+	this.add_horiz_line_flot(opts, ModelCalc_SH.rho2/Params_SH.rhoL, 1, "#444444");
+	this.add_horiz_line_flot(opts, ModelCalc_SH.rho3/Params_SH.rhoL, 1, "#444444");
+	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.cL, 1, "#444444");  // fyi, u2 == u3
+	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.c2, 1, "#444444");
+	this.add_horiz_line_flot(opts, ModelCalc_SH.u3/ModelCalc_SH.c3, 1, "#444444");
+	this.add_vert_line_flot(opts, Params_SH.L_x / 2, 1, "#444444");
+	this.add_vert_line_flot(opts, this.trj.get_x(t).x_contact_discont_analyt, 1, "#444444");
+	this.add_vert_line_flot(opts, this.trj.get_x(t).x_shock_analyt, 1, "#444444");
 	return opts;
     }
 }
