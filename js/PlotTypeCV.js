@@ -274,6 +274,7 @@ class PlotTypeCV_PF extends PlotTypeCV {
 	this.trj = trj;
 	this.canv_dim = PlotType.square_plot_width;
 	this.setup_canvas();
+	//this.cc.fillStyle = this.get_color_from_spin_val(v);
     }
 
     get_ext_x_axis_lbl_str() {
@@ -291,13 +292,12 @@ class PlotTypeCV_PF extends PlotTypeCV {
     update_canvas(t) {
 
 	this.clear_canvas();
-	/*
-	for (let i = 0; i < this.trj.get_x(t).particles.length; i++) {
 
-	    let cp = this.trj.get_x(t).particles[i];  // cp = current particle
-	    this.draw_circle(cp.x, cp.y, cp.R, true, "black");
-	    }
-	    */
+	for (let i = 0; i < Params_PF.mv_dim; i++) {
+
+	    //this.cc.fillRect(xc, yc, this.tile_dim, this.tile_dim);
+	    //let cp = this.trj.get_x(t).particles[i];  // cp = current particle
+	}
     }
 
     plot(t) {

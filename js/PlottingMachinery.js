@@ -77,6 +77,7 @@ class PlottingMachinery {
 	    break;
 	case "PF":
 	    this.plots["PF"] = {};
+	    this.plots["PF"]["CV"] = new PlotTypeCV_PF(this.sim.trjs["PF"]);
 	    this.plots["PF"]["HX"] = new PlotTypeHX_PF(this.sim.trjs["PF"]);
 	    break;
 	default:
