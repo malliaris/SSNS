@@ -274,11 +274,12 @@ class PlotTypeCV_PF extends PlotTypeCV {
 	this.trj = trj;
 	this.canv_dim = PlotType.square_plot_width;
 	this.setup_canvas();
-	this.determine_slab_height_canv();
+	this.determine_slab_height();
     }
 
-    determine_slab_height_canv() {
-	this.slab_height = parseInt(Math.floor(PlotType.square_plot_width / Params_PF.mv_dim));
+    determine_slab_height() {
+	let rough_slab_height = parseInt(Math.floor(PlotType.square_plot_width / Params_PF.mv_dim));
+	this.slab_height = parseInt(Math.max(rough_slab_height, 3));  // require at least 3 pixels per slab (which may put plot dim above target!)
 	console.log("this.slab_height =", this.slab_height, PlotType.square_plot_width);
     }
 
@@ -297,24 +298,34 @@ class PlotTypeCV_PF extends PlotTypeCV {
     update_canvas(t) {
 
 	this.clear_canvas();
-	this.cc.fillRect(20, 20, 60, 20);
-
+	/*
 	this.cc.beginPath();
 	this.cc.strokeStyle = "blue";
 	this.cc.moveTo(90, 20);
 	this.cc.lineTo(150, 20);
-	this.cc.lineWidth = 20;
 	this.cc.stroke();
-	
-	//this.tile_dim = parseInt(Math.max(rough_tile_dim, 1.0));  // require at least 1 pixel per tile (which may put plot dim above target!)
-	for (let i = 3; i < 3;i++){//Params_PF.mv_dim; i++) {
-	    this.cc.lineWidth = 5;
+	*/
+
+	// dark orange hsl(29, 85%, 44%), bright yellow hsl(52, 100%, 51%)
+	this.cc.lineWidth = this.slab_height - 2;
+	for (let i = 0; i < Params_PF.mv_dim; i++) {
 	    if ((i % 2) == 0) {
-		this.cc.strokeStyle = "hsl(29, 85%, 44%)";   // dark orange hsl(29, 85%, 44%)
+		this.cc.fillStyle = "hsl(29, 85%, 44%)";
+		this.cc.strokeStyle = "hsl(29, 85%, 44%)";
 	    } else {
-		this.cc.strokeStyle = "hsl(52, 100%, 51%)";  // bright yellow hsl(52, 100%, 51%)
+		this.cc.fillStyle = "hsl(52, 100%, 51%)";
+		this.cc.strokeStyle = "hsl(52, 100%, 51%)";
 	    }
-	    this.cc.strokeRect(0.0, i*this.slab_height, PlotType.square_plot_width, this.slab_height);
+	    this.cc.fillRect(0.0, i*this.slab_height, PlotType.square_plot_width, this.slab_height);  // fillRect needs **corner/width/height** as coordinates
+	    this.cc.fillStyle = "hsl(0, 0%, 100%)";  // white
+	    this.cc.fillRect(0.0, i*this.slab_height + 1, PlotType.square_plot_width, this.cc.lineWidth);  // "erase" inner rectangle in preparation for dashed line drawing
+
+	    // dashed line drawing
+	    let y_line = (i + 0.5)*this.slab_height;  // lineTo needs **center** of line as coordinate
+	    this.cc.beginPath();
+	    this.cc.moveTo(0, y_line);
+	    this.cc.lineTo(PlotType.square_plot_width, y_line);
+	    this.cc.stroke();
 	    //let cp = this.trj.get_x(t).particles[i];  // cp = current particle
 	}
     }
