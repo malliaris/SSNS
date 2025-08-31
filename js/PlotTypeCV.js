@@ -318,29 +318,20 @@ class PlotTypeCV_PF extends PlotTypeCV {
 	    // dashed line drawn **by specifying/drawing white stretches**
 	    this.cc.strokeStyle = "hsl(0, 0%, 100%)";  // white
 
-	    if (i == 7) {
-		let x_dummy = 21.34;
-		this.cc.setLineDash([0, 33, 7, 3, 7, 3, 7, 0]);  // now we draw in white, with slab_color showing in between from fillRect()
-		this.cc.beginPath();
-		this.cc.moveTo(x_dummy, y_line);
-		this.cc.lineTo(PlotType.square_plot_width, y_line);
-		this.cc.stroke();
+	    let curr_slab_x = this.trj.get_x(t).xs.get(i) % 60;  // x position of the ith slab, "wrapped" modulo 60 = 33 + 7 + 3 + 7 + 3 + 7
+	    //console.log("i, x =", i, curr_slab_x);////////////
+	    //this.cc.setLineDash([33, 7, 3, 7, 3, 7]);  // from when we drew in slab_color
+	    this.cc.setLineDash([0, 33, 7, 3, 7, 3, 7, 0]);  // draw FORWARD in white, with slab_color showing in between from fillRect()
+	    this.cc.beginPath();
+	    this.cc.moveTo(curr_slab_x, y_line);  // from curr_slab_x...
+	    this.cc.lineTo(PlotType.square_plot_width, y_line);  // ... to the right edge
+	    this.cc.stroke();
 
-		this.cc.setLineDash([7, 3, 7, 3, 7, 33]);  // now we draw in white, with slab_color showing in between from fillRect()
-		this.cc.beginPath();
-		this.cc.moveTo(x_dummy, y_line);
-		this.cc.lineTo(0, y_line);
-		this.cc.stroke();
-
-	    } else {
-	    
-		//this.cc.setLineDash([33, 7, 3, 7, 3, 7]);  // from when we drew in slab_color
-		this.cc.setLineDash([0, 33, 7, 3, 7, 3, 7, 0]);  // now we draw in white, with slab_color showing in between from fillRect()
-		this.cc.beginPath();
-		this.cc.moveTo(0, y_line);
-		this.cc.lineTo(PlotType.square_plot_width, y_line);
-		this.cc.stroke();
-	    }
+	    this.cc.setLineDash([7, 3, 7, 3, 7, 33]);  // draw BACKWARD in white, with slab_color showing in between from fillRect()
+	    this.cc.beginPath();
+	    this.cc.moveTo(curr_slab_x, y_line);  // from curr_slab_x...
+	    this.cc.lineTo(0, y_line);  // ... to the left edge (with REVERSED dash pattern)
+	    this.cc.stroke();
 	}
     }
 

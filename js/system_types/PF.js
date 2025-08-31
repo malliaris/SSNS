@@ -156,6 +156,7 @@ class Coords_PF extends Coords {
 	    this.vs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
 	    this.vs.set(0, this.extra_args[1]);  // this is ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
 	    this.vs.set(Params_PF.mv_dim - 1, this.extra_args[0]);  // this is ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
+	    this.xs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});  // vector of slab positions tracked for visualization in PlotTypeCV_PF
 
 	} else {
 
@@ -177,6 +178,13 @@ class Coords_PF extends Coords {
 		    new_val += this.p.eta;  // only interior entries "feel the pressure" haha :-)
 		}
 		this.vs.set(i, new_val);
+	    }
+
+	    // update slab positions (tracked for visualization in PlotTypeCV_PF) using **newly-calculated** velocities
+	    this.xs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
+	    for (let i = 0; i < Params_PF.mv_dim; i++) {
+		let new_x_val = this.c_prev.xs.get(i) + this.vs.get(i) * Params_PF.Dtorho;  // would rather have Dt alone here, but np since this is only for visualization
+		this.xs.set(i, new_x_val);
 	    }
 	}
     }
