@@ -274,13 +274,15 @@ class PlotTypeCV_PF extends PlotTypeCV {
 	this.trj = trj;
 	this.canv_dim = PlotType.square_plot_width;
 	this.setup_canvas();
-	this.determine_slab_height();
+	this.determine_slab_height_and_lineWidth();
     }
 
-    determine_slab_height() {
+    determine_slab_height_and_lineWidth() {
 	let rough_slab_height = parseInt(Math.floor(PlotType.square_plot_width / Params_PF.mv_dim));
 	this.slab_height = parseInt(Math.max(rough_slab_height, 3));  // require at least 3 pixels per slab (which may put plot dim above target!)
-	console.log("this.slab_height =", this.slab_height, PlotType.square_plot_width);
+	let rough_lineWidth = parseInt(Math.floor(0.4 * this.slab_height));
+	this.cc.lineWidth = parseInt(Math.min(rough_lineWidth, this.slab_height - 2));  // require at least 3 pixels per slab
+	console.log("slab_height, lineWidth, plot-width =", this.slab_height, this.cc.lineWidth, PlotType.square_plot_width);
     }
 
     get_ext_x_axis_lbl_str() {
@@ -298,35 +300,29 @@ class PlotTypeCV_PF extends PlotTypeCV {
     update_canvas(t) {
 
 	this.clear_canvas();
-	/*
-	this.cc.beginPath();
-	this.cc.strokeStyle = "blue";
-	this.cc.moveTo(90, 20);
-	this.cc.lineTo(150, 20);
-	this.cc.stroke();
-	*/
 
-	// dark orange hsl(29, 85%, 44%), bright yellow hsl(52, 100%, 51%)
-	this.cc.lineWidth = this.slab_height - 2;
 	for (let i = 0; i < Params_PF.mv_dim; i++) {
-	    if ((i % 2) == 0) {
-		this.cc.fillStyle = "hsl(29, 85%, 44%)";
-		this.cc.strokeStyle = "hsl(29, 85%, 44%)";
-	    } else {
-		this.cc.fillStyle = "hsl(52, 100%, 51%)";
-		this.cc.strokeStyle = "hsl(52, 100%, 51%)";
-	    }
-	    this.cc.fillRect(0.0, i*this.slab_height, PlotType.square_plot_width, this.slab_height);  // fillRect needs **corner/width/height** as coordinates
-	    this.cc.fillStyle = "hsl(0, 0%, 100%)";  // white
-	    this.cc.fillRect(0.0, i*this.slab_height + 1, PlotType.square_plot_width, this.cc.lineWidth);  // "erase" inner rectangle in preparation for dashed line drawing
 
-	    // dashed line drawing
+	    let slab_color;  // set below
+	    // dark orange hsl(29, 85%, 44%), bright yellow hsl(52, 100%, 51%)
+	    if ((i % 2) == 0) {
+		slab_color = "hsl(29, 85%, 44%)";
+	    } else {
+		slab_color = "hsl(52, 100%, 51%)";
+	    }
 	    let y_line = (i + 0.5)*this.slab_height;  // lineTo needs **center** of line as coordinate
+
+	    this.cc.fillStyle = slab_color;
+	    this.cc.fillRect(0.0, i*this.slab_height, PlotType.square_plot_width, this.slab_height);  // fillRect needs **corner/width/height** coordinates
+
+	    // dashed line drawn **by specifying/drawing white stretches**
+	    this.cc.strokeStyle = "hsl(0, 0%, 100%)";  // white
+	    //this.cc.setLineDash([33, 7, 3, 7, 3, 7]);  // from when we drew in slab_color
+	    this.cc.setLineDash([0, 33, 7, 3, 7, 3, 7, 0]);  // now we draw in white, with slab_color showing in between from fillRect()
 	    this.cc.beginPath();
 	    this.cc.moveTo(0, y_line);
 	    this.cc.lineTo(PlotType.square_plot_width, y_line);
 	    this.cc.stroke();
-	    //let cp = this.trj.get_x(t).particles[i];  // cp = current particle
 	}
     }
 
