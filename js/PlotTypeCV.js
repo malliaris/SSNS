@@ -274,7 +274,12 @@ class PlotTypeCV_PF extends PlotTypeCV {
 	this.trj = trj;
 	this.canv_dim = PlotType.square_plot_width;
 	this.setup_canvas();
-	//this.cc.fillStyle = this.get_color_from_spin_val(v);
+	this.determine_slab_height_canv();
+    }
+
+    determine_slab_height_canv() {
+	this.slab_height = parseInt(Math.floor(PlotType.square_plot_width / Params_PF.mv_dim));
+	console.log("this.slab_height =", this.slab_height, PlotType.square_plot_width);
     }
 
     get_ext_x_axis_lbl_str() {
@@ -292,10 +297,24 @@ class PlotTypeCV_PF extends PlotTypeCV {
     update_canvas(t) {
 
 	this.clear_canvas();
+	this.cc.fillRect(20, 20, 60, 20);
 
-	for (let i = 0; i < Params_PF.mv_dim; i++) {
-
-	    //this.cc.fillRect(xc, yc, this.tile_dim, this.tile_dim);
+	this.cc.beginPath();
+	this.cc.strokeStyle = "blue";
+	this.cc.moveTo(90, 20);
+	this.cc.lineTo(150, 20);
+	this.cc.lineWidth = 20;
+	this.cc.stroke();
+	
+	//this.tile_dim = parseInt(Math.max(rough_tile_dim, 1.0));  // require at least 1 pixel per tile (which may put plot dim above target!)
+	for (let i = 3; i < 3;i++){//Params_PF.mv_dim; i++) {
+	    this.cc.lineWidth = 5;
+	    if ((i % 2) == 0) {
+		this.cc.strokeStyle = "hsl(29, 85%, 44%)";   // dark orange hsl(29, 85%, 44%)
+	    } else {
+		this.cc.strokeStyle = "hsl(52, 100%, 51%)";  // bright yellow hsl(52, 100%, 51%)
+	    }
+	    this.cc.strokeRect(0.0, i*this.slab_height, PlotType.square_plot_width, this.slab_height);
 	    //let cp = this.trj.get_x(t).particles[i];  // cp = current particle
 	}
     }
