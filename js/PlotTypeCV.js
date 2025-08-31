@@ -317,12 +317,30 @@ class PlotTypeCV_PF extends PlotTypeCV {
 
 	    // dashed line drawn **by specifying/drawing white stretches**
 	    this.cc.strokeStyle = "hsl(0, 0%, 100%)";  // white
-	    //this.cc.setLineDash([33, 7, 3, 7, 3, 7]);  // from when we drew in slab_color
-	    this.cc.setLineDash([0, 33, 7, 3, 7, 3, 7, 0]);  // now we draw in white, with slab_color showing in between from fillRect()
-	    this.cc.beginPath();
-	    this.cc.moveTo(0, y_line);
-	    this.cc.lineTo(PlotType.square_plot_width, y_line);
-	    this.cc.stroke();
+
+	    if (i == 7) {
+		let x_dummy = 21.34;
+		this.cc.setLineDash([0, 33, 7, 3, 7, 3, 7, 0]);  // now we draw in white, with slab_color showing in between from fillRect()
+		this.cc.beginPath();
+		this.cc.moveTo(x_dummy, y_line);
+		this.cc.lineTo(PlotType.square_plot_width, y_line);
+		this.cc.stroke();
+
+		this.cc.setLineDash([7, 3, 7, 3, 7, 33]);  // now we draw in white, with slab_color showing in between from fillRect()
+		this.cc.beginPath();
+		this.cc.moveTo(x_dummy, y_line);
+		this.cc.lineTo(0, y_line);
+		this.cc.stroke();
+
+	    } else {
+	    
+		//this.cc.setLineDash([33, 7, 3, 7, 3, 7]);  // from when we drew in slab_color
+		this.cc.setLineDash([0, 33, 7, 3, 7, 3, 7, 0]);  // now we draw in white, with slab_color showing in between from fillRect()
+		this.cc.beginPath();
+		this.cc.moveTo(0, y_line);
+		this.cc.lineTo(PlotType.square_plot_width, y_line);
+		this.cc.stroke();
+	    }
 	}
     }
 
