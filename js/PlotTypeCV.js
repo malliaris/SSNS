@@ -319,7 +319,6 @@ class PlotTypeCV_PF extends PlotTypeCV {
 	    this.cc.strokeStyle = "hsl(0, 0%, 100%)";  // white
 
 	    let curr_slab_x = this.trj.get_x(t).xs.get(i) % 60;  // x position of the ith slab, "wrapped" modulo 60 = 33 + 7 + 3 + 7 + 3 + 7
-	    //console.log("i, x =", i, curr_slab_x);////////////
 	    //this.cc.setLineDash([33, 7, 3, 7, 3, 7]);  // from when we drew in slab_color
 	    this.cc.setLineDash([0, 33, 7, 3, 7, 3, 7, 0]);  // draw FORWARD in white, with slab_color showing in between from fillRect()
 	    this.cc.beginPath();

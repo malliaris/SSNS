@@ -952,8 +952,11 @@ The variable $$ x $$ represents the number of individuals that possess version $
 
 <div id="HV_ST_PF" class="hv_view" data-ready="1" data-hvmh="Rigid Planar Flow">
 
-<p>This system, "Rigid Planar Flow", aims to capture the characteristic velocity profile, etc. of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Hagen%E2%80%93Poiseuille_equation#Plane_Poiseuille_flow">planar Poiseuille flow</a> without actually solving fluid equations.  The boundaries are the familiar pair of infinite parallel plates with fixed separation, but the layers of fluid are replaced by rigid slabs.  <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Laminar_flow">Laminar flow</a> is thus built in, and  Newton's 2nd Law for the $$i$$th slab is then: experiences a frictional force the slabs above and below it, with the force being proportional to the corresponding relative velocity.  In other words, instead of solving fluid equations in 2D, we take boundary layer 3D system which is approx 2D since extends to inf in x, y directions and is really just a 1D field variable because of translational invariance 
-<p>
+  <p>This system, "Rigid Planar Flow", aims to capture the characteristic behavior (velocity profile, etc.) of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Couette_flow#Planar_flow_with_pressure_gradient">planar Couette flow</a>, but without actually solving fluid equations.  The boundaries are the familiar pair of infinite parallel plates with fixed separation, but the layers of fluid are replaced by a stack of $$N$$ infinite rigid slabs, each $$ \ell \times w \times h/N $$.  <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Laminar_flow">Laminar flow</a> is thus built in, and we assume a frictional force between neighboring slabs that is linear in their relative velocity $$\Delta v$$.  An external pressure difference per length $$\Delta p / \ell $$ is applied to the up/down-stream faces.  Newton's 2nd Law for the $$i$$th interior (i.e., non-boundary) slab gives its acceleration:</p>
+
+%% a_i = \frac{ \mu N^2 }{ \rho h^2 } \left( v_{i+1} + v_{i-1} - 2 v_i \right) - \frac{ \Delta p }{ \rho \ell }. %%
+
+<p> Here, $$\rho$$ is the mass density and $$\mu$$ akin to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity#Dynamic_viscosity">dynamic viscosity</a>.  Reduction in number of parameters could be accomplished For fun, we choose to allow both top and bottom U.  1D in the cross-stream direction  </p>
 
 </div><!-- CLOSES div class="hv_view" -->
 
