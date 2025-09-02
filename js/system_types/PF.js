@@ -30,50 +30,29 @@ class ModelCalc_PF extends ModelCalc {
 		}
 	    }
 	}
-
-	// allocate and initialize matrix_S (used to calculate analytical steady state)
-	this.matrix_S = zeros([ Params_PF.N, Params_PF.N ], {'dtype': 'float64'});
-	for (let i = 0; i < Params_PF.N; i++) {
-	    for (let j = 0; j < Params_PF.N; j++) {  // for each interior row i...
-		this.matrix_S.set(i, j, this.get_inv_mtrx_val_analytical_steady_state(i, j, Params_PF.N));
-	    }
-	}
     }
 
     model_is_stoch() {return false; }
 
-    // get inverse matrix value used to calculate analytical steady state value
-    get_inv_mtrx_val_analytical_steady_state(i, j, N) {
-	
-	if (i <= j) {
-	    return -1.0 * (N - j) * (i + 1.0) / (N + 1.0);
-	} else {  // i < j, so we swap i <--> j
-	    return -1.0 * (N - i) * (j + 1.0) / (N + 1.0);
-	}
+    // get single analytical steady state value
+    get_analytical_steady_state_thr_val(i, N, Ut, Ub, alpha) {
+
+	return ( (N - i)*Ut + (i + 1.0)*Ub ) / (N + 1.0) - alpha*(i + 1.0)*(N - i)/2.0;  // can this be put in form (Ut + Ub)/2 + ... ?
     }
 
     // get vector of the analytical steady state values
     get_analytical_steady_state_thr_vect(Dpol, Ut, Ub, N, mu) {
 
 	let alpha = -1.0 * Dpol / ( N * mu );
-	//console.log("alpha =", alpha);////////
+	//let alpha = -1.0 * Dpol / ( N*N * mu );
+	console.log("alpha =", alpha);////////
 	let arr_to_return = [];
 
 	for (let i = 0; i < N; i++) {
-	    let v_val = 0.0;
-	    for (let j = 0; j < N; j++) {
-		if (j == 0) {
-		    v_val += this.matrix_S.get(i, j) * (alpha - Ut);
-		} else if (j == N - 1) {
-		    v_val += this.matrix_S.get(i, j) * (alpha - Ub);
-		} else {  // 1 <= j <= N - 2
-		    v_val += this.matrix_S.get(i, j) * alpha;
-		}
-	    }
+	    let v_val = this.get_analytical_steady_state_thr_val(i, N, Ut, Ub, alpha);
 	    let y_val = i + 0.5;
 	    arr_to_return.push( [ y_val, v_val ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
-	//console.log("arr_to_return =", arr_to_return);////////
 	return arr_to_return;
     }
 
@@ -199,6 +178,7 @@ class Trajectory_PF extends Trajectory {
 	Params_PF.mv_dim = Params_PF.N + 2;  // mv_dim = matrix vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
 	Params_PF.Dtorho = Params_PF.UINI_Dtorho.v;
 	Params_PF.zeta = Params_PF.mu * Params_PF.N * Params_PF.Dtorho;
+	//Params_PF.zeta = Params_PF.mu * Params_PF.N * Params_PF.N * Params_PF.Dtorho;
 	Coords_PF.temp_vs = empty('float64', [ Params_PF.mv_dim ]);  // used in matrix-vector product in Coords_PF constructor
 
 	super(sim);  // NOTE: all static vars used in ModelCalc/etc. constructors should precede this, while all local this.* vars should follow this
