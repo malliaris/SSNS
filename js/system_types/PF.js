@@ -112,7 +112,7 @@ class Params_PF extends Params {
 
 class Coords_PF extends Coords {
 
-    static temp_vs; static v1; static v2; static v3; static v4; static k1; static k2; static k3; static k4;
+    static temp_vs; static v1; static v2; static v3; static v4; static vRK4; static k1; static k2; static k3; static k4; static kRK4;
     
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
@@ -142,13 +142,55 @@ class Coords_PF extends Coords {
 		this.vs.set(i, new_v_val);
 	    }
 
+	    // forward Euler method
+	    /*
+	    CU.copy_vect(Coords_PF.temp_vs, Coords_PF.v1);  // calc v1
+	    console.log("v1", Coords_PF.v1._buffer);/////////
+	    this.mc.load_a_vect(Coords_PF.k1, Coords_PF.temp_vs, this.p.alpha);  // calc a
+	    console.log("k1", Coords_PF.k1._buffer);/////////
+
+	    CU.scal_mult_vect(this.vs, Params_PF.Dt, Coords_PF.k1);  // calc dv
+	    CU.add_vects(this.vs, Coords_PF.v1, this.vs);
+	    console.log("vs", this.vs._buffer);/////////
+	    */
+	    
+	    // RK4 method
+	    /*
 	    CU.copy_vect(Coords_PF.temp_vs, Coords_PF.v1);  // calc v1
 	    console.log("v1", Coords_PF.v1._buffer);/////////
 	    this.mc.load_a_vect(Coords_PF.k1, Coords_PF.v1, this.p.alpha);  // calc k1
 	    console.log("k1", Coords_PF.k1._buffer);/////////
-	    CU.scal_mult_vect(Coords_PF.v2, (Params_PF.Dt / 2.0), Coords_PF.k1);  // calc v2
-	    CU.add_vects(Coords_PF.v2, Coords_PF.temp_vs, Coords_PF.v2);          // calc v2
 
+	    CU.scal_mult_vect(Coords_PF.v2, (Params_PF.Dt / 2.0), Coords_PF.k1);  // calc dv2
+	    CU.add_vects(Coords_PF.v2, Coords_PF.v1, Coords_PF.v2);  // calc v2
+	    console.log("v2", Coords_PF.v2._buffer);/////////
+	    this.mc.load_a_vect(Coords_PF.k2, Coords_PF.v2, this.p.alpha);  // calc k2
+	    console.log("k2", Coords_PF.k2._buffer);/////////
+
+	    CU.scal_mult_vect(Coords_PF.v3, (Params_PF.Dt / 2.0), Coords_PF.k2);  // calc dv3
+	    CU.add_vects(Coords_PF.v3, Coords_PF.v1, Coords_PF.v3);  // calc v3
+	    console.log("v3", Coords_PF.v3._buffer);/////////
+	    this.mc.load_a_vect(Coords_PF.k3, Coords_PF.v3, this.p.alpha);  // calc k3
+	    console.log("k3", Coords_PF.k3._buffer);/////////
+
+	    CU.scal_mult_vect(Coords_PF.v4, Params_PF.Dt, Coords_PF.k3);  // calc dv4
+	    CU.add_vects(Coords_PF.v4, Coords_PF.v1, Coords_PF.v4);  // calc v4
+	    console.log("v4", Coords_PF.v4._buffer);/////////
+	    this.mc.load_a_vect(Coords_PF.k4, Coords_PF.v4, this.p.alpha);  // calc k4
+	    console.log("k4", Coords_PF.k4._buffer);/////////
+
+	    CU.scal_mult_vect(Coords_PF.k2, 2.0, Coords_PF.k2);  // k2 --> 2k2
+	    CU.scal_mult_vect(Coords_PF.k3, 2.0, Coords_PF.k3);  // k3 --> 2k3
+	    CU.add_vects(Coords_PF.kRK4, Coords_PF.k1, Coords_PF.k2);
+	    CU.add_vects(Coords_PF.kRK4, Coords_PF.kRK4, Coords_PF.k3);
+	    CU.add_vects(Coords_PF.kRK4, Coords_PF.kRK4, Coords_PF.k4);  // kRK4 now holds k1 + 2*k2 + 2*k3 + k4
+	    console.log("kRK4", Coords_PF.kRK4._buffer);/////////
+
+	    CU.scal_mult_vect(Coords_PF.vRK4, (Params_PF.Dt / 6.0), Coords_PF.kRK4);  // calc dvRK4
+	    CU.add_vects(Coords_PF.vRK4, Coords_PF.v1, Coords_PF.vRK4);  // calc vRK4
+	    console.log("vRK4", Coords_PF.vRK4._buffer);/////////
+	    */
+	    
 	    // update slab positions (tracked for visualization in PlotTypeCV_PF) using **newly-calculated** velocities
 	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
 	    for (let i = 0; i < Params_PF.v_dim; i++) {
@@ -172,10 +214,12 @@ class Trajectory_PF extends Trajectory {
 	Coords_PF.v2 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 	Coords_PF.v3 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 	Coords_PF.v4 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
+	Coords_PF.vRK4 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 	Coords_PF.k1 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 	Coords_PF.k2 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 	Coords_PF.k3 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 	Coords_PF.k4 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
+	Coords_PF.kRK4 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 
 	super(sim);  // NOTE: all static vars used in ModelCalc/etc. constructors should precede this, while all local this.* vars should follow this
     }
