@@ -17,7 +17,7 @@ class ModelCalc_PF extends ModelCalc {
     load_a_vect(a_vect, v_vect, alpha) {
 
 	for (let i = 1; i <= Params_PF.v_dim - 2; i++) {  // NOTE the limits for values i runs over...
-	    let a_val = this.mc.a_prefactor * ( v_vect.get(i + 1) + v_vect.get(i - 1) - 2.0*v_vect.get(i) - alpha );  // ...so i +- 1 are in range here
+	    let a_val = this.a_prefactor * ( v_vect.get(i + 1) + v_vect.get(i - 1) - 2.0*v_vect.get(i) - alpha );  // ...so i +- 1 are in range here
 	    a_vect.set(i, a_val);
 	}
 	a_vect.set(0, 0.0);
@@ -112,7 +112,7 @@ class Params_PF extends Params {
 
 class Coords_PF extends Coords {
 
-    static temp_vs;
+    static temp_vs; static v1; static v2; static v3; static v4; static k1; static k2; static k3; static k4;
     
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
@@ -141,9 +141,13 @@ class Coords_PF extends Coords {
 		let new_v_val = Coords_PF.temp_vs.get(i) + Params_PF.Dt * a_val;
 		this.vs.set(i, new_v_val);
 	    }
-	    //this.mc.load_a_vect(Coords_PF.k1, Coords_PF.temp_vs, this.p.alpha);
-	    //CU.scal_mult_vect(Params_PF.Dt, Coords_PF.k1);  // multiply each element of the passed-in ndarray vector by the scalar
-	    //CU.add_vects(Coords_PF.k1, Coords_PF.temp_vs, Coords_PF.k1);  // add vectors va and vb element-wise, putting the result in vsum; "references" vsum, va, and vb can refer to same container(s)
+
+	    CU.copy_vect(Coords_PF.temp_vs, Coords_PF.v1);  // calc v1
+	    console.log("v1", Coords_PF.v1._buffer);/////////
+	    this.mc.load_a_vect(Coords_PF.k1, Coords_PF.v1, this.p.alpha);  // calc k1
+	    console.log("k1", Coords_PF.k1._buffer);/////////
+	    CU.scal_mult_vect(Coords_PF.v2, (Params_PF.Dt / 2.0), Coords_PF.k1);  // calc v2
+	    CU.add_vects(Coords_PF.v2, Coords_PF.temp_vs, Coords_PF.v2);          // calc v2
 
 	    // update slab positions (tracked for visualization in PlotTypeCV_PF) using **newly-calculated** velocities
 	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
@@ -164,6 +168,14 @@ class Trajectory_PF extends Trajectory {
 	Params_PF.v_dim = Params_PF.N + 2;  // v_dim = vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
 	Params_PF.Dt = Params_PF.UINI_Dt.v;
 	Coords_PF.temp_vs = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
+	Coords_PF.v1 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
+	Coords_PF.v2 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
+	Coords_PF.v3 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
+	Coords_PF.v4 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
+	Coords_PF.k1 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
+	Coords_PF.k2 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
+	Coords_PF.k3 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
+	Coords_PF.k4 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 
 	super(sim);  // NOTE: all static vars used in ModelCalc/etc. constructors should precede this, while all local this.* vars should follow this
     }

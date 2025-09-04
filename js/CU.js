@@ -84,9 +84,22 @@ class CU {
     	let arr_to_sort = [ va, vb, vc ];  // assemble array of all three
 	return arr_to_sort.sort( (U,V) => U - V )[1];  // after sorting numerically, the middle value (index [1]) is the one we want...
     }
-    static scal_mult_vect(s, v) {  // multiply each element of the passed-in ndarray vector by the scalar
-	for (let i = 0; i < v.length; i++) {
-	    v.set(i, s * v.get(i));
+    static scal_mult_vect(vprod, s, v) {  // multiply each element of the passed-in ndarray v by the scalar s, placing the result in vprod
+	if (vprod.length != v.length) {
+	    console.log("ERROR in scal_mult_vect(): vectors have unequal lengths!");
+	} else {
+	    for (let i = 0; i < vprod.length; i++) {
+		vprod.set(i, s * v.get(i));
+	    }
+	}
+    }
+    static copy_vect(vsrc, vdest) {  // copy vsrc into vdest
+	if (vsrc.length != vdest.length) {
+	    console.log("ERROR in copy_vect(): vectors have unequal lengths!");
+	} else {
+	    for (let i = 0; i < vsrc.length; i++) {
+		vdest.set(i, vsrc.get(i));
+	    }
 	}
     }
     static add_vects(vsum, va, vb) {  // add vectors va and vb element-wise, putting the result in vsum; "references" vsum, va, and vb can refer to same container(s)

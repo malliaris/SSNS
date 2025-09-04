@@ -282,7 +282,7 @@ class PlotTypeCV_PF extends PlotTypeCV {
 	this.slab_height = parseInt(Math.max(rough_slab_height, 3));  // require at least 3 pixels per slab (which may put plot dim above target!)
 	let rough_lineWidth = parseInt(Math.floor(0.4 * this.slab_height));
 	this.cc.lineWidth = parseInt(Math.min(rough_lineWidth, this.slab_height - 2));  // require at least 3 pixels per slab
-	console.log("slab_height, lineWidth, plot-width =", this.slab_height, this.cc.lineWidth, PlotType.square_plot_width);
+	//console.log("slab_height, lineWidth, plot-width =", this.slab_height, this.cc.lineWidth, PlotType.square_plot_width);
     }
 
     get_ext_x_axis_lbl_str() {
