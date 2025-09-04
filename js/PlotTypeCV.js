@@ -278,7 +278,7 @@ class PlotTypeCV_PF extends PlotTypeCV {
     }
 
     determine_slab_height_and_lineWidth() {
-	let rough_slab_height = parseInt(Math.floor(PlotType.square_plot_width / Params_PF.mv_dim));
+	let rough_slab_height = parseInt(Math.floor(PlotType.square_plot_width / Params_PF.v_dim));
 	this.slab_height = parseInt(Math.max(rough_slab_height, 3));  // require at least 3 pixels per slab (which may put plot dim above target!)
 	let rough_lineWidth = parseInt(Math.floor(0.4 * this.slab_height));
 	this.cc.lineWidth = parseInt(Math.min(rough_lineWidth, this.slab_height - 2));  // require at least 3 pixels per slab
@@ -301,7 +301,7 @@ class PlotTypeCV_PF extends PlotTypeCV {
 
 	this.clear_canvas();
 
-	for (let i = 0; i < Params_PF.mv_dim; i++) {
+	for (let i = 0; i < Params_PF.v_dim; i++) {
 
 	    let slab_color;  // set below
 	    // dark orange hsl(29, 85%, 44%), bright yellow hsl(52, 100%, 51%)

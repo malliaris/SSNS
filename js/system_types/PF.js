@@ -7,10 +7,23 @@ class ModelCalc_PF extends ModelCalc {
 
     constructor() {
 	super();
+
+	this.a_prefactor = Params_PF.mu * Params_PF.N * Params_PF.N / ( Params_PF.rho * Params_PF.h * Params_PF.h );
     }
 
     model_is_stoch() {return false; }
 
+    // load a_vect with values calculated from v_vect and alpha; a_vect's first and last entries are set to zero
+    load_a_vect(a_vect, v_vect, alpha) {
+
+	for (let i = 1; i <= Params_PF.v_dim - 2; i++) {  // NOTE the limits for values i runs over...
+	    let a_val = this.mc.a_prefactor * ( v_vect.get(i + 1) + v_vect.get(i - 1) - 2.0*v_vect.get(i) - alpha );  // ...so i +- 1 are in range here
+	    a_vect.set(i, a_val);
+	}
+	a_vect.set(0, 0.0);
+	a_vect.set(Params_PF.v_dim - 1, 0.0);
+    }
+    
     // get single analytical steady state value
     get_analytical_steady_state_thr_val(i, N, Ut, Ub, alpha) {
 
@@ -18,10 +31,9 @@ class ModelCalc_PF extends ModelCalc {
     }
 
     // get vector of the analytical steady state values
-    get_analytical_steady_state_thr_vect(Dpol, Ut, Ub, N, mu) {
+    get_analytical_steady_state_thr_vect(alpha, Ut, Ub, N, mu) {
 
-	//let alpha = -1.0 * Dpol / ( N * mu );
-	let alpha = -1.0 * Dpol / ( N*N * mu );
+	//let alpha = Dpol / ( N*N * mu );
 	console.log("alpha =", alpha);////////
 	let arr_to_return = [];
 
@@ -38,7 +50,7 @@ class ModelCalc_PF extends ModelCalc {
 
 	let Cc = Ub;  // Coeff_const
 	let Cl = (Ut - Ub) / h;  // Coeff_linear
-	let Cq = 0.5 * Dpdx / (h * mu);  // Coeff_quadratic
+	let Cq = -0.5 * Dpdx / (h * mu);  // Coeff_quadratic
 	return Cc + Cl*y + Cq*y*(h - y);
     }
 
@@ -67,18 +79,18 @@ class Params_PF extends Params {
     static UINI_N;  // = new UINI_int(this, "UI_P_FD_PF_N", false);  assignment occurs in UserInterface(); see discussion there
     static N;
     static v_dim;  // v_dim = vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
-    static UINI_Dtorho;  // = new UINI_float(this, "UI_P_FD_PF_Dtorho", false);  assignment occurs in UserInterface(); see discussion there
-    static Dtorho;// = 0.1;  // autocalculate this eventually?  Dtorho = Delta t / rho
-    static zeta;  // zeta = mu * N * Dtorho  set in Trajectory_PF constructor
+    static UINI_Dt;  // = new UINI_float(this, "UI_P_FD_PF_Dt", false);  assignment occurs in UserInterface(); see discussion there
+    static Dt;// = 0.1;  // autocalculate this eventually?
+    static rho = 1.0;  // mass density generally appears with time as (Delta t / rho), so we fix it for simplicity at rho = 1
+    static h = 1.0;  // height of set of slabs generally appears with viscosity as (mu / h^2), so we fix it for simplicity at h = 1
 
     constructor(Dpol_val, Ut_val, Ub_val) {
 	super();
 
 	this.Dpol = Dpol_val;
-	this.eta = Params_PF.Dtorho * this.Dpol;  // eta = Delta t * Delta p / (rho * l)
 	this.Ut = Ut_val;
 	this.Ub = Ub_val;
-	this.alpha = -1.0 * this.Dpol / (Params_PF.mu * Params_PF.N * Params_PF.N);  // REMOVE -1.0 WHEN READY???  alpha = Dpol * h^2 / (mu * N^2) --> Dpol / (mu * N^2)
+	this.alpha = this.Dpol * Params_PF.h * Params_PF.h / (Params_PF.mu * Params_PF.N * Params_PF.N);  // alpha = Dpol * h^2 / (mu * N^2)
 
 	// summarize physical parameter values
 	//console.log("physical parameter value summary:");
@@ -93,7 +105,6 @@ class Params_PF extends Params {
 
     get_info_str() {
 	return "Dpol = " + this.Dpol;
-	return "eta = " + this.eta;
 	return "Ut = " + this.Ut;
 	return "Ub = " + this.Ub;
     }
@@ -122,20 +133,22 @@ class Coords_PF extends Coords {
 	    Coords_PF.temp_vs.set(0, this.p.Ub);  // ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
 	    Coords_PF.temp_vs.set(Params_PF.v_dim - 1, this.p.Ut);  // ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
 
-	    let prefactor = Params_PF.mu * Params_PF.N * Params_PF.N;  // h = h^2 = 1 doesn't appear
-	    this.vs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
+	    this.vs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});  // "v's", as in v values (not versus)
 	    this.vs.set(0, Coords_PF.temp_vs.get(0));
 	    this.vs.set(Params_PF.v_dim - 1, Coords_PF.temp_vs.get(Params_PF.v_dim - 1));
 	    for (let i = 1; i <= Params_PF.v_dim - 2; i++) {
-		let a_val = prefactor * ( Coords_PF.temp_vs.get(i + 1) + Coords_PF.temp_vs.get(i - 1) - 2.0*Coords_PF.temp_vs.get(i) - this.p.alpha );
-		let new_v_val = Coords_PF.temp_vs.get(i) + Params_PF.Dtorho * a_val;
+		let a_val = this.mc.a_prefactor * ( Coords_PF.temp_vs.get(i + 1) + Coords_PF.temp_vs.get(i - 1) - 2.0*Coords_PF.temp_vs.get(i) - this.p.alpha );
+		let new_v_val = Coords_PF.temp_vs.get(i) + Params_PF.Dt * a_val;
 		this.vs.set(i, new_v_val);
 	    }
+	    //this.mc.load_a_vect(Coords_PF.k1, Coords_PF.temp_vs, this.p.alpha);
+	    //CU.scal_mult_vect(Params_PF.Dt, Coords_PF.k1);  // multiply each element of the passed-in ndarray vector by the scalar
+	    //CU.add_vects(Coords_PF.k1, Coords_PF.temp_vs, Coords_PF.k1);  // add vectors va and vb element-wise, putting the result in vsum; "references" vsum, va, and vb can refer to same container(s)
 
 	    // update slab positions (tracked for visualization in PlotTypeCV_PF) using **newly-calculated** velocities
 	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
 	    for (let i = 0; i < Params_PF.v_dim; i++) {
-		let new_x_val = this.c_prev.xs.get(i) + this.vs.get(i) * Params_PF.Dtorho;  // would rather have Dt alone here, but np since this is only for visualization
+		let new_x_val = this.c_prev.xs.get(i) + this.vs.get(i) * Params_PF.Dt;  // would rather have Dt alone here, but np since this is only for visualization
 		this.xs.set(i, new_x_val);
 	    }
 	}
@@ -149,9 +162,7 @@ class Trajectory_PF extends Trajectory {
 	Params_PF.mu = Params_PF.UINI_mu.v;
 	Params_PF.N = Params_PF.UINI_N.v;
 	Params_PF.v_dim = Params_PF.N + 2;  // v_dim = vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
-	Params_PF.Dtorho = Params_PF.UINI_Dtorho.v;
-	//Params_PF.zeta = Params_PF.mu * Params_PF.N * Params_PF.Dtorho;
-	Params_PF.zeta = Params_PF.mu * Params_PF.N * Params_PF.N * Params_PF.Dtorho;
+	Params_PF.Dt = Params_PF.UINI_Dt.v;
 	Coords_PF.temp_vs = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 
 	super(sim);  // NOTE: all static vars used in ModelCalc/etc. constructors should precede this, while all local this.* vars should follow this

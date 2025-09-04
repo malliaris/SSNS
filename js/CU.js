@@ -84,6 +84,20 @@ class CU {
     	let arr_to_sort = [ va, vb, vc ];  // assemble array of all three
 	return arr_to_sort.sort( (U,V) => U - V )[1];  // after sorting numerically, the middle value (index [1]) is the one we want...
     }
+    static scal_mult_vect(s, v) {  // multiply each element of the passed-in ndarray vector by the scalar
+	for (let i = 0; i < v.length; i++) {
+	    v.set(i, s * v.get(i));
+	}
+    }
+    static add_vects(vsum, va, vb) {  // add vectors va and vb element-wise, putting the result in vsum; "references" vsum, va, and vb can refer to same container(s)
+	if ((vsum.length != va.length) || (vsum.length != vb.length)) {
+	    console.log("ERROR in add_vects(): vectors have unequal lengths!");
+	} else {
+	    for (let i = 0; i < vsum.length; i++) {
+		vsum.set(i, va.get(i) + vb.get(i));
+	    }
+	}
+    }
     static incr_entry_OM(om, k) {  // for OrderedMap om (from js-sdsl library), if om[k] exists, do om[k] += 1, else insert om[k] = 1
 	let orig_v = om.getElementByKey(k);
 	if (orig_v == undefined) {

@@ -325,6 +325,7 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let data_series = [];
 	let curr_params = this.trj.segs[this.trj.get_si(t)].p;
 	let Dpol = curr_params.Dpol;
+	let alpha = curr_params.alpha;
 	let Ut = curr_params.Ut;
 	let Ub = curr_params.Ub;
 	let N = Params_PF.N;
@@ -343,7 +344,7 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	data_series.push(this.flot_data_opts_hist);
 
 	// plot analytical steady-state points
-	let theory_data_1 = this.trj.mc.get_analytical_steady_state_thr_vect(Dpol, Ub, Ut, N, mu, 0);/////////  Ub <--> Ut !!!!!! FIXXXXXXXXX!!!!!!
+	let theory_data_1 = this.trj.mc.get_analytical_steady_state_thr_vect(alpha, Ub, Ut, N, mu, 0);/////////  Ub <--> Ut !!!!!! FIXXXXXXXXX!!!!!!
 	this.flot_data_opts_analyt_ss_points["data"] = theory_data_1;
 	data_series.push(this.flot_data_opts_analyt_ss_points);
 
