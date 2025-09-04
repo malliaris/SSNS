@@ -7,29 +7,6 @@ class ModelCalc_PF extends ModelCalc {
 
     constructor() {
 	super();
-
-	// allocate and initialize matrix_M (which updates Coords_PF velocity vector v)
-	this.matrix_M = zeros([ Params_PF.mv_dim, Params_PF.mv_dim ], {'dtype': 'float64'});
-	for (let i = 0; i < Params_PF.mv_dim; i++) {
-
-	    if ((i == 0) || (i == Params_PF.mv_dim - 1)) {
-		this.matrix_M.set(i, i, 1.0);  // these diagonal entries keep the boundary v's unchanged
-	    } else {
-
-		for (let j = 0; j < Params_PF.mv_dim; j++) {  // for each interior row i...
-
-		    if (j == i) {
-			this.matrix_M.set(i, j, 1.0 - 2.0*Params_PF.zeta);  // make the diagonal element 1 - 2*zeta
-		    }
-		    if (j == i - 1) {
-			this.matrix_M.set(i, j, Params_PF.zeta);  // make the off-diagonal elements zeta here...
-		    }
-		    if (j == i + 1) {
-			this.matrix_M.set(i, j, Params_PF.zeta);  // ... and here
-		    }
-		}
-	    }
-	}
     }
 
     model_is_stoch() {return false; }
@@ -57,34 +34,10 @@ class ModelCalc_PF extends ModelCalc {
     }
 
     // get a single value of the quadratic theory curve from solving true fluid equations (cf. Kundu 6th ed. section 9.2)
-    get_fluid_planar_flow_thr_valNEW(Ut, Ub, mu, Dpdx, y) {
-
-	let Cc = Ub;  // Coeff_const
-	let Cl = (Ut - Ub);  // Coeff_linear
-	let Cq = 0.5 * Dpdx / mu;  // Coeff_quadratic
-	return Cc + Cl*y + Cq*y*(1.0 - y);
-    }
-
-    // get curve (i.e., vector of values) of the quadratic theory curve from solving true fluid equations (cf. Kundu 6th ed. section 9.2)
-    get_fluid_planar_flow_thr_curveNEW(Ut, Ub, mu, Dpdx, num_points) {
-
-	let arr_to_return = [];
-	let y_vals = linspace(0, 1, num_points);
-	for (let i = 0; i < num_points; i++) {
-
-	    let y = y_vals[i];
-	    let u_y = this.get_fluid_planar_flow_thr_valNEW(Ut, Ub, mu, Dpdx, y);
-	    arr_to_return.push( [ y, u_y ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	}
-	return arr_to_return;
-    }
-
-    // get a single value of the quadratic theory curve from solving true fluid equations (cf. Kundu 6th ed. section 9.2)
     get_fluid_planar_flow_thr_val(Ut, Ub, h, mu, Dpdx, y) {
 
 	let Cc = Ub;  // Coeff_const
 	let Cl = (Ut - Ub) / h;  // Coeff_linear
-	//let Cq = 0.028 * Dpdx / mu;///  DID A FITTING TO CHECK FORM!!!  FIND ACTUAL THEORY/SIM MISMATCH!!!!!  GET RID OF 0.028 and put back 0.5
 	let Cq = 0.5 * Dpdx / (h * mu);  // Coeff_quadratic
 	return Cc + Cl*y + Cq*y*(h - y);
     }
@@ -113,7 +66,7 @@ class Params_PF extends Params {
     static mu;
     static UINI_N;  // = new UINI_int(this, "UI_P_FD_PF_N", false);  assignment occurs in UserInterface(); see discussion there
     static N;
-    static mv_dim;  // mv_dim = matrix vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
+    static v_dim;  // v_dim = vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
     static UINI_Dtorho;  // = new UINI_float(this, "UI_P_FD_PF_Dtorho", false);  assignment occurs in UserInterface(); see discussion there
     static Dtorho;// = 0.1;  // autocalculate this eventually?  Dtorho = Delta t / rho
     static zeta;  // zeta = mu * N * Dtorho  set in Trajectory_PF constructor
@@ -156,50 +109,33 @@ class Coords_PF extends Coords {
 
 	if (this.constructing_init_cond) {  // NOTE: Params_PF.UINI_Ut/b.v passed in extra_args since they are simultaneously parameters and part of coordinate vector
 
-	    this.vs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
+	    this.vs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
 	    this.vs.set(0, this.extra_args[1]);  // this is ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
-	    this.vs.set(Params_PF.mv_dim - 1, this.extra_args[0]);  // this is ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
-	    this.vsOLD = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
-	    this.vsOLD.set(0, this.extra_args[1]);  // this is ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
-	    this.vsOLD.set(Params_PF.mv_dim - 1, this.extra_args[0]);  // this is ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
-	    this.xs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});  // vector of slab positions tracked for visualization in PlotTypeCV_PF
+	    this.vs.set(Params_PF.v_dim - 1, this.extra_args[0]);  // this is ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
+	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});  // vector of slab positions tracked for visualization in PlotTypeCV_PF
 
 	} else {
 
 	    // it's a bit odd since Ut and Ub are simultaneously parameters and, in some sense, part of the coordinate vector...  We choose not to mess with c_prev.vs
 	    // and not to check whether Ut/Ub values have changed, but rather to always make a copy of vs and assign Ut/UB as first/last entries, respectively, then
-	    // calculate matrix-vector product...
-	    Coords_PF.temp_vs = copy(this.c_prev.vsOLD);
+	    Coords_PF.temp_vs = copy(this.c_prev.vs);
 	    Coords_PF.temp_vs.set(0, this.p.Ub);  // ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
-	    Coords_PF.temp_vs.set(Params_PF.mv_dim - 1, this.p.Ut);  // ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
-
-	    // matrix-vector product;  periodically check back whether stdlib-js blas/base/dgemv routine is available via jsdelivr cdn!!!
-	    this.vsOLD = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
-	    for (let i = 0; i < Params_PF.mv_dim; i++) {  // doh!!!  matrix-vector product done by hand!!!
-		let new_val = 0.0;
-		for (let j = 0; j < Params_PF.mv_dim; j++) {
-		    new_val += this.mc.matrix_M.get(i, j) * Coords_PF.temp_vs.get(j);
-		}
-		if ((i > 0) && (i < Params_PF.mv_dim - 1)) {
-		    new_val += this.p.eta;  // only interior entries "feel the pressure" haha :-)
-		}
-		this.vsOLD.set(i, new_val);
-	    }
+	    Coords_PF.temp_vs.set(Params_PF.v_dim - 1, this.p.Ut);  // ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
 
 	    let prefactor = Params_PF.mu * Params_PF.N * Params_PF.N;  // h = h^2 = 1 doesn't appear
-	    this.vs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
+	    this.vs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
 	    this.vs.set(0, Coords_PF.temp_vs.get(0));
-	    this.vs.set(Params_PF.mv_dim - 1, Coords_PF.temp_vs.get(Params_PF.mv_dim - 1));
-	    for (let i = 1; i <= Params_PF.mv_dim - 2; i++) {
-		let a_val = prefactor * ( Coords_PF.temp_vs.get(i + 1) + Coords_PF.temp_vs.get(i + 1) - 2.0*Coords_PF.temp_vs.get(i) - this.p.alpha );
+	    this.vs.set(Params_PF.v_dim - 1, Coords_PF.temp_vs.get(Params_PF.v_dim - 1));
+	    for (let i = 1; i <= Params_PF.v_dim - 2; i++) {
+		let a_val = prefactor * ( Coords_PF.temp_vs.get(i + 1) + Coords_PF.temp_vs.get(i - 1) - 2.0*Coords_PF.temp_vs.get(i) - this.p.alpha );
 		let new_v_val = Coords_PF.temp_vs.get(i) + Params_PF.Dtorho * a_val;
 		this.vs.set(i, new_v_val);
 	    }
 
 	    // update slab positions (tracked for visualization in PlotTypeCV_PF) using **newly-calculated** velocities
-	    this.xs = zeros([ Params_PF.mv_dim ], {'dtype': 'float64'});
-	    for (let i = 0; i < Params_PF.mv_dim; i++) {
-		let new_x_val = this.c_prev.xs.get(i) + this.vsOLD.get(i) * Params_PF.Dtorho;  // would rather have Dt alone here, but np since this is only for visualization
+	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
+	    for (let i = 0; i < Params_PF.v_dim; i++) {
+		let new_x_val = this.c_prev.xs.get(i) + this.vs.get(i) * Params_PF.Dtorho;  // would rather have Dt alone here, but np since this is only for visualization
 		this.xs.set(i, new_x_val);
 	    }
 	}
@@ -212,11 +148,11 @@ class Trajectory_PF extends Trajectory {
 
 	Params_PF.mu = Params_PF.UINI_mu.v;
 	Params_PF.N = Params_PF.UINI_N.v;
-	Params_PF.mv_dim = Params_PF.N + 2;  // mv_dim = matrix vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
+	Params_PF.v_dim = Params_PF.N + 2;  // v_dim = vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
 	Params_PF.Dtorho = Params_PF.UINI_Dtorho.v;
 	//Params_PF.zeta = Params_PF.mu * Params_PF.N * Params_PF.Dtorho;
 	Params_PF.zeta = Params_PF.mu * Params_PF.N * Params_PF.N * Params_PF.Dtorho;
-	Coords_PF.temp_vs = empty('float64', [ Params_PF.mv_dim ]);  // used in matrix-vector product in Coords_PF constructor
+	Coords_PF.temp_vs = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 
 	super(sim);  // NOTE: all static vars used in ModelCalc/etc. constructors should precede this, while all local this.* vars should follow this
     }

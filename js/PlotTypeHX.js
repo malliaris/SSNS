@@ -331,7 +331,7 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let mu = Params_PF.mu;
 
 	// plot the individual slab velocities in histogram form
-	let curr_v_vect = ndarray2array(this.trj.get_x(t).vsOLD);  // vector vs has N + 2 entries, with first and last being movable boundaries
+	let curr_v_vect = ndarray2array(this.trj.get_x(t).vs);  // vector vs has N + 2 entries, with first and last being movable boundaries
 	let hist_data = [];
 	let spacing = 1.0/N;  // N + 2 entries will run from -1/N to 1 + 1/N
 	for (let i = 0; i < curr_v_vect.length; i++) {
@@ -348,8 +348,7 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	data_series.push(this.flot_data_opts_analyt_ss_points);
 
 	// plot theoretical steady-state curve for true fluid system
-	//let theory_data_2 = this.trj.mc.get_fluid_planar_flow_thr_curve(Ut, Ub, N, mu, Dpol, 100);
-	let theory_data_2 = this.trj.mc.get_fluid_planar_flow_thr_curveNEW(Ut, Ub, mu, Dpol, 100);
+	let theory_data_2 = this.trj.mc.get_fluid_planar_flow_thr_curve(Ut, Ub, 1.0, mu, Dpol, 100);
 	this.flot_data_opts_true_fluid_curve["data"] = theory_data_2;
 	data_series.push(this.flot_data_opts_true_fluid_curve);
 	
