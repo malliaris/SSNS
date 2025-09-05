@@ -313,11 +313,10 @@ class PlotTypeHX_PF extends PlotTypeHX {
 		show: true,
 	    },
 	    bars: {
-		show: false,
+		show: true,
 		horizontal: true,
-	    },
-	    lines: {
-		show: false,
+		//barWidth: number,
+		align: "center"
 	    }
 	};
 
@@ -326,11 +325,11 @@ class PlotTypeHX_PF extends PlotTypeHX {
     }
 
     get_ext_y_axis_lbl_str() {
-	return "\\mathrm{ slab \\; velocity} \\; v \\; \\mathrm{(m/s)}";
+	return "y \\; \\text{ (cross-stream) }";
     }
 
     get_ext_x_axis_lbl_str() {
-	return "y \\; \\text{ (cross-stream) }";
+	return "\\mathrm{ slab \\; velocity} \\; v \\; \\mathrm{(m/s)}";
     }
 
     get_flot_data_series(t) {
@@ -349,10 +348,9 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let hist_data = [];
 	let spacing = 1.0/N;  // N + 2 entries will run from -1/N to 1 + 1/N
 	for (let i = 0; i < curr_v_vect.length; i++) {
-	    hist_data.push( [ (i - 1)*spacing, curr_v_vect[i] ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    //hist_data.push( [ (i - 1)*spacing, curr_v_vect[i] ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    hist_data.push( [ curr_v_vect[i], (i - 1)*spacing ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
-	let extra_pair = [ hist_data.at(-1)[0] + spacing, hist_data.at(-1)[1] ];  // add extra pair to "terminate" the histogram at right edge
-	hist_data.push(extra_pair);
 	this.flot_data_opts_hist["data"] = hist_data;
 	data_series.push(this.flot_data_opts_hist);
 

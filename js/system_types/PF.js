@@ -46,7 +46,8 @@ class ModelCalc_PF extends ModelCalc {
 	for (let i = 0; i < N; i++) {
 	    let v_val = this.get_analytical_steady_state_thr_val(i, N, Ut, Ub, alpha);
 	    let y_val = (i + 0.5)/N;
-	    arr_to_return.push( [ y_val, v_val ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    //arr_to_return.push( [ y_val, v_val ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    arr_to_return.push( [ v_val, y_val ] );  // IN PROCESS OF FLIPPING ON ITS SIDE  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	return arr_to_return;
     }
@@ -69,7 +70,8 @@ class ModelCalc_PF extends ModelCalc {
 
 	    let y = y_vals[i];
 	    let u_y = this.get_fluid_planar_flow_thr_val(Ut, Ub, h, mu, Dpdx, y);
-	    arr_to_return.push( [ y, u_y ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    //arr_to_return.push( [ y, u_y ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    arr_to_return.push( [ u_y, y ] );  // IN PROCESS OF FLIPPING ON ITS SIDE // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	return arr_to_return;
     }
