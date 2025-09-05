@@ -315,7 +315,7 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	    bars: {
 		show: true,
 		horizontal: true,
-		//barWidth: number,
+		barWidth: 1,
 		align: "center"
 	    }
 	};
@@ -325,7 +325,7 @@ class PlotTypeHX_PF extends PlotTypeHX {
     }
 
     get_ext_y_axis_lbl_str() {
-	return "y \\; \\text{ (cross-stream) }";
+	return "y";
     }
 
     get_ext_x_axis_lbl_str() {
@@ -349,7 +349,7 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let spacing = 1.0/N;  // N + 2 entries will run from -1/N to 1 + 1/N
 	for (let i = 0; i < curr_v_vect.length; i++) {
 	    //hist_data.push( [ (i - 1)*spacing, curr_v_vect[i] ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	    hist_data.push( [ curr_v_vect[i], (i - 1)*spacing ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    hist_data.push( [ curr_v_vect[i], (i - 0.5)*spacing ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	this.flot_data_opts_hist["data"] = hist_data;
 	data_series.push(this.flot_data_opts_hist);
@@ -363,7 +363,11 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let theory_data_2 = this.trj.mc.get_fluid_planar_flow_thr_curve(Ut, Ub, 1.0, mu, Dpol, 100);
 	this.flot_data_opts_true_fluid_curve["data"] = theory_data_2;
 	data_series.push(this.flot_data_opts_true_fluid_curve);
-	
+
+	// WORKAROUND: this single, practically invisible dummy point on the v = 0 axis makes it so that the full bar height is always shown
+	let dummy_point = {points: {show: true, radius: 0.0001}, data: [[0, 0.5]]};
+	data_series.push(dummy_point);
+
 	return data_series;
     }
 
