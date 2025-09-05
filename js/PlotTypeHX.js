@@ -325,11 +325,11 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let data_series = [];
 	let curr_params = this.trj.segs[this.trj.get_si(t)].p;
 	let Dpol = curr_params.Dpol;
-	let alpha = curr_params.alpha;
 	let Ut = curr_params.Ut;
 	let Ub = curr_params.Ub;
+	let mu = curr_params.mu;
+	let alpha = curr_params.alpha;
 	let N = Params_PF.N;
-	let mu = Params_PF.mu;
 
 	// plot the individual slab velocities in histogram form
 	let curr_v_vect = ndarray2array(this.trj.get_x(t).vs);  // vector vs has N + 2 entries, with first and last being movable boundaries

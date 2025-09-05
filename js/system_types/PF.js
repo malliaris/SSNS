@@ -8,16 +8,24 @@ class ModelCalc_PF extends ModelCalc {
     constructor() {
 	super();
 
-	this.a_prefactor = Params_PF.mu * Params_PF.N * Params_PF.N / ( Params_PF.rho * Params_PF.h * Params_PF.h );
+	this.set_default_Dt();
     }
 
     model_is_stoch() {return false; }
 
+    // calculate a heuristic default Dt to set us up for likely numerical stability (see help viewer entry for Dt for more)
+    set_default_Dt() {
+	let prelim_default_Dt_val = 0.1 / (Params_PF.UINI_mu.v * Params_PF.N * Params_PF.N);  // adjust 0.1 as necessary/desired
+	let default_Dt_val = roundsd(prelim_default_Dt_val, 4);  // no point in keeping too many significant digits
+	Params_PF.UINI_Dt.sv(default_Dt_val);
+	console.log("default Dt set to", default_Dt_val);
+    }
+
     // load a_vect with values calculated from v_vect and alpha; a_vect's first and last entries are set to zero
-    load_a_vect(a_vect, v_vect, alpha) {
+    load_a_vect(a_vect, prefactor, v_vect, alpha) {
 
 	for (let i = 1; i <= Params_PF.v_dim - 2; i++) {  // NOTE the limits for values i runs over...
-	    let a_val = this.a_prefactor * ( v_vect.get(i + 1) + v_vect.get(i - 1) - 2.0*v_vect.get(i) - alpha );  // ...so i +- 1 are in range here
+	    let a_val = prefactor * ( v_vect.get(i + 1) + v_vect.get(i - 1) - 2.0*v_vect.get(i) - alpha );  // ...so i +- 1 are in range here
 	    a_vect.set(i, a_val);
 	}
 	a_vect.set(0, 0.0);
@@ -33,8 +41,6 @@ class ModelCalc_PF extends ModelCalc {
     // get vector of the analytical steady state values
     get_analytical_steady_state_thr_vect(alpha, Ut, Ub, N, mu) {
 
-	//let alpha = Dpol / ( N*N * mu );
-	console.log("alpha =", alpha);////////
 	let arr_to_return = [];
 
 	for (let i = 0; i < N; i++) {
@@ -74,23 +80,24 @@ class Params_PF extends Params {
     static UINI_Dpol;  // = new UINI_float(this, "UI_P_FD_PF_Dpol", true);  assignment occurs in UserInterface(); see discussion there;  Dpol = Delta p / l
     static UINI_Ut;  // = new UINI_float(this, "UI_P_FD_PF_Ut", true);  assignment occurs in UserInterface(); see discussion there;  Ut = U of top plate
     static UINI_Ub;  // = new UINI_float(this, "UI_P_FD_PF_Ub", true);  assignment occurs in UserInterface(); see discussion there;  Ub = U of bottom plate
-    static UINI_mu;  // = new UINI_float(this, "UI_P_FD_PF_mu", false);  assignment occurs in UserInterface(); see discussion there
-    static mu;
+    static UINI_mu;  // = new UINI_float(this, "UI_P_FD_PF_mu", true);  assignment occurs in UserInterface(); see discussion there
+    static UINI_Dt;  // = new UINI_float(this, "UI_P_FD_PF_Dt", true);  assignment occurs in UserInterface(); see discussion there
     static UINI_N;  // = new UINI_int(this, "UI_P_FD_PF_N", false);  assignment occurs in UserInterface(); see discussion there
     static N;
     static v_dim;  // v_dim = vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
-    static UINI_Dt;  // = new UINI_float(this, "UI_P_FD_PF_Dt", false);  assignment occurs in UserInterface(); see discussion there
-    static Dt;// = 0.1;  // autocalculate this eventually?
     static rho = 1.0;  // mass density generally appears with time as (Delta t / rho), so we fix it for simplicity at rho = 1
     static h = 1.0;  // height of set of slabs generally appears with viscosity as (mu / h^2), so we fix it for simplicity at h = 1
 
-    constructor(Dpol_val, Ut_val, Ub_val) {
+    constructor(Dpol_val, Ut_val, Ub_val, mu_val, Dt_val) {
 	super();
 
 	this.Dpol = Dpol_val;
 	this.Ut = Ut_val;
 	this.Ub = Ub_val;
-	this.alpha = this.Dpol * Params_PF.h * Params_PF.h / (Params_PF.mu * Params_PF.N * Params_PF.N);  // alpha = Dpol * h^2 / (mu * N^2)
+	this.mu = mu_val;
+	this.Dt = Dt_val;
+	this.alpha = this.Dpol * Params_PF.h * Params_PF.h / (this.mu * Params_PF.N * Params_PF.N);  // alpha = Dpol * h^2 / (mu * N^2)
+	this.a_prefactor = this.mu * Params_PF.N * Params_PF.N / ( Params_PF.rho * Params_PF.h * Params_PF.h );  // used in mc.load_a_vect()
 
 	// summarize physical parameter values
 	//console.log("physical parameter value summary:");
@@ -101,12 +108,16 @@ class Params_PF extends Params {
 	Params_PF.UINI_Dpol.push_to_UI(this.Dpol);
 	Params_PF.UINI_Ut.push_to_UI(this.Ut);
 	Params_PF.UINI_Ub.push_to_UI(this.Ub);
+	Params_PF.UINI_mu.push_to_UI(this.mu);
+	Params_PF.UINI_Dt.push_to_UI(this.Dt);
     }
 
     get_info_str() {
 	return "Dpol = " + this.Dpol;
 	return "Ut = " + this.Ut;
 	return "Ub = " + this.Ub;
+	return "mu = " + this.mu;
+	return "Dt = " + this.Dt;
     }
 }
 
@@ -139,7 +150,7 @@ class Coords_PF extends Coords {
 	    this.vs.set(Params_PF.v_dim - 1, Coords_PF.temp_vs.get(Params_PF.v_dim - 1));
 	    for (let i = 1; i <= Params_PF.v_dim - 2; i++) {
 		let a_val = this.mc.a_prefactor * ( Coords_PF.temp_vs.get(i + 1) + Coords_PF.temp_vs.get(i - 1) - 2.0*Coords_PF.temp_vs.get(i) - this.p.alpha );
-		let new_v_val = Coords_PF.temp_vs.get(i) + Params_PF.Dt * a_val;
+		let new_v_val = Coords_PF.temp_vs.get(i) + this.p.Dt * a_val;
 		this.vs.set(i, new_v_val);
 	    }
 	    */
@@ -148,10 +159,10 @@ class Coords_PF extends Coords {
 	    /*
 	    CU.copy_vect(Coords_PF.temp_vs, Coords_PF.v1);  // calc v1
 	    console.log("v1", Coords_PF.v1._buffer);/////////
-	    this.mc.load_a_vect(Coords_PF.k1, Coords_PF.temp_vs, this.p.alpha);  // calc a
+	    this.mc.load_a_vect(Coords_PF.k1, this.p.a_prefactor, Coords_PF.temp_vs, this.p.alpha);  // calc a
 	    console.log("k1", Coords_PF.k1._buffer);/////////
 
-	    CU.scal_mult_vect(this.vs, Params_PF.Dt, Coords_PF.k1);  // calc dv
+	    CU.scal_mult_vect(this.vs, this.p.Dt, Coords_PF.k1);  // calc dv
 	    CU.add_vects(this.vs, Coords_PF.v1, this.vs);
 	    console.log("vs", this.vs._buffer);/////////
 	    */
@@ -159,25 +170,25 @@ class Coords_PF extends Coords {
 	    // RK4 method
 	    CU.copy_vect(Coords_PF.temp_vs, Coords_PF.v1);  // calc v1
 	    //console.log("v1", Coords_PF.v1._buffer);/////////
-	    this.mc.load_a_vect(Coords_PF.k1, Coords_PF.v1, this.p.alpha);  // calc k1
+	    this.mc.load_a_vect(Coords_PF.k1, this.p.a_prefactor, Coords_PF.v1, this.p.alpha);  // calc k1
 	    //console.log("k1", Coords_PF.k1._buffer);/////////
 
-	    CU.scal_mult_vect(Coords_PF.v2, (Params_PF.Dt / 2.0), Coords_PF.k1);  // calc dv2
+	    CU.scal_mult_vect(Coords_PF.v2, (this.p.Dt / 2.0), Coords_PF.k1);  // calc dv2
 	    CU.add_vects(Coords_PF.v2, Coords_PF.v1, Coords_PF.v2);  // calc v2
 	    //console.log("v2", Coords_PF.v2._buffer);/////////
-	    this.mc.load_a_vect(Coords_PF.k2, Coords_PF.v2, this.p.alpha);  // calc k2
+	    this.mc.load_a_vect(Coords_PF.k2, this.p.a_prefactor, Coords_PF.v2, this.p.alpha);  // calc k2
 	    //console.log("k2", Coords_PF.k2._buffer);/////////
 
-	    CU.scal_mult_vect(Coords_PF.v3, (Params_PF.Dt / 2.0), Coords_PF.k2);  // calc dv3
+	    CU.scal_mult_vect(Coords_PF.v3, (this.p.Dt / 2.0), Coords_PF.k2);  // calc dv3
 	    CU.add_vects(Coords_PF.v3, Coords_PF.v1, Coords_PF.v3);  // calc v3
 	    //console.log("v3", Coords_PF.v3._buffer);/////////
-	    this.mc.load_a_vect(Coords_PF.k3, Coords_PF.v3, this.p.alpha);  // calc k3
+	    this.mc.load_a_vect(Coords_PF.k3, this.p.a_prefactor, Coords_PF.v3, this.p.alpha);  // calc k3
 	    //console.log("k3", Coords_PF.k3._buffer);/////////
 
-	    CU.scal_mult_vect(Coords_PF.v4, Params_PF.Dt, Coords_PF.k3);  // calc dv4
+	    CU.scal_mult_vect(Coords_PF.v4, this.p.Dt, Coords_PF.k3);  // calc dv4
 	    CU.add_vects(Coords_PF.v4, Coords_PF.v1, Coords_PF.v4);  // calc v4
 	    //console.log("v4", Coords_PF.v4._buffer);/////////
-	    this.mc.load_a_vect(Coords_PF.k4, Coords_PF.v4, this.p.alpha);  // calc k4
+	    this.mc.load_a_vect(Coords_PF.k4, this.p.a_prefactor, Coords_PF.v4, this.p.alpha);  // calc k4
 	    //console.log("k4", Coords_PF.k4._buffer);/////////
 
 	    CU.scal_mult_vect(Coords_PF.k2, 2.0, Coords_PF.k2);  // k2 --> 2k2
@@ -187,7 +198,7 @@ class Coords_PF extends Coords {
 	    CU.add_vects(Coords_PF.kRK4, Coords_PF.kRK4, Coords_PF.k4);  // kRK4 now holds k1 + 2*k2 + 2*k3 + k4
 	    //console.log("kRK4", Coords_PF.kRK4._buffer);/////////
 
-	    CU.scal_mult_vect(Coords_PF.vRK4, (Params_PF.Dt / 6.0), Coords_PF.kRK4);  // calc dvRK4
+	    CU.scal_mult_vect(Coords_PF.vRK4, (this.p.Dt / 6.0), Coords_PF.kRK4);  // calc dvRK4
 	    CU.add_vects(Coords_PF.vRK4, Coords_PF.v1, Coords_PF.vRK4);  // calc vRK4
 	    //console.log("vRK4", Coords_PF.vRK4._buffer);/////////
 	    CU.copy_vect(Coords_PF.vRK4, this.vs);
@@ -196,7 +207,7 @@ class Coords_PF extends Coords {
 	    // update slab positions (tracked for visualization in PlotTypeCV_PF) using **newly-calculated** velocities
 	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
 	    for (let i = 0; i < Params_PF.v_dim; i++) {
-		let new_x_val = this.c_prev.xs.get(i) + this.vs.get(i) * Params_PF.Dt;  // would rather have Dt alone here, but np since this is only for visualization
+		let new_x_val = this.c_prev.xs.get(i) + this.vs.get(i) * this.p.Dt;  // would rather have Dt alone here, but np since this is only for visualization
 		this.xs.set(i, new_x_val);
 	    }
 	}
@@ -207,10 +218,8 @@ class Trajectory_PF extends Trajectory {
 
     constructor(sim) {
 
-	Params_PF.mu = Params_PF.UINI_mu.v;
 	Params_PF.N = Params_PF.UINI_N.v;
 	Params_PF.v_dim = Params_PF.N + 2;  // v_dim = vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
-	Params_PF.Dt = Params_PF.UINI_Dt.v;
 	Coords_PF.temp_vs = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 	Coords_PF.v1 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
 	Coords_PF.v2 = empty('float64', [ Params_PF.v_dim ]);  // used in Coords_PF constructor
@@ -231,7 +240,7 @@ class Trajectory_PF extends Trajectory {
     }
 
     gp() {  // gp = get Params object    
-	return new Params_PF(Params_PF.UINI_Dpol.v, Params_PF.UINI_Ut.v, Params_PF.UINI_Ub.v);
+	return new Params_PF(Params_PF.UINI_Dpol.v, Params_PF.UINI_Ut.v, Params_PF.UINI_Ub.v, Params_PF.UINI_mu.v, Params_PF.UINI_Dt.v);
     }
 
     gc_ic(mc) {  // gc_ic = get Coords, initial condition

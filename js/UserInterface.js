@@ -65,9 +65,9 @@ class UserInterface {
 	Params_PF.UINI_Dpol = new UINI_float(this, "UI_P_FD_PF_Dpol", true);
 	Params_PF.UINI_Ut = new UINI_float(this, "UI_P_FD_PF_Ut", true);
 	Params_PF.UINI_Ub = new UINI_float(this, "UI_P_FD_PF_Ub", true);
-	Params_PF.UINI_mu = new UINI_float(this, "UI_P_FD_PF_mu", false);
+	Params_PF.UINI_mu = new UINI_float(this, "UI_P_FD_PF_mu", true);
 	Params_PF.UINI_N = new UINI_int(this, "UI_P_FD_PF_N", false);
-	Params_PF.UINI_Dt = new UINI_float(this, "UI_P_FD_PF_Dt", false);
+	Params_PF.UINI_Dt = new UINI_float(this, "UI_P_FD_PF_Dt", true);
 
 	// other UI stuff
 	for (let ST_val of Simulator.unregistered_STs.values()) {  // if any disabled ST's have parameter HTML content (e.g., while under development), hide it
