@@ -134,6 +134,7 @@ class Coords_PF extends Coords {
 	    Coords_PF.temp_vs.set(Params_PF.v_dim - 1, this.p.Ut);  // ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
 
 	    this.vs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});  // "v's", as in v values (not versus)
+	    /*
 	    this.vs.set(0, Coords_PF.temp_vs.get(0));
 	    this.vs.set(Params_PF.v_dim - 1, Coords_PF.temp_vs.get(Params_PF.v_dim - 1));
 	    for (let i = 1; i <= Params_PF.v_dim - 2; i++) {
@@ -141,6 +142,7 @@ class Coords_PF extends Coords {
 		let new_v_val = Coords_PF.temp_vs.get(i) + Params_PF.Dt * a_val;
 		this.vs.set(i, new_v_val);
 	    }
+	    */
 
 	    // forward Euler method
 	    /*
@@ -155,42 +157,42 @@ class Coords_PF extends Coords {
 	    */
 	    
 	    // RK4 method
-	    /*
 	    CU.copy_vect(Coords_PF.temp_vs, Coords_PF.v1);  // calc v1
-	    console.log("v1", Coords_PF.v1._buffer);/////////
+	    //console.log("v1", Coords_PF.v1._buffer);/////////
 	    this.mc.load_a_vect(Coords_PF.k1, Coords_PF.v1, this.p.alpha);  // calc k1
-	    console.log("k1", Coords_PF.k1._buffer);/////////
+	    //console.log("k1", Coords_PF.k1._buffer);/////////
 
 	    CU.scal_mult_vect(Coords_PF.v2, (Params_PF.Dt / 2.0), Coords_PF.k1);  // calc dv2
 	    CU.add_vects(Coords_PF.v2, Coords_PF.v1, Coords_PF.v2);  // calc v2
-	    console.log("v2", Coords_PF.v2._buffer);/////////
+	    //console.log("v2", Coords_PF.v2._buffer);/////////
 	    this.mc.load_a_vect(Coords_PF.k2, Coords_PF.v2, this.p.alpha);  // calc k2
-	    console.log("k2", Coords_PF.k2._buffer);/////////
+	    //console.log("k2", Coords_PF.k2._buffer);/////////
 
 	    CU.scal_mult_vect(Coords_PF.v3, (Params_PF.Dt / 2.0), Coords_PF.k2);  // calc dv3
 	    CU.add_vects(Coords_PF.v3, Coords_PF.v1, Coords_PF.v3);  // calc v3
-	    console.log("v3", Coords_PF.v3._buffer);/////////
+	    //console.log("v3", Coords_PF.v3._buffer);/////////
 	    this.mc.load_a_vect(Coords_PF.k3, Coords_PF.v3, this.p.alpha);  // calc k3
-	    console.log("k3", Coords_PF.k3._buffer);/////////
+	    //console.log("k3", Coords_PF.k3._buffer);/////////
 
 	    CU.scal_mult_vect(Coords_PF.v4, Params_PF.Dt, Coords_PF.k3);  // calc dv4
 	    CU.add_vects(Coords_PF.v4, Coords_PF.v1, Coords_PF.v4);  // calc v4
-	    console.log("v4", Coords_PF.v4._buffer);/////////
+	    //console.log("v4", Coords_PF.v4._buffer);/////////
 	    this.mc.load_a_vect(Coords_PF.k4, Coords_PF.v4, this.p.alpha);  // calc k4
-	    console.log("k4", Coords_PF.k4._buffer);/////////
+	    //console.log("k4", Coords_PF.k4._buffer);/////////
 
 	    CU.scal_mult_vect(Coords_PF.k2, 2.0, Coords_PF.k2);  // k2 --> 2k2
 	    CU.scal_mult_vect(Coords_PF.k3, 2.0, Coords_PF.k3);  // k3 --> 2k3
 	    CU.add_vects(Coords_PF.kRK4, Coords_PF.k1, Coords_PF.k2);
 	    CU.add_vects(Coords_PF.kRK4, Coords_PF.kRK4, Coords_PF.k3);
 	    CU.add_vects(Coords_PF.kRK4, Coords_PF.kRK4, Coords_PF.k4);  // kRK4 now holds k1 + 2*k2 + 2*k3 + k4
-	    console.log("kRK4", Coords_PF.kRK4._buffer);/////////
+	    //console.log("kRK4", Coords_PF.kRK4._buffer);/////////
 
 	    CU.scal_mult_vect(Coords_PF.vRK4, (Params_PF.Dt / 6.0), Coords_PF.kRK4);  // calc dvRK4
 	    CU.add_vects(Coords_PF.vRK4, Coords_PF.v1, Coords_PF.vRK4);  // calc vRK4
-	    console.log("vRK4", Coords_PF.vRK4._buffer);/////////
-	    */
-	    
+	    //console.log("vRK4", Coords_PF.vRK4._buffer);/////////
+	    CU.copy_vect(Coords_PF.vRK4, this.vs);
+
+
 	    // update slab positions (tracked for visualization in PlotTypeCV_PF) using **newly-calculated** velocities
 	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
 	    for (let i = 0; i < Params_PF.v_dim; i++) {
