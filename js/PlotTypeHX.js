@@ -307,17 +307,30 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	super();
 
 	this.trj = trj;
-	this.flot_data_opts_hist = copy(PlotTypeHX.flot_data_opts_histogram);
+	this.flot_data_opts_hist = {
+	    color: "rgba(40, 40, 200, 0.2)",
+	    points: {
+		show: true,
+	    },
+	    bars: {
+		show: false,
+		horizontal: true,
+	    },
+	    lines: {
+		show: false,
+	    }
+	};
+
 	this.flot_data_opts_analyt_ss_points = copy(PlotTypeHX.flot_data_opts_theory_points);
 	this.flot_data_opts_true_fluid_curve = copy(PlotTypeHX.flot_data_opts_theory_curve);
     }
 
     get_ext_y_axis_lbl_str() {
-	return "\\mathrm{ slab \\; velocity \\; (m/s)}";
+	return "\\mathrm{ slab \\; velocity} \\; v \\; \\mathrm{(m/s)}";
     }
 
     get_ext_x_axis_lbl_str() {
-	return "\\mathrm{ slab \\; \\# }";
+	return "y \\; \\text{ (cross-stream) }";
     }
 
     get_flot_data_series(t) {
