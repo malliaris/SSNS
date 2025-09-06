@@ -311,21 +311,24 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	    color: "rgba(40, 40, 200, 0.2)",
 	    points: {
 		show: true,
+		radius: 3,
+		fill: true,
+		color: "rgba(0, 5, 120, 1)",
+		fillColor: "rgba(0, 5, 120, 1)",
 	    },
 	    bars: {
 		show: true,
 		horizontal: true,
-		barWidth: 1,
+		barWidth: 0.95,
 		align: "center"
 	    }
 	};
-
 	this.flot_data_opts_analyt_ss_points = copy(PlotTypeHX.flot_data_opts_theory_points);
 	this.flot_data_opts_true_fluid_curve = copy(PlotTypeHX.flot_data_opts_theory_curve);
     }
 
     get_ext_y_axis_lbl_str() {
-	return "y";
+	return "y \\; \\mathrm{(m)}";
     }
 
     get_ext_x_axis_lbl_str() {
@@ -348,14 +351,14 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let hist_data = [];
 	let spacing = 1.0/N;  // N + 2 entries will run from -1/N to 1 + 1/N
 	for (let i = 0; i < curr_v_vect.length; i++) {
-	    //hist_data.push( [ (i - 1)*spacing, curr_v_vect[i] ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	    hist_data.push( [ curr_v_vect[i], (i - 0.5)*spacing ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    let v_val = curr_v_vect[curr_v_vect.length - 1 - i];  // i --> curr_v_vect.length - 1 - i to flip top-to-bottom
+	    hist_data.push( [ v_val, (i - 0.5)*spacing ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	this.flot_data_opts_hist["data"] = hist_data;
 	data_series.push(this.flot_data_opts_hist);
 
 	// plot analytical steady-state points
-	let theory_data_1 = this.trj.mc.get_analytical_steady_state_thr_vect(alpha, Ub, Ut, N, mu, 0);/////////  Ub <--> Ut !!!!!! FIXXXXXXXXX!!!!!!
+	let theory_data_1 = this.trj.mc.get_analytical_steady_state_thr_vect(alpha, Ut, Ub, N, mu, 0);
 	this.flot_data_opts_analyt_ss_points["data"] = theory_data_1;
 	data_series.push(this.flot_data_opts_analyt_ss_points);
 
@@ -371,5 +374,12 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	return data_series;
     }
 
-    get_flot_gen_opts(t) { return {}; }
+    get_flot_gen_opts(t) {
+	let opts = {};
+	let spacing = 1.0/Params_PF.N;  // N + 2 entries will run from -1/N to 1 + 1/N
+	this.set_ylim_flot(opts, -1.2*spacing, 1.0 + 1.2*spacing);  // the 0.2 leaves a little white space
+	this.add_horiz_line_flot(opts, 0.0, 3, "#777777");
+	this.add_horiz_line_flot(opts, 1.0, 3, "#777777");
+	return opts;
+    }
 }

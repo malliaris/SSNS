@@ -286,11 +286,11 @@ class PlotTypeCV_PF extends PlotTypeCV {
     }
 
     get_ext_x_axis_lbl_str() {
-	return "x";
+	return "\\mathrm{ slab \\; position } \\; x \\; \\mathrm{(m)}";
     }
 
     get_ext_y_axis_lbl_str() {
-	return "y";
+	return "y \\; \\mathrm{(m)}";
     }
 
     get_html_targ_id_str() {
@@ -303,20 +303,27 @@ class PlotTypeCV_PF extends PlotTypeCV {
 
 	for (let i = 0; i < Params_PF.v_dim; i++) {
 
-	    let slab_color;  // set below
+	    //this.add_horiz_line_flot(opts, 0.0, 3, "#777777");
+	    let slab_color; let dash_color;  // set below
 	    // dark orange hsl(29, 85%, 44%), bright yellow hsl(52, 100%, 51%)
 	    if ((i % 2) == 0) {
 		slab_color = "hsl(29, 85%, 44%)";
 	    } else {
 		slab_color = "hsl(52, 100%, 51%)";
 	    }
-	    let y_line = (i + 0.5)*this.slab_height;  // lineTo needs **center** of line as coordinate
+	    if ((i == 0) || (i == Params_PF.v_dim - 1)) {
+		dash_color = "hsl(0, 0%, 30%)";  // grey dashes for the boundary slabs
+	    } else {
+		dash_color = "hsl(0, 0%, 100%)";  // white dashes for the system slabs
+	    }
+
+	    let y_line = (i + 0.5)*this.slab_height;  // 0.5 since lineTo needs **center** of line as coordinate
 
 	    this.cc.fillStyle = slab_color;
 	    this.cc.fillRect(0.0, i*this.slab_height, PlotType.square_plot_width, this.slab_height);  // fillRect needs **corner/width/height** coordinates
 
-	    // dashed line drawn **by specifying/drawing white stretches**
-	    this.cc.strokeStyle = "hsl(0, 0%, 100%)";  // white
+	    // dashed line drawn **by specifying/drawing white/grey stretches**, not the color stretches
+	    this.cc.strokeStyle = dash_color;
 
 	    let curr_slab_x = this.trj.get_x(t).xs.get(i) % 60;  // x position of the ith slab, "wrapped" modulo 60 = 33 + 7 + 3 + 7 + 3 + 7
 	    //this.cc.setLineDash([33, 7, 3, 7, 3, 7]);  // from when we drew in slab_color

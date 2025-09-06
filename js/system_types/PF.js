@@ -35,7 +35,7 @@ class ModelCalc_PF extends ModelCalc {
     // get single analytical steady state value
     get_analytical_steady_state_thr_val(i, N, Ut, Ub, alpha) {
 
-	return ( (N - i)*Ut + (i + 1.0)*Ub ) / (N + 1.0) - alpha*(i + 1.0)*(N - i)/2.0;  // can this be put in form (Ut + Ub)/2 + ... ?
+	return ( (N - i + 1.0)*Ut + i*Ub ) / (N + 1.0) - alpha * i * (N - i + 1.0) / 2.0;
     }
 
     // get vector of the analytical steady state values
@@ -43,11 +43,10 @@ class ModelCalc_PF extends ModelCalc {
 
 	let arr_to_return = [];
 
-	for (let i = 0; i < N; i++) {
-	    let v_val = this.get_analytical_steady_state_thr_val(i, N, Ut, Ub, alpha);
-	    let y_val = (i + 0.5)/N;
-	    //arr_to_return.push( [ y_val, v_val ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	    arr_to_return.push( [ v_val, y_val ] );  // IN PROCESS OF FLIPPING ON ITS SIDE  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	for (let i = 1; i <= N; i++) {
+	    let v_val = this.get_analytical_steady_state_thr_val(N + 1 - i, N, Ut, Ub, alpha);  // i --> N + 1 - i to flip top-to-bottom
+	    let y_val = (i - 0.5)/N;
+	    arr_to_return.push( [ v_val, y_val ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	return arr_to_return;
     }
@@ -70,8 +69,7 @@ class ModelCalc_PF extends ModelCalc {
 
 	    let y = y_vals[i];
 	    let u_y = this.get_fluid_planar_flow_thr_val(Ut, Ub, h, mu, Dpdx, y);
-	    //arr_to_return.push( [ y, u_y ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	    arr_to_return.push( [ u_y, y ] );  // IN PROCESS OF FLIPPING ON ITS SIDE // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    arr_to_return.push( [ u_y, y ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	return arr_to_return;
     }
@@ -137,8 +135,8 @@ class Coords_PF extends Coords {
 	if (this.constructing_init_cond) {  // NOTE: Params_PF.UINI_Ut/b.v passed in extra_args since they are simultaneously parameters and part of coordinate vector
 
 	    this.vs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
-	    this.vs.set(0, this.extra_args[1]);  // this is ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
-	    this.vs.set(Params_PF.v_dim - 1, this.extra_args[0]);  // this is ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
+	    this.vs.set(0, this.extra_args[0]);  // this is ***Ut***
+	    this.vs.set(Params_PF.v_dim - 1, this.extra_args[1]);  // this is ***Ub***
 	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});  // vector of slab positions tracked for visualization in PlotTypeCV_PF
 
 	} else {
@@ -146,8 +144,8 @@ class Coords_PF extends Coords {
 	    // it's a bit odd since Ut and Ub are simultaneously parameters and, in some sense, part of the coordinate vector...  We choose not to mess with c_prev.vs
 	    // and not to check whether Ut/Ub values have changed, but rather to always make a copy of vs and assign Ut/UB as first/last entries, respectively, then
 	    Coords_PF.temp_vs = copy(this.c_prev.vs);
-	    Coords_PF.temp_vs.set(0, this.p.Ub);  // ***Ub***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
-	    Coords_PF.temp_vs.set(Params_PF.v_dim - 1, this.p.Ut);  // ***Ut***  (chose to put 0th index of vector at bottom to "match" y coordinate axis from theory curve u(y) )
+	    Coords_PF.temp_vs.set(0, this.p.Ut);
+	    Coords_PF.temp_vs.set(Params_PF.v_dim - 1, this.p.Ub);
 	    this.vs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});  // "v's", as in v values (not versus)
 
 	    if (Params_PF.use_RK4_not_Euler) {  // use Runge Kutta (RK4) method
@@ -203,7 +201,7 @@ class Coords_PF extends Coords {
 	    // update slab positions (tracked for visualization in PlotTypeCV_PF) using **newly-calculated** velocities
 	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
 	    for (let i = 0; i < Params_PF.v_dim; i++) {
-		let new_x_val = this.c_prev.xs.get(i) + this.vs.get(i) * this.p.Dt;  // would rather have Dt alone here, but np since this is only for visualization
+		let new_x_val = this.c_prev.xs.get(i) + this.vs.get(i) * 0.01;  // use a fixed, reasonably-sized Dt ~= 0.01 to always see good relative movement
 		this.xs.set(i, new_x_val);
 	    }
 	}
