@@ -1084,8 +1084,13 @@ The variable $$ x $$ represents the number of individuals that possess version $
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_Dt" class="hv_view" data-ready="0" data-hvmh="\Delta t">
+
 <p>Size of the time step used in the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations">numerical integration</a> schemes.  $$ \Delta t $$ represents a jump forward in continuous time and should not be confused with the general <strong>SSNS</strong> quantity $$t$$, which is the discrete trajectory step number shown in the user interface.  In particular, $$ 0 < \Delta t < 1 $$ can be changed mid-trajectory, and the discrete $$t$$ will not reflect this "change of pace."</p>
+
 <p>The user should be aware that associated with the choice of size changing the value of $$ \Delta t $$ due to issues of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_stability">numerical stability</a>.  On loading the app, the default value present in the entry field is calculated heuristically to avoid such issues.  </p>
+
+<img class="hv_fw_img" src="/static/images/SSNS/hv_st_specific_pics/numerical_instability_cropped_2.png">
+
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_N" class="hv_view" data-ready="0" data-hvmh="N">
