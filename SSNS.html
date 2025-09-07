@@ -1072,11 +1072,11 @@ The variable $$ x $$ represents the number of individuals that possess version $
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_Ut" class="hv_view" data-ready="0" data-hvmh="U_{\mathrm{top}}">
-<p>initial pressures</p>
+<p>velocity in $$\mathrm{m/s}$$ of the top boundary: $$ \; -100 \le U_{\mathrm{top}} \le 100 $$</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_Ub" class="hv_view" data-ready="0" data-hvmh="U_{\mathrm{bot.}}">
-<p>initial pressures</p>
+<p>velocity in $$\mathrm{m/s}$$ of the bottom boundary: $$ \; -100 \le U_{\mathrm{bot.}} \le 100 $$</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_mu" class="hv_view" data-ready="0" data-hvmh="\mu">
@@ -1084,11 +1084,12 @@ The variable $$ x $$ represents the number of individuals that possess version $
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_Dt" class="hv_view" data-ready="0" data-hvmh="\Delta t">
-<p>initial pressures</p>
+<p>Size of the time step used in the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations">numerical integration</a> schemes.  $$ \Delta t $$ represents a jump forward in continuous time and should not be confused with the general <strong>SSNS</strong> quantity $$t$$, which is the discrete trajectory step number shown in the user interface.  In particular, $$ 0 < \Delta t < 1 $$ can be changed mid-trajectory, and the discrete $$t$$ will not reflect this "change of pace."</p>
+<p>The user should be aware that associated with the choice of size changing the value of $$ \Delta t $$ due to issues of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_stability">numerical stability</a>.  On loading the app, the default value present in the entry field is calculated heuristically to avoid such issues.  </p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_N" class="hv_view" data-ready="0" data-hvmh="N">
-<p>initial pressures</p>
+<p>number of slabs $$ 1 \le N \le 100 $$; this number does not include the top and bottom boundaries</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 
