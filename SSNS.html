@@ -287,7 +287,7 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_Ub'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ U_{\mathrm{bot.}} $$ </span></div><input id="UI_P_FD_PF_Ub" class="form-control" type="number" min="-100" max="100" step="1" value="-10" onchange="Params_PF.UINI_Ub.try_update(this.value); "></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_mu'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \mu $$ </span></div><input id="UI_P_FD_PF_mu" class="form-control" type="number" min="0" max="1" step="0.1" value="0.2" onchange="Params_PF.UINI_mu.try_update(this.value); "></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_mu'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \mu $$ </span></div><input id="UI_P_FD_PF_mu" class="form-control" type="number" min="0.01" max="1" step="0.1" value="0.2" onchange="Params_PF.UINI_mu.try_update(this.value); "></div></div>
   
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_Dt'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \Delta t $$ </span></div><input id="UI_P_FD_PF_Dt" class="form-control" type="number" min="0" max="1" step="0.01" value="0.001" onchange="Params_PF.UINI_Dt.try_update(this.value); "></div></div>
   
@@ -955,7 +955,7 @@ The variable $$ x $$ represents the number of individuals that possess version $
 
 %% a_i = \frac{ \mu N^2 }{ \rho h^2 } \left( v_{i+1} + v_{i-1} - 2 v_i \right) - \frac{ \Delta p }{ \rho \ell }. %%
 
-<p> Here, $$\rho$$ is the mass density and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_Dt'); ">$$\mu$$</a> akin to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity#Dynamic_viscosity">dynamic viscosity</a>.  Reduction in number of parameters could be accomplished For fun, we choose to allow both top and bottom U.  1D in the cross-stream direction ............ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_Ut'); ">$$ U_{\mathrm{top}} $$</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_Ub'); ">$$ U_{\mathrm{bottom}} $$</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_Dt'); ">$$ \Delta t $$</a> </p>
+<p> Here, $$\rho$$ is the mass density and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_mu'); ">$$\mu$$</a> akin to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity#Dynamic_viscosity">dynamic viscosity</a>.  Reduction in number of parameters could be accomplished For fun, we choose to allow both top and bottom U.  1D in the cross-stream direction ............ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_Ut'); ">$$ U_{\mathrm{top}} $$</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_Ub'); ">$$ U_{\mathrm{bottom}} $$</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_Dt'); ">$$ \Delta t $$</a> </p>
 
 </div><!-- CLOSES div class="hv_view" -->
 
@@ -1068,28 +1068,30 @@ The variable $$ x $$ represents the number of individuals that possess version $
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_Dpol" class="hv_view" data-ready="0" data-hvmh="\Delta p / \ell">
-<p>initial pressures</p>
+<p>an external pressure difference per unit length $$\Delta p / \ell$$ is applied across the system's upstream and downstream faces; allowed values are $$ -100 \le \Delta p / \ell \le 100 $$ and negative values correspond to force on the slabs in the $$+\hat{x}$$ direction; it has units of $$\mathrm{Pa/m}$$ and is akin to the pressure gradient $$\text{d}p/\text{d}x$$ in the true fluid system; more on this can be found ADD LINK here </p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_Ut" class="hv_view" data-ready="0" data-hvmh="U_{\mathrm{top}}">
-<p>velocity in $$\mathrm{m/s}$$ of the top boundary: $$ \; -100 \le U_{\mathrm{top}} \le 100 $$</p>
+<p>velocity in $$\mathrm{m/s}$$ of the top boundary: $$ { -100 \le U_{\mathrm{top}} \le 100 } $$</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_Ub" class="hv_view" data-ready="0" data-hvmh="U_{\mathrm{bot.}}">
-<p>velocity in $$\mathrm{m/s}$$ of the bottom boundary: $$ \; -100 \le U_{\mathrm{bot.}} \le 100 $$</p>
+<p>velocity in $$\mathrm{m/s}$$ of the bottom boundary: $$ { -100 \le U_{\mathrm{bot.}} \le 100 } $$</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_mu" class="hv_view" data-ready="0" data-hvmh="\mu">
-<p>initial pressures</p>
+<p>the parameter $$ 0.01 \le \mu \le 1 $$ quantifies how effectively momentum is transferred from one slab to its neighbors; it is specific to the <samp>PF</samp> mini-app and akin to a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Friction#Coefficient_of_friction">frictional coefficient</a> or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Drag_coefficient">drag coefficient</a>; it is meant to emulate (and has units of) the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity#Dynamic_viscosity">dynamic viscosity</a> in a true fluid; more on this can be found ADD LINK here</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_PF_Dt" class="hv_view" data-ready="0" data-hvmh="\Delta t">
 
-<p>Size of the time step used in the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations">numerical integration</a> schemes.  $$ \Delta t $$ represents a jump forward in continuous time and should not be confused with the general <strong>SSNS</strong> quantity $$t$$, which is the discrete trajectory step number shown in the user interface.  In particular, $$ 0 < \Delta t < 1 $$ can be changed mid-trajectory, and the discrete $$t$$ will not reflect this "change of pace."</p>
+<p>Size of the time step used in the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations">numerical integration</a> schemes.  $$ \Delta t $$ represents a jump forward in continuous time and should not be confused with the general <strong>SSNS</strong> quantity $$t$$, which is the discrete trajectory step number shown in the user interface.  In particular, $$ { 0 < \Delta t < 1 } $$ can be changed mid-trajectory, and the discrete $$t$$ will not reflect this "change of pace."</p>
 
-<p>The user should be aware that associated with the choice of size changing the value of $$ \Delta t $$ due to issues of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_stability">numerical stability</a>.  On loading the app, the default value present in the entry field is calculated heuristically to avoid such issues.  </p>
+<p>On loading <strong>SSNS</strong>, a default value for $$ \Delta t $$ is calculated heuristically and placed in the entry field.  The user is free to change this value (or those of other <samp>PF</samp> parameters), but should be aware of issues of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_stability">numerical stability</a> &mdash; a $$ \Delta t $$ too small, and system change will be hard to observe; a $$ \Delta t $$ too large, and the system may experience runaway instability, as pictured here:</p>
 
 <img class="hv_fw_img" src="/static/images/SSNS/hv_st_specific_pics/numerical_instability_cropped_2.png">
+
+<p>Velocity values will typically grow very rapidly and eventually <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Floating-point_arithmetic">overflow</a>.  Not to worry, exploration can continue after a quick <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RELOAD_CMDS'); ">reset</a>!</p>
 
 </div><!-- CLOSES div class="hv_view" -->
 
