@@ -56,7 +56,7 @@ class ModelCalc_PF extends ModelCalc {
 
 	let Cc = Ub;  // Coeff_const
 	let Cl = (Ut - Ub) / h;  // Coeff_linear
-	let Cq = -0.5 * Dpdx / (h * mu);  // Coeff_quadratic
+	let Cq = -0.5 * Dpdx / mu;  // Coeff_quadratic
 	return Cc + Cl*y + Cq*y*(h - y);
     }
 
