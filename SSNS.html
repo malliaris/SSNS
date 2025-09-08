@@ -853,17 +853,21 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 
 <div id="HV_SA_FD" class="hv_view" data-ready="1" data-hvmh="Fluid Dynamics">
 
-<!-- <p>  The equations of motion for the slabs There, the fluid flow is incompressible, viscous, laminar, steady, and unidirectional.    For this simple setup, it is straightforward to solve the fluid equations exactly, and one obtains the steady-state velocity profile with a familiar parabolic functional form:</p> -->
+<p>  The equations of motion for the slabs There, the fluid flow is incompressible, viscous, laminar, steady, and unidirectional.    For this simple setup, it is straightforward to solve the fluid equations exactly, and one obtains the steady-state velocity profile with a familiar parabolic functional form: For a fluid that is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Approximation">assumed</a> to have no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity">viscosity</a> and no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermal_conductivity_and_resistivity">thermal conductivity</a> </p>
+
+1 solve fluid vs solve mechanical
+2 compressible high Re vs incompressible low re
+3 linear eqn vs nonlinear
+
+<a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Material_derivative">material derivative</a>
+<a target="_blank" class="hv_ext_link" href="https://en.wikipedia.org/wiki/Maxwell%27s_equations">electromagnetism</a>
+<a target="_blank" class="hv_ext_link" href="https://en.wikipedia.org/wiki/Schr%C3%B6dinger_equation#Linearity">quantum mechanics</a>
 
 <p><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Fluid">Fluid</a> flow is governed by the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Navier–Stokes_equations">Navier-Stokes equations</a>, a set of equations that are <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_ND'); ">nonlinear</a> and hard to <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Closed-form_expression">solve exactly</a>.  A typical approach is to examine the values of various <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Dimensionless_numbers_in_fluid_mechanics">dimensionless parameters</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Approximation">simplify</a> accordingly.  Liquids, for instance, can often be assumed to be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Compressibility">incompressible</a>.</p>
 
 <p>One central dimensionless fluid parameter is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Reynolds_number">Reynolds number</a> $$\mathrm{Re}$$, which quantifies the relative importance of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Inertia">inertial</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity">viscous</a> forces.  When $$\mathrm{Re} \ll 1$$, the flow is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Laminar_flow">laminar</a>, with adjacent fluid layers sliding by each other.  In such conditions, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Run-and-tumble_motion">bacteria</a> can't drift and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Stokes_flow#Demonstration_of_time-reversibility">dye droplets "unmix."</a>  An extremely simplified treatment of laminar flow is given in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_PF'); "><samp>PF</samp> system type</a>.</p>
 
 <p>The opposite flow regime is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Turbulence">turbulent</a>, corresponding to $$\mathrm{Re} \gg 1$$.  The flow is rough, full of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Eddy_(fluid_dynamics)">eddies</a>, and often <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a>.  <a target="_blank" class="hv_ext_link" href="https://tedm.us/computational_science">Computation</a> is essential in supplementing <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Scientific_theory">theory</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Experiment">experiment</a>.  While an <strong>SSNS</strong> simulation of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Karman_vortex_street">vortex shedding</a> would be nice, implementing it would bring numerous challenges (see <a target="_blank" href="//github.com/malliaris/SSNS/blob/main/README.md#to-dofixaddexplore">GitHub <i class="fa-brands fa-github" style="color: black; "></i></a>).  A more sensible implementation is the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_SH'); ">Sod shock tube</a>.</p>
-
-<!--
-For a fluid that is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Approximation">assumed</a> to have no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity">viscosity</a> and no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermal_conductivity_and_resistivity">thermal conductivity</a>
--->
 
 </div><!-- CLOSES div class="hv_view" -->
 
