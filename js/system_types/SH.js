@@ -46,8 +46,8 @@ class ModelCalc_SH extends ModelCalc {
 	ModelCalc_SH.cL = this.get_c(Params_SH.pL, Params_SH.rhoL);
 	ModelCalc_SH.cR = this.get_c(Params_SH.pR, Params_SH.rhoR);
 	ModelCalc_SH.cmax = Math.max(ModelCalc_SH.cL, ModelCalc_SH.cR);
-	Params_SH.ds = 0.45 * Params_SH.h / ModelCalc_SH.cmax;
-	Params_SH.dsoh = 0.45 / ModelCalc_SH.cmax;  // for convenience
+	Params_SH.ds = 0.45 * Params_SH.h / ModelCalc_SH.cmax;  // reduce 0.45 a bit??...  was seeing a bit of num instability...
+	Params_SH.dsoh = 0.45 / ModelCalc_SH.cmax;  // for convenience; reduce 0.45 a bit??...  was seeing a bit of num instability...
     }
 
     get_p(rho_val, rhou_val, rhoe_val) {  // gas pressure p value
