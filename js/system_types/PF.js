@@ -18,7 +18,7 @@ class ModelCalc_PF extends ModelCalc {
 	let prelim_default_Dt_val = 0.1 / (Params_PF.UINI_mu.v * Params_PF.N * Params_PF.N);  // adjust 0.1 as necessary/desired
 	let default_Dt_val = roundsd(prelim_default_Dt_val, 4);  // no point in keeping too many significant digits
 	Params_PF.UINI_Dt.sv(default_Dt_val);
-	console.log("default Dt set to", default_Dt_val);
+	console.log("INFO:   PF default Dt set to", default_Dt_val);
     }
 
     // load a_vect with values calculated from v_vect and alpha; a_vect's first and last entries are set to zero
