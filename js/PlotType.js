@@ -127,7 +127,7 @@ class PlotType {
 
     remove_vert_horiz_lines_flot(flot_gen_opts) {  // remove vertical and horizontal lines (and all other grid entries) from flot_gen_opts obj passed in
 	if ("grid" in flot_gen_opts) {
-	    flot_gen_opts["grid"]["markings"] = {};
+	    flot_gen_opts["grid"]["markings"] = [];
 	}
     }
 }

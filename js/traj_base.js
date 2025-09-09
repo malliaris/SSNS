@@ -135,9 +135,9 @@ class Trajectory {
 	// store/determine time boundaries of trajectory
 	this.t_0 = this.sim.ui.t_0.v;
 	let requested_t_max = this.sim.ui.t_max.v;  // Javascript ensures in "real time" that t_max >= t_0 + 1, so no need to check for that
-	let largest_t_max = this.t_0 + this.get_max_num_t_steps() - 1;  // largest ("max") t_max that could be allowed based on sensible memory limits
+	let largest_t_max = this.t_0 + this.get_max_num_t_steps() - 1;  // largest ("max") t_max based on sensible memory limits, or other criteria (see, e.g., SH)
 	this.t_max = Math.min(requested_t_max, largest_t_max);
-	this.sim.ui.t_max.sv(this.t_max);
+	///////this.sim.ui.t_max.sv(this.t_max);  FOR NOW, DON'T DISPLAY SINCE WE HAVEN'T ADDED CODE FOR UPDATING UI WHEN ST IS CHANGED
 
 	// nascent Trajectory includes a single TrajSeg which includes a single time step
 	this.segs = new Array();
