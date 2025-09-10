@@ -193,7 +193,7 @@ class Params_SH extends Params {
     static h;  // spacing between consecutive grid points
     static ds;
     static dsoh;
-    static ds_prefactor = 0.25;
+    static ds_prefactor = 0.25;  // should def not be greater than 1! started with 0.45 and saw a bit of instability at N = 10000...  trying 0.25 for now
 
     static UINI_N;  // = new UINI_even_int(this, "UI_P_FD_SH_N", false);  assignment occurs in UserInterface(); see discussion there
     static N;
