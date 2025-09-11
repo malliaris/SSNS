@@ -134,10 +134,10 @@ class Coords_PF extends Coords {
 
 	if (this.constructing_init_cond) {  // NOTE: Params_PF.UINI_Ut/b.v passed in extra_args since they are simultaneously parameters and part of coordinate vector
 
-	    this.vs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
+	    this.vs = zeros('float64', [ Params_PF.v_dim ]);
 	    this.vs.set(0, this.extra_args[0]);  // this is ***Ut***
 	    this.vs.set(Params_PF.v_dim - 1, this.extra_args[1]);  // this is ***Ub***
-	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});  // vector of slab positions tracked for visualization in PlotTypeCV_PF
+	    this.xs = zeros('float64', [ Params_PF.v_dim ]);  // vector of slab positions tracked for visualization in PlotTypeCV_PF
 
 	} else {
 
@@ -146,7 +146,7 @@ class Coords_PF extends Coords {
 	    Coords_PF.temp_vs = copy(this.c_prev.vs);
 	    Coords_PF.temp_vs.set(0, this.p.Ut);
 	    Coords_PF.temp_vs.set(Params_PF.v_dim - 1, this.p.Ub);
-	    this.vs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});  // "v's", as in v values (not versus)
+	    this.vs = zeros('float64', [ Params_PF.v_dim ]);  // "v's", as in v values (not versus)
 
 	    if (Params_PF.use_RK4_not_Euler) {  // use Runge Kutta (RK4) method
 
@@ -199,7 +199,7 @@ class Coords_PF extends Coords {
 	    
 
 	    // update slab positions (tracked for visualization in PlotTypeCV_PF) using **newly-calculated** velocities
-	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
+	    this.xs = zeros('float64', [ Params_PF.v_dim ]);
 	    for (let i = 0; i < Params_PF.v_dim; i++) {
 		let new_x_val = this.c_prev.xs.get(i) + this.vs.get(i) * 0.01;  // use a fixed, reasonably-sized Dt ~= 0.01 to always see good relative movement
 		this.xs.set(i, new_x_val);

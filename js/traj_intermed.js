@@ -124,10 +124,12 @@ class Coords_SP_finite extends Coords_SP {
 
 	// data structure allocation
 	if (Coords_SP.num_IEM.v > 0) {
-	    this.x_indiv = zeros([ Coords_SP.num_IEM.v ], {'dtype': 'int32'});
+	    //this.x_indiv = zeros([ Coords_SP.num_IEM.v ], {'dtype': 'int32'});
+	    this.x_indiv = zeros('int32', [ Coords_SP.num_IEM.v ]);
 	}
 	if (Coords_SP.num_GEM.v > 0) {
-	    this.H_x_group = zeros([ num_x ], {'dtype': 'int32'});
+	    //this.H_x_group = zeros([ num_x ], {'dtype': 'int32'});
+	    this.H_x_group = zeros('int32', [ num_x ]);
 	}
 
 	if (this.constructing_init_cond) {
