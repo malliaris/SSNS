@@ -85,7 +85,7 @@ class HelpViewer {
 
 	// basic/miscellaneous settings
 	this.sim = sim;
-	this.initial_view = "HV_ST_PF";  // default setting
+	this.initial_view = "HV_HOME";  // default setting
 	this.curr_view = "";
 	this.prev_view = "";
 	this.show_on_load = false;  // whether to show HelpViewer on app loading
