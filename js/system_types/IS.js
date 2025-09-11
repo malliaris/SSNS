@@ -53,7 +53,6 @@ class Coords_IS extends Coords_Spin {
 
 	if (this.constructing_init_cond) {
 
-	    //this.spins = zeros([ N, N ], {'dtype': 'int8'});
 	    this.spins = zeros('int8', [ N, N ]);
 	    Coords_Spin.randomize_spins_arr(this.spins, this.get_rand_spin_val.bind(this));
 	    this.prev_trans = null;  // since IC was not arrived at via a transition

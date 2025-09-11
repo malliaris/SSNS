@@ -347,11 +347,11 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let N = Params_PF.N;
 
 	// plot the individual slab velocities in histogram form
-	let curr_v_vect = ndarray2array(this.trj.get_x(t).vs);  // vector vs has N + 2 entries, with first and last being movable boundaries
+	let curr_v_vect = this.trj.get_x(t).vs;  // vector vs has N + 2 entries, with first and last being movable boundaries
 	let hist_data = [];
 	let spacing = 1.0/N;  // N + 2 entries will run from -1/N to 1 + 1/N
-	for (let i = 0; i < curr_v_vect.length; i++) {
-	    let v_val = curr_v_vect[curr_v_vect.length - 1 - i];  // i --> curr_v_vect.length - 1 - i to flip top-to-bottom
+	for (let i = 0; i < curr_v_vect.shape[0]; i++) {
+	    let v_val = curr_v_vect.get(curr_v_vect.length - 1 - i);  // i --> curr_v_vect.length - 1 - i to flip top-to-bottom
 	    hist_data.push( [ v_val, (i - 0.5)*spacing ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	this.flot_data_opts_hist["data"] = hist_data;
