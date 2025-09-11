@@ -9,7 +9,7 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet">
-<link href="/static/css/SSNS.css" rel="stylesheet">
+<link href="/static/css/SSNT.css" rel="stylesheet">
 
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload='renderMathInElement(document.body, {delimiters:
 	[{left: "$$", right: "$$", display: false},
@@ -845,14 +845,15 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_SA_ND" class="hv_view" data-ready="1" data-hvmh="Nonlinear Dynamics">
-<p>A <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Linear_differential_equation">linear equation</a> like the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Wave_equation">wave equation</a> has the wonderful property that sums of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Equation_solving">solutions</a> are also solutions &mdash; think of two oppositely directed water waves "passing through" each other.  <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Nonlinear_system">Nonlinear equations</a> don't have this property.  Luckily, the field of nonlinear dynamics provides tools like <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Phase_portrait">phase portraits</a> for studying nonlinear systems without focusing on <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Closed-form_expression">closed form solutions</a>.</p>
+<p>A <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Linear_differential_equation">linear equation</a> like the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Wave_equation">wave equation</a> has the wonderful property that sums of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Equation_solving">solutions</a> are also solutions &mdash; think of two oppositely directed water waves "passing through" each other.  <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Nonlinear_system">Nonlinear equations</a> don't have this property.  The field of nonlinear dynamics, happily, provides tools like <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Phase_portrait">phase portraits</a> for studying nonlinear systems without focusing on <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Closed-form_expression">closed form solutions</a>.</p>
 
-<p>Nonlinearity is ubiquitous across <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics">STEM</a> fields, from <a target="_blank" class="hv_ext_link" href="https://tedm.us/quantitative_biology">biology</a>, to <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_FD'); ">fluid flow</a>.  Further, the use of <a target="_blank" class="hv_ext_link" href="https://tedm.us/computational_science">computation</a> becomes even more essential when studying systems that are nonlinear.  <strong>SSNS</strong> implements the following nonlinear system types:</p>
+<p>Nonlinearity is ubiquitous across <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics">STEM</a> fields, from <a target="_blank" class="hv_ext_link" href="https://tedm.us/quantitative_biology">biology</a>, to <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/List_of_nonlinear_ordinary_differential_equations#Economics_and_finance">economics</a>.  A feature like <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Bistability">bistability</a> will occur in countless systems that have little in common other than their governing equations.  <strong>SSNS</strong> implements the following nonlinear system types:</p>
 
-<ul><li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_LM'); ">Logistic map</a></li>
-<li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">Gingerbread-man map</a></li></ul>
+<ul><li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_LZ'); ">Lorenz system (<samp>LZ</samp>)</a></li>
+<li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_LM'); ">Logistic map (<samp>LM</samp>)</a></li>
+<li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">Gingerbread-man map (<samp>GM</samp>)</a></li></ul>
 
-<p>Both are <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Recurrence_relation">discrete maps</a>, and both can display <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a> behavior, with its trademark sensitivity to initial conditions.  While their <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Phase_space">trajectories</a> can appear unpredictable, they are completely <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Deterministic_system">deterministic</a> (as opposed to <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">stochastic</a>).</p>
+<p>All three display <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a> behavior, with its trademark sensitivity to initial conditions.  While their <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Phase_space">trajectories</a> can appear unpredictable, they are completely <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Deterministic_system">deterministic</a> (as opposed to <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">stochastic</a>).</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_SA_FD" class="hv_view" data-ready="1" data-hvmh="Fluid Dynamics">
@@ -864,14 +865,6 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 <p>Another important dimensionless fluid parameter (besides the Mach number) is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Reynolds_number">Reynolds number</a> $$\mathrm{Re}$$.  It quantifies the relative importance of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Inertia">inertial</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity">viscous</a> forces.  When $$\mathrm{Re} \ll 1$$, the flow is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Laminar_flow">laminar</a>, with adjacent fluid layers sliding by each other.  In such conditions, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Run-and-tumble_motion">bacteria</a> can't drift and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Stokes_flow#Demonstration_of_time-reversibility">dye droplets "unmix."</a> The opposite flow regime is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Turbulence">turbulent</a>, corresponding to $$\mathrm{Re} \gg 1$$.  The flow is rough, full of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Eddy_(fluid_dynamics)">eddies</a>, and often <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a>.</p>
 
 <p><strong>SSNS</strong> was <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_DESIGN'); ">designed</a> to run in your <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Web_browser">web browser</a>, and it would not be wise to bog things down with a high resolution 2D <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Karman_vortex_street">vortex street</a> simulation!  Instead, we consider a simple, 2D, low $$\mathrm{Re}$$ system where the fluid flow is incompressible, viscous, laminar, steady, unidirectional, and exactly solvable.  In the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_PF'); ">Rigid Planar Flow (<samp>PF</samp>)</a> system, we construct, analyze and simulate a purely <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Solid_mechanics">solid mechanical</a> analog that captures the behavior of the fluid system.</p>
-
-<!--
- <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_method">numerical methods</a>
-https://en.wikipedia.org/wiki/Finite_volume_method
-Liquids, for instance, can often be assumed to be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Compressibility">incompressible</a>
- <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Approximation">simplify</a>
-<a target="_blank" class="hv_ext_link" href="https://tedm.us/computational_science">Computation</a> is essential in supplementing <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Scientific_theory">theory</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Experiment">experiment</a>
--->
 
 </div><!-- CLOSES div class="hv_view" -->
 
@@ -921,6 +914,10 @@ The variable $$ x $$ represents the number of individuals that possess version $
 <div id="HV_ST_XY" class="hv_view" data-ready="1" data-hvmh="XY Model">
 <p>In the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Classical_XY_model">XY model</a>, each <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Spin_(physics)">spin</a> rotates freely like the needle of a compass sitting on the "$$ xy $$" plane of the screen.  Our implementation has <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_N'); ">$$ N^2 $$</a> total spins arranged in an $$ N \times N $$ square array.  Unlike <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IS'); ">Ising</a> spins, whose two possible directions give a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Heat_map">heat map</a> with two colors, XY model visualization involves a heat map with a cyclic continuum of colors (like a rainbow).</p>
 <p>Further implementation details and a short description of spin system <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Time_evolution">dynamics</a> can be found <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">here</a>.  Both Ising and XY models will display phase-transition-like behavior, which we comment on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PHASE_TRANSITIONS'); ">here</a>.  A <em>static</em>, pseudo-artistic visualization of XY model <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Topological_defect#Condensed_matter">vortices</a> can be found <a target="_blank" class="hv_ext_link" href="https://tedm.us/Parameter_Spaces">here</a>.  Finally, take a look at <a target="_blank" class="hv_ext_link" href="//kjslag.github.io/XY/">this</a> higher-performance, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Graphics_processing_unit">GPU-based</a> XY implementation.</p>
+</div><!-- CLOSES div class="hv_view" -->
+
+<div id="HV_ST_LZ" class="hv_view" data-ready="1" data-hvmh="Lorenz System">
+<p> LZZZZZZZZZZZZZZZz originally meant to model  <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_FD'); ">fluid ATMOSPHERIC flow</a>   <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_growth">population growth</a>, is now better known as a simple example of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a> behavior.  The variable $$ x $$ represents population size as a fraction of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Carrying_capacity">carrying capacity</a> (the largest possible size given environmental conditions).   equations:</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_ST_LM" class="hv_view" data-ready="1" data-hvmh="Logistic Map">
@@ -1278,6 +1275,14 @@ The variable $$ x $$ represents the number of individuals that possess version $
 </tbody>
 </table>
 
+<!--  ************ SCRAPS ************
+ <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_method">numerical methods</a>
+https://en.wikipedia.org/wiki/Finite_volume_method
+Liquids, for instance, can often be assumed to be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Compressibility">incompressible</a>
+ <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Approximation">simplify</a>
+<a target="_blank" class="hv_ext_link" href="https://tedm.us/computational_science">Computation</a> is essential in supplementing <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Scientific_theory">theory</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Experiment">experiment</a>
+-->
+
 <!--
 <button type="button" class="btn btn-ssns btn_w_txt px-0 flex-fill" onclick="window.sim.process_cmd('RT'); "><a><i class="fas fa-fw fa-lg fa-rotate-right pr-2"></i><samp>THIS</samp></a></button>
 -->
@@ -1306,7 +1311,7 @@ The variable $$ x $$ represents the number of individuals that possess version $
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/ndarray-base-empty@umd/browser.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/math-base-special-modf@umd/browser.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/math-base-special-roundsd@umd/browser.js"></script>
-<!-- <script src="/static/js/SSNS_dependencies_TESTING.js"></script> -->
+<!-- <script src="/static/js/SSNT_dependencies_TESTING.js"></script> -->
 
 <script src="/static/js/SSNS_dependencies_without_js-sdsl.js"></script>
 <script src="https://unpkg.com/js-sdsl/dist/umd/js-sdsl.min.js"></script>
@@ -1315,32 +1320,32 @@ The variable $$ x $$ represents the number of individuals that possess version $
 </script>
 
 
-<script src="/static/js/SSNS/CU.js"></script>
-<script src="/static/js/SSNS/UINI.js"></script>
-<script src="/static/js/SSNS/traj_base.js"></script>
-<script src="/static/js/SSNS/traj_intermed.js"></script>
-<script src="/static/js/SSNS/system_types/gas.js"></script>
-<script src="/static/js/SSNS/system_types/RW.js"></script>
-<script src="/static/js/SSNS/system_types/MN.js"></script>
-<script src="/static/js/SSNS/system_types/CH.js"></script>
-<script src="/static/js/SSNS/system_types/IG.js"></script>
-<script src="/static/js/SSNS/system_types/HS.js"></script>
-<script src="/static/js/SSNS/system_types/IS.js"></script>
-<script src="/static/js/SSNS/system_types/XY.js"></script>
-<script src="/static/js/SSNS/system_types/LM.js"></script>
-<script src="/static/js/SSNS/system_types/GM.js"></script>
-<script src="/static/js/SSNS/system_types/PF.js"></script>
-<script src="/static/js/SSNS/system_types/SH.js"></script>
-<script src="/static/js/SSNS/PlotType.js"></script>
-<script src="/static/js/SSNS/PlotTypeXT.js"></script>
-<script src="/static/js/SSNS/PlotTypeHX.js"></script>
-<script src="/static/js/SSNS/PlotTypeCV.js"></script>
-<script src="/static/js/SSNS/PlotTypePP.js"></script>
-<script src="/static/js/SSNS/PlottingMachinery.js"></script>
-<script src="/static/js/SSNS/help_viewer.js"></script>
-<script src="/static/js/SSNS/RunState.js"></script>
-<script src="/static/js/SSNS/UserInterface.js"></script>
-<script src="/static/js/SSNS/Simulator.js"></script>
+<script src="/static/js/SSNT/CU.js"></script>
+<script src="/static/js/SSNT/UINI.js"></script>
+<script src="/static/js/SSNT/traj_base.js"></script>
+<script src="/static/js/SSNT/traj_intermed.js"></script>
+<script src="/static/js/SSNT/system_types/gas.js"></script>
+<script src="/static/js/SSNT/system_types/RW.js"></script>
+<script src="/static/js/SSNT/system_types/MN.js"></script>
+<script src="/static/js/SSNT/system_types/CH.js"></script>
+<script src="/static/js/SSNT/system_types/IG.js"></script>
+<script src="/static/js/SSNT/system_types/HS.js"></script>
+<script src="/static/js/SSNT/system_types/IS.js"></script>
+<script src="/static/js/SSNT/system_types/XY.js"></script>
+<script src="/static/js/SSNT/system_types/LM.js"></script>
+<script src="/static/js/SSNT/system_types/GM.js"></script>
+<script src="/static/js/SSNT/system_types/PF.js"></script>
+<script src="/static/js/SSNT/system_types/SH.js"></script>
+<script src="/static/js/SSNT/PlotType.js"></script>
+<script src="/static/js/SSNT/PlotTypeXT.js"></script>
+<script src="/static/js/SSNT/PlotTypeHX.js"></script>
+<script src="/static/js/SSNT/PlotTypeCV.js"></script>
+<script src="/static/js/SSNT/PlotTypePP.js"></script>
+<script src="/static/js/SSNT/PlottingMachinery.js"></script>
+<script src="/static/js/SSNT/help_viewer.js"></script>
+<script src="/static/js/SSNT/RunState.js"></script>
+<script src="/static/js/SSNT/UserInterface.js"></script>
+<script src="/static/js/SSNT/Simulator.js"></script>
 
 
 
