@@ -85,10 +85,10 @@ class HelpViewer {
 
 	// basic/miscellaneous settings
 	this.sim = sim;
-	this.initial_view = "HV_SA_ND";  // default setting
+	this.initial_view = "HV_GAS_MODELS";  // default setting
 	this.curr_view = "";
 	this.prev_view = "";
-	this.show_on_load = false;  // whether to show HelpViewer on app loading
+	this.show_on_load = true;  // whether to show HelpViewer on app loading
 	$("#md_container").on("hidden.bs.modal", function ()   { this.deployed = false;  });
 	$("#md_container").on("shown.bs.modal", function ()   { this.deployed = true;  });
 
@@ -148,6 +148,7 @@ class HelpViewer {
 		    new HelpViewerNode("HV_MARKOV_ONE_STEP", []),
 		    new HelpViewerNode("HV_SPIN_SYSTEMS", []),
 		    new HelpViewerNode("HV_PHASE_TRANSITIONS", []),
+		    new HelpViewerNode("HV_GAS_MODELS", []),
 
 		    new HelpViewerNode("HV_SA_SP", [
 
@@ -174,6 +175,9 @@ class HelpViewer {
 		    new HelpViewerNode("HV_SA_SM", [
 
 			new HelpViewerNode("HV_ST_IG", [
+			]),
+
+			new HelpViewerNode("HV_ST_HS", [
 			]),
 
 			new HelpViewerNode("HV_ST_IS", [
