@@ -21,6 +21,7 @@ class GasParticle_HS extends GasParticle {
 	for (const cei = gptc.cet_entries.begin(); !cei.equals(gptc.cet_entries.end()); cei.next()) {
 	    ngp.cet_entries.insert(copy(cei.pointer));
 	}
+	ngp.v_hist_bi = gptc.v_hist_bi;
 	return ngp;
     }
 }
@@ -370,7 +371,7 @@ class Params_HS extends Params {
     static T;
     static UINI_v_pist;  // = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  assignment occurs in UserInterface(); see discussion there
 
-    static R = 0.02;  // EVENTUALLY MAKE AN INPUT PARAMETER?
+    static R = 0.001;  // EVENTUALLY MAKE AN INPUT PARAMETER?
     static m = 1.0;  // EVENTUALLY MAKE AN INPUT PARAMETER?
     static ds = 0.01;  // EVENTUALLY MAKE AN INPUT PARAMETER?  OR USE SMALL ALGORITHM TO SET VALUE?
     static Lx_min = 0.4;  // assignment occurs in Trajectory_HS constructor
@@ -425,7 +426,7 @@ class Coords_HS extends Coords {
 
 	    this.x_RW = 0.0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
-	    this.gsh = new GasSpeedHistogram();
+	    this.gsh = new GasSpeedHistogram(0.3);
 	    this.cet = new CollisionEventsTable();
 	    this.particles = new Array();
 	    this.initialize_particles_collision_structures_etc();
@@ -599,6 +600,14 @@ class Coords_HS extends Coords {
 
 	CollisionEvent_PP.process_collision(pa, pb);  // update velocities via hard sphere impact equations
 
+	// update histogram gsh for pa, then pb
+	CU.decr_entry_OM(this.gsh.hist, pa.v_hist_bi);  // decrement bin count of pa old speed value
+	pa.v_hist_bi = this.gsh.get_bin_indx(pa.get_speed());  // store bin index corresponding to pa new speed value
+	CU.incr_entry_OM(this.gsh.hist, pa.v_hist_bi);  // increment bin count of pa new speed value
+	CU.decr_entry_OM(this.gsh.hist, pb.v_hist_bi);  // decrement bin count of pb old speed value
+	pb.v_hist_bi = this.gsh.get_bin_indx(pb.get_speed());  // store bin index corresponding to pb new speed value
+	CU.incr_entry_OM(this.gsh.hist, pb.v_hist_bi);  // increment bin count of pb new speed value
+	
 	// iterate over pa's cet_entries performing necessary deletions
 	for (let cei = pa.cet_entries.begin(); !cei.equals(pa.cet_entries.end()); cei.next()) {
 	    this.cet.table.eraseElementByKey(cei.pointer);  // erase entry in main table (will take care of one at this.cet.table.front() )
@@ -670,9 +679,16 @@ class Coords_HS extends Coords {
 	// for convenience
 	let pi = this.cet.table.front().pi;
 	let wi = this.cet.table.front().wi;
-	let prt = this.particles[this.cet.table.front().pi];
+	let prt = this.particles[this.cet.table.front().pi];  // prt = particle
 
 	CollisionEvent_PW.process_collision(prt, wi, this.v_RW);  // update velocity of particle
+
+	// if collision is with a moving right wall (RW) --- the only case that might change particle's speed --- update histogram gsh
+	if ((wi == Params_HS.R_W) && (this.v_RW != 0.0)) {
+	    CU.decr_entry_OM(this.gsh.hist, prt.v_hist_bi);  // decrement bin count of old speed value
+	    prt.v_hist_bi = this.gsh.get_bin_indx(prt.get_speed());  // store bin index corresponding to new speed value
+	    CU.incr_entry_OM(this.gsh.hist, prt.v_hist_bi);  // increment bin count of new speed value
+	}
 
 	// iterate over prt's cet_entries performing necessary deletions
 	for (let cei = prt.cet_entries.begin(); !cei.equals(prt.cet_entries.end()); cei.next()) {

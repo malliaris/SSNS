@@ -119,12 +119,16 @@ class CU {
 	    om.setElement(k, orig_v + 1);
 	}
     }
-    static decr_entry_OM(om, k) {  // for OrderedMap om (from js-sdsl library), if om[k] doesn't exist or om[k] < 1, print an error, else om[k] -= 1
+    static decr_entry_OM(om, k) {  // ***value interpreted as a count***, i.e., element should only be present if value v >= 1; for OrderedMap om (from js-sdsl library), decrement entry
 	let orig_v = om.getElementByKey(k);
-	if ((orig_v != undefined) || (orig_v < 1)) {
-	    console.log("ERROR in decr_entry_OM(): either OM entry doesn't exist or value is < 1!");
+	if ((orig_v != undefined) && (orig_v >= 1)) {  // if om[k] doesn't exist or om[k] < 1, print an error (below)
+	    if (orig_v > 1) {
+		om.setElement(k, orig_v - 1);  // decrement with element remaining in OM
+	    } else {
+		om.eraseElementByKey(k);  // decrementing 1 --> 0 means element should just be removed from OM
+	    }
 	} else {
-	    om.setElement(k, orig_v - 1);
+	    console.log("ERROR in decr_entry_OM(): either OM entry doesn't exist or value is < 1!");
 	}
     }
     static add_to_entry_OM(om, k, v) {  // for OrderedMap om (from js-sdsl library), if om[k] exists, do om[k] += v, else insert om[k] = v

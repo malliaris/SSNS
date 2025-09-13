@@ -128,7 +128,7 @@ class Coords_IG extends Coords {
 
 	if (this.constructing_init_cond) {
 
-	    this.gsh = new GasSpeedHistogram();
+	    this.gsh = new GasSpeedHistogram(0.01);
 	    this.particles = new Array();
 	    this.initialize_particles_etc();
 

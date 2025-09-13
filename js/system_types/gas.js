@@ -51,15 +51,15 @@ class GasParticle {
 //
 class GasSpeedHistogram {
 
-    constructor() {
+    constructor(bin_width) {
 
 	this.hist = new OrderedMap();
-	this.bin_width = 0.01;
+	this.bin_width = bin_width;
     }
 
     static copy(gsh_to_cpy) {  // "copy constructor"
 	
-	let new_gsh = new GasSpeedHistogram();
+	let new_gsh = new GasSpeedHistogram(gsh_to_cpy.bin_width);
 	new_gsh.hist = new OrderedMap(gsh_to_cpy.hist);  // NOTE: I think this "copy constructor" happens to work, but shouldn't be counted on generally!!
 	return new_gsh;
     }
