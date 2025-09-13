@@ -173,7 +173,7 @@ class Coords_IG extends Coords {
 	    let vx = vc.x;
 	    let vy = vc.y;
 	    let new_p = new GasParticle(rx, ry, Params_IG.R, Params_IG.m, vx, vy);
-	    new_p.v_hist_bi = GasSpeedHistogram.get_bin_indx(new_p.get_speed());
+	    new_p.v_hist_bi = this.gsh.get_bin_indx(new_p.get_speed());
 	    CU.incr_entry_OM(this.gsh.hist, new_p.v_hist_bi);  // increment bin count
 	    this.particles.push(new_p);
 	}

@@ -522,7 +522,7 @@ class Coords_HS extends Coords {
 
 	    new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, vx, vy);
 	    //new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, 1, 0.1);//////////
-	    new_p.v_hist_bi = GasSpeedHistogram.get_bin_indx(new_p.get_speed());
+	    new_p.v_hist_bi = this.gsh.get_bin_indx(new_p.get_speed());
 	    CU.incr_entry_OM(this.gsh.hist, new_p.v_hist_bi);  // increment bin count
 	    this.particles.push(new_p);
 	}

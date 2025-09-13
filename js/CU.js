@@ -119,6 +119,14 @@ class CU {
 	    om.setElement(k, orig_v + 1);
 	}
     }
+    static decr_entry_OM(om, k) {  // for OrderedMap om (from js-sdsl library), if om[k] doesn't exist or om[k] < 1, print an error, else om[k] -= 1
+	let orig_v = om.getElementByKey(k);
+	if ((orig_v != undefined) || (orig_v < 1)) {
+	    console.log("ERROR in decr_entry_OM(): either OM entry doesn't exist or value is < 1!");
+	} else {
+	    om.setElement(k, orig_v - 1);
+	}
+    }
     static add_to_entry_OM(om, k, v) {  // for OrderedMap om (from js-sdsl library), if om[k] exists, do om[k] += v, else insert om[k] = v
 	if (v > 0) {  // don't do anything if v == 0
 	    let orig_v = om.getElementByKey(k);

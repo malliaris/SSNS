@@ -51,19 +51,10 @@ class GasParticle {
 //
 class GasSpeedHistogram {
 
-    static bin_width = 0.01;
-
-    static get_bin_indx(v) {
-	return parseInt(modf(v / GasSpeedHistogram.bin_width)[0]);
-    }
-
-    static get_x_bin_start(bi) {
-	return bi * GasSpeedHistogram.bin_width;
-    }
-
     constructor() {
 
 	this.hist = new OrderedMap();
+	this.bin_width = 0.01;
     }
 
     static copy(gsh_to_cpy) {  // "copy constructor"
@@ -73,12 +64,20 @@ class GasSpeedHistogram {
 	return new_gsh;
     }
 
+    get_bin_indx(v) {
+	return parseInt(modf(v / this.bin_width)[0]);
+    }
+
+    get_x_bin_start(bi) {
+	return bi * this.bin_width;
+    }
+
     get_x_val_min() {
-	return (this.hist.front()[0] + 0.5) * GasSpeedHistogram.bin_width;
+	return (this.hist.front()[0] + 0.5) * this.bin_width;
     }
 
     get_x_val_max() {
-	return (this.hist.back()[0] + 0.5) * GasSpeedHistogram.bin_width;
+	return (this.hist.back()[0] + 0.5) * this.bin_width;
     }
 
     // needed since flot library does not natively support histogram plotting, but rather line plots in a "step" style
@@ -91,13 +90,13 @@ class GasSpeedHistogram {
 	    let i = element[0];
 	    let H_i = element[1];
 	    if (i > most_recent_i + 1) {  // if there is a "gap" we add an artificial data point at its left side and with y-value 0 for correct histogram
-		data.push( [ GasSpeedHistogram.get_x_bin_start(most_recent_i + 1), 0 ] );
+		data.push( [ this.get_x_bin_start(most_recent_i + 1), 0 ] );
 	    }
-	    data.push( [ GasSpeedHistogram.get_x_bin_start(i), H_i ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    data.push( [ this.get_x_bin_start(i), H_i ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	    most_recent_i = i;
 	});
 
-	let extra_pair = [ data.at(-1)[0] + GasSpeedHistogram.bin_width, data.at(-1)[1] ];  // add extra pair to "terminate" the histogram at right edge
+	let extra_pair = [ data.at(-1)[0] + this.bin_width, data.at(-1)[1] ];  // add extra pair to "terminate" the histogram at right edge
 	data.push(extra_pair);
 	
 	return data;
