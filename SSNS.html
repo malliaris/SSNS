@@ -817,7 +817,7 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 <ul><li>in <samp>IG</samp>, $$V$$ is user-specified; in <samp>HS</samp>, it is controlled indirectly via piston speed $$v_{\mathrm{pist.}}$$</li>
 <li>in both, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Pressure">pressure</a> is "measured" by counting and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Temporal_mean">averaging</a> particle-wall collisions</li>
 <li> <samp>HS</samp> both <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Time_evolution">evolved</a> <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Deterministic_system">deterministic</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">ensembles</a> </li>
-<li></li>
+<li>monatomic gas</li>
 <li></li>
 <li><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_equilibrium">equilibrium</a> states</li></ul>
 
@@ -929,7 +929,15 @@ The variable $$ x $$ represents the number of individuals that possess version $
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_ST_HS" class="hv_view" data-ready="1" data-hvmh="Hard Sphere Gas">
-<p>I believe surveys   </p>
+
+<p>Unlike the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IG'); ">ideal gas (<samp>IG</samp>)</a>, the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Hard_spheres">hard sphere gas</a> does involve an <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Interatomic_potential">inter-particle potential</a>, which is</p>
+
+%% V(r) = \begin{cases} \infty, \; \; & r < D \\ 0, \; \; & r \ge D, \end{cases} %%
+
+</p>where $$r$$ is the inter-particle distance and $$D$$ is the particle diameter.  Because $$V(r)$$ is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Step_function">piecewise constant</a>, however, the particles move freely like ideal gas particles except for infinitely <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Elastic_collision">elastic collisions</a> when they approach &mdash; just like billiard balls.</p>
+
+<p>As discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>, the hard sphere <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Equations_of_motion">equations of motion</a> are <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Deterministic_system">deterministic</a>, and we take advantage of that fact with the following efficient update algorithm.  With the radii, initial positions, and initial velocities of all $$N$$ particles, we calculate how far into the future each pair would collide, if at all.  These <samp>CollisionEvent</samp> objects are loaded into a main <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Data_structure">data structure</a>, ordered soonest to latest.  While a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Brute-force_search">brute-force</a> approach would involve the $$O(N^2)$$ checking of each pair for an impending collision, our algorithm processes collisions one-by-one from the top of main data structure, with a reasonable amount of updating of main and auxiliary structures in between.</p>
+
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_ST_IS" class="hv_view" data-ready="1" data-hvmh="Ising Model">
