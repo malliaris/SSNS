@@ -371,7 +371,7 @@ class Params_HS extends Params {
     static T;
     static UINI_v_pist;  // = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  assignment occurs in UserInterface(); see discussion there
 
-    static R = 0.001;  // EVENTUALLY MAKE AN INPUT PARAMETER?
+    static R = 0.002;  // EVENTUALLY MAKE AN INPUT PARAMETER?
     static m = 1.0;  // EVENTUALLY MAKE AN INPUT PARAMETER?
     static ds = 0.01;  // EVENTUALLY MAKE AN INPUT PARAMETER?  OR USE SMALL ALGORITHM TO SET VALUE?
     static Lx_min = 0.4;  // assignment occurs in Trajectory_HS constructor
@@ -426,7 +426,7 @@ class Coords_HS extends Coords {
 
 	    this.x_RW = 0.0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
-	    this.gsh = new GasSpeedHistogram(0.3);
+	    this.gsh = new GasSpeedHistogram(0.2);
 	    this.cet = new CollisionEventsTable();
 	    this.particles = new Array();
 	    this.initialize_particles_collision_structures_etc();
@@ -517,7 +517,9 @@ class Coords_HS extends Coords {
 	    let x = (ri + 1) * grid_seg_length;
 	    let y = (ci + 1) * grid_seg_length;
 
-	    this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.T, Params_HS.m);
+	    //this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.T, Params_HS.m);
+	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, 1.0);
+	    this.mc.mbde.load_vc_spec_v_rand_dir(vc, Math.sqrt(2.0));
 	    let vx = vc.x;
 	    let vy = vc.y;
 
@@ -929,7 +931,7 @@ class Coords_HS extends Coords {
 	let avg_KE = total_KE / Params_HS.N;  // same as avg_T since k_B = 1
 	let VT_constant = this.get_V() * avg_KE;
 	//console.log("total_KE =", total_KE);/////////
-	//console.log("avg_KE =", avg_KE);/////////
+	console.log("avg_KE =", avg_KE);/////////
 	console.log("VT_constant =", avg_KE, VT_constant);/////////
 	
 	// update time-averaged quantities
