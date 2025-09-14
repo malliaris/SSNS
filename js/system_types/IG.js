@@ -75,9 +75,12 @@ class ModelCalc_IG extends ModelCalc_Gas {
 // NOTE: T is measured in energy units, i.e., it could be called tau = k_B T
 class Params_IG extends Params {
 
-    static N;  // = new UINI_int(this, "UI_P_SM_IG_N", false);  assignment occurs in UserInterface(); see discussion there    
-    static V;  // = new UINI_float(this, "UI_P_SM_IG_V", false);  assignment occurs in UserInterface(); see discussion there
-    static T;  // = new UINI_float(this, "UI_P_SM_IG_T", true);  assignment occurs in UserInterface(); see discussion there
+    static UINI_N;  // = new UINI_int(this, "UI_P_SM_IG_N", false);  assignment occurs in UserInterface(); see discussion there    
+    static N;
+    static UINI_V;  // = new UINI_float(this, "UI_P_SM_IG_V", false);  assignment occurs in UserInterface(); see discussion there
+    static V;
+    static UINI_kT;  // = new UINI_float(this, "UI_P_SM_IG_kT", true);  assignment occurs in UserInterface(); see discussion there
+    static kT;
     static x_BC_refl = true;  // = new UINI_int(this, "UI_P_SM_IG_xBC", true);  assignment occurs in UserInterface(); see discussion there
     static y_BC_refl = true;  // = new UINI_int(this, "UI_P_SM_IG_yBC", true);  assignment occurs in UserInterface(); see discussion there
 
@@ -90,6 +93,8 @@ class Params_IG extends Params {
     static R_dist_code = "c";  // dummy value; c for constant? add a sensible distribution to try?
     static IC_code = "r";  // dummy value; eventually have many options here
 
+
+    
     constructor(x_BC_refl, y_BC_refl) {
 
 	super();
@@ -98,13 +103,13 @@ class Params_IG extends Params {
 
 	// summarize physical parameter values
 	console.log("physical parameter value summary:");
-	console.log("N     :", Params_IG.N.v);
-	console.log("kT    :", Params_IG.T.v);
-	console.log("V     :", Params_IG.V.v);
+	console.log("N     :", Params_IG.N);
+	console.log("kT    :", Params_IG.kT);
+	console.log("V     :", Params_IG.V);
 	console.log("Lx    :", Params_IG.Lx);
 	console.log("Ly    :", Params_IG.Ly);
 	console.log("dt    :", Params_IG.dt);
-	console.log("p_thr :", (Params_IG.N.v * Params_IG.T.v / Params_IG.V.v));
+	console.log("p_thr :", (Params_IG.N * Params_IG.kT / Params_IG.V));
     }
 
     push_vals_to_UI() {
@@ -155,20 +160,20 @@ class Coords_IG extends Coords {
 
 	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (useful for passing into methods that set both)
 
-	for (let i = 0; i < Params_IG.N.v; i++) {
+	for (let i = 0; i < Params_IG.N; i++) {
 
 	    let rx = this.mc.mbde.get_rand_x();  // random x position
 	    let ry = this.mc.mbde.get_rand_y();  // random y position
 
-	    //let v_chi = this.mc.mbde.get_MBD_v_chi(Params_IG.T.v, Params_IG.m);
+	    //let v_chi = this.mc.mbde.get_MBD_v_chi(Params_IG.kT, Params_IG.m);
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, v_chi);
 
-	    //let v_avg = this.mc.mbde.get_MBD_v_avg(Params_IG.T.v, Params_IG.m);
+	    //let v_avg = this.mc.mbde.get_MBD_v_avg(Params_IG.kT, Params_IG.m);
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, v_avg);
 
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, 1.0);
 
-	    this.mc.mbde.load_vc_MBD_v_comps(vc, Params_IG.T.v, Params_IG.m);
+	    this.mc.mbde.load_vc_MBD_v_comps(vc, Params_IG.kT, Params_IG.m);
 
 	    let vx = vc.x;
 	    let vy = vc.y;
@@ -186,7 +191,7 @@ class Coords_IG extends Coords {
 	this.P_x = 0.0;
 	this.P_y = 0.0;
 
-	for (let i = 0; i < Params_IG.N.v; i++) {
+	for (let i = 0; i < Params_IG.N; i++) {
 
 	    // update x-direction position and quantities
 	    this.gpud.set_inputs(this.particles[i].x, this.particles[i].vx, Params_IG.Lx, Params_IG.x_BC_refl, dt);  // set inputs...
@@ -209,13 +214,13 @@ class Coords_IG extends Coords {
 	this.P_y_cumul += this.P_y;
 	this.P_x_t_avg = this.P_x_cumul / this.num_t_avg_contribs;
 	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
-	this.PVoNkT_x_t_avg = this.P_x_t_avg * Params_IG.V.v / (Params_IG.N.v * Params_IG.T.v);
-	this.PVoNkT_y_t_avg = this.P_y_t_avg * Params_IG.V.v / (Params_IG.N.v * Params_IG.T.v);
+	this.PVoNkT_x_t_avg = this.P_x_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT);
+	this.PVoNkT_y_t_avg = this.P_y_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT);
     }
 
     output() {
 
-	for (let i = 0; i < Params_IG.N.v; i++) {
+	for (let i = 0; i < Params_IG.N; i++) {
 
 	    let cp = this.particles[i];  // cp = current particle; for convenience
 	    console.log("i = ", i, "x = ", cp.x, "y = ", cp.y, "vx = ", cp.vx, "vy = ", cp.vy);
@@ -227,17 +232,15 @@ class Trajectory_IG extends Trajectory {
 
     constructor(sim) {
 
+	Params_IG.N = Params_IG.UINI_N.v;
+	Params_IG.V = Params_IG.UINI_V.v;
+	Params_IG.kT = Params_IG.UINI_kT.v;
+
 	// Volume V is achieved by setting Lx = V and Ly = 1
-	Params_IG.Lx = Params_IG.V.v;
+	Params_IG.Lx = Params_IG.V;
 	Params_IG.Ly = 1;
 
 	super(sim);
-
-	// still figuring out best way to store parameter values...
-	this.N = Params_IG.N.v;
-	this.T = Params_IG.T.v;
-	this.V = Params_IG.V.v;
-	this.m = Params_IG.m;
     }
 
     gmc() {  // gmc = get ModelCalc object
@@ -249,11 +252,11 @@ class Trajectory_IG extends Trajectory {
     }
 
     gc_ic(mc) {  // gc_ic = get Coords, initial condition
-	return new Coords_IG(mc, [ Params_IG.N.v ]);
+	return new Coords_IG(mc, [ Params_IG.N ]);
     }
 
     gc_nv(mc, p, c_prev) {  // gc_nv = get Coords, new value
-	return new Coords_IG(mc, p, c_prev, [ Params_IG.N.v ]);
+	return new Coords_IG(mc, p, c_prev, [ Params_IG.N ]);
     }
 
     get_max_num_t_steps() {

@@ -43,9 +43,9 @@ class UserInterface {
 	Params_CH.alpha = new UINI_float(this, "UI_P_SP_CH_alpha", true);
 	Params_CH.beta = new UINI_float(this, "UI_P_SP_CH_beta", true);
 	Coords_CH.x_0 = new UINI_int(this, "UI_P_SP_CH_x_0", false);
-	Params_IG.N = new UINI_int(this, "UI_P_SM_IG_N", false);
-	Params_IG.V = new UINI_float(this, "UI_P_SM_IG_V", false);
-	Params_IG.T = new UINI_float(this, "UI_P_SM_IG_T", false);
+	Params_IG.UINI_N = new UINI_int(this, "UI_P_SM_IG_N", false);
+	Params_IG.UINI_V = new UINI_float(this, "UI_P_SM_IG_V", false);
+	Params_IG.UINI_kT = new UINI_float(this, "UI_P_SM_IG_kT", false);
 	Params_HS.UINI_N = new UINI_int(this, "UI_P_SM_HS_N", false);
 	Params_HS.UINI_T = new UINI_float(this, "UI_P_SM_HS_T", false);
 	Params_HS.UINI_v_pist = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  // can be thought of as v_pist_0 in that the internal value may change within a timestep

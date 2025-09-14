@@ -88,7 +88,7 @@ class HelpViewer {
 	this.initial_view = "HV_ST_IG";  // default setting
 	this.curr_view = "";
 	this.prev_view = "";
-	this.show_on_load = true;  // whether to show HelpViewer on app loading
+	this.show_on_load = false;  // whether to show HelpViewer on app loading
 	$("#md_container").on("hidden.bs.modal", function ()   { this.deployed = false;  });
 	$("#md_container").on("shown.bs.modal", function ()   { this.deployed = true;  });
 
@@ -175,9 +175,20 @@ class HelpViewer {
 		    new HelpViewerNode("HV_SA_SM", [
 
 			new HelpViewerNode("HV_ST_IG", [
+
+			    new HelpViewerNode("HV_P_SM_IG_N", []),
+			    new HelpViewerNode("HV_P_SM_IG_V", []),
+			    new HelpViewerNode("HV_P_SM_IG_kT", []),
+			    //new HelpViewerNode("HV_P_SM_IG_BC", []),
+
 			]),
 
 			new HelpViewerNode("HV_ST_HS", [
+
+			    //new HelpViewerNode("HV_P_SM_HS_N", []),
+			    //new HelpViewerNode("HV_P_SM_HS_kT0", []),
+			    //new HelpViewerNode("HV_P_SM_HS_v_pist", []),
+
 			]),
 
 			new HelpViewerNode("HV_ST_IS", [

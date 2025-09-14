@@ -86,6 +86,43 @@ class PlotTypeHX_Gas extends PlotTypeHX {
 	return "\\mathrm{ particle \\; speed}";
     }
 
+    get_flot_gen_opts(t) { return {}; }
+}
+
+class PlotTypeHX_IG extends PlotTypeHX_Gas {
+
+    constructor(trj) {
+	super(trj);
+    }
+
+    get_flot_data_series(t) {
+
+	let data_series = [];
+	let curr_gsh = this.trj.get_x(t).gsh;  // current gas speed histogram object, from which we will draw all data
+
+	// load histogram data
+	let hist_data = curr_gsh.get_flot_hist_data();  // flot library does not have histograms, so we must create data ("anchor" gaps, etc.)
+	this.flot_data_opts_hist["data"] = hist_data;
+	data_series.push(this.flot_data_opts_hist);
+	
+	// load theoretical functional form over-plot (2D Maxwell-Boltzmann speed distribution)
+	let vL = 0.0;  //curr_gsh.get_x_val_min();
+	let vR = curr_gsh.get_x_val_max();
+	let mult_fctr = curr_gsh.bin_width * Params_IG.N;  // multiply pdf by bin width to get a probability, and by N to get expected num particles
+	let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, Params_IG.kT, Params_IG.m, mult_fctr);
+	this.flot_data_opts_theory["data"] = theory_data;
+	data_series.push(this.flot_data_opts_theory);
+
+	return data_series;
+    }
+}
+
+class PlotTypeHX_HS extends PlotTypeHX_Gas {
+
+    constructor(trj) {
+	super(trj);
+    }
+
     get_flot_data_series(t) {
 
 	let data_series = [];
@@ -105,22 +142,6 @@ class PlotTypeHX_Gas extends PlotTypeHX {
 	data_series.push(this.flot_data_opts_theory);
 
 	return data_series;
-    }
-
-    get_flot_gen_opts(t) { return {}; }
-}
-
-class PlotTypeHX_IG extends PlotTypeHX_Gas {
-
-    constructor(trj) {
-	super(trj);
-    }
-}
-
-class PlotTypeHX_HS extends PlotTypeHX_Gas {
-
-    constructor(trj) {
-	super(trj);
     }
 }
 
