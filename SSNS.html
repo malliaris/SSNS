@@ -918,17 +918,13 @@ The variable $$ x $$ represents the number of individuals that possess version $
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_ST_IG" class="hv_view" data-ready="1" data-hvmh="Ideal Gas">
-<p>I believe surveys have shown that the single best-remembered equation from introductory science classes is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Ideal_gas">ideal gas</a> law, usually memorized by students as $$P V = n R T$$.  For our <strong>SSNS</strong> implementation, we'll change symbols $$P \to p$$ for pressure and $$n R \to N R / N_A \to N k_B$$ since it's easier to specify <em>number</em> of particles $$N$$ rather than <em>number of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mole_(unit)">moles</a></em> of particles $$n$$.  Thus, we'll use the version:</p>
+<p>I believe surveys show the single best remembered equation from introductory science is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Ideal_gas">ideal gas</a> law, $$P V = n R T$$.  For our <strong>SSNS</strong> implementations, we'll use $$p$$ for pressure and substitute $$n R \to N R / N_A \to N k_B$$ since it would be odd to specify $$N = 1000$$ particles in <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mole_(unit)">moles</a>.  Thus, we'll use:</p>
   
 %% p V = N k_B T %%
 
-<p>Here, $$V$$ is volume, $$T \ge 0$$ is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_temperature">absolute temperature</a>, and $$k_B$$ is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a>.  We have also implemented the ideal gas's slightly more complicated cousin, the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">hard sphere gas</a>.   <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">gas models</a> 
+<p>We also implement the slightly more complicated <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">hard sphere gas</a>.  The physical variables, ideas, and implementation details common to both are discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>.</p>
 
-</p>
-
-<p>
-<a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Van_der_Waals_equation">van der Waals equation</a>  Also, we'll specify our temperatures in energy units (effectively setting the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a>, $$k_B$$, to 1)
-</p>
+<p>What makes a gas ideal?  <strong>(1)</strong> The particles <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Point_particle"> take up no space</a> (even if their representation on the screen does), and <strong>(2)</strong> the particles do not "see" (or collide with) each other, i.e. there's no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Interatomic_potential">inter-particle potential</a>.  This simplifies both analysis and simulation: constant <a target="_blank" class="hv_ext_link" href="https://en.wikipedia.org/wiki/Velocity">velocity</a> motion with occasional bounces off the walls.  The downside is that some real gas behavior, e.g., <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Condensation">condensation</a> into a liquid, is not captured.  (See <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Van_der_Waals_equation">van der Waals equation</a> for more.)</p>
 
 </div><!-- CLOSES div class="hv_view" -->
 
