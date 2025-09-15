@@ -185,9 +185,9 @@ class HelpViewer {
 
 			new HelpViewerNode("HV_ST_HS", [
 
-			    //new HelpViewerNode("HV_P_SM_HS_N", []),
-			    //new HelpViewerNode("HV_P_SM_HS_kT0", []),
-			    //new HelpViewerNode("HV_P_SM_HS_v_pist", []),
+			    new HelpViewerNode("HV_P_SM_HS_N", []),
+			    new HelpViewerNode("HV_P_SM_HS_kT0", []),
+			    new HelpViewerNode("HV_P_SM_HS_v_pist", []),
 
 			]),
 

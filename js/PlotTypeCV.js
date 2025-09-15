@@ -138,7 +138,11 @@ class PlotTypeCV_HS extends PlotTypeCV_Gas {
 	for (let i = 0; i < this.trj.get_x(t).particles.length; i++) {
 
 	    let cp = this.trj.get_x(t).particles[i];  // cp = current particle
-	    this.draw_circle(cp.x, cp.y, cp.R, true, "black");
+	    if (Params_HS.draw_tiny_particles_artificially_large && (Params_HS.R < 0.002)) {
+		this.draw_circle(cp.x, cp.y, 0.01, false, "black");
+	    } else {
+		this.draw_circle(cp.x, cp.y, cp.R, true, "black");
+	    }
 	}
 	let x_piston = 1.0 - this.trj.get_x(t).x_RW;  // subtract since piston's coordinate system has origin at zero compression
 	this.draw_vertical_line(x_piston, 0.001, "black");  // WHY is line appearing grey when thickness is very small??

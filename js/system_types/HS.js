@@ -367,14 +367,15 @@ class Params_HS extends Params {
 
     static UINI_N;  // = new UINI_int(this, "UI_P_SM_HS_N", false);  assignment occurs in UserInterface(); see discussion there    
     static N;
-    static UINI_T;  // = new UINI_float(this, "UI_P_SM_HS_T", false);  assignment occurs in UserInterface(); see discussion there
-    static T;
+    static UINI_kT0;  // = new UINI_float(this, "UI_P_SM_HS_kT0", false);  assignment occurs in UserInterface(); see discussion there
+    static kT0;
     static UINI_v_pist;  // = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  assignment occurs in UserInterface(); see discussion there
 
-    static R = 0.002;  // EVENTUALLY MAKE AN INPUT PARAMETER?
-    static m = 1.0;  // EVENTUALLY MAKE AN INPUT PARAMETER?
-    static ds = 0.01;  // EVENTUALLY MAKE AN INPUT PARAMETER?  OR USE SMALL ALGORITHM TO SET VALUE?
-    static Lx_min = 0.4;  // assignment occurs in Trajectory_HS constructor
+    static R = 0.001;
+    static draw_tiny_particles_artificially_large = true;
+    static m = 1.0;
+    static ds = 0.01;  // eventually use algorithm to set value?
+    static Lx_min = 0.05;  // assignment occurs in Trajectory_HS constructor
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
     static Ly = 1.0;  // assignment occurs in Trajectory_HS constructor
     static x_RW_max = Params_HS.Lx_max - Params_HS.Lx_min;  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
@@ -931,9 +932,11 @@ class Coords_HS extends Coords {
 	let avg_KE = total_KE / Params_HS.N;  // same as avg_T since k_B = 1
 	let VT_constant = this.get_V() * avg_KE;
 	//console.log("total_KE =", total_KE);/////////
-	console.log("avg_KE =", avg_KE);/////////
+	///console.log("avg_KE =", avg_KE);/////////
 	console.log("VT_constant =", avg_KE, VT_constant);/////////
-	
+	console.log("this.cet.table.size() =", this.cet.table.size())
+	//this.cet.output_info();
+
 	// update time-averaged quantities
 	this.num_t_avg_contribs += 1;
 	this.P_x_cumul += this.P_x;
@@ -965,17 +968,10 @@ class Trajectory_HS extends Trajectory {
     constructor(sim) {
 
 	Coords_HS.s = 0.0;  // zero the official "clock" for our continuous time gas system; (don't confuse with SSNS discrete time step t)
-
-	// still figuring out best way to store parameter values...
 	Params_HS.N = Params_HS.UINI_N.v;
-	Params_HS.T = Params_HS.UINI_T.v;
+	Params_HS.kT0 = Params_HS.UINI_kT0.v;
 
 	super(sim);
-
-	// still figuring out best way to store parameter values...
-	this.N = Params_HS.N;
-	this.T = Params_HS.T;
-	this.m = Params_HS.m;
     }
 
     gmc() {  // gmc = get ModelCalc object

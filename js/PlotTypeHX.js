@@ -136,8 +136,8 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 	// load theoretical functional form over-plot (2D Maxwell-Boltzmann speed distribution)
 	let vL = 0.0;  //curr_gsh.get_x_val_min();
 	let vR = curr_gsh.get_x_val_max();
-	let mult_fctr = curr_gsh.bin_width * this.trj.N;  // multiply pdf by bin width to get a probability, and by N to get expected num particles
-	let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, this.trj.T, this.trj.m, mult_fctr);
+	let mult_fctr = curr_gsh.bin_width * Params_HS.N;  // multiply pdf by bin width to get a probability, and by N to get expected num particles
+	let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, Params_HS.kT0, Params_HS.m, mult_fctr);
 	this.flot_data_opts_theory["data"] = theory_data;
 	data_series.push(this.flot_data_opts_theory);
 

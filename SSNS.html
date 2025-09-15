@@ -215,9 +215,9 @@
 
 <div class="row" id="UI_P_SM_HS">
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_N'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ N $$ </span></div><input id="UI_P_SM_HS_N" class="form-control" type="number" min="1" max="10000" step="1" value="400" onchange="Params_HS.UINI_N.try_update(this.value); "></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_N'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ N $$ </span></div><input id="UI_P_SM_HS_N" class="form-control" type="number" min="1" max="2000" step="1" value="1000" onchange="Params_HS.UINI_N.try_update(this.value); "></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_T'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ k_B T_0 $$ </span></div><input id="UI_P_SM_HS_T" class="form-control" type="number" min="0.0" max="1000000000" step="0.01" value="1" onchange="Params_HS.UINI_T.try_update(this.value); "></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_kT0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ k_B T_0 $$ </span></div><input id="UI_P_SM_HS_kT0" class="form-control" type="number" min="0.0" max="1000000000" step="0.01" value="1" onchange="Params_HS.UINI_kT0.try_update(this.value); "></div></div>
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_v_pist'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ v_{\mathrm{pist.}} $$ </span></div><input id="UI_P_SM_HS_v_pist" class="form-control" type="number" min="-100" max="100" step="0.1" value="0.0" onchange="Params_HS.UINI_v_pist.try_update(this.value); "></div></div>
 
@@ -474,11 +474,11 @@
 
 <div id="UI_ST_area_SM">
 <div id="UI_ST_SM_IG_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); " checked>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_SM_IG">2D ideal gas ($$ \texttt{IG} $$)</label>
 </div>
 <div id="UI_ST_SM_HS_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_HS" value="HS" onchange="window.sim.process_cmd('ST'); ">
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_HS" value="HS" onchange="window.sim.process_cmd('ST'); " checked>
 <label class="form-check-label w-100" for="UI_ST_SM_HS">2D hard sphere gas ($$ \texttt{HS} $$)</label>
 </div>
 <div id="UI_ST_SM_IS_form_check" class="form-check pl-4 py-1">
@@ -1062,6 +1062,18 @@ The variable $$ x $$ represents the number of individuals that possess version $
 
 <div id="HV_P_SM_IG_kT" class="hv_view" data-ready="0" data-hvmh="k_B T">
 <p><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_temperature">absolute temperature</a> $$T > 0$$ multiplied by the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a> $$k_B$$ so that it has units of energy ($$\mathrm{J}$$)</p>
+</div><!-- CLOSES div class="hv_view" -->
+
+<div id="HV_P_SM_HS_N" class="hv_view" data-ready="0" data-hvmh="N">
+<p>the number of gas particles $$ 1 \le N \le 1000 $$</p>
+</div><!-- CLOSES div class="hv_view" -->
+
+<div id="HV_P_SM_HS_kT0" class="hv_view" data-ready="0" data-hvmh="k_B T_0">
+<p>initial value of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_temperature">absolute temperature</a> $$T_0 > 0$$ multiplied by the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a> $$k_B$$ so that it has units of energy ($$\mathrm{J}$$); DISCUSS COMPRESSION ETC</p>
+</div><!-- CLOSES div class="hv_view" -->
+
+<div id="HV_P_SM_HS_v_pist" class="hv_view" data-ready="0" data-hvmh="v_{\mathrm{pist.}}">
+<p> $$ 0.1 \le v_{\mathrm{pist.}} \le 1 $$;  <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>; <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IG'); ">ideal gas</a>; volume is indirectly controlled on-the-fly; <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_V'); ">volume</a>)DISCUSS COMPRESSION ETC</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_SM_IS_T" class="hv_view" data-ready="0" data-hvmh="T">
