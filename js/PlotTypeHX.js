@@ -120,18 +120,33 @@ class PlotTypeHX_IG extends PlotTypeHX_Gas {
 class PlotTypeHX_HS extends PlotTypeHX_Gas {
 
     constructor(trj) {
+
 	super(trj);
+
+	this.flot_data_opts_Boltz_PRELIM = {
+	    color: "rgba(255, 0, 0, 1.0)",
+	    lines: {
+		show: true,
+		lineWidth: 3,
+	    }
+	};
     }
 
     get_flot_data_series(t) {
 
 	let data_series = [];
 	let curr_gsh = this.trj.get_x(t).gsh;  // current gas speed histogram object, from which we will draw all data
+	let curr_peh = this.trj.get_x(t).peh;  // current particle energy histogram object, from which we will draw data
 
-	// load histogram data
-	let hist_data = curr_gsh.get_flot_hist_data();  // flot library does not have histograms, so we must create data ("anchor" gaps, etc.)
-	this.flot_data_opts_hist["data"] = hist_data;
+	// load v histogram data
+	let v_hist_data = curr_gsh.get_flot_hist_data();  // flot library does not have histograms, so we must create data ("anchor" gaps, etc.)
+	this.flot_data_opts_hist["data"] = v_hist_data;
 	data_series.push(this.flot_data_opts_hist);
+	
+	// load E histogram data
+	let E_hist_data = curr_peh.get_flot_semilog_point_data();
+	this.flot_data_opts_Boltz_PRELIM["data"] = E_hist_data;
+	data_series.push(this.flot_data_opts_Boltz_PRELIM);
 	
 	// load theoretical functional form over-plot (2D Maxwell-Boltzmann speed distribution)
 	let vL = 0.0;  //curr_gsh.get_x_val_min();

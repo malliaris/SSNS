@@ -22,6 +22,7 @@ class GasParticle_HS extends GasParticle {
 	    ngp.cet_entries.insert(copy(cei.pointer));
 	}
 	ngp.v_hist_bi = gptc.v_hist_bi;
+	ngp.E_hist_bi = gptc.E_hist_bi;
 	return ngp;
     }
 }
@@ -397,7 +398,7 @@ class Params_HS extends Params {
 	// summarize physical parameter values
 	console.log("physical parameter value summary:");
 	console.log("N     :", Params_HS.N);
-	console.log("kT    :", Params_HS.T);
+	console.log("kT    :", Params_HS.kT0);
 	console.log("Ly    :", Params_HS.Ly);
 	console.log("Lx_min:", Params_HS.Lx_min);
 	console.log("Lx_max:", Params_HS.Lx_max);
@@ -428,6 +429,7 @@ class Coords_HS extends Coords {
 	    this.x_RW = 0.0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
 	    this.gsh = new GasSpeedHistogram(0.2);
+	    this.peh = new GasSpeedHistogram(0.2);  // peh = particle energy histogram
 	    this.cet = new CollisionEventsTable();
 	    this.particles = new Array();
 	    this.initialize_particles_collision_structures_etc();
@@ -440,6 +442,7 @@ class Coords_HS extends Coords {
 	} else {
 
 	    this.gsh = GasSpeedHistogram.copy(this.c_prev.gsh);
+	    this.peh = GasSpeedHistogram.copy(this.c_prev.peh);  // peh = particle energy histogram
 	    this.copy_particles_collision_structures_etc();
 
 	    // determine this timestep's x_RW and v_RW initial values (actual values may change during timestep's update_state() routines)
@@ -518,16 +521,21 @@ class Coords_HS extends Coords {
 	    let x = (ri + 1) * grid_seg_length;
 	    let y = (ci + 1) * grid_seg_length;
 
-	    //this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.T, Params_HS.m);
-	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, 1.0);
-	    this.mc.mbde.load_vc_spec_v_rand_dir(vc, Math.sqrt(2.0));
+	    this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
+	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, Math.sqrt(2.0));
 	    let vx = vc.x;
 	    let vy = vc.y;
 
+	    // create new particle object
 	    new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, vx, vy);
 	    //new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, 1, 0.1);//////////
+
+	    // store quantity histogram bin indices and update respective histograms
 	    new_p.v_hist_bi = this.gsh.get_bin_indx(new_p.get_speed());
 	    CU.incr_entry_OM(this.gsh.hist, new_p.v_hist_bi);  // increment bin count
+	    new_p.E_hist_bi = this.peh.get_bin_indx(new_p.get_KE());
+	    CU.incr_entry_OM(this.peh.hist, new_p.E_hist_bi);  // increment bin count
+
 	    this.particles.push(new_p);
 	}
     }
@@ -603,13 +611,21 @@ class Coords_HS extends Coords {
 
 	CollisionEvent_PP.process_collision(pa, pb);  // update velocities via hard sphere impact equations
 
-	// update histogram gsh for pa, then pb
+	// update v histogram for pa, then pb
 	CU.decr_entry_OM(this.gsh.hist, pa.v_hist_bi);  // decrement bin count of pa old speed value
 	pa.v_hist_bi = this.gsh.get_bin_indx(pa.get_speed());  // store bin index corresponding to pa new speed value
 	CU.incr_entry_OM(this.gsh.hist, pa.v_hist_bi);  // increment bin count of pa new speed value
 	CU.decr_entry_OM(this.gsh.hist, pb.v_hist_bi);  // decrement bin count of pb old speed value
 	pb.v_hist_bi = this.gsh.get_bin_indx(pb.get_speed());  // store bin index corresponding to pb new speed value
 	CU.incr_entry_OM(this.gsh.hist, pb.v_hist_bi);  // increment bin count of pb new speed value
+	
+	// update E histogram for pa, then pb
+	CU.decr_entry_OM(this.peh.hist, pa.E_hist_bi);  // decrement bin count of pa old speed value
+	pa.E_hist_bi = this.peh.get_bin_indx(pa.get_KE());  // store bin index corresponding to pa new speed value
+	CU.incr_entry_OM(this.peh.hist, pa.E_hist_bi);  // increment bin count of pa new speed value
+	CU.decr_entry_OM(this.peh.hist, pb.E_hist_bi);  // decrement bin count of pb old speed value
+	pb.E_hist_bi = this.peh.get_bin_indx(pb.get_KE());  // store bin index corresponding to pb new speed value
+	CU.incr_entry_OM(this.peh.hist, pb.E_hist_bi);  // increment bin count of pb new speed value
 	
 	// iterate over pa's cet_entries performing necessary deletions
 	for (let cei = pa.cet_entries.begin(); !cei.equals(pa.cet_entries.end()); cei.next()) {
@@ -686,11 +702,16 @@ class Coords_HS extends Coords {
 
 	CollisionEvent_PW.process_collision(prt, wi, this.v_RW);  // update velocity of particle
 
-	// if collision is with a moving right wall (RW) --- the only case that might change particle's speed --- update histogram gsh
+	// if collision is with a moving right wall (RW) --- the only case that might change particle's speed/KE --- update histograms
 	if ((wi == Params_HS.R_W) && (this.v_RW != 0.0)) {
+
 	    CU.decr_entry_OM(this.gsh.hist, prt.v_hist_bi);  // decrement bin count of old speed value
 	    prt.v_hist_bi = this.gsh.get_bin_indx(prt.get_speed());  // store bin index corresponding to new speed value
 	    CU.incr_entry_OM(this.gsh.hist, prt.v_hist_bi);  // increment bin count of new speed value
+
+	    CU.decr_entry_OM(this.peh.hist, prt.E_hist_bi);  // decrement bin count of old energy value
+	    prt.E_hist_bi = this.peh.get_bin_indx(prt.get_KE());  // store bin index corresponding to new energy value
+	    CU.incr_entry_OM(this.peh.hist, prt.E_hist_bi);  // increment bin count of new energy value
 	}
 
 	// iterate over prt's cet_entries performing necessary deletions
@@ -943,8 +964,8 @@ class Coords_HS extends Coords {
 	this.P_y_cumul += this.P_y;
 	this.P_x_t_avg = this.P_x_cumul / this.num_t_avg_contribs;
 	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
-	//this.PVoNkT_x_t_avg = this.P_x_t_avg * Params_HS.V / (Params_HS.N * Params_HS.T);
-	//this.PVoNkT_y_t_avg = this.P_y_t_avg * Params_HS.V / (Params_HS.N * Params_HS.T);
+	//this.PVoNkT_x_t_avg = this.P_x_t_avg * Params_HS.V / (Params_HS.N * Params_HS.kT0);
+	//this.PVoNkT_y_t_avg = this.P_y_t_avg * Params_HS.V / (Params_HS.N * Params_HS.kT0);
 
 	// update (continuous time) clock; (don't confuse with SSNS discrete time step t)
 	Coords_HS.s = new_s;

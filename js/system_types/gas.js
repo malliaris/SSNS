@@ -21,7 +21,8 @@ class GasParticle {
 	this.m = m;
 	this.vx = vx;
 	this.vy = vy;
-	this.v_hist_bi;  // bi = bin index (in GasSpeedHistogram)
+	this.v_hist_bi;  // v_hist_bi = v histogram bin index
+	this.E_hist_bi;  // E_hist_bi = E histogram bin index
     }
 
     get_speed() {
@@ -99,6 +100,19 @@ class GasSpeedHistogram {
 	let extra_pair = [ data.at(-1)[0] + this.bin_width, data.at(-1)[1] ];  // add extra pair to "terminate" the histogram at right edge
 	data.push(extra_pair);
 	
+	return data;
+    }
+
+    get_flot_semilog_point_data() {
+
+	let data = [];
+	this.hist.forEach((element, index) => {
+
+	    let i = element[0];
+	    let log_H_i = Math.log(element[1]);
+	    data.push( [ i, log_H_i ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	});
+
 	return data;
     }
 
