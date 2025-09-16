@@ -82,14 +82,14 @@ class GasSpeedHistogram {
     }
 
     // needed since flot library does not natively support histogram plotting, but rather line plots in a "step" style
-    get_flot_hist_data() {
+    get_flot_hist_data(mult_fctr) {
 
 	let data = [];
 	let most_recent_i = this.hist.front()[0];  // initialize
 	this.hist.forEach((element, index) => {
 
 	    let i = element[0];
-	    let H_i = element[1];
+	    let H_i = mult_fctr * element[1];
 	    if (i > most_recent_i + 1) {  // if there is a "gap" we add an artificial data point at its left side and with y-value 0 for correct histogram
 		data.push( [ this.get_x_bin_start(most_recent_i + 1), 0 ] );
 	    }
@@ -103,13 +103,13 @@ class GasSpeedHistogram {
 	return data;
     }
 
-    get_flot_semilog_point_data() {
+    get_flot_semilog_point_data(mult_fctr) {
 
 	let data = [];
 	this.hist.forEach((element, index) => {
 
 	    let i = element[0];
-	    let log_H_i = Math.log(element[1]);
+	    let log_H_i = Math.log(mult_fctr * element[1]);
 	    data.push( [ i, log_H_i ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	});
 

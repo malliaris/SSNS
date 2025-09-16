@@ -913,6 +913,10 @@ class Coords_HS extends Coords {
 	return total_KE;
     }
 
+    get_avg_KE() {
+	return this.get_total_KE() / Params_HS.N;
+    }
+
     time_evolve(s) {
 
 	// update position of each particle
@@ -949,8 +953,7 @@ class Coords_HS extends Coords {
 	//this.num_x_collisions += this.gpud.num_collisions;  // ...then grab calculated values
 	//this.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_HS.Ly * ds);  // 2*Ly in denominator converts force to pressure
 
-	let total_KE = this.get_total_KE();
-	let avg_KE = total_KE / Params_HS.N;  // same as avg_T since k_B = 1
+	let avg_KE = this.get_avg_KE();
 	let VT_constant = this.get_V() * avg_KE;
 	//console.log("total_KE =", total_KE);/////////
 	///console.log("avg_KE =", avg_KE);/////////
