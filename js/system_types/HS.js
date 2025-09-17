@@ -372,7 +372,8 @@ class Params_HS extends Params {
     static kT0;
     static UINI_v_pist;  // = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  assignment occurs in UserInterface(); see discussion there
 
-    static R = 0.001;
+    static R = 0.005;//0.001;
+    static single_m_val_not_dist;
     static draw_tiny_particles_artificially_large = true;
     static m = 1.0;
     static ds = 0.01;  // eventually use algorithm to set value?
@@ -527,7 +528,11 @@ class Coords_HS extends Coords {
 	    let vy = vc.y;
 
 	    // create new particle object
-	    new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, vx, vy);
+	    if ((i % 2) == 0) {
+		new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, vx, vy);
+	    } else {
+		new_p = new GasParticle_HS(x, y, Params_HS.R, 10*Params_HS.m, vx, vy);
+	    }
 	    //new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, 1, 0.1);//////////
 
 	    // store quantity histogram bin indices and update respective histograms
@@ -996,6 +1001,7 @@ class Trajectory_HS extends Trajectory {
 	Coords_HS.s = 0.0;  // zero the official "clock" for our continuous time gas system; (don't confuse with SSNS discrete time step t)
 	Params_HS.N = Params_HS.UINI_N.v;
 	Params_HS.kT0 = Params_HS.UINI_kT0.v;
+	Params_HS.single_m_val_not_dist = false;
 
 	super(sim);
     }

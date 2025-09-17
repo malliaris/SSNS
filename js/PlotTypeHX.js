@@ -77,6 +77,13 @@ class PlotTypeHX_Gas extends PlotTypeHX {
 	this.flot_data_opts_hist = copy(PlotTypeHX.flot_data_opts_histogram);
 	this.flot_data_opts_theory = copy(PlotTypeHX.flot_data_opts_theory_curve);
     }
+}
+
+class PlotTypeHX_IG extends PlotTypeHX_Gas {
+
+    constructor(trj) {
+	super(trj);
+    }
 
     get_ext_y_axis_lbl_str() {
 	return "\\mathrm{ \\# \\; particles}";
@@ -84,13 +91,6 @@ class PlotTypeHX_Gas extends PlotTypeHX {
 
     get_ext_x_axis_lbl_str() {
 	return "\\mathrm{ particle \\; speed}";
-    }
-}
-
-class PlotTypeHX_IG extends PlotTypeHX_Gas {
-
-    constructor(trj) {
-	super(trj);
     }
 
     get_flot_data_series(t) {
@@ -135,6 +135,24 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 	};
     }
 
+    get_ext_y_axis_lbl_str() {
+
+	if (Params_HS.single_m_val_not_dist) {
+	    return "\\mathrm{ \\# \\; particles}";
+	} else {
+	    return "\\ln \\left[ \\mathrm{ \\# \\; particles} \\right]";
+	}	    
+    }
+
+    get_ext_x_axis_lbl_str() {
+
+	if (Params_HS.single_m_val_not_dist) {
+	    return "\\mathrm{ particle \\; speed} \\; v";
+	} else {
+	    return "\\mathrm{ particle \\; energy} \\; E";
+	}
+    }
+
     get_flot_data_series(t) {
 
 	let data_series = [];
@@ -145,18 +163,18 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 	console.log("avg_KE =", avg_KE);//////////
 	let avg_ish_v = Math.sqrt(2.0 * avg_KE / Params_HS.m);
 
-	if (false) {
+	if (Params_HS.single_m_val_not_dist) {
 	
 	    let vL = 0.0;  //curr_gsh.get_x_val_min();
 	    let vR = CU.round_up_above_fluctuations(curr_gsh.get_x_val_max());
 
 	    // load v histogram data
-	    let v_hist_data = curr_gsh.get_flot_hist_data(1.0 / Params_HS.N);  // returned data will be multiplied by (1.0 / Params_HS.N) to give a fraction
+	    let v_hist_data = curr_gsh.get_flot_hist_data(1.0);  // 1.0 is multiplicative factor for returned data (not used, here)
 	    this.flot_data_opts_hist["data"] = v_hist_data;
 	    data_series.push(this.flot_data_opts_hist);
 
 	    // load theoretical functional form over-plot (2D Maxwell-Boltzmann speed distribution)
-	    let mult_fctr = curr_gsh.bin_width;  // multiply pdf by bin width to get a probability
+	    let mult_fctr = curr_gsh.bin_width * Params_HS.N;  // multiply pdf by bin width to get a probability and by Params_HS.N to get expected # particles
 	    let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, Params_HS.kT0, Params_HS.m, mult_fctr);
 	    this.flot_data_opts_theory["data"] = theory_data;
 	    data_series.push(this.flot_data_opts_theory);
@@ -169,11 +187,9 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 	    data_series.push(this.flot_data_opts_theory);
 
 	    // load E histogram data
-	    //CU.ppOM(curr_peh.hist);///////////
 	    let E_hist_data = curr_peh.get_flot_semilog_point_data(1.0);  // 1.0 is multiplicative factor for returned data (not used, here)
 	    this.flot_data_opts_Boltz_PRELIM["data"] = E_hist_data;
 	    data_series.push(this.flot_data_opts_Boltz_PRELIM);
-	    //console.log(E_hist_data);//////////
 	}
 
 	return data_series;
