@@ -133,9 +133,6 @@ class GasSpeedHistogram {
 }
 
 //
-// formulae for 2D Maxwell-Boltzmann distribution, etc.
-// (taken from wikipedia page section for n-D results with n = 2)
-// https://en.wikipedia.org/wiki/Maxwell%E2%80%93Boltzmann_distribution#In_n-dimensional_space
 //
 class MaxBoltzDistEtc {
 
@@ -175,7 +172,16 @@ class MaxBoltzDistEtc {
     get_MBD_v_mode(kT, m) {
 	return Math.sqrt(kT / m);
     }
-    
+
+    get_BD_energy(kT) {
+	return this.mc.exponential_rng(1.0 / kT);
+    }
+
+    get_BD_v(kT, m) {
+	let KE = this.get_BD_energy(kT);
+	return Math.sqrt(2.0 * KE / m);
+    }
+
     get_draw_chi_dist_2_dof() {
 	return this.mc.chi_rng(2);
     }
@@ -220,6 +226,7 @@ class ModelCalc_Gas extends ModelCalc {
 
 	this.mbde = new MaxBoltzDistEtc(this);
 	this.unif01_rng = randu.factory({'seed': ModelCalc_Stoch.rng_seed.v });
+	this.exponential_rng = exponential.factory({'seed': ModelCalc_Stoch.rng_seed.v });
 	this.normal_rng = normal.factory({'seed': ModelCalc_Stoch.rng_seed.v });
 	this.chi_rng = chi.factory({'seed': ModelCalc_Stoch.rng_seed.v });
 	this.chi_squared_rng = chisquare.factory({'seed': ModelCalc_Stoch.rng_seed.v });  // NOTE: "chisquare", i.e., library class has no 'd' at end

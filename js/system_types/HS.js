@@ -522,8 +522,18 @@ class Coords_HS extends Coords {
 	    let x = (ri + 1) * grid_seg_length;
 	    let y = (ci + 1) * grid_seg_length;
 
-	    this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
+	    // determine new particle mass
+	    let mass;
+	    if ((i % 2) == 0) {
+		mass = Params_HS.m;
+	    } else {
+		mass = 10.0 * Params_HS.m;
+	    }
+
+	    ///////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
+	    /////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, mass);
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, Math.sqrt(2.0));
+	    this.mc.mbde.load_vc_spec_v_rand_dir(vc, this.mc.mbde.get_BD_v(Params_HS.kT0, mass));
 	    let vx = vc.x;
 	    let vy = vc.y;
 
