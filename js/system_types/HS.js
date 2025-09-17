@@ -537,6 +537,8 @@ class Coords_HS extends Coords {
 	    CU.incr_entry_OM(this.peh.hist, new_p.E_hist_bi);  // increment bin count
 
 	    this.particles.push(new_p);
+
+	    //////////////console.log("UIUEE", i, new_p.get_speed(), new_p.v_hist_bi, new_p.get_KE(), new_p.E_hist_bi);/////////
 	}
     }
 
@@ -957,8 +959,8 @@ class Coords_HS extends Coords {
 	let VT_constant = this.get_V() * avg_KE;
 	//console.log("total_KE =", total_KE);/////////
 	///console.log("avg_KE =", avg_KE);/////////
-	console.log("VT_constant =", avg_KE, VT_constant);/////////
-	console.log("this.cet.table.size() =", this.cet.table.size())
+	//console.log("VT_constant =", avg_KE, VT_constant);/////////
+	//console.log("this.cet.table.size() =", this.cet.table.size())
 	//this.cet.output_info();
 
 	// update time-averaged quantities

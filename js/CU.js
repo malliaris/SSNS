@@ -84,6 +84,14 @@ class CU {
     	let arr_to_sort = [ va, vb, vc ];  // assemble array of all three
 	return arr_to_sort.sort( (U,V) => U - V )[1];  // after sorting numerically, the middle value (index [1]) is the one we want...
     }
+    static round_up_above_fluctuations(xmax) {
+	let xmax_1sd = roundsd(xmax, 1);
+	let xmax_1frac = xmax / xmax_1sd;
+	let xmax_1frac_ceil = Math.ceil(xmax_1frac);
+	let xmax_1frac_ceil_mult = xmax_1frac_ceil * xmax_1sd;
+	//console.log("xmax_1sd, xmax_1frac, xmax_1frac_ceil, xmax_1frac_ceil_mult =", xmax_1sd, xmax_1frac, xmax_1frac_ceil, xmax_1frac_ceil_mult);
+	return xmax_1frac_ceil_mult;
+    }
     static scal_mult_vect(vprod, s, v) {  // multiply each element of the passed-in ndarray v by the scalar s, placing the result in vprod
 	if (vprod.length != v.length) {
 	    console.log("ERROR in scal_mult_vect(): vectors have unequal lengths!");

@@ -73,6 +73,10 @@ class GasSpeedHistogram {
 	return bi * this.bin_width;
     }
 
+    get_x_bin_mid(bi) {
+	return (bi + 0.5) * this.bin_width;
+    }
+
     get_x_val_min() {
 	return (this.hist.front()[0] + 0.5) * this.bin_width;
     }
@@ -109,8 +113,10 @@ class GasSpeedHistogram {
 	this.hist.forEach((element, index) => {
 
 	    let i = element[0];
-	    let log_H_i = Math.log(mult_fctr * element[1]);
-	    data.push( [ i, log_H_i ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    let x = this.get_x_bin_mid(i);
+	    let log_H_x = Math.log(mult_fctr * element[1]);
+	    //data.push( [ i, log_H_i ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    data.push( [ x, log_H_x ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	});
 
 	return data;
