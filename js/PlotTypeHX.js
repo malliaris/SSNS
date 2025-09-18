@@ -160,7 +160,6 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 	let curr_peh = this.trj.get_x(t).peh;  // current particle energy histogram object, from which we will draw data
 
 	let avg_KE = this.trj.get_x(t).get_avg_KE();
-	console.log("avg_KE =", avg_KE);//////////
 	let avg_ish_v = Math.sqrt(2.0 * avg_KE / Params_HS.m);
 
 	if (Params_HS.single_m_val_not_dist) {

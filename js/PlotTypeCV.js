@@ -132,6 +132,12 @@ class PlotTypeCV_HS extends PlotTypeCV_Gas {
 	super(trj);
     }
 
+    static get_rho_greyscale_str_from_0_1_val(v) {
+	let vstr = (roundn(255.0 * (1.0 - v), 0)).toString();
+	//return "rgba(" + vstr + ", " + vstr + ", " + vstr + ", 1)";  // 4th argument is opacity?
+	return "rgb(" + vstr + ", " + vstr + ", " + vstr + ")";
+    }
+
     update_canvas(t) {
 
 	this.clear_canvas();
@@ -141,7 +147,8 @@ class PlotTypeCV_HS extends PlotTypeCV_Gas {
 	    if (Params_HS.draw_tiny_particles_artificially_large && (Params_HS.R < 0.002)) {
 		this.draw_circle(cp.x, cp.y, 0.01, false, "black");
 	    } else {
-		this.draw_circle(cp.x, cp.y, cp.R, true, "black");
+		//this.draw_circle(cp.x, cp.y, cp.R, true, "black");
+		this.draw_circle(cp.x, cp.y, cp.R, true, cp.rho_greyscale_str);
 	    }
 	}
 	let x_piston = 1.0 - this.trj.get_x(t).x_RW;  // subtract since piston's coordinate system has origin at zero compression

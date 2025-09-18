@@ -8,10 +8,13 @@
 
 class GasParticle_HS extends GasParticle {
 
-    constructor(...args) {
+    constructor(x, y, R, mass, vx, vy, rho_val, rho_str) {
 
-	super(...args);
+	super(x, y, R, mass, vx, vy);
 
+	this.rho = rho_val;  // particle density, which will be plotted as greyscale color
+	this.rho_greyscale_str = rho_str;  // corresponding greyscale color string for quick plotting
+	this.E_hist_bi;  // E_hist_bi = E histogram bin index
 	this.cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);
     }
 
@@ -21,6 +24,8 @@ class GasParticle_HS extends GasParticle {
 	for (const cei = gptc.cet_entries.begin(); !cei.equals(gptc.cet_entries.end()); cei.next()) {
 	    ngp.cet_entries.insert(copy(cei.pointer));
 	}
+	ngp.rho = gptc.rho;
+	ngp.rho_greyscale_str = gptc.rho_greyscale_str;
 	ngp.v_hist_bi = gptc.v_hist_bi;
 	ngp.E_hist_bi = gptc.E_hist_bi;
 	return ngp;
@@ -350,6 +355,15 @@ class ModelCalc_HS extends ModelCalc_Gas {
 
 	this.rs = rs;  // this is reference to RunState object this.sim.rs to access params_changed in CoordsHS constructor...
     }
+
+    static get_rand_rho_val(rho_low, rho_hi, rv_0_1) {  // rv_0_1 = random value on [0, 1)
+
+	return rho_low + (rho_hi - rho_low)*rv_0_1;
+    }
+
+    static get_m_from_rho_and_R(rho, R) {
+	return Math.PI * R * R * rho;  // we're interpreting rho as mass/area and multiplying by area of circular cross-section of sphere (or disc)
+    }
 }
 
 // js equivalent of a C #define macro... see static get accessors in Params_HS
@@ -376,6 +390,10 @@ class Params_HS extends Params {
     static single_m_val_not_dist;
     static draw_tiny_particles_artificially_large = true;
     static m = 1.0;
+    static rho_low = 1.0;
+    static rho_hi = 100.0;
+    static rho_dist_a = 1.001;
+    static rho_dist_b = 15;
     static ds = 0.01;  // eventually use algorithm to set value?
     static Lx_min = 0.05;  // assignment occurs in Trajectory_HS constructor
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
@@ -522,13 +540,30 @@ class Coords_HS extends Coords {
 	    let x = (ri + 1) * grid_seg_length;
 	    let y = (ci + 1) * grid_seg_length;
 
-	    // determine new particle mass
-	    let mass;
-	    if ((i % 2) == 0) {
+	    // determine new particle density, mass, etc.
+	    let beta_dist_val = this.mc.beta_rng(Params_HS.rho_dist_a, Params_HS.rho_dist_b);
+	    let rho_val = ModelCalc_HS.get_rand_rho_val(Params_HS.rho_low, Params_HS.rho_hi, beta_dist_val);
+	    //let rho_greyscale_str = PlotTypeCV_HS.get_rho_greyscale_str_from_0_1_val(beta_dist_val);
+	    let rho_greyscale_str = "rgba(50, 50, 50";
+
+	    let mass;// = ModelCalc_HS.get_m_from_rho_and_R(rho_val, Params_HS.R);
+	    mass = Params_HS.m;
+	    /*
+	    let num_in_block = parseInt(Math.ceil(Params_HS.N / 4.0));
+	    if (i < num_in_block) {
 		mass = Params_HS.m;
-	    } else {
-		mass = 10.0 * Params_HS.m;
+		rho_greyscale_str = "rgba(200, 200, 200";
+	    } else if (i < 2*num_in_block) {
+		mass = 2*Params_HS.m;
+		rho_greyscale_str = "rgba(150, 150, 150";
+	    } else if (i < 3*num_in_block) {
+		mass = 5*Params_HS.m;
+		rho_greyscale_str = "rgba(100, 100, 100";
+	    } else { // (i < 4*num_in_block) {
+		mass = 10*Params_HS.m;
+		rho_greyscale_str = "rgba(50, 50, 50";
 	    }
+	    */
 
 	    ///////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
 	    /////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, mass);
@@ -537,12 +572,44 @@ class Coords_HS extends Coords {
 	    let vx = vc.x;
 	    let vy = vc.y;
 
-	    // create new particle object
-	    if ((i % 2) == 0) {
-		new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, vx, vy);
-	    } else {
-		new_p = new GasParticle_HS(x, y, Params_HS.R, 10*Params_HS.m, vx, vy);
+	    let radius;
+	    switch (i) {
+	    case 0:
+		radius = Params_HS.R * 1.5;
+		break;
+	    case 1:
+		radius = Params_HS.R * 1.3;
+		break;
+	    case 2:
+		radius = Params_HS.R * 2.1;
+		break;
+	    case 3:
+		radius = Params_HS.R * 3.7;
+		break;
+	    case 4:
+		radius = Params_HS.R * 1.5;
+		break;
+	    case 5:
+		radius = Params_HS.R * 10;
+		break;
+	    case 6:
+		radius = Params_HS.R * 1.5;
+		break;
+	    case 7:
+		radius = Params_HS.R * 1;
+		break;
+	    case 8:
+		radius = Params_HS.R * 2.1;
+		break;
+	    case 9:
+		radius = Params_HS.R * 23;
+		break;
 	    }
+	    
+	    // create new particle object
+	    //new_p = new GasParticle_HS(x, y, Params_HS.R, mass, vx, vy, );
+	    //new_p = new GasParticle_HS(x, y, Params_HS.R, mass, vx, vy, rho_val, rho_greyscale_str);
+	    new_p = new GasParticle_HS(x, y, radius, mass, vx, vy, rho_val, rho_greyscale_str);
 	    //new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, 1, 0.1);//////////
 
 	    // store quantity histogram bin indices and update respective histograms
@@ -552,8 +619,6 @@ class Coords_HS extends Coords {
 	    CU.incr_entry_OM(this.peh.hist, new_p.E_hist_bi);  // increment bin count
 
 	    this.particles.push(new_p);
-
-	    //////////////console.log("UIUEE", i, new_p.get_speed(), new_p.v_hist_bi, new_p.get_KE(), new_p.E_hist_bi);/////////
 	}
     }
 

@@ -22,7 +22,6 @@ class GasParticle {
 	this.vx = vx;
 	this.vy = vy;
 	this.v_hist_bi;  // v_hist_bi = v histogram bin index
-	this.E_hist_bi;  // E_hist_bi = E histogram bin index
     }
 
     get_speed() {
@@ -230,7 +229,8 @@ class ModelCalc_Gas extends ModelCalc {
 	this.normal_rng = normal.factory({'seed': ModelCalc_Stoch.rng_seed.v });
 	this.chi_rng = chi.factory({'seed': ModelCalc_Stoch.rng_seed.v });
 	this.chi_squared_rng = chisquare.factory({'seed': ModelCalc_Stoch.rng_seed.v });  // NOTE: "chisquare", i.e., library class has no 'd' at end
-	console.log("INFO:\tusing PRNG algorithm Mersenne Twister 19937 (the default) on all:", this.unif01_rng.PRNG.NAME, this.chi_rng.PRNG.NAME, this.chi_squared_rng.PRNG.NAME);
+	this.beta_rng = beta.factory({'seed': ModelCalc_Stoch.rng_seed.v });
+	console.log("INFO:\tusing PRNG algorithm Mersenne Twister 19937 (the default) on all:", this.unif01_rng.PRNG.NAME, this.exponential_rng.PRNG.NAME, this.normal_rng.PRNG.NAME, this.chi_rng.PRNG.NAME, this.chi_squared_rng.PRNG.NAME, this.beta_rng.PRNG.NAME);
 	console.log("INFO:\tusing seed value = " + ModelCalc_Stoch.rng_seed.v);
 	console.log("INFO:\tNOTE: ModelCalc_HS **does not** extend ModelCalc_Stoch!  While PRNGs are used for initial condition, all time evolution is deterministic!");
     }
