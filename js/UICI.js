@@ -7,7 +7,8 @@ class UICI {
 
     constructor(ui, id_str_stem, vals, img_pre, img_post, indicate_params_changed) {
 
-	//if (!this.yields_valid_value) throw new Error("Derived UICI must define yields_valid_value()");
+	if (!this.cycle) throw new Error("Derived UICI must define cycle()");
+
 	this.ui = ui;  // needed for this.ui.indicate_new_param_vals_ready_to_pull_UI_to_traj();
 	this.id_str_stem = id_str_stem;
 	this.vals = vals;
@@ -31,17 +32,41 @@ class UICI {
 	$("#" + this.img_id_str).attr("src", img_path_str);
     }
 
-    cycle() {  // called, e.g., by "onClick()" in HTML button element
+    cycle_basics() {  // called, e.g., by "onClick()" in HTML button element
 
 	let new_v = (this.v + 1) % this.vals.length;
 	this.sv(new_v);
-
-	//console.log("INFO:\t" + this.id_str + " try_update() failed to parse a valid number... restoring previous valid value to UI...");
+	if (this.indicate_params_changed) {
+	    this.ui.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+	}
     }
 
-    push_to_UI(val) {  // take an already validated value (perhaps from a Params_*) and push to UI input
+    push_to_UI(val) {  // take a value (perhaps from a Params_*) and push to UI input
 	this.sv(val);
     }
 }
 
-//class UICI_int extends UICI {
+class UICI_IG extends UICI {
+
+    constructor(...args) {  // "..." is Javascript spread operator
+	super(...args);
+    }
+
+    cycle() {this.cycle_basics(); }
+
+    x_refl() {
+	return ((this.v == 0) || (this.v == 1));
+    }
+    
+    y_refl() {
+	return ((this.v == 0) || (this.v == 2));
+    }
+    
+    get_v(x_refl, y_refl) {
+
+	let new_val = 0;
+	if ( ! x_refl) new_val += 2;
+	if ( ! y_refl) new_val += 1;
+	return new_val;
+    }
+}

@@ -81,8 +81,6 @@ class Params_IG extends Params {
     static V;
     static UINI_kT;  // = new UINI_float(this, "UI_P_SM_IG_kT", true);  assignment occurs in UserInterface(); see discussion there
     static kT;
-    static x_BC_refl = true;  // TAKE THESE OUT WHEN READY TO HOOK UP UICI_BC
-    static y_BC_refl = true;  // TAKE THESE OUT WHEN READY TO HOOK UP UICI_BC
     static UICI_BC;  // = new UICI(this, "UI_P_SM_IG_BC", ...);  assignment occurs in UserInterface(); see discussion there
 
     static R = 0.003;  // EVENTUALLY MAKE AN INPUT PARAMETER?
@@ -114,8 +112,8 @@ class Params_IG extends Params {
     }
 
     push_vals_to_UI() {
-	Params_IG.x_BC_refl.push_to_UI(this.x_BC_refl);
-	Params_IG.y_BC_refl.push_to_UI(this.y_BC_refl);
+	let v_val = Params_IG.UICI_BC.get_v(this.x_BC_refl, this.y_BC_refl);  // reassemble 2 boolean BCs into single value on [0,3]
+	Params_IG.UICI_BC.push_to_UI(v_val);
     }
 
     get_info_str() {
@@ -195,14 +193,14 @@ class Coords_IG extends Coords {
 	for (let i = 0; i < Params_IG.N; i++) {
 
 	    // update x-direction position and quantities
-	    this.gpud.set_inputs(this.particles[i].x, this.particles[i].vx, Params_IG.Lx, Params_IG.x_BC_refl, dt);  // set inputs...
+	    this.gpud.set_inputs(this.particles[i].x, this.particles[i].vx, Params_IG.Lx, this.p.x_BC_refl, dt);  // set inputs...
 	    this.particles[i].x = this.gpud.new_z;           // ...then grab calculated values
 	    this.particles[i].vx = this.gpud.new_vz;         // ...then grab calculated values
 	    this.num_x_collisions += this.gpud.num_collisions;  // ...then grab calculated values
 	    this.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_IG.Ly * dt);  // 2*Ly in denominator converts force to pressure
 
 	    // update y-direction position and quantities
-	    this.gpud.set_inputs(this.particles[i].y, this.particles[i].vy, Params_IG.Ly, Params_IG.y_BC_refl, dt);  // set inputs...
+	    this.gpud.set_inputs(this.particles[i].y, this.particles[i].vy, Params_IG.Ly, this.p.y_BC_refl, dt);  // set inputs...
 	    this.particles[i].y = this.gpud.new_z;           // ...then grab calculated values
 	    this.particles[i].vy = this.gpud.new_vz;         // ...then grab calculated values
 	    this.num_y_collisions += this.gpud.num_collisions;  // ...then grab calculated values
@@ -249,7 +247,7 @@ class Trajectory_IG extends Trajectory {
     }
 
     gp() {  // gp = get Params object
-	return new Params_IG(Params_IG.x_BC_refl, Params_IG.y_BC_refl);
+	return new Params_IG(Params_IG.UICI_BC.x_refl(), Params_IG.UICI_BC.y_refl());  // disassemble single value on [0,3] into 2 boolean BCs
     }
 
     gc_ic(mc) {  // gc_ic = get Coords, initial condition
