@@ -49,7 +49,7 @@ class UserInterface {
 	Params_HS.UINI_N = new UINI_int(this, "UI_P_SM_HS_N", false);
 	Params_HS.UINI_kT0 = new UINI_float(this, "UI_P_SM_HS_kT0", false);
 	Params_HS.UINI_v_pist = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  // can be thought of as v_pist_0 in that the internal value may change within a timestep
-	Params_HS.UICI_rho = new UICI(this, ["\\small \\mathrm{single \\; value}", "\\small \\mathrm{distribution}"], "UI_P_SM_HS_rho", "/static/images/SSNS/cycle_indicator_5_", ".svg", false);
+	Params_HS.UICI_rho = new UICI(this, ["\\small \\mathrm{single \\; value}", "\\small \\mathrm{distribution}"], "UI_P_SM_HS_rho", "/static/images/SSNS/UICI/cycle_indicator_2_", ".svg", false);
 	Params_IS.T = new UINI_float(this, "UI_P_SM_IS_T", true);
 	Coords_IS.N = new UINI_int(this, "UI_P_SM_IS_N", false);
 	Params_XY.T = new UINI_float(this, "UI_P_SM_XY_T", true);
