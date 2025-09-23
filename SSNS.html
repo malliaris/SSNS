@@ -221,6 +221,8 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_v_pist'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ v_{\mathrm{pist.}} $$ </span></div><input id="UI_P_SM_HS_v_pist" class="form-control" type="number" min="-100" max="100" step="0.1" value="0.0" onchange="Params_HS.UINI_v_pist.try_update(this.value); "></div></div>
 
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick=""><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \rho $$ </span></div><span class="form-control lrg_bg_areas" onclick="Params_HS.UICI_rho.cycle(); "><span id="UI_P_SM_HS_rho_UICI_val"></span> &#128070; <img id="UI_P_SM_HS_rho_UICI_img" height="30" width="6" src=""></span></div></div>
+
 </div><!-- CLOSES div class="row" -->
 
 
@@ -474,11 +476,11 @@
 
 <div id="UI_ST_area_SM">
 <div id="UI_ST_SM_IG_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); " checked>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_SM_IG">2D ideal gas ($$ \texttt{IG} $$)</label>
 </div>
 <div id="UI_ST_SM_HS_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_HS" value="HS" onchange="window.sim.process_cmd('ST'); ">
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_HS" value="HS" onchange="window.sim.process_cmd('ST'); " checked>
 <label class="form-check-label w-100" for="UI_ST_SM_HS">2D hard sphere gas ($$ \texttt{HS} $$)</label>
 </div>
 <div id="UI_ST_SM_IS_form_check" class="form-check pl-4 py-1">
@@ -1372,6 +1374,7 @@ Liquids, for instance, can often be assumed to be <a target="_blank" class="hv_e
 
 <script src="/static/js/SSNT/CU.js"></script>
 <script src="/static/js/SSNT/UINI.js"></script>
+<script src="/static/js/SSNT/UICI.js"></script>
 <script src="/static/js/SSNT/traj_base.js"></script>
 <script src="/static/js/SSNT/traj_intermed.js"></script>
 <script src="/static/js/SSNT/system_types/gas.js"></script>

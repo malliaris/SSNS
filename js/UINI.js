@@ -1,6 +1,6 @@
 
-// UINI: User Interface Numeric Input
-// helper class for connecting UI controls to internal parameters (in Params classes, etc.)
+// UINI: User Interface Numerical Input
+// helper class for connecting UI controls to internal numerical parameters (in Params classes, etc.)
 class UINI {
 
     static yields_valid_int(str_val) {

@@ -175,6 +175,8 @@ class Simulator {
 	case "CK":
 	    //console.log("yyyy", RootFinding.bisect_method(RootFinding.dummyf, -7, 0.9, 1e-15, 100));
 	    //alert("HWWW");
+	    //let du = new UICI("UI_P_SM_HS_rho", false);
+
 	    break;
 	default:
 	    console.log("ERROR 912352: bad code");
