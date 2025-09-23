@@ -5,15 +5,16 @@
 // e.g., a 2 value cycle UICI would just be a toggle button
 class UICI {
 
-    constructor(ui, vals, id_str_stem, img_pre, img_post, indicate_params_changed) {
+    constructor(ui, id_str_stem, vals, img_pre, img_post, indicate_params_changed) {
 
 	//if (!this.yields_valid_value) throw new Error("Derived UICI must define yields_valid_value()");
 	this.ui = ui;  // needed for this.ui.indicate_new_param_vals_ready_to_pull_UI_to_traj();
-	this.vals = vals;
 	this.id_str_stem = id_str_stem;
+	this.vals = vals;
 	this.val_id_str = this.id_str_stem + "_UICI_val";
 	this.img_id_str = this.id_str_stem + "_UICI_img";
 	this.img_pre = img_pre;
+	this.img_mid = this.vals.length.toString() + "_";
 	this.img_post = img_post;
 	this.indicate_params_changed = indicate_params_changed;
 
@@ -26,7 +27,7 @@ class UICI {
 	this.v = val;
 	CU.sk(this.val_id_str, this.vals[this.v]);
 	let img_num_str = (this.v + 1).toString();  // v is 0-based, but image filenames are 1-based
-	let img_path_str = this.img_pre + img_num_str + this.img_post;
+	let img_path_str = this.img_pre + this.img_mid + img_num_str + this.img_post;
 	$("#" + this.img_id_str).attr("src", img_path_str);
     }
 

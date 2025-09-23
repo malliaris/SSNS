@@ -208,7 +208,7 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_kT'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ k_B T $$ </span></div><input id="UI_P_SM_IG_kT" class="form-control" type="number" min="1e-10" max="1e10" step="0.1" value="0.01" onchange="Params_IG.UINI_kT.try_update(this.value); "></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick=""><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \mathrm{BC_{x|y}} $$ </span></div><span id="UI_P_SM_IG_BCx" class="form-control lrg_bg_areas" onclick="alert('BCx'); "> $$ \small \mathrm{periodic} \; | \; \mathrm{reflecting} $$ &#128070; <img height="30" width="6" src="/static/images/SSNS/cycle_indicator_5_1.svg"></span></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \mathrm{BC_{x|y}} $$ </span></div><span class="form-control lrg_bg_areas" onclick="Params_IG.UICI_BC.cycle(); "><span id="UI_P_SM_IG_BC_UICI_val"></span> &#128070; <img id="UI_P_SM_IG_BC_UICI_img" height="30" width="6" src=""></span></div></div>
 
 </div><!-- CLOSES div class="row" -->
 
@@ -221,7 +221,7 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_v_pist'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ v_{\mathrm{pist.}} $$ </span></div><input id="UI_P_SM_HS_v_pist" class="form-control" type="number" min="-100" max="100" step="0.1" value="0.0" onchange="Params_HS.UINI_v_pist.try_update(this.value); "></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick=""><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \rho $$ </span></div><span class="form-control lrg_bg_areas" onclick="Params_HS.UICI_rho.cycle(); "><span id="UI_P_SM_HS_rho_UICI_val"></span> &#128070; <img id="UI_P_SM_HS_rho_UICI_img" height="30" width="6" src=""></span></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \rho $$ </span></div><span class="form-control lrg_bg_areas" onclick="Params_HS.UICI_rho.cycle(); "><span id="UI_P_SM_HS_rho_UICI_val"></span> &#128070; <img id="UI_P_SM_HS_rho_UICI_img" height="30" width="6" src=""></span></div></div>
 
 </div><!-- CLOSES div class="row" -->
 
@@ -262,6 +262,8 @@
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_x_0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ x_0 $$ </span></div><input id="UI_P_ND_GM_x_0" class="form-control" type="number" min="-0.0" max="5.0" step="0.1" value="1.1" onchange="Params_GM.UINI_x_0.try_update(this.value); "></div></div>
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_y_0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ y_0 $$ </span></div><input id="UI_P_ND_GM_y_0" class="form-control" type="number" min="-0.0" max="5.0" step="0.1" value="0" onchange="Params_GM.UINI_y_0.try_update(this.value); "></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \mathrm{IC} $$ </span></div><span class="form-control lrg_bg_areas" onclick="Params_GM.UICI_IC.cycle(); "><span id="UI_P_ND_GM_IC_UICI_val"></span> &#128070; <img id="UI_P_ND_GM_IC_UICI_img" height="30" width="6" src=""></span></div></div>
 
 </div><!-- CLOSES div class="row" -->
 

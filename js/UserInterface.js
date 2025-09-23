@@ -46,10 +46,11 @@ class UserInterface {
 	Params_IG.UINI_N = new UINI_int(this, "UI_P_SM_IG_N", false);
 	Params_IG.UINI_V = new UINI_float(this, "UI_P_SM_IG_V", false);
 	Params_IG.UINI_kT = new UINI_float(this, "UI_P_SM_IG_kT", false);
+	Params_IG.UICI_BC = new UICI(this, "UI_P_SM_IG_BC", ["\\small \\mathrm{reflecting \\; | \\; reflecting}", "\\small \\mathrm{reflecting \\; | \\; periodic}", "\\small \\mathrm{periodic \\; | \\; periodic}", "\\small \\mathrm{periodic \\; | \\; reflecting}"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", true);
 	Params_HS.UINI_N = new UINI_int(this, "UI_P_SM_HS_N", false);
 	Params_HS.UINI_kT0 = new UINI_float(this, "UI_P_SM_HS_kT0", false);
 	Params_HS.UINI_v_pist = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  // can be thought of as v_pist_0 in that the internal value may change within a timestep
-	Params_HS.UICI_rho = new UICI(this, ["\\small \\mathrm{single \\; value}", "\\small \\mathrm{distribution}"], "UI_P_SM_HS_rho", "/static/images/SSNS/UICI/cycle_indicator_2_", ".svg", false);
+	Params_HS.UICI_rho = new UICI(this, "UI_P_SM_HS_rho", ["\\small \\mathrm{single \\; value}", "\\small \\mathrm{distribution}"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
 	Params_IS.T = new UINI_float(this, "UI_P_SM_IS_T", true);
 	Coords_IS.N = new UINI_int(this, "UI_P_SM_IS_N", false);
 	Params_XY.T = new UINI_float(this, "UI_P_SM_XY_T", true);
@@ -58,6 +59,7 @@ class UserInterface {
 	Coords_LM.x_0 = new UINI_float(this, "UI_P_ND_LM_x_0", false);
 	Params_GM.UINI_x_0 = new UINI_float(this, "UI_P_ND_GM_x_0", false);
 	Params_GM.UINI_y_0 = new UINI_float(this, "UI_P_ND_GM_y_0", false);
+	Params_GM.UICI_IC = new UICI(this, "UI_P_ND_GM_IC", ["(1, 1)", "(0, 0)"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
 	Params_SH.UINI_N = new UINI_even_int(this, "UI_P_FD_SH_N", false);  // even integer required!
 	Params_SH.UINI_rhoL = new UINI_float(this, "UI_P_FD_SH_rhoL", false);
 	Params_SH.UINI_rhoR = new UINI_float(this, "UI_P_FD_SH_rhoR", false);
