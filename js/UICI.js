@@ -71,6 +71,27 @@ class UICI_IG extends UICI {
     }
 }
 
+// UICI_LM and UICI_GM are very similar and could both inherit from a common parent class in next refactoring...
+class UICI_LM extends UICI {
+
+    constructor(...args) {  // "..." is Javascript spread operator
+	super(...args);
+    }
+
+    cycle() {
+
+	this.cycle_basics();
+	let pattern = /\(([0-9.-]+), ([0-9.-]+)\)/;  // capture the two values in ordered pair of the form (###, ###)
+	let matches = pattern.exec(this.vals[this.v]);
+	let new_r = parseFloat(matches[1]);  // recall matches[0] is the entire string, so matches[1] is x_0
+	let new_x_0 = parseFloat(matches[2]);  // recall matches[0] is the entire string, so matches[2] is y_0
+	Params_LM.UINI_r.sv(new_r);
+	Params_LM.UINI_x_0.sv(new_x_0);
+	this.ui.sim.process_cmd("RT");
+    }
+}
+
+// UICI_LM and UICI_GM are very similar and could both inherit from a common parent class in next refactoring...
 class UICI_GM extends UICI {
 
     constructor(...args) {  // "..." is Javascript spread operator
@@ -80,7 +101,7 @@ class UICI_GM extends UICI {
     cycle() {
 
 	this.cycle_basics();
-	let pattern = /\(([0-9.-]+), ([0-9.-]+)\)/;
+	let pattern = /\(([0-9.-]+), ([0-9.-]+)\)/;  // capture the two values in ordered pair of the form (###, ###)
 	let matches = pattern.exec(this.vals[this.v]);
 	let new_x_0 = parseFloat(matches[1]);  // recall matches[0] is the entire string, so matches[1] is x_0
 	let new_y_0 = parseFloat(matches[2]);  // recall matches[0] is the entire string, so matches[2] is y_0
