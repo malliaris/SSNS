@@ -208,7 +208,14 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_kT'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ k_B T $$ </span></div><input id="UI_P_SM_IG_kT" class="form-control" type="number" min="1e-10" max="1e10" step="0.1" value="0.01" onchange="Params_IG.UINI_kT.try_update(this.value); "></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \mathrm{BC_{x|y}} $$ </span></div><span class="form-control lrg_bg_areas" onclick="Params_IG.UICI_BC.cycle(); "><span id="UI_P_SM_IG_BC_UICI_val"></span> &#128070; <img id="UI_P_SM_IG_BC_UICI_img" height="30" width="6" src=""></span></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \mathrm{BC} \atop x|y $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_IG.UICI_BC.cycle(); "><span id="UI_P_SM_IG_BC_UICI_val"></span><span><img id="UI_P_SM_IG_BC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
+
+
+<!-- SIMPLE FOOTER 
+<div class="mt-auto d-flex flex-row w-100 justify-content-end m-0 p-0 lrg_bg_areas">
+<div id="copyright_text" class="py-1 px-3">&copy; 1937 Daffy Duck</div>
+</div>
+-->
 
 </div><!-- CLOSES div class="row" -->
 
@@ -221,7 +228,7 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_v_pist'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ v_{\mathrm{pist.}} $$ </span></div><input id="UI_P_SM_HS_v_pist" class="form-control" type="number" min="-100" max="100" step="0.1" value="0.0" onchange="Params_HS.UINI_v_pist.try_update(this.value); "></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \rho $$ </span></div><span class="form-control lrg_bg_areas" onclick="Params_HS.UICI_rho.cycle(); "><span id="UI_P_SM_HS_rho_UICI_val"></span> &#128070; <img id="UI_P_SM_HS_rho_UICI_img" height="30" width="6" src=""></span></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \rho $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_HS.UICI_rho.cycle(); "><span id="UI_P_SM_HS_rho_UICI_val"></span><span><img id="UI_P_SM_HS_rho_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
 
 </div><!-- CLOSES div class="row" -->
 
@@ -254,7 +261,7 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_x_0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ x_0 $$ </span></div><input id="UI_P_ND_LM_x_0" class="form-control" type="number" min="0.0" max="1.0" step="0.01" value="0.999999" onchange="Params_LM.UINI_x_0.try_update(this.value); "></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \mathrm{IC} $$ </span></div><span class="form-control lrg_bg_areas" onclick="Params_LM.UICI_IC.cycle(); "><span id="UI_P_ND_LM_IC_UICI_val"></span> &#128070; <img id="UI_P_ND_LM_IC_UICI_img" height="30" width="6" src=""></span></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \mathrm{IC} \atop (r, x_0) $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_LM.UICI_IC.cycle(); "><span id="UI_P_ND_LM_IC_UICI_val"></span><span><img id="UI_P_ND_LM_IC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
 
 </div><!-- CLOSES div class="row" -->
 
@@ -265,7 +272,7 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_y_0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ y_0 $$ </span></div><input id="UI_P_ND_GM_y_0" class="form-control" type="number" min="-2.5" max="5.0" step="0.1" value="-2" onchange="Params_GM.UINI_y_0.try_update(this.value); "></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \mathrm{IC} $$ </span></div><span class="form-control lrg_bg_areas" onclick="Params_GM.UICI_IC.cycle(); "><span id="UI_P_ND_GM_IC_UICI_val"></span> &#128070; <img id="UI_P_ND_GM_IC_UICI_img" height="30" width="6" src=""></span></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \mathrm{IC} \atop (x_0, y_0) $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_GM.UICI_IC.cycle(); "><span id="UI_P_ND_GM_IC_UICI_val"></span><span><img id="UI_P_ND_GM_IC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
 
 </div><!-- CLOSES div class="row" -->
 
@@ -444,11 +451,11 @@
 <label class="form-check-label w-100" for="UI_ST_SP">stochastic processes</label>
 </div>
 <div id="UI_ST_SM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); ">
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); " checked>
 <label class="form-check-label w-100" for="UI_ST_SM">statistical mechanics</label>
 </div>
 <div id="UI_ST_ND_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_ND" value="ND" onchange="window.sim.ui.update_ST_area_settings(); " checked>
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_ND" value="ND" onchange="window.sim.ui.update_ST_area_settings(); ">
 <label class="form-check-label w-100" for="UI_ST_ND">nonlinear dynamics</label>
 </div>
 <div id="UI_ST_FD_form_check" class="form-check pl-4 py-1">
@@ -480,7 +487,7 @@
 
 <div id="UI_ST_area_SM">
 <div id="UI_ST_SM_IG_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); ">
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); " checked>
 <label class="form-check-label w-100" for="UI_ST_SM_IG">2D ideal gas ($$ \texttt{IG} $$)</label>
 </div>
 <div id="UI_ST_SM_HS_form_check" class="form-check pl-4 py-1">
@@ -503,7 +510,7 @@
 <label class="form-check-label w-100" for="UI_ST_ND_LZ">Lorenz system ($$ \texttt{LZ} $$)</label>
 </div>
 <div id="UI_ST_ND_LM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_LM" value="LM" onchange="window.sim.process_cmd('ST'); " checked>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_LM" value="LM" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_ND_LM">logistic map ($$ \texttt{LM} $$)</label>
 </div>
 <div id="UI_ST_ND_GM_form_check" class="form-check pl-4 py-1">
