@@ -259,9 +259,9 @@
 
 <div class="row" id="UI_P_ND_GM">
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_x_0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ x_0 $$ </span></div><input id="UI_P_ND_GM_x_0" class="form-control" type="number" min="-0.0" max="5.0" step="0.1" value="1.1" onchange="Params_GM.UINI_x_0.try_update(this.value); "></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_x_0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ x_0 $$ </span></div><input id="UI_P_ND_GM_x_0" class="form-control" type="number" min="-2.5" max="5.0" step="0.1" value="0.9" onchange="Params_GM.UINI_x_0.try_update(this.value); "></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_y_0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ y_0 $$ </span></div><input id="UI_P_ND_GM_y_0" class="form-control" type="number" min="-0.0" max="5.0" step="0.1" value="0" onchange="Params_GM.UINI_y_0.try_update(this.value); "></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_y_0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ y_0 $$ </span></div><input id="UI_P_ND_GM_y_0" class="form-control" type="number" min="-2.5" max="5.0" step="0.1" value="-2" onchange="Params_GM.UINI_y_0.try_update(this.value); "></div></div>
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ \mathrm{IC} $$ </span></div><span class="form-control lrg_bg_areas" onclick="Params_GM.UICI_IC.cycle(); "><span id="UI_P_ND_GM_IC_UICI_val"></span> &#128070; <img id="UI_P_ND_GM_IC_UICI_img" height="30" width="6" src=""></span></div></div>
 
@@ -442,11 +442,11 @@
 <label class="form-check-label w-100" for="UI_ST_SP">stochastic processes</label>
 </div>
 <div id="UI_ST_SM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); " checked>
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); ">
 <label class="form-check-label w-100" for="UI_ST_SM">statistical mechanics</label>
 </div>
 <div id="UI_ST_ND_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_ND" value="ND" onchange="window.sim.ui.update_ST_area_settings(); ">
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_ND" value="ND" onchange="window.sim.ui.update_ST_area_settings(); " checked>
 <label class="form-check-label w-100" for="UI_ST_ND">nonlinear dynamics</label>
 </div>
 <div id="UI_ST_FD_form_check" class="form-check pl-4 py-1">
@@ -478,7 +478,7 @@
 
 <div id="UI_ST_area_SM">
 <div id="UI_ST_SM_IG_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); " checked>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_SM_IG">2D ideal gas ($$ \texttt{IG} $$)</label>
 </div>
 <div id="UI_ST_SM_HS_form_check" class="form-check pl-4 py-1">
@@ -505,7 +505,7 @@
 <label class="form-check-label w-100" for="UI_ST_ND_LM">logistic map ($$ \texttt{LM} $$)</label>
 </div>
 <div id="UI_ST_ND_GM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_GM" value="GM" onchange="window.sim.process_cmd('ST'); ">
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_GM" value="GM" onchange="window.sim.process_cmd('ST'); " checked>
 <label class="form-check-label w-100" for="UI_ST_ND_GM">gingerbread-man map ($$ \texttt{GM} $$)</label>
 </div>
 </div>
@@ -1123,11 +1123,11 @@ The variable $$ x $$ represents the number of individuals that possess version $
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_ND_GM_x_0" class="hv_view" data-ready="0" data-hvmh="x_0">
-<p>initial value of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">$$ x $$</a>; $$ \; ? \le x_0 \le ? $$</p>
+<p>initial value of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">$$ x $$</a>; $$ \; -2.5 \le x_0 \le 5 $$</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_ND_GM_y_0" class="hv_view" data-ready="0" data-hvmh="y_0">
-<p>initial value of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">$$ y $$</a>; $$ \; ? \le y_0 \le ? $$</p>
+<p>initial value of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">$$ y $$</a>; $$ \; -2.5 \le y_0 \le 5 $$</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_FD_SH_N" class="hv_view" data-ready="0" data-hvmh="N">

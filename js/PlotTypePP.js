@@ -146,13 +146,13 @@ class PlotTypePP_GM extends PlotTypePP {
 	    xaxis: {
 		autoScale: "none",
 		min: -4,
-		max: 9,
+		max: 10,
 		transform: function (v) { return -v; },  // make the gingerbread-man easier to recognize by flipping axis
 	    },
 	    yaxis: {
 		autoScale: "none",
 		min: -4,
-		max: 9,
+		max: 10,
 		transform: function (v) { return -v; },  // make the gingerbread-man easier to recognize by flipping axis
 	    }
 	};

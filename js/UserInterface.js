@@ -59,7 +59,7 @@ class UserInterface {
 	Coords_LM.x_0 = new UINI_float(this, "UI_P_ND_LM_x_0", false);
 	Params_GM.UINI_x_0 = new UINI_float(this, "UI_P_ND_GM_x_0", false);
 	Params_GM.UINI_y_0 = new UINI_float(this, "UI_P_ND_GM_y_0", false);
-	Params_GM.UICI_IC = new UICI_IG(this, "UI_P_ND_GM_IC", ["(1, 1)", "(0, 0)"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
+	Params_GM.UICI_IC = new UICI_GM(this, "UI_P_ND_GM_IC", ["(0.9, -2)", "(1.1, 0)", "(0.8, 0.4)", "(5, -0.8)", "(5.73, -2)"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
 	Params_SH.UINI_N = new UINI_even_int(this, "UI_P_FD_SH_N", false);  // even integer required!
 	Params_SH.UINI_rhoL = new UINI_float(this, "UI_P_FD_SH_rhoL", false);
 	Params_SH.UINI_rhoR = new UINI_float(this, "UI_P_FD_SH_rhoR", false);

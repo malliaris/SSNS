@@ -70,3 +70,22 @@ class UICI_IG extends UICI {
 	return new_val;
     }
 }
+
+class UICI_GM extends UICI {
+
+    constructor(...args) {  // "..." is Javascript spread operator
+	super(...args);
+    }
+
+    cycle() {
+
+	this.cycle_basics();
+	let pattern = /\(([0-9.-]+), ([0-9.-]+)\)/;
+	let matches = pattern.exec(this.vals[this.v]);
+	let new_x_0 = parseFloat(matches[1]);  // recall matches[0] is the entire string, so matches[1] is x_0
+	let new_y_0 = parseFloat(matches[2]);  // recall matches[0] is the entire string, so matches[2] is y_0
+	Params_GM.UINI_x_0.sv(new_x_0);
+	Params_GM.UINI_y_0.sv(new_y_0);
+	this.ui.sim.process_cmd("RT");
+    }
+}
