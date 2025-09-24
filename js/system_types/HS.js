@@ -386,6 +386,7 @@ class Params_HS extends Params {
     static kT0;
     static UINI_v_pist;  // = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  assignment occurs in UserInterface(); see discussion there
     static UICI_rho;  // = new UICI(this, "UI_P_SM_HS_rho", false);  assignment occurs in UserInterface(); see discussion there
+    static UICI_R;  // = new UICI(this, "UI_P_SM_HS_R", false);  assignment occurs in UserInterface(); see discussion there
 
     static R = 0.005;//0.001;
     static single_m_val_not_dist;
