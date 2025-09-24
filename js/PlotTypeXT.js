@@ -198,10 +198,6 @@ class PlotTypeXT extends PlotType {
 	}
     }
 
-    get_flot_gen_opts() {
-	return this.flot_gen_opts;
-    }
-
     get_ext_x_axis_lbl_str() {
 	return "\\phantom{00} \\mathrm{time \\; step} \\; t";
     }
@@ -211,7 +207,7 @@ class PlotTypeXT extends PlotType {
     }
 
     plot(t) {
-	$.plot($("#" + this.get_html_targ_id_str()), this.get_flot_data_series(t), this.get_flot_gen_opts());
+	$.plot($("#" + this.get_html_targ_id_str()), this.get_flot_data_series(t), this.get_flot_gen_opts(t));
     }
 }
 
@@ -258,6 +254,10 @@ class PlotTypeXT_custom extends PlotTypeXT {
 	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
 	return fds;
     }
+
+    get_flot_gen_opts(t) {
+	return this.flot_gen_opts;
+    }
 }
 
 class PlotTypeXT_rect extends PlotTypeXT {  // "standard" PlotTypeXT, i.e., not custom
@@ -296,6 +296,10 @@ class PlotTypeXT_SP extends PlotTypeXT_rect {
 	    this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
 	}
 	return fds;
+    }
+
+    get_flot_gen_opts(t) {
+	return this.flot_gen_opts;
     }
 }
 
@@ -345,6 +349,10 @@ class PlotTypeXT_IG extends PlotTypeXT_rect {
 	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
 	return fds;
     }
+
+    get_flot_gen_opts(t) {
+	return this.flot_gen_opts;
+    }
 }
 
 class PlotTypeXT_LM extends PlotTypeXT_rect {
@@ -368,6 +376,26 @@ class PlotTypeXT_LM extends PlotTypeXT_rect {
 	let fds = [];  // fds = flot_data_series
 	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
 	return fds;
+    }
+
+    get_flot_gen_opts(t) {
+
+	let opts = copy(this.flot_gen_opts);  // copy from this.flot_gen_opts to retain y limits, etc.
+	let curr_r = this.trj.segs[this.trj.get_si(t)].p.r;
+	if (curr_r > 1.0) {
+	    let r_osc_2 = 1.0 + Math.sqrt(6.0);  // ~= 3.44949
+	    if (curr_r <= 3.0) {  // if 1 < r <= 3, we plot horizontal line showing single x value that will be approached
+		let curr_x_fixed = (curr_r - 1.0) / curr_r;
+		this.add_horiz_line_flot(opts, curr_x_fixed, 1, "cyan");
+	    } else if (curr_r < r_osc_2) {  // if 3 < r < 3.44949, we plot horizontal lines for the two values that x will oscillate between
+		let root_term = Math.sqrt((curr_r - 3.0) * (curr_r + 1.0));
+		let curr_x_fixed_upper = 0.5 * (curr_r + 1.0 + root_term) / curr_r;
+		let curr_x_fixed_lower = 0.5 * (curr_r + 1.0 - root_term) / curr_r;
+		this.add_horiz_line_flot(opts, curr_x_fixed_upper, 1, "cyan");
+		this.add_horiz_line_flot(opts, curr_x_fixed_lower, 1, "cyan");
+	    }
+	}
+	return opts;
     }
 }
 
