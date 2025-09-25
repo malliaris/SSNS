@@ -24,7 +24,7 @@ class Params_GM extends Params {  // NOTE: this is a 0-parameter model, in the s
 
     static UINI_x_0;  // = new UINI_float(this, "UI_P_ND_GM_x_0", false);  assignment occurs in UserInterface(); see discussion there
     static UINI_y_0;  // = new UINI_float(this, "UI_P_ND_GM_y_0", false);  assignment occurs in UserInterface(); see discussion there
-    static UICI_IC;  // = new UICI(this, "UI_P_ND_GM_IC", false);  assignment occurs in UserInterface(); see discussion there
+    static UICI_IC;  // = new UICI_GM(this, "UI_P_ND_GM_IC", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor() {
 	super();

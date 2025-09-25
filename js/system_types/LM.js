@@ -20,7 +20,7 @@ class Params_LM extends Params {
 
     static UINI_r;  // = new UINI_float(this, "UI_P_ND_LM_r", true);  assignment occurs in UserInterface(); see discussion there
     static UINI_x_0;  // = new UINI_float(this, "UI_P_ND_LM_x_0", false);  assignment occurs in UserInterface(); see discussion there
-    static UICI_IC;  // = new UICI(this, "UI_P_ND_LM_IC", false);  assignment occurs in UserInterface(); see discussion there
+    static UICI_IC;  // = new UICI_LM(this, "UI_P_ND_LM_IC", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor(r_val) {
 	super();

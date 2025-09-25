@@ -81,7 +81,7 @@ class Params_IG extends Params {
     static V;
     static UINI_kT;  // = new UINI_float(this, "UI_P_SM_IG_kT", true);  assignment occurs in UserInterface(); see discussion there
     static kT;
-    static UICI_BC;  // = new UICI(this, "UI_P_SM_IG_BC", ...);  assignment occurs in UserInterface(); see discussion there
+    static UICI_BC;  // = new UICI_IG(this, "UI_P_SM_IG_BC", ...);  assignment occurs in UserInterface(); see discussion there
 
     static R = 0.003;  // EVENTUALLY MAKE AN INPUT PARAMETER?
     static m = 10.0;  // EVENTUALLY MAKE AN INPUT PARAMETER?

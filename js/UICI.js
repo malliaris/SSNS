@@ -71,6 +71,39 @@ class UICI_IG extends UICI {
     }
 }
 
+class UICI_HS_dist extends UICI {  // used for any control that toggles between "single value" and "distribution", e.g., R and rho
+
+    constructor(...args) {  // "..." is Javascript spread operator
+	super(...args);
+    }
+
+    cycle() {
+	this.cycle_basics();
+	this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
+    }
+
+    use_distribution() {
+	return (this.v == 1);  // based on order of values chosen in UserInterface.js
+    }
+}
+
+class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditions) of particle positions and velocities
+
+    constructor(...args) {  // "..." is Javascript spread operator
+	super(...args);
+    }
+
+    cycle() {
+
+	this.cycle_basics();
+	//let pattern = /\(([0-9.-]+), ([0-9.-]+)\)/;  // capture the two values in ordered pair of the form (###, ###)
+	//let matches = pattern.exec(this.vals[this.v]);
+	//let new_r = parseFloat(matches[1]);  // recall matches[0] is the entire string, so matches[1] is x_0
+	//Params_LM.UINI_x_0.sv(new_x_0);
+	this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
+    }
+}
+
 // UICI_LM and UICI_GM are very similar and could both inherit from a common parent class in next refactoring...
 class UICI_LM extends UICI {
 
@@ -87,7 +120,7 @@ class UICI_LM extends UICI {
 	let new_x_0 = parseFloat(matches[2]);  // recall matches[0] is the entire string, so matches[2] is y_0
 	Params_LM.UINI_r.sv(new_r);
 	Params_LM.UINI_x_0.sv(new_x_0);
-	this.ui.sim.process_cmd("RT");
+	this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
     }
 }
 
@@ -107,6 +140,6 @@ class UICI_GM extends UICI {
 	let new_y_0 = parseFloat(matches[2]);  // recall matches[0] is the entire string, so matches[2] is y_0
 	Params_GM.UINI_x_0.sv(new_x_0);
 	Params_GM.UINI_y_0.sv(new_y_0);
-	this.ui.sim.process_cmd("RT");
+	this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
     }
 }
