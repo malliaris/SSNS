@@ -356,9 +356,9 @@ class ModelCalc_HS extends ModelCalc_Gas {
 	this.rs = rs;  // this is reference to RunState object this.sim.rs to access params_changed in CoordsHS constructor...
     }
 
-    static get_rand_rho_val(rho_low, rho_hi, rv_0_1) {  // rv_0_1 = random value on [0, 1)
+    static get_rand_R_val(R_min, R_max, rv_0_1) {  // rv_0_1 = random value on [0, 1)
 
-	return rho_low + (rho_hi - rho_low)*rv_0_1;
+	return R_min + (R_max - R_min)*rv_0_1;
     }
 
     static get_m_from_rho_and_R(rho, R) {
@@ -389,18 +389,18 @@ class Params_HS extends Params {
     static UICI_R;  // = new UICI(this, "UI_P_SM_HS_R", false);  assignment occurs in UserInterface(); see discussion there
 
     static R = 0.005;//0.001;
+    static R_min = Params_HS.R;
+    static R_max = 50 * Params_HS.R_min;
+    static R_dist_a = 1.001;
+    static R_dist_b = 20;
     static single_m_val_not_dist;
     static draw_tiny_particles_artificially_large = true;
     static m = 1.0;
     static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
-    static num_rho_vals = 1;                                                        // VALUE MUST MATCH NUMBER OF ENTRIES IN ARRAYS BELOW!
-    static rho_vals = [0.01, 0.1, 1, 10];                                           // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
+    static num_rho_vals = 4;                                                        // VALUE MUST MATCH NUMBER OF ENTRIES IN ARRAYS BELOW!
+    static rho_vals = [1e4, 1e5, 1e6, 1e7];                                         // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
     static rho_greyscale_val_strs = ["#cccccc", "#888888", "#444444", "#000000"];   // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
     static num_particles_per_rho_val;
-    static rho_low = 1.0;
-    static rho_hi = 100.0;
-    static rho_dist_a = 1.001;
-    static rho_dist_b = 15;
     static ds = 0.01;  // eventually use algorithm to set value?
     static Lx_min = 0.05;  // assignment occurs in Trajectory_HS constructor
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
@@ -540,8 +540,8 @@ class Coords_HS extends Coords {
 	}
 	let grid_seg_length = 1.0 / (grid_size + 1);
 
-	let rho_val_i;
-	let rho_val;
+	let rho_val_i;  // used in loop below
+	let rho_val;    // used in loop below
 	for (let i = 0; i < Params_HS.N; i++) {
 
 	    let ci = grid_size - 1 - parseInt(Math.floor(i/grid_size));
@@ -556,43 +556,23 @@ class Coords_HS extends Coords {
 		rho_val_i = parseInt(modf_parts[0]);
 		rho_val = Params_HS.rho_vals[rho_val_i];
 	    }
-	    //let beta_dist_val = this.mc.beta_rng(Params_HS.rho_dist_a, Params_HS.rho_dist_b);
-	    //let rho_val = ModelCalc_HS.get_rand_rho_val(Params_HS.rho_low, Params_HS.rho_hi, beta_dist_val);
-	    //let rho_greyscale_str = PlotTypeCV_HS.get_rho_greyscale_str_from_0_1_val(beta_dist_val);
-
-	    let mass;// = ModelCalc_HS.get_m_from_rho_and_R(rho_val, Params_HS.R);
-	    mass = Params_HS.m;
-	    /*
-	    let num_in_block = parseInt(Math.ceil(Params_HS.N / 4.0));
-	    if (i < num_in_block) {
-		mass = Params_HS.m;
-		rho_greyscale_str = "rgba(200, 200, 200";
-	    } else if (i < 2*num_in_block) {
-		mass = 2*Params_HS.m;
-		rho_greyscale_str = "rgba(150, 150, 150";
-	    } else if (i < 3*num_in_block) {
-		mass = 5*Params_HS.m;
-		rho_greyscale_str = "rgba(100, 100, 100";
-	    } else { // (i < 4*num_in_block) {
-		mass = 10*Params_HS.m;
-		rho_greyscale_str = "rgba(50, 50, 50";
-	    }
-	    */
+	    let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
+	    let R_val = ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
+	    let mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);
+	    //mass_val = Params_HS.m;
 
 	    ///////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
 	    /////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, mass);
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, Math.sqrt(2.0));
-	    this.mc.mbde.load_vc_spec_v_rand_dir(vc, this.mc.mbde.get_BD_v(Params_HS.kT0, mass));
+	    this.mc.mbde.load_vc_spec_v_rand_dir(vc, this.mc.mbde.get_BD_v(Params_HS.kT0, mass_val));
 	    let vx = vc.x;
 	    let vy = vc.y;
 
-	    let radius;
-	    radius = Params_HS.R;
-	    
 	    // create new particle object
-	    //new_p = new GasParticle_HS(x, y, Params_HS.R, mass, vx, vy, );
-	    //new_p = new GasParticle_HS(x, y, Params_HS.R, mass, vx, vy, rho_val, rho_greyscale_str);
-	    new_p = new GasParticle_HS(x, y, radius, mass, vx, vy, rho_val_i, rho_val);
+	    //new_p = new GasParticle_HS(x, y, Params_HS.R, mass_val, vx, vy, );
+	    //new_p = new GasParticle_HS(x, y, Params_HS.R, mass_val, vx, vy, rho_val, rho_greyscale_str);
+	    new_p = new GasParticle_HS(x, y, R_val, mass_val, vx, vy, rho_val_i, rho_val);
+	    console.log(new_p);///
 	    //new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, 1, 0.1);//////////
 
 	    // store quantity histogram bin indices and update respective histograms
