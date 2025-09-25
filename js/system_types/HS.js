@@ -455,7 +455,7 @@ class Coords_HS extends Coords {
 	    this.x_RW = 0.0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
 	    this.gsh = new GasSpeedHistogram(0.2);
-	    this.peh = new GasSpeedHistogram(0.2);  // peh = particle energy histogram
+	    this.peh = new GasSpeedHistogram(0.5);  // peh = particle energy histogram
 	    this.cet = new CollisionEventsTable();
 	    this.particles = new Array();
 	    this.initialize_particles_collision_structures_etc();
@@ -549,15 +549,22 @@ class Coords_HS extends Coords {
 	    let x = (ri + 1) * grid_seg_length;
 	    let y = (ci + 1) * grid_seg_length;
 
-	    // determine new particle density, mass, etc.
+	    // determine new particle density (which will determine greyscale color)
 	    let modf_parts = modf(i / Params_HS.num_particles_per_rho_val);
 	    let remainder = parseInt(modf_parts[1]);
 	    if (remainder == 0) {  // if remainder == 0, it's time to switch to next rho value
 		rho_val_i = parseInt(modf_parts[0]);
 		rho_val = Params_HS.rho_vals[rho_val_i];
 	    }
-	    let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
-	    let R_val = ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
+
+	    // determine new particle radius and, with density, mass value
+	    let R_val;
+	    if ((i == 0) && Params_HS.color_tracker_particle) {  // if this is a tracker particle...
+		R_val = Params_HS.R_min;  // keep it small so it moves around fast and far
+	    } else {
+		let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
+		R_val = ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
+	    }
 	    let mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);
 	    //mass_val = Params_HS.m;
 
@@ -569,11 +576,8 @@ class Coords_HS extends Coords {
 	    let vy = vc.y;
 
 	    // create new particle object
-	    //new_p = new GasParticle_HS(x, y, Params_HS.R, mass_val, vx, vy, );
-	    //new_p = new GasParticle_HS(x, y, Params_HS.R, mass_val, vx, vy, rho_val, rho_greyscale_str);
 	    new_p = new GasParticle_HS(x, y, R_val, mass_val, vx, vy, rho_val_i, rho_val);
-	    console.log(new_p);///
-	    //new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, 1, 0.1);//////////
+	    //console.log(new_p);///
 
 	    // store quantity histogram bin indices and update respective histograms
 	    new_p.v_hist_bi = this.gsh.get_bin_indx(new_p.get_speed());
