@@ -8,12 +8,13 @@
 
 class GasParticle_HS extends GasParticle {
 
-    constructor(x, y, R, mass, vx, vy, rho_val, rho_str) {
+    constructor(x, y, R, mass, vx, vy, rho_val_i, rho) {
 
 	super(x, y, R, mass, vx, vy);
 
-	this.rho = rho_val;  // particle density, which will be plotted as greyscale color
-	this.rho_greyscale_str = rho_str;  // corresponding greyscale color string for quick plotting
+	this.rho_val_i = rho_val_i;  // integer index associated with density value (will, e.g., be translated into greyscale color)
+	this.rho = rho;  // particle density, which will be plotted as greyscale color
+	//this.rho_greyscale_str = rho_str;  // corresponding greyscale color string for quick plotting
 	this.E_hist_bi;  // E_hist_bi = E histogram bin index
 	this.cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);
     }
@@ -24,8 +25,9 @@ class GasParticle_HS extends GasParticle {
 	for (const cei = gptc.cet_entries.begin(); !cei.equals(gptc.cet_entries.end()); cei.next()) {
 	    ngp.cet_entries.insert(copy(cei.pointer));
 	}
+	ngp.rho_val_i = gptc.rho_val_i;
 	ngp.rho = gptc.rho;
-	ngp.rho_greyscale_str = gptc.rho_greyscale_str;
+	//ngp.rho_greyscale_str = gptc.rho_greyscale_str;
 	ngp.v_hist_bi = gptc.v_hist_bi;
 	ngp.E_hist_bi = gptc.E_hist_bi;
 	return ngp;
@@ -575,38 +577,7 @@ class Coords_HS extends Coords {
 	    let vy = vc.y;
 
 	    let radius;
-	    switch (i) {
-	    case 0:
-		radius = Params_HS.R * 1.5;
-		break;
-	    case 1:
-		radius = Params_HS.R * 1.3;
-		break;
-	    case 2:
-		radius = Params_HS.R * 2.1;
-		break;
-	    case 3:
-		radius = Params_HS.R * 3.7;
-		break;
-	    case 4:
-		radius = Params_HS.R * 1.5;
-		break;
-	    case 5:
-		radius = Params_HS.R * 10;
-		break;
-	    case 6:
-		radius = Params_HS.R * 1.5;
-		break;
-	    case 7:
-		radius = Params_HS.R * 1;
-		break;
-	    case 8:
-		radius = Params_HS.R * 2.1;
-		break;
-	    case 9:
-		radius = Params_HS.R * 23;
-		break;
-	    }
+	    radius = Params_HS.R;
 	    
 	    // create new particle object
 	    //new_p = new GasParticle_HS(x, y, Params_HS.R, mass, vx, vy, );

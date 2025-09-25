@@ -51,6 +51,17 @@ class PlotTypeCV extends PlotType {
 	}
     }
 
+    draw_circleNEW(x, y, R) {
+
+	let xc = this.rtoa(x);
+	let yc = this.fyc(this.rtoa(y));
+	let Rc = this.rtoa(R);
+
+	this.cc.beginPath();
+	this.cc.arc(xc, yc, Rc, 0, 2*Math.PI);
+	this.cc.fill();
+    }
+
     // take x coordinate and width w -- all in relative units, i.e., on the unit square -- and draw corresponding vertical line on canvas
     draw_vertical_line(x, w, color) {
 
@@ -141,14 +152,18 @@ class PlotTypeCV_HS extends PlotTypeCV_Gas {
     update_canvas(t) {
 
 	this.clear_canvas();
+	let rho_val_seg = parseInt(Math.ceil(Params_HS.N / 4));
+	console.log("rho_val_seg =", rho_val_seg);////////
 	for (let i = 0; i < this.trj.get_x(t).particles.length; i++) {
 
 	    let cp = this.trj.get_x(t).particles[i];  // cp = current particle
 	    if (Params_HS.draw_tiny_particles_artificially_large && (Params_HS.R < 0.002)) {
 		this.draw_circle(cp.x, cp.y, 0.01, false, "black");
 	    } else {
+		let gs_val = parseInt(modf(i / rho_val_seg)[0]);
 		//this.draw_circle(cp.x, cp.y, cp.R, true, "black");
-		this.draw_circle(cp.x, cp.y, cp.R, true, cp.rho_greyscale_str);
+		//this.draw_circle(cp.x, cp.y, cp.R, true, cp.rho_greyscale_str);
+		this.draw_circleNEW(cp.x, cp.y, cp.R);
 	    }
 	}
 	let x_piston = 1.0 - this.trj.get_x(t).x_RW;  // subtract since piston's coordinate system has origin at zero compression
