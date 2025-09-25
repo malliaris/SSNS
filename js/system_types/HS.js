@@ -14,7 +14,6 @@ class GasParticle_HS extends GasParticle {
 
 	this.rho_val_i = rho_val_i;  // integer index associated with density value (will, e.g., be translated into greyscale color)
 	this.rho = rho;  // particle density, which will be plotted as greyscale color
-	//this.rho_greyscale_str = rho_str;  // corresponding greyscale color string for quick plotting
 	this.E_hist_bi;  // E_hist_bi = E histogram bin index
 	this.cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);
     }
@@ -27,7 +26,6 @@ class GasParticle_HS extends GasParticle {
 	}
 	ngp.rho_val_i = gptc.rho_val_i;
 	ngp.rho = gptc.rho;
-	//ngp.rho_greyscale_str = gptc.rho_greyscale_str;
 	ngp.v_hist_bi = gptc.v_hist_bi;
 	ngp.E_hist_bi = gptc.E_hist_bi;
 	return ngp;
@@ -394,6 +392,11 @@ class Params_HS extends Params {
     static single_m_val_not_dist;
     static draw_tiny_particles_artificially_large = true;
     static m = 1.0;
+    static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
+    static num_rho_vals = 1;                                                        // VALUE MUST MATCH NUMBER OF ENTRIES IN ARRAYS BELOW!
+    static rho_vals = [0.01, 0.1, 1, 10];                                           // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
+    static rho_greyscale_val_strs = ["#cccccc", "#888888", "#444444", "#000000"];   // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
+    static num_particles_per_rho_val;
     static rho_low = 1.0;
     static rho_hi = 100.0;
     static rho_dist_a = 1.001;
@@ -537,6 +540,8 @@ class Coords_HS extends Coords {
 	}
 	let grid_seg_length = 1.0 / (grid_size + 1);
 
+	let rho_val_i;
+	let rho_val;
 	for (let i = 0; i < Params_HS.N; i++) {
 
 	    let ci = grid_size - 1 - parseInt(Math.floor(i/grid_size));
@@ -545,10 +550,15 @@ class Coords_HS extends Coords {
 	    let y = (ci + 1) * grid_seg_length;
 
 	    // determine new particle density, mass, etc.
-	    let beta_dist_val = this.mc.beta_rng(Params_HS.rho_dist_a, Params_HS.rho_dist_b);
-	    let rho_val = ModelCalc_HS.get_rand_rho_val(Params_HS.rho_low, Params_HS.rho_hi, beta_dist_val);
+	    let modf_parts = modf(i / Params_HS.num_particles_per_rho_val);
+	    let remainder = parseInt(modf_parts[1]);
+	    if (remainder == 0) {  // if remainder == 0, it's time to switch to next rho value
+		rho_val_i = parseInt(modf_parts[0]);
+		rho_val = Params_HS.rho_vals[rho_val_i];
+	    }
+	    //let beta_dist_val = this.mc.beta_rng(Params_HS.rho_dist_a, Params_HS.rho_dist_b);
+	    //let rho_val = ModelCalc_HS.get_rand_rho_val(Params_HS.rho_low, Params_HS.rho_hi, beta_dist_val);
 	    //let rho_greyscale_str = PlotTypeCV_HS.get_rho_greyscale_str_from_0_1_val(beta_dist_val);
-	    let rho_greyscale_str = "rgba(50, 50, 50";
 
 	    let mass;// = ModelCalc_HS.get_m_from_rho_and_R(rho_val, Params_HS.R);
 	    mass = Params_HS.m;
@@ -582,7 +592,7 @@ class Coords_HS extends Coords {
 	    // create new particle object
 	    //new_p = new GasParticle_HS(x, y, Params_HS.R, mass, vx, vy, );
 	    //new_p = new GasParticle_HS(x, y, Params_HS.R, mass, vx, vy, rho_val, rho_greyscale_str);
-	    new_p = new GasParticle_HS(x, y, radius, mass, vx, vy, rho_val, rho_greyscale_str);
+	    new_p = new GasParticle_HS(x, y, radius, mass, vx, vy, rho_val_i, rho_val);
 	    //new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, 1, 0.1);//////////
 
 	    // store quantity histogram bin indices and update respective histograms
@@ -1050,6 +1060,7 @@ class Trajectory_HS extends Trajectory {
 	Params_HS.N = Params_HS.UINI_N.v;
 	Params_HS.kT0 = Params_HS.UINI_kT0.v;
 	Params_HS.single_m_val_not_dist = false;
+	Params_HS.num_particles_per_rho_val = parseInt(Math.ceil(Params_HS.N / Params_HS.num_rho_vals));
 
 	super(sim);
     }
