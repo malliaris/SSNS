@@ -71,7 +71,27 @@ class UICI_IG extends UICI {
     }
 }
 
-class UICI_HS_dist extends UICI {  // used for any control that toggles between "single value" and "distribution", e.g., R and rho
+class UICI_HS_rho extends UICI {
+
+    constructor(...args) {  // "..." is Javascript spread operator
+	super(...args);
+    }
+
+    cycle() {
+	this.cycle_basics();
+	this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
+    }
+
+    use_distribution() {
+	return (this.v == 1);  // based on order of values chosen in UserInterface.js
+    }
+
+    all_particles_same_m() {
+	return (this.v == 2);  // based on order of values chosen in UserInterface.js
+    }
+}
+
+class UICI_HS_R extends UICI {
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);

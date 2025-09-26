@@ -50,8 +50,8 @@ class UserInterface {
 	Params_HS.UINI_N = new UINI_int(this, "UI_P_SM_HS_N", false);
 	Params_HS.UINI_kT0 = new UINI_float(this, "UI_P_SM_HS_kT0", false);
 	Params_HS.UINI_v_pist = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  // can be thought of as v_pist_0 in that the internal value may change within a timestep
-	Params_HS.UICI_rho = new UICI_HS_dist(this, "UI_P_SM_HS_rho", ["\\small \\mathrm{single \\; value}", "\\small \\mathrm{distribution}"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
-	Params_HS.UICI_R = new UICI_HS_dist(this, "UI_P_SM_HS_R", ["\\small \\mathrm{single \\; value}", "\\small \\mathrm{distribution}"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
+	Params_HS.UICI_rho = new UICI_HS_rho(this, "UI_P_SM_HS_rho", ["\\small \\mathrm{single \\; value}", "\\small \\mathrm{distribution}", "\\small \\! \\! m \\! = \\! \\rho V \\! = \\! \\mathrm{const.}"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
+	Params_HS.UICI_R = new UICI_HS_R(this, "UI_P_SM_HS_R", ["\\small \\mathrm{single \\; value}", "\\small \\mathrm{distribution}"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
 	Params_HS.UICI_IC = new UICI_HS_IC(this, "UI_P_SM_HS_IC", ["a", "b", "c", "d", "e"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
 	Params_IS.T = new UINI_float(this, "UI_P_SM_IS_T", true);
 	Coords_IS.N = new UINI_int(this, "UI_P_SM_IS_N", false);

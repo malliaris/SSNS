@@ -385,8 +385,8 @@ class Params_HS extends Params {
     static UINI_kT0;  // = new UINI_float(this, "UI_P_SM_HS_kT0", false);  assignment occurs in UserInterface(); see discussion there
     static kT0;
     static UINI_v_pist;  // = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  assignment occurs in UserInterface(); see discussion there
-    static UICI_rho;  // = new UICI_HS_dist(this, "UI_P_SM_HS_rho", false);  assignment occurs in UserInterface(); see discussion there
-    static UICI_R;  // = new UICI_HS_dist(this, "UI_P_SM_HS_R", false);  assignment occurs in UserInterface(); see discussion there
+    static UICI_rho;  // = new UICI_HS_rho(this, "UI_P_SM_HS_rho", false);  assignment occurs in UserInterface(); see discussion there
+    static UICI_R;  // = new UICI_HS_R(this, "UI_P_SM_HS_R", false);  assignment occurs in UserInterface(); see discussion there
     static UICI_IC;  // = new UICI_HS_IC(this, "UI_P_SM_HS_IC", false);  assignment occurs in UserInterface(); see discussion there
 
     static R = 0.005;//0.001;
@@ -394,7 +394,6 @@ class Params_HS extends Params {
     static R_max = 50 * Params_HS.R_min;
     static R_dist_a = 1.001;
     static R_dist_b = 20;
-    static single_m_val_not_dist;
     static draw_tiny_particles_artificially_large = true;
     static m = 1.0;
     static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
@@ -541,9 +540,12 @@ class Coords_HS extends Coords {
 	}
 	let grid_seg_length = 1.0 / (grid_size + 1);
 
-	let rho_val_i = 0;  // used in loop below; if rho dist is not used, index is meaningless in determining rho val, but still used in coloring particles (e.g., tracker vs. non)
-	let rho_val = Params_HS.rho_vals[rho_val_i];    // used in loop below
+	// "declarations" and preliminary values for variables set in loop below
+	let rho_val_i = 0;  // if rho dist is not used, index is meaningless in determining rho val, but still used in coloring particles (e.g., tracker vs. non)
+	let rho_val = Params_HS.rho_vals[rho_val_i];
 	let R_val = 1.5 * Params_HS.R_min;  // overwritten in loop below if R distribution is being used
+	let mass_val;
+
 	for (let i = 0; i < Params_HS.N; i++) {
 
 	    let ci = grid_size - 1 - parseInt(Math.floor(i/grid_size));
@@ -561,7 +563,7 @@ class Coords_HS extends Coords {
 		}
 	    }
 
-	    // determine new particle radius and, with density, mass value
+	    // determine new particle radius
 	    if (Params_HS.UICI_R.use_distribution()) {  // if R distribution is not being used, single R_val assigned above loop is used
 		if ((i == 0) && Params_HS.color_tracker_particle) {  // if this is a tracker particle...
 		    R_val = Params_HS.R_min;  // keep it small so it moves around fast and far
@@ -570,8 +572,13 @@ class Coords_HS extends Coords {
 		    R_val = ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
 		}
 	    }
-	    let mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);
-	    //mass_val = Params_HS.m;
+
+	    // determine new particle mass value
+	    if (Params_HS.UICI_rho.all_particles_same_m()) {
+		mass_val = 1.0;  // not a big loss of flexibility setting m to unity since other parameters, e.g., T can always be tweaked
+	    } else {
+		mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);
+	    }
 
 	    ///////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
 	    /////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, mass);
@@ -1048,7 +1055,6 @@ class Trajectory_HS extends Trajectory {
 	Coords_HS.s = 0.0;  // zero the official "clock" for our continuous time gas system; (don't confuse with SSNS discrete time step t)
 	Params_HS.N = Params_HS.UINI_N.v;
 	Params_HS.kT0 = Params_HS.UINI_kT0.v;
-	Params_HS.single_m_val_not_dist = false;
 	Params_HS.num_particles_per_rho_val = parseInt(Math.ceil(Params_HS.N / Params_HS.num_rho_vals));
 
 	super(sim);

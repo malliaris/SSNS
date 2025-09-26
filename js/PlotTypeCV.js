@@ -51,7 +51,7 @@ class PlotTypeCV extends PlotType {
 	}
     }
 
-    draw_circleNEW(x, y, R) {
+    draw_filled_circle(x, y, R) {
 
 	let xc = this.rtoa(x);
 	let yc = this.fyc(this.rtoa(y));
@@ -152,7 +152,8 @@ class PlotTypeCV_HS extends PlotTypeCV_Gas {
     update_canvas(t) {
 
 	this.clear_canvas();
-	let curr_rho_val_i;  // to track changing of density values (and, therefore, colors) in loop below
+	let fill_color_str;  // to prevent unnecessary calls to fillStyle (see note below)
+	let prev_fill_color_str = "";  // to prevent unnecessary calls to fillStyle (see note below)
 	for (let i = 0; i < this.trj.get_x(t).particles.length; i++) {
 
 	    let cp = this.trj.get_x(t).particles[i];  // cp = current particle
@@ -166,21 +167,19 @@ class PlotTypeCV_HS extends PlotTypeCV_Gas {
 		// determine particle fill color
 		// NOTE: the SSNS HS code is organized so that the number of different particle colors is ~1, and so that all particles of a given color are drawn in succession,
 		//       thus limiting calls to set fillStyle for efficiency; we tried a different color for each particle, and it's **really** slow for large N!
-		if (cp.rho_val_i != curr_rho_val_i) {  // if we've just started a new block of density values...
-		    this.cc.fillStyle = Params_HS.rho_greyscale_val_strs[cp.rho_val_i];
-		    curr_rho_val_i = cp.rho_val_i;  // store the new rho_val_i
-		}  // else, no need to change fillStyle color (see note above)
-
-		if ((i == 0) && Params_HS.color_tracker_particle) {  // the one exception is the tracker particle, if enabled
-		    this.cc.fillStyle = "red";  // in which we overwrite color...
+		if ((i == 0) && Params_HS.color_tracker_particle) {  // the tracker particle, if enabled, is always red
+		    fill_color_str = "red";
+		} else if (Params_HS.UICI_rho.all_particles_same_m()) {
+		    fill_color_str = "black";
+		} else {
+		    fill_color_str = Params_HS.rho_greyscale_val_strs[cp.rho_val_i];
 		}
 
-		this.draw_circleNEW(cp.x, cp.y, cp.R);
-		//this.draw_circle(cp.x, cp.y, cp.R, true, "black");
-
-		if ((i == 0) && Params_HS.color_tracker_particle) {  // ... and change it back
-		    this.cc.fillStyle = Params_HS.rho_greyscale_val_strs[cp.rho_val_i];
+		if (fill_color_str != prev_fill_color_str) {
+		    this.cc.fillStyle = fill_color_str;  // call only made if necessary, i.e., if color choice has changed
 		}
+		this.draw_filled_circle(cp.x, cp.y, cp.R);
+		prev_fill_color_str = prev_fill_color_str;  // ready for next iteration
 	    }
 	}
 	let x_piston = 1.0 - this.trj.get_x(t).x_RW;  // subtract since piston's coordinate system has origin at zero compression

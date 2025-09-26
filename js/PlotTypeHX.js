@@ -137,7 +137,7 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 
     get_ext_y_axis_lbl_str() {
 
-	if (Params_HS.single_m_val_not_dist) {
+	if (Params_HS.UICI_rho.all_particles_same_m()) {
 	    return "\\mathrm{ \\# \\; particles}";
 	} else {
 	    return "\\ln \\left[ \\mathrm{ \\# \\; particles} \\right]";
@@ -146,7 +146,7 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 
     get_ext_x_axis_lbl_str() {
 
-	if (Params_HS.single_m_val_not_dist) {
+	if (Params_HS.UICI_rho.all_particles_same_m()) {
 	    return "\\mathrm{ particle \\; speed} \\; v";
 	} else {
 	    return "\\mathrm{ particle \\; energy} \\; E";
@@ -162,7 +162,7 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 	let avg_KE = this.trj.get_x(t).get_avg_KE();
 	let avg_ish_v = Math.sqrt(2.0 * avg_KE / Params_HS.m);
 
-	if (Params_HS.single_m_val_not_dist) {
+	if (Params_HS.UICI_rho.all_particles_same_m()) {
 	
 	    let vL = 0.0;  //curr_gsh.get_x_val_min();
 	    let vR = CU.round_up_above_fluctuations(curr_gsh.get_x_val_max());

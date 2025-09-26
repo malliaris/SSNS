@@ -80,6 +80,8 @@
 .katex_txt                 {color: #666666; }
 .ctrl_eff_immed            {background-color: #e1f3ff; }       /* controls for which a change takes effect "immediately" */
 .ctrl_eff_reload           {background-color: #dbffe8; }       /* controls for which a change takes effect on next reload */
+.ctrl_precip_reload        {background-color: #dddddd; }       /* controls for which initiating a change also precipitates a reload */
+
 .katex_symb                {width: 3.2em; }
 
 #md_txt                    {font-size: 18px; margin-bottom: -0.75rem; }  /* (negative margin-bottom offsets positive margin-bottom from p, ul, etc.) */
