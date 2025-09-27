@@ -5,7 +5,7 @@
 
 
 
-
+/*
 class GasParticle_HS extends GasParticle {
 
     constructor(x, y, R, mass, vx, vy, rho_val_i, rho) {
@@ -31,7 +31,7 @@ class GasParticle_HS extends GasParticle {
 	return ngp;
     }
 }
-/*
+*/
 class CollisionEvent {
 
     static compare_CEs(x, y) {
@@ -329,8 +329,8 @@ class Cumul_Stats {
 
     }
 }
-*/
 
+/*
 // class to "wrap" the particle update code, which gets used for both the x and y directions
 //
 // * in another language, we would have a method instead of a class and pass in references, e.g., &vx or &vy, but that's not possible in js
@@ -638,16 +638,6 @@ class Coords_HS extends Coords {
     initialize_particles() {
 
 	// check expected area fraction to possibly generate error/warning, or correct parameters
-	/*
-	let mean_area_frac;
-	let area = this.get_area();
-	if (Params_HS.UICI_R.use_distribution()) {
-	    let R_mean = ModelCalc_HS.get_mean_R(Params_HS.R_min, Params_HS.R_max, Params_HS.R_dist_a, Params_HS.R_dist_b);
-	    mean_area_frac = ModelCalc_HS.get_mean_area_frac(Params_HS.N, R_mean, area);
-	} else {
-	    mean_area_frac = ModelCalc_HS.get_mean_area_frac(Params_HS.N, Params_HS.R_single_value, area);
-	}
-	*/
 
 	let candidate_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
 
@@ -1136,3 +1126,4 @@ class Trajectory_HS extends Trajectory {
 	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
     }
 }
+*/
