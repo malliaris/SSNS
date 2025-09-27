@@ -73,8 +73,18 @@ class ModelCalc_HS extends ModelCalc_Gas {
 	return (R_min + (R_max - R_min)*beta_dist_mean);
     }
 
+    static get_R_max_from_mean_area_frac(N, R_min, a, b, A, frac) {  // "R_dist_*" removed for brevity
+
+	let gamma = a*(a + 1.0) / ((a + b)*(a + b + 1.0));  // for convenience
+	let zeta = (b / (a + 1.0)) + 1.0;  // for convenience
+	let B = 2.0 * R_min * (zeta - 1.0);  // coefficient of linear term; quadratic coefficient A = 1
+	let C = R_min*R_min*(1.0 - 2.0*zeta + 1.0/gamma) - frac*A / (N*Math.PI*gamma);  // constant term
+	let R_max = -0.5*B + 0.5*Math.sqrt( B*B - 4.0*C );
+	return R_max;
+    }
+
     // solve quadratic to find R_max that will produce desired mean area fraction, given R_min, N, etc.
-    static get_R_max_from_mean_area_frac(N, R_min, R_dist_a, R_dist_b, A, frac) {
+    static get_R_max_from_mean_area_fracOLD(N, R_min, R_dist_a, R_dist_b, A, frac) {
 
 	let gamma = R_dist_a / (R_dist_a + R_dist_b);  // for convenience
 	let zeta = R_dist_b / R_dist_a;  // for convenience
@@ -350,6 +360,7 @@ class Coords_HS extends Coords {
 	let candidate_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
 
 	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using candidate_R_max of", candidate_R_max, "instead of R_max =", Params_HS.R_max);
+	Params_HS.R_max = candidate_R_max;//////////
 	this.initialize_particles_on_grid();
 	//console.log("candidate_R_max, this.get_area_frac() =", candidate_R_max, this.get_area_frac());///////////
 	console.log("candidate_R_max, this.get_area_frac() =", candidate_R_max, this.get_area_frac());///////////
