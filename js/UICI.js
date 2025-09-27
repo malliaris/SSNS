@@ -86,8 +86,11 @@ class UICI_HS_rho extends UICI {
 	return (this.v == 1);  // based on order of values chosen in UserInterface.js
     }
 
+    // if all particles have the same mass, we plot Maxwell-Boltzmann distribution for speeds; otherwise, we plot just Boltzmann distribution for energies
+    // "single value" setting for both rho and R is one way to have single mass; other way is m = rho*V = const. which works even if there is an R distribution
     all_particles_same_m() {
-	return (this.v == 2);  // based on order of values chosen in UserInterface.js
+	let single_value_for_both_rho_and_R = (this.v == 0) && ( ! Params_HS.UICI_R.use_distribution());
+	return ((this.v == 2) || single_value_for_both_rho_and_R);  // based on order of values chosen in UserInterface.js
     }
 }
 

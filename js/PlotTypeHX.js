@@ -156,7 +156,7 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
     get_flot_data_series(t) {
 
 	let data_series = [];
-	let curr_gsh = this.trj.get_x(t).gsh;  // current gas speed histogram object, from which we will draw all data
+	let curr_psh = this.trj.get_x(t).psh;  // current gas speed histogram object, from which we will draw all data
 	let curr_peh = this.trj.get_x(t).peh;  // current particle energy histogram object, from which we will draw data
 
 	let avg_KE = this.trj.get_x(t).get_avg_KE();
@@ -164,16 +164,16 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 
 	if (Params_HS.UICI_rho.all_particles_same_m()) {
 	
-	    let vL = 0.0;  //curr_gsh.get_x_val_min();
-	    let vR = CU.round_up_above_fluctuations(curr_gsh.get_x_val_max());
+	    let vL = 0.0;  //curr_psh.get_x_val_min();
+	    let vR = CU.round_up_above_fluctuations(curr_psh.get_x_val_max());
 
 	    // load v histogram data
-	    let v_hist_data = curr_gsh.get_flot_hist_data(1.0);  // 1.0 is multiplicative factor for returned data (not used, here)
+	    let v_hist_data = curr_psh.get_flot_hist_data(1.0);  // 1.0 is multiplicative factor for returned data (not used, here)
 	    this.flot_data_opts_hist["data"] = v_hist_data;
 	    data_series.push(this.flot_data_opts_hist);
 
 	    // load theoretical functional form over-plot (2D Maxwell-Boltzmann speed distribution)
-	    let mult_fctr = curr_gsh.bin_width * Params_HS.N;  // multiply pdf by bin width to get a probability and by Params_HS.N to get expected # particles
+	    let mult_fctr = curr_psh.bin_width * Params_HS.N;  // multiply pdf by bin width to get a probability and by Params_HS.N to get expected # particles
 	    let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, Params_HS.kT0, Params_HS.m, mult_fctr);
 	    this.flot_data_opts_theory["data"] = theory_data;
 	    data_series.push(this.flot_data_opts_theory);

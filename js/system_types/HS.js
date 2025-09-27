@@ -364,6 +364,16 @@ class ModelCalc_HS extends ModelCalc_Gas {
     static get_m_from_rho_and_R(rho, R) {
 	return Math.PI * R * R * rho;  // we're interpreting rho as mass/area and multiplying by area of circular cross-section of sphere (or disc)
     }
+
+    static get_mean_area_frac(N, R_mean, A) {
+	return N * Math.PI * R_mean * R_mean / A;
+    }
+
+    static get_mean_R(R_min, R_max, R_dist_a, R_dist_b) {
+
+	let beta_dist_mean = R_dist_a / (R_dist_a + R_dist_b);
+	return (R_min + (R_max - R_min)*beta_dist_mean);
+    }
 }
 
 // js equivalent of a C #define macro... see static get accessors in Params_HS
@@ -389,11 +399,12 @@ class Params_HS extends Params {
     static UICI_R;  // = new UICI_HS_R(this, "UI_P_SM_HS_R", false);  assignment occurs in UserInterface(); see discussion there
     static UICI_IC;  // = new UICI_HS_IC(this, "UI_P_SM_HS_IC", false);  assignment occurs in UserInterface(); see discussion there
 
-    static R = 0.005;//0.001;
-    static R_min = Params_HS.R;
+    //    static R = //0.001;
+    static R_min = 0.005;
     static R_max = 50 * Params_HS.R_min;
     static R_dist_a = 1.001;
     static R_dist_b = 20;
+    static R_single_value = 1.5 * Params_HS.R_min;
     static draw_tiny_particles_artificially_large = true;
     static m = 1.0;
     static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
@@ -454,7 +465,7 @@ class Coords_HS extends Coords {
 
 	    this.x_RW = 0.0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
-	    this.gsh = new GasSpeedHistogram(0.2);
+	    this.psh = new GasSpeedHistogram(0.2);  // psh = particle speed histogram
 	    this.peh = new GasSpeedHistogram(0.5);  // peh = particle energy histogram
 	    this.cet = new CollisionEventsTable();
 	    this.particles = new Array();
@@ -467,7 +478,7 @@ class Coords_HS extends Coords {
 
 	} else {
 
-	    this.gsh = GasSpeedHistogram.copy(this.c_prev.gsh);
+	    this.psh = GasSpeedHistogram.copy(this.c_prev.psh);
 	    this.peh = GasSpeedHistogram.copy(this.c_prev.peh);  // peh = particle energy histogram
 	    this.copy_particles_collision_structures_etc();
 
@@ -515,6 +526,10 @@ class Coords_HS extends Coords {
 	//this.check_cet_table_and_entries_integrity_and_output(true);
     }
 
+    get_area() {
+	return (Params_HS.Ly * (Params_HS.Lx_max - this.x_RW));  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
+    }
+
     // add entries to both the main data structure (cet.table) and auxiliary entries within each particle's cet_entries array
     add_collision_event_PP(i, j, s_to_add) {  // s_to_add will be added to Ds_coll to give absolute time s_coll for collision event
 
@@ -543,7 +558,7 @@ class Coords_HS extends Coords {
 	// "declarations" and preliminary values for variables set in loop below
 	let rho_val_i = 0;  // if rho dist is not used, index is meaningless in determining rho val, but still used in coloring particles (e.g., tracker vs. non)
 	let rho_val = Params_HS.rho_vals[rho_val_i];
-	let R_val = 1.5 * Params_HS.R_min;  // overwritten in loop below if R distribution is being used
+	let R_val = Params_HS.R_single_value;  // overwritten in loop below if R distribution is being used
 	let mass_val;
 
 	for (let i = 0; i < Params_HS.N; i++) {
@@ -592,8 +607,8 @@ class Coords_HS extends Coords {
 	    //console.log(new_p);///
 
 	    // store quantity histogram bin indices and update respective histograms
-	    new_p.v_hist_bi = this.gsh.get_bin_indx(new_p.get_speed());
-	    CU.incr_entry_OM(this.gsh.hist, new_p.v_hist_bi);  // increment bin count
+	    new_p.v_hist_bi = this.psh.get_bin_indx(new_p.get_speed());
+	    CU.incr_entry_OM(this.psh.hist, new_p.v_hist_bi);  // increment bin count
 	    new_p.E_hist_bi = this.peh.get_bin_indx(new_p.get_KE());
 	    CU.incr_entry_OM(this.peh.hist, new_p.E_hist_bi);  // increment bin count
 
@@ -602,6 +617,17 @@ class Coords_HS extends Coords {
     }
 
     initialize_particles_collision_structures_etc() {
+
+	// check expected area fraction to possibly generate error/warning, or correct parameters
+	let mean_area_frac;
+	let area = this.get_area();
+	if (Params_HS.UICI_R.use_distribution()) {
+	    let R_mean = ModelCalc_HS.get_mean_R(Params_HS.R_min, Params_HS.R_max, Params_HS.R_dist_a, Params_HS.R_dist_b);
+	    mean_area_frac = ModelCalc_HS.get_mean_area_frac(Params_HS.N, R_mean, area);
+	} else {
+	    mean_area_frac = ModelCalc_HS.get_mean_area_frac(Params_HS.N, Params_HS.R_single_value, area);
+	}
+	console.log("mean_area_frac =", mean_area_frac);
 
 	this.initialize_particles_on_grid();
 	this.RW_cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);  // tracks all PW/WC collisions Right Wall (RW) might have
@@ -673,12 +699,12 @@ class Coords_HS extends Coords {
 	CollisionEvent_PP.process_collision(pa, pb);  // update velocities via hard sphere impact equations
 
 	// update v histogram for pa, then pb
-	CU.decr_entry_OM(this.gsh.hist, pa.v_hist_bi);  // decrement bin count of pa old speed value
-	pa.v_hist_bi = this.gsh.get_bin_indx(pa.get_speed());  // store bin index corresponding to pa new speed value
-	CU.incr_entry_OM(this.gsh.hist, pa.v_hist_bi);  // increment bin count of pa new speed value
-	CU.decr_entry_OM(this.gsh.hist, pb.v_hist_bi);  // decrement bin count of pb old speed value
-	pb.v_hist_bi = this.gsh.get_bin_indx(pb.get_speed());  // store bin index corresponding to pb new speed value
-	CU.incr_entry_OM(this.gsh.hist, pb.v_hist_bi);  // increment bin count of pb new speed value
+	CU.decr_entry_OM(this.psh.hist, pa.v_hist_bi);  // decrement bin count of pa old speed value
+	pa.v_hist_bi = this.psh.get_bin_indx(pa.get_speed());  // store bin index corresponding to pa new speed value
+	CU.incr_entry_OM(this.psh.hist, pa.v_hist_bi);  // increment bin count of pa new speed value
+	CU.decr_entry_OM(this.psh.hist, pb.v_hist_bi);  // decrement bin count of pb old speed value
+	pb.v_hist_bi = this.psh.get_bin_indx(pb.get_speed());  // store bin index corresponding to pb new speed value
+	CU.incr_entry_OM(this.psh.hist, pb.v_hist_bi);  // increment bin count of pb new speed value
 	
 	// update E histogram for pa, then pb
 	CU.decr_entry_OM(this.peh.hist, pa.E_hist_bi);  // decrement bin count of pa old speed value
@@ -766,9 +792,9 @@ class Coords_HS extends Coords {
 	// if collision is with a moving right wall (RW) --- the only case that might change particle's speed/KE --- update histograms
 	if ((wi == Params_HS.R_W) && (this.v_RW != 0.0)) {
 
-	    CU.decr_entry_OM(this.gsh.hist, prt.v_hist_bi);  // decrement bin count of old speed value
-	    prt.v_hist_bi = this.gsh.get_bin_indx(prt.get_speed());  // store bin index corresponding to new speed value
-	    CU.incr_entry_OM(this.gsh.hist, prt.v_hist_bi);  // increment bin count of new speed value
+	    CU.decr_entry_OM(this.psh.hist, prt.v_hist_bi);  // decrement bin count of old speed value
+	    prt.v_hist_bi = this.psh.get_bin_indx(prt.get_speed());  // store bin index corresponding to new speed value
+	    CU.incr_entry_OM(this.psh.hist, prt.v_hist_bi);  // increment bin count of new speed value
 
 	    CU.decr_entry_OM(this.peh.hist, prt.E_hist_bi);  // decrement bin count of old energy value
 	    prt.E_hist_bi = this.peh.get_bin_indx(prt.get_KE());  // store bin index corresponding to new energy value
