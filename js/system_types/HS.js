@@ -114,7 +114,7 @@ class Params_HS extends Params {
     static R_dist_a = 1.001;
     static R_dist_b = 20;
     static R_single_value = 1.5 * Params_HS.R_min;
-    static target_area_frac = 0.17;
+    static target_area_frac = 0.10;
     static draw_tiny_particles_artificially_large = true;
     static m = 1.0;
     static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
@@ -122,6 +122,7 @@ class Params_HS extends Params {
     static rho_vals = [1e4, 1e5, 1e6, 1e7];                                         // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
     static rho_greyscale_val_strs = ["#cccccc", "#888888", "#444444", "#000000"];   // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
     static num_particles_per_rho_val;
+    static num_IC_creation_attempts = 100;
     static ds = 0.01;  // eventually use algorithm to set value?
     static Lx_min = 0.05;  // assignment occurs in Trajectory_HS constructor
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
@@ -350,9 +351,17 @@ class Coords_HS extends Coords {
 	// calculated R_max (or R_single_value, for non-distribution case); check for overlaps, etc.
 	Params_HS.R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
 	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
-	this.initialize_particles_on_grid();
-	console.log("WEWEWEEWE this.IC_free_of_overlaps() =", this.IC_free_of_overlaps());
-	console.log("INFO:   Particle IC created.  Actual area fraction =", this.get_area_frac());
+
+	// create initial particle configuration (may require multiple attempts, but should eventually succeed if parameters have reasonable values)
+	for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
+	    this.particles = [];  // clear any previous attempts
+	    this.initialize_particles_on_grid();
+	    if (this.IC_free_of_overlaps()) {
+		console.log("INFO:   Particle IC creation succeeded on attempt", (i + 1), "of", Params_HS.num_IC_creation_attempts, ".  Actual area fraction =", this.get_area_frac());
+		return;
+	    }
+	}
+	console.log("ERROR:   Failed to create a well-formed initial configuration of particles, even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and try reloading SSNS.");
     }
 
     initialize_particles_collision_structures_etc() {
