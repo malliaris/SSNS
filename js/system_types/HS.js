@@ -374,6 +374,17 @@ class ModelCalc_HS extends ModelCalc_Gas {
 	let beta_dist_mean = R_dist_a / (R_dist_a + R_dist_b);
 	return (R_min + (R_max - R_min)*beta_dist_mean);
     }
+
+    // solve quadratic to find R_max that will produce desired mean area fraction, given R_min, N, etc.
+    static get_R_max_from_mean_area_frac(N, R_min, R_dist_a, R_dist_b, A, frac) {
+
+	let gamma = R_dist_a / (R_dist_a + R_dist_b);  // for convenience
+	let zeta = R_dist_b / R_dist_a;  // for convenience
+	let B = 2.0 * zeta * R_min;  // coefficient of linear term; quadratic coefficient A = 1
+	let C = zeta*zeta*R_min*R_min - frac*A / (gamma*gamma*N*Math.PI);  // constant term
+	let R_max = -0.5*B + 0.5*Math.sqrt( B*B - 4.0*C );
+	return R_max;
+    }
 }
 
 // js equivalent of a C #define macro... see static get accessors in Params_HS
@@ -405,6 +416,7 @@ class Params_HS extends Params {
     static R_dist_a = 1.001;
     static R_dist_b = 20;
     static R_single_value = 1.5 * Params_HS.R_min;
+    static target_area_frac = 0.1;
     static draw_tiny_particles_artificially_large = true;
     static m = 1.0;
     static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
@@ -417,9 +429,6 @@ class Params_HS extends Params {
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
     static Ly = 1.0;  // assignment occurs in Trajectory_HS constructor
     static x_RW_max = Params_HS.Lx_max - Params_HS.Lx_min;  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
-    static m_dist_code = "c";  // dummy value; c for constant? add a sensible distribution to try?
-    static R_dist_code = "c";  // dummy value; c for constant? add a sensible distribution to try?
-    static IC_code = "r";  // dummy value; eventually have many options here
 
     static get_wi_char(i) {
 	let char_arr = ["T", "L", "B", "R"];
@@ -530,6 +539,16 @@ class Coords_HS extends Coords {
 	return (Params_HS.Ly * (Params_HS.Lx_max - this.x_RW));  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
     }
 
+    get_area_frac() {
+
+	let total_particle_area = 0.0;
+	for (let i = 0; i < this.particles.length; i++) {
+	    let particle_area = Math.PI * this.particles[i].R * this.particles[i].R;
+	    total_particle_area += particle_area;
+	}
+	return total_particle_area / this.get_area();
+    }
+
     // add entries to both the main data structure (cet.table) and auxiliary entries within each particle's cet_entries array
     add_collision_event_PP(i, j, s_to_add) {  // s_to_add will be added to Ds_coll to give absolute time s_coll for collision event
 
@@ -580,7 +599,7 @@ class Coords_HS extends Coords {
 
 	    // determine new particle radius
 	    if (Params_HS.UICI_R.use_distribution()) {  // if R distribution is not being used, single R_val assigned above loop is used
-		if ((i == 0) && Params_HS.color_tracker_particle) {  // if this is a tracker particle...
+		if (false) {//((i == 0) && Params_HS.color_tracker_particle) {  // if this is a tracker particle...
 		    R_val = Params_HS.R_min;  // keep it small so it moves around fast and far
 		} else {
 		    let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
@@ -616,9 +635,10 @@ class Coords_HS extends Coords {
 	}
     }
 
-    initialize_particles_collision_structures_etc() {
+    initialize_particles() {
 
 	// check expected area fraction to possibly generate error/warning, or correct parameters
+	/*
 	let mean_area_frac;
 	let area = this.get_area();
 	if (Params_HS.UICI_R.use_distribution()) {
@@ -627,9 +647,19 @@ class Coords_HS extends Coords {
 	} else {
 	    mean_area_frac = ModelCalc_HS.get_mean_area_frac(Params_HS.N, Params_HS.R_single_value, area);
 	}
-	console.log("mean_area_frac =", mean_area_frac);
+	*/
 
+	let candidate_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
+
+	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using candidate_R_max of", candidate_R_max, "instead of R_max =", Params_HS.R_max);
 	this.initialize_particles_on_grid();
+	//console.log("candidate_R_max, this.get_area_frac() =", candidate_R_max, this.get_area_frac());///////////
+	console.log("candidate_R_max, this.get_area_frac() =", candidate_R_max, this.get_area_frac());///////////
+    }
+
+    initialize_particles_collision_structures_etc() {
+
+	this.initialize_particles();
 	this.RW_cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);  // tracks all PW/WC collisions Right Wall (RW) might have
 	Coords_HS.WC_just_occurred = false;
 
