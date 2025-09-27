@@ -73,24 +73,15 @@ class ModelCalc_HS extends ModelCalc_Gas {
 	return (R_min + (R_max - R_min)*beta_dist_mean);
     }
 
+    // solve quadratic to find R_max that will produce desired mean area fraction, given R_min, N, etc.;
+    // calculation involved E[X] and E[X^2] (via the variance) for X ~ Beta(a, b)
     static get_R_max_from_mean_area_frac(N, R_min, a, b, A, frac) {  // "R_dist_*" removed for brevity
 
-	let gamma = a*(a + 1.0) / ((a + b)*(a + b + 1.0));  // for convenience
-	let zeta = (b / (a + 1.0)) + 1.0;  // for convenience
+	let gamma = a*(a + 1.0) / ((a + b)*(a + b + 1.0));  // for convenience; this is E[X^2]
+	let zeta = (b / (a + 1.0)) + 1.0;  // for convenience; this is E[X] / E[X^2]
 	let B = 2.0 * R_min * (zeta - 1.0);  // coefficient of linear term; quadratic coefficient A = 1
 	let C = R_min*R_min*(1.0 - 2.0*zeta + 1.0/gamma) - frac*A / (N*Math.PI*gamma);  // constant term
-	let R_max = -0.5*B + 0.5*Math.sqrt( B*B - 4.0*C );
-	return R_max;
-    }
-
-    // solve quadratic to find R_max that will produce desired mean area fraction, given R_min, N, etc.
-    static get_R_max_from_mean_area_fracOLD(N, R_min, R_dist_a, R_dist_b, A, frac) {
-
-	let gamma = R_dist_a / (R_dist_a + R_dist_b);  // for convenience
-	let zeta = R_dist_b / R_dist_a;  // for convenience
-	let B = 2.0 * zeta * R_min;  // coefficient of linear term; quadratic coefficient A = 1
-	let C = zeta*zeta*R_min*R_min - frac*A / (gamma*gamma*N*Math.PI);  // constant term
-	let R_max = -0.5*B + 0.5*Math.sqrt( B*B - 4.0*C );
+	let R_max = -0.5*B + 0.5*Math.sqrt( B*B - 4.0*C );  // take positive root in quadratic formula
 	return R_max;
     }
 }
@@ -118,13 +109,12 @@ class Params_HS extends Params {
     static UICI_R;  // = new UICI_HS_R(this, "UI_P_SM_HS_R", false);  assignment occurs in UserInterface(); see discussion there
     static UICI_IC;  // = new UICI_HS_IC(this, "UI_P_SM_HS_IC", false);  assignment occurs in UserInterface(); see discussion there
 
-    //    static R = //0.001;
     static R_min = 0.005;
-    static R_max = 50 * Params_HS.R_min;
+    static R_max;  // = 50 * Params_HS.R_min; now auto-calculated in get_R_max_from_mean_area_frac() based on other parameter values
     static R_dist_a = 1.001;
     static R_dist_b = 20;
     static R_single_value = 1.5 * Params_HS.R_min;
-    static target_area_frac = 0.1;
+    static target_area_frac = 0.17;
     static draw_tiny_particles_artificially_large = true;
     static m = 1.0;
     static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
@@ -250,11 +240,23 @@ class Coords_HS extends Coords {
     get_area_frac() {
 
 	let total_particle_area = 0.0;
-	for (let i = 0; i < this.particles.length; i++) {
+	for (let i = 0; i < Params_HS.N; i++) {
 	    let particle_area = Math.PI * this.particles[i].R * this.particles[i].R;
 	    total_particle_area += particle_area;
 	}
 	return total_particle_area / this.get_area();
+    }
+
+    IC_free_of_overlaps() {
+
+	for (let i = 1; i < Params_HS.N; i++) {  // check each pair... NOTE starting index of i == 1
+	    for (let j = 0; j < i; j++) {        //                    NOTE ending index of j == i - 1
+		if (CollisionEvent_PP.are_overlapping(this.particles[i], this.particles[j])) {
+		    return false;
+		}
+	    }
+	}
+	return true;
     }
 
     // add entries to both the main data structure (cet.table) and auxiliary entries within each particle's cet_entries array
@@ -345,25 +347,12 @@ class Coords_HS extends Coords {
 
     initialize_particles() {
 
-	// check expected area fraction to possibly generate error/warning, or correct parameters
-	/*
-	let mean_area_frac;
-	let area = this.get_area();
-	if (Params_HS.UICI_R.use_distribution()) {
-	    let R_mean = ModelCalc_HS.get_mean_R(Params_HS.R_min, Params_HS.R_max, Params_HS.R_dist_a, Params_HS.R_dist_b);
-	    mean_area_frac = ModelCalc_HS.get_mean_area_frac(Params_HS.N, R_mean, area);
-	} else {
-	    mean_area_frac = ModelCalc_HS.get_mean_area_frac(Params_HS.N, Params_HS.R_single_value, area);
-	}
-	*/
-
-	let candidate_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
-
-	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using candidate_R_max of", candidate_R_max, "instead of R_max =", Params_HS.R_max);
-	Params_HS.R_max = candidate_R_max;//////////
+	// calculated R_max (or R_single_value, for non-distribution case); check for overlaps, etc.
+	Params_HS.R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
+	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
 	this.initialize_particles_on_grid();
-	//console.log("candidate_R_max, this.get_area_frac() =", candidate_R_max, this.get_area_frac());///////////
-	console.log("candidate_R_max, this.get_area_frac() =", candidate_R_max, this.get_area_frac());///////////
+	console.log("WEWEWEEWE this.IC_free_of_overlaps() =", this.IC_free_of_overlaps());
+	console.log("INFO:   Particle IC created.  Actual area fraction =", this.get_area_frac());
     }
 
     initialize_particles_collision_structures_etc() {

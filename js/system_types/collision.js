@@ -47,6 +47,20 @@ class CollisionEvent {
 // PP = Particle-Particle, i.e., a CollisionEvent between two particles (no wall involved)
 class CollisionEvent_PP extends CollisionEvent {
 
+    static get_dist(pa, pb) {
+
+	let Dx = pb.x - pa.x;
+	let Dy = pb.y - pa.y;
+	return Math.sqrt( Dx*Dx + Dy*Dy );
+    }
+
+    static are_overlapping(pa, pb) {
+
+	let dist = CollisionEvent_PP.get_dist(pa, pb);
+	let sum_of_radii = pa.R + pb.R;
+	return (dist <= sum_of_radii);  // == may be ok on paper, but we'll never create a situation where they're touching for simplicity, so treat it as an error
+    }
+
     static get_Ds_closest_approach(pa, pb) {
 
 	let Dx = pb.x - pa.x;

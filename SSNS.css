@@ -21,7 +21,7 @@
 #plot_x_axis_lbl      {margin-left: 2em; height: 3em; width: 350px; font-size: 18px; padding-top: 0.25em; text-align: center; }  /* and margin-left here */
 #plot_y_axis_lbl      {position: absolute; height: 2em; width: 350px; left: 0px; top: 0px; font-size: 18px; padding-top: 0.0em; text-align: center;  /* with height here */
 		       transform: rotate(-90deg) translateX(-175px); transform-origin: left top; }
-#plot_CV_Gas           {border: 10px solid black; }
+#plot_CV_Gas           {border: 2px solid black; }
 
 .btn-ssns {
     color: #ffffff;
