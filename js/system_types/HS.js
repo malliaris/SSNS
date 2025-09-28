@@ -271,6 +271,16 @@ class Coords_HS extends Coords {
 	this.particles[j].cet_entries.insert(copy(ce));
     }
 
+    get_particle_rho_val_i(indx) {  // determine and return new particle's density value index (which then is used to determine density)
+
+	if (Params_HS.UICI_rho.use_distribution()) {  // if rho distribution is being used...
+	    let modf_parts = modf(indx / Params_HS.num_particles_per_rho_val);
+	    return parseInt(modf_parts[0]);
+	} else {  // otherwise, all particles have the same rho_val_i and rho value
+	    return 0;
+	}
+    }
+
     get_particle_R_val(indx) {  // determine and return new particle's radius
 
 	if (Params_HS.UICI_R.use_distribution()) {  // if R distribution is being used...
@@ -282,7 +292,7 @@ class Coords_HS extends Coords {
 		return ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
 	    }
 
-	} else {
+	} else {  // otherwise, all particles have the same R value
 	    return Params_HS.R_single_value;
 	}
     }
@@ -302,8 +312,8 @@ class Coords_HS extends Coords {
 	let grid_seg_length = 1.0 / (grid_size + 1);
 
 	// "declarations" and preliminary values for variables set in loop below
-	let rho_val_i = 0;  // if rho dist is not used, index is meaningless in determining rho val, but still used in coloring particles (e.g., tracker vs. non)
-	let rho_val = Params_HS.rho_vals[rho_val_i];
+	let rho_val_i;
+	let rho_val;
 	let R_val;
 	let mass_val;
 
@@ -314,17 +324,9 @@ class Coords_HS extends Coords {
 	    let x = (ri + 1) * grid_seg_length;
 	    let y = (ci + 1) * grid_seg_length;
 
-	    // determine new particle density (which will determine greyscale color)
-	    if (Params_HS.UICI_rho.use_distribution()) {  // if rho distribution is not being used, single rho_val assigned above loop is used
-		let modf_parts = modf(i / Params_HS.num_particles_per_rho_val);
-		let remainder = parseInt(modf_parts[1]);
-		if (remainder == 0) {  // if remainder == 0, it's time to switch to next rho value
-		    rho_val_i = parseInt(modf_parts[0]);
-		    rho_val = Params_HS.rho_vals[rho_val_i];
-		}
-	    }
-
 	    R_val = this.get_particle_R_val(i);  // determine new particle's radius
+	    rho_val_i = this.get_particle_rho_val_i(i);  // determine new particle's density value index, which then is used...
+	    rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
 
 	    // determine new particle mass value
 	    if (Params_HS.UICI_rho.all_particles_same_m()) {
