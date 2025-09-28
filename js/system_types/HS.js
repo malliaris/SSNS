@@ -271,6 +271,22 @@ class Coords_HS extends Coords {
 	this.particles[j].cet_entries.insert(copy(ce));
     }
 
+    get_particle_R_val(indx) {  // determine and return new particle's radius
+
+	if (Params_HS.UICI_R.use_distribution()) {  // if R distribution is being used...
+
+	    if (false) {//((indx == 0) && Params_HS.color_tracker_particle) {  // if this is a tracker particle...
+		return Params_HS.R_min;  // keep it small so it moves around fast and far
+	    } else {
+		let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
+		return ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
+	    }
+
+	} else {
+	    return Params_HS.R_single_value;
+	}
+    }
+
     initialize_particles_on_grid() {
 
 	let new_p;
@@ -288,7 +304,7 @@ class Coords_HS extends Coords {
 	// "declarations" and preliminary values for variables set in loop below
 	let rho_val_i = 0;  // if rho dist is not used, index is meaningless in determining rho val, but still used in coloring particles (e.g., tracker vs. non)
 	let rho_val = Params_HS.rho_vals[rho_val_i];
-	let R_val = Params_HS.R_single_value;  // overwritten in loop below if R distribution is being used
+	let R_val;
 	let mass_val;
 
 	for (let i = 0; i < Params_HS.N; i++) {
@@ -308,15 +324,7 @@ class Coords_HS extends Coords {
 		}
 	    }
 
-	    // determine new particle radius
-	    if (Params_HS.UICI_R.use_distribution()) {  // if R distribution is not being used, single R_val assigned above loop is used
-		if (false) {//((i == 0) && Params_HS.color_tracker_particle) {  // if this is a tracker particle...
-		    R_val = Params_HS.R_min;  // keep it small so it moves around fast and far
-		} else {
-		    let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
-		    R_val = ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
-		}
-	    }
+	    R_val = this.get_particle_R_val(i);  // determine new particle's radius
 
 	    // determine new particle mass value
 	    if (Params_HS.UICI_rho.all_particles_same_m()) {
