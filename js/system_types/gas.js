@@ -139,14 +139,6 @@ class MaxBoltzDistEtc {
 	this.mc = mc;
     }
 
-    get_rand_x() {
-	return (Params_IG.Lx * this.mc.unif01_rng());
-    }
-
-    get_rand_y() {
-	return (Params_IG.Ly * this.mc.unif01_rng());
-    }
-
     get_rand_angle() {
 	return (2 * Math.PI * this.mc.unif01_rng());
     }

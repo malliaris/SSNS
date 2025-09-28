@@ -164,6 +164,7 @@ class Coords_HS extends Coords {
 
     static s;  // the official "clock" for our continuous time gas system; using s rather than t so as not to confuse with SSNS discrete time step t
     static WC_just_occurred;  // indicates whether a Wall-Container (WC) collision just occurred; set in update_collision_structures_WC()
+    static dummy_particle = new GasParticle_HS(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0);  // used in load_particle_position()
 
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
@@ -232,6 +233,14 @@ class Coords_HS extends Coords {
 	    this.update_state(Params_HS.ds);
 	}
 	//this.check_cet_table_and_entries_integrity_and_output(true);
+    }
+
+    get_rand_x() {
+	return ((Params_HS.Lx_max - this.x_RW) * this.mc.unif01_rng());
+    }
+
+    get_rand_y() {
+	return (Params_HS.Ly * this.mc.unif01_rng());
     }
 
     get_area() {
@@ -306,37 +315,68 @@ class Coords_HS extends Coords {
 	}
     }
 
-    load_particle_position() {  // determine and load the new particle's x and y coordinates
+    load_particle_position(indx, grid_size, grid_seg_length, pc) {  // determine and load the new particle's x and y coordinates
 
-	//Params_HS.UICI_IC.positions_on_grid();
-	//let rx = this.mc.mbde.get_rand_x();  // random x position
-	//let ry = this.mc.mbde.get_rand_y();  // random y position
+	if (Params_HS.UICI_IC.position_on_grid()) {
+
+	    let ci = grid_size - 1 - parseInt(Math.floor(indx / grid_size));  // ci = column index
+	    let ri = indx % grid_size;  // ri = row index
+	    pc.x = (ri + 1) * grid_seg_length;
+	    pc.y = (ci + 1) * grid_seg_length;
+
+	} else {  // position randomly
+
+	    for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
+
+		// NEED TO BRING R_val INTO CALCULATION
+		// JUST CHECK FOR OVERLAP AFTER grid vs. random COVERING BOTH METHODS
+		
+		Coords_HS.dummy_particle.x = this.get_rand_x();  // candidate x position
+		Coords_HS.dummy_particle.y = this.get_rand_y();  // candidate y position
+		let viable_candidate_position = true;
+		for (let j = 0; j < this.particles.length; j++) {
+		    console.log("LKJLKJL", this.particles.length, i, j);///////////
+		    if (CollisionEvent_PP.are_overlapping(this.particles[j], Coords_HS.dummy_particle)) {
+			console.log("LKJLKJL OVERLAPPING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			viable_candidate_position = false;
+			break;
+		    }
+		}
+		if (viable_candidate_position) {
+		    pc.x = Coords_HS.dummy_particle.x;
+		    pc.y = Coords_HS.dummy_particle.y;
+		    return;
+		}
+	    }
+	    console.log("ERROR:   Failed to find a FILL IN...");//well-formed initial configuration of particles, even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and try reloading SSNS.");
+	    return;
+	}
     }
 
     initialize_particles_on_grid() {
 
 	let new_p;
-	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (useful for passing into methods that set both)
+	let pc = {x: 0.0, y: 0.0};  // pc = position components (to pass into methods that set both)
+	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
 
 	// determine grid_size ("size" of grid, meaning the number of particles per row or column)
-	let grid_size = 1;
-	while (Params_HS.N > grid_size*grid_size) {
-	    grid_size += 1;
+	this.grid_size = 1;
+	while (Params_HS.N > this.grid_size*this.grid_size) {
+	    this.grid_size += 1;
 	}
-	let grid_seg_length = 1.0 / (grid_size + 1);
+	this.grid_seg_length = 1.0 / (this.grid_size + 1);
 
 	for (let i = 0; i < Params_HS.N; i++) {
 
-	    let ci = grid_size - 1 - parseInt(Math.floor(i/grid_size));
-	    let ri = i % grid_size;
-	    let x = (ri + 1) * grid_seg_length;
-	    let y = (ci + 1) * grid_seg_length;
 
 	    let R_val = this.get_particle_R_val(i);  // determine new particle's radius
 	    let rho_val_i = this.get_particle_rho_val_i(i);  // determine new particle's density value index, which then is used...
 	    let rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
 	    let mass_val = this.get_particle_mass_val(rho_val, R_val);  // determine new particle's mass
 
+	    this.load_particle_position(i, this.grid_size, this.grid_seg_length, pc);  // load the new particle's x and y coordinates
+
+	    
 	    ///////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
 	    /////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, mass);
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, Math.sqrt(2.0));
@@ -345,7 +385,7 @@ class Coords_HS extends Coords {
 	    let vy = vc.y;
 
 	    // create new particle object
-	    new_p = new GasParticle_HS(x, y, R_val, mass_val, vx, vy, rho_val_i, rho_val);
+	    new_p = new GasParticle_HS(pc.x, pc.y, R_val, mass_val, vx, vy, rho_val_i, rho_val);
 	    //console.log(new_p);///
 
 	    // store quantity histogram bin indices and update respective histograms
@@ -365,6 +405,8 @@ class Coords_HS extends Coords {
 	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
 
 	// create initial particle configuration (may require multiple attempts, but should eventually succeed if parameters have reasonable values)
+	this.initialize_particles_on_grid();///////////
+	/*
 	for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
 	    this.particles = [];  // clear any previous attempts
 	    this.initialize_particles_on_grid();
@@ -374,6 +416,7 @@ class Coords_HS extends Coords {
 	    }
 	}
 	console.log("ERROR:   Failed to create a well-formed initial configuration of particles, even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and try reloading SSNS.");
+	*/
     }
 
     initialize_particles_collision_structures_etc() {
@@ -736,10 +779,6 @@ class Coords_HS extends Coords {
 	}
     }
 
-    get_V() {
-	return Params_HS.Ly * (Params_HS.Lx_max - this.x_RW);
-    }
-
     get_total_KE() {
 
 	let total_KE = 0.0;
@@ -790,7 +829,7 @@ class Coords_HS extends Coords {
 	//this.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_HS.Ly * ds);  // 2*Ly in denominator converts force to pressure
 
 	let avg_KE = this.get_avg_KE();
-	let VT_constant = this.get_V() * avg_KE;
+	let VT_constant = this.get_area() * avg_KE;
 	//console.log("total_KE =", total_KE);/////////
 	///console.log("avg_KE =", avg_KE);/////////
 	//console.log("VT_constant =", avg_KE, VT_constant);/////////

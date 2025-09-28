@@ -115,6 +115,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
+	this.sv(1);  // override parent class default value
     }
 
     cycle() {
@@ -127,7 +128,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
     }
 
-    positions_on_grid() {
+    position_on_grid() {
 	return ((this.v == 0) || (this.v == 2) || (this.v == 4));  // based on order of values chosen in UserInterface.js
     }
 }

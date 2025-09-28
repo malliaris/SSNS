@@ -155,14 +155,22 @@ class Coords_IG extends Coords {
 	}
     }
 
+    get_rand_x() {
+	return (Params_IG.Lx * this.mc.unif01_rng());
+    }
+
+    get_rand_y() {
+	return (Params_IG.Ly * this.mc.unif01_rng());
+    }
+
     initialize_particles_etc() {
 
 	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (useful for passing into methods that set both)
 
 	for (let i = 0; i < Params_IG.N; i++) {
 
-	    let rx = this.mc.mbde.get_rand_x();  // random x position
-	    let ry = this.mc.mbde.get_rand_y();  // random y position
+	    let rx = this.get_rand_x();  // random x position
+	    let ry = this.get_rand_y();  // random y position
 
 	    //let v_chi = this.mc.mbde.get_MBD_v_chi(Params_IG.kT, Params_IG.m);
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, v_chi);
