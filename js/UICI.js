@@ -126,6 +126,10 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	//Params_LM.UINI_x_0.sv(new_x_0);
 	this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
     }
+
+    positions_on_grid() {
+	return ((this.v == 0) || (this.v == 2) || (this.v == 4));  // based on order of values chosen in UserInterface.js
+    }
 }
 
 // UICI_LM and UICI_GM are very similar and could both inherit from a common parent class in next refactoring...

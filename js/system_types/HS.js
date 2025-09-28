@@ -297,12 +297,26 @@ class Coords_HS extends Coords {
 	}
     }
 
+    get_particle_mass_val(rho_val, R_val) {  // determine and return new particle's mass
+
+	if (Params_HS.UICI_rho.all_particles_same_m()) {
+	    return 1.0;  // not a big loss of flexibility setting m to unity since other parameters, e.g., T can always be tweaked
+	} else {
+	    return ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);
+	}
+    }
+
+    load_particle_position() {  // determine and load the new particle's x and y coordinates
+
+	//Params_HS.UICI_IC.positions_on_grid();
+	//let rx = this.mc.mbde.get_rand_x();  // random x position
+	//let ry = this.mc.mbde.get_rand_y();  // random y position
+    }
+
     initialize_particles_on_grid() {
 
 	let new_p;
 	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (useful for passing into methods that set both)
-	//let rx = this.mc.mbde.get_rand_x();  // random x position
-	//let ry = this.mc.mbde.get_rand_y();  // random y position
 
 	// determine grid_size ("size" of grid, meaning the number of particles per row or column)
 	let grid_size = 1;
@@ -311,12 +325,6 @@ class Coords_HS extends Coords {
 	}
 	let grid_seg_length = 1.0 / (grid_size + 1);
 
-	// "declarations" and preliminary values for variables set in loop below
-	let rho_val_i;
-	let rho_val;
-	let R_val;
-	let mass_val;
-
 	for (let i = 0; i < Params_HS.N; i++) {
 
 	    let ci = grid_size - 1 - parseInt(Math.floor(i/grid_size));
@@ -324,16 +332,10 @@ class Coords_HS extends Coords {
 	    let x = (ri + 1) * grid_seg_length;
 	    let y = (ci + 1) * grid_seg_length;
 
-	    R_val = this.get_particle_R_val(i);  // determine new particle's radius
-	    rho_val_i = this.get_particle_rho_val_i(i);  // determine new particle's density value index, which then is used...
-	    rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
-
-	    // determine new particle mass value
-	    if (Params_HS.UICI_rho.all_particles_same_m()) {
-		mass_val = 1.0;  // not a big loss of flexibility setting m to unity since other parameters, e.g., T can always be tweaked
-	    } else {
-		mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);
-	    }
+	    let R_val = this.get_particle_R_val(i);  // determine new particle's radius
+	    let rho_val_i = this.get_particle_rho_val_i(i);  // determine new particle's density value index, which then is used...
+	    let rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
+	    let mass_val = this.get_particle_mass_val(rho_val, R_val);  // determine new particle's mass
 
 	    ///////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
 	    /////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, mass);
