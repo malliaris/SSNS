@@ -114,7 +114,7 @@ class Params_HS extends Params {
     static R_dist_a = 1.001;
     static R_dist_b = 20;
     static R_single_value = 1.5 * Params_HS.R_min;
-    static target_area_frac = 0.3;  // keep around 0.1 or lower
+    static target_area_frac = 0.15;  // keep around 0.1 or lower
     static draw_tiny_particles_artificially_large = true;
     static m = 1.0;
     static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
@@ -397,7 +397,7 @@ class Coords_HS extends Coords {
 	}
     }
 
-    initialize_particles() {
+    initialize_particles_R_rho_m_x_y() {
 
 	// calculate R_max (or R_single_value, for non-distribution case); check for overlaps, etc.
 	Params_HS.R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
@@ -408,41 +408,61 @@ class Coords_HS extends Coords {
 
 	let new_p;
 	let pc = {x: 0.0, y: 0.0};  // pc = position components (to pass into methods that set both)
-	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
-
 	for (let i = 0; i < Params_HS.N; i++) {
 
 	    let R_val = this.get_particle_R_val(i);  // determine new particle's radius
 	    let rho_val_i = this.get_particle_rho_val_i(i);  // determine new particle's density value index, which then is used...
 	    let rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
 	    let mass_val = this.get_particle_mass_val(rho_val, R_val);  // determine new particle's mass
+	    this.load_particle_position(R_val, pc);  // load the new particle's x and y coordinates	    
 
-	    this.load_particle_position(R_val, pc);  // load the new particle's x and y coordinates
-	    
-	    ///////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
+	    // create new particle object and add to particles array
+	    new_p = new GasParticle_HS(pc.x, pc.y, R_val, mass_val, 0.0, 0.0, rho_val_i, rho_val);  // 0.0 for vx and vy, which are added later
+	    this.particles.push(new_p);
+	}
+    }
+
+    initialize_particles_velocities_etc() {
+
+	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
+	this.sum_of_masses = 0.0;
+	for (let i = 0; i < Params_HS.N; i++) {
+	    this.sum_of_masses += this.particles[i].m;
+	}
+	let rand_angle = this.mc.mbde.get_rand_angle();
+
+	for (let i = 0; i < Params_HS.N; i++) {
+
+    	    ///////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
 	    /////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, mass);
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, Math.sqrt(2.0));
-	    this.mc.mbde.load_vc_spec_v_rand_dir(vc, this.mc.mbde.get_BD_v(Params_HS.kT0, mass_val));
-	    let vx = vc.x;
-	    let vy = vc.y;
 
-	    // create new particle object
-	    new_p = new GasParticle_HS(pc.x, pc.y, R_val, mass_val, vx, vy, rho_val_i, rho_val);
+	    if (Params_HS.UICI_IC.v == 1) {  // 
+
+		let v_0_conserve_tot_energy = Math.sqrt(2.0 * Params_HS.N * Params_HS.kT0 / this.sum_of_masses);
+		this.particles[i].vx = v_0_conserve_tot_energy * Math.cos(rand_angle);
+		this.particles[i].vy = v_0_conserve_tot_energy * Math.sin(rand_angle);
+
+	    } else {
+
+		this.mc.mbde.load_vc_spec_v_rand_dir(vc, this.mc.mbde.get_BD_v(Params_HS.kT0, this.particles[i].m));
+		this.particles[i].vx = vc.x;
+		this.particles[i].vy = vc.y;
+	    }
 
 	    // store quantity histogram bin indices and update respective histograms
-	    new_p.v_hist_bi = this.psh.get_bin_indx(new_p.get_speed());
-	    CU.incr_entry_OM(this.psh.hist, new_p.v_hist_bi);  // increment bin count
-	    new_p.E_hist_bi = this.peh.get_bin_indx(new_p.get_KE());
-	    CU.incr_entry_OM(this.peh.hist, new_p.E_hist_bi);  // increment bin count
-
-	    this.particles.push(new_p);
+	    this.particles[i].v_hist_bi = this.psh.get_bin_indx(this.particles[i].get_speed());
+	    CU.incr_entry_OM(this.psh.hist, this.particles[i].v_hist_bi);  // increment bin count
+	    this.particles[i].E_hist_bi = this.peh.get_bin_indx(this.particles[i].get_KE());
+	    CU.incr_entry_OM(this.peh.hist, this.particles[i].E_hist_bi);  // increment bin count
 	}
     }
 
     initialize_particles_collision_structures_etc() {
 
-	this.initialize_particles();
+	this.initialize_particles_R_rho_m_x_y();
 	console.log("CCCCCCCCCCCCCHECK", this.particle_config_free_of_overlaps());//////////
+	this.initialize_particles_velocities_etc();
 	this.RW_cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);  // tracks all PW/WC collisions Right Wall (RW) might have
 	Coords_HS.WC_just_occurred = false;
 

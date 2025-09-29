@@ -122,9 +122,6 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
     cycle() {
 
 	this.cycle_basics();
-	//let pattern = /\(([0-9.-]+), ([0-9.-]+)\)/;  // capture the two values in ordered pair of the form (###, ###)
-	//let matches = pattern.exec(this.vals[this.v]);
-	//let new_r = parseFloat(matches[1]);  // recall matches[0] is the entire string, so matches[1] is x_0
 	//Params_LM.UINI_x_0.sv(new_x_0);
 	this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
     }
