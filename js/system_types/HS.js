@@ -315,7 +315,7 @@ class Coords_HS extends Coords {
 
 		    let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
 		    let candidate_R_val = ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
-		    if (candidate_R_val < (this.grid_seg_length - Coords_HS.EPSILON)) {  // don't let R exceed grid spacing
+		    if (candidate_R_val < (this.grid_seg_length/2.0 - Coords_HS.EPSILON)) {  // don't let R exceed grid spacing
 			return candidate_R_val;
 		    }
 		}
@@ -442,6 +442,16 @@ class Coords_HS extends Coords {
 		let v_0_conserve_tot_energy = Math.sqrt(2.0 * Params_HS.N * Params_HS.kT0 / this.sum_of_masses);
 		this.particles[i].vx = v_0_conserve_tot_energy * Math.cos(rand_angle);
 		this.particles[i].vy = v_0_conserve_tot_energy * Math.sin(rand_angle);
+
+	    } else if (Params_HS.UICI_IC.v == 2) {  // 
+
+		let speed = this.mc.mbde.get_BD_v(Params_HS.kT0, this.particles[i].m);
+		if (this.mc.discunif_rng(0, 1) == 0) {
+		    this.particles[i].vx = -1.0 * speed;
+		} else {
+		    this.particles[i].vx = speed;
+		}
+		this.particles[i].vy = 0.0;
 
 	    } else {
 
