@@ -114,7 +114,7 @@ class Params_HS extends Params {
     static R_dist_a = 1.001;
     static R_dist_b = 20;
     static R_single_value = 1.5 * Params_HS.R_min;
-    static target_area_frac = 0.10;
+    static target_area_frac = 0.3;  // keep around 0.1 or lower
     static draw_tiny_particles_artificially_large = true;
     static m = 1.0;
     static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
@@ -122,7 +122,7 @@ class Params_HS extends Params {
     static rho_vals = [1e4, 1e5, 1e6, 1e7];                                         // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
     static rho_greyscale_val_strs = ["#cccccc", "#888888", "#444444", "#000000"];   // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
     static num_particles_per_rho_val;
-    static num_IC_creation_attempts = 100;
+    static num_IC_creation_attempts = 1000;
     static ds = 0.01;  // eventually use algorithm to set value?
     static Lx_min = 0.05;  // assignment occurs in Trajectory_HS constructor
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
@@ -165,6 +165,7 @@ class Coords_HS extends Coords {
     static s;  // the official "clock" for our continuous time gas system; using s rather than t so as not to confuse with SSNS discrete time step t
     static WC_just_occurred;  // indicates whether a Wall-Container (WC) collision just occurred; set in update_collision_structures_WC()
     static dummy_particle = new GasParticle_HS(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0);  // used in load_particle_position()
+    static EPSILON = 1e-10;  // used, e.g., as a little cushion when positioning particles
 
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
@@ -235,12 +236,16 @@ class Coords_HS extends Coords {
 	//this.check_cet_table_and_entries_integrity_and_output(true);
     }
 
-    get_rand_x() {
-	return ((Params_HS.Lx_max - this.x_RW) * this.mc.unif01_rng());
+    get_rand_x(R_val) {
+
+	let Dx = Params_HS.Lx_max - this.x_RW - 2.0*R_val - 2.0*Coords_HS.EPSILON;
+	return (Dx*this.mc.unif01_rng() + R_val + Coords_HS.EPSILON);
     }
 
-    get_rand_y() {
-	return (Params_HS.Ly * this.mc.unif01_rng());
+    get_rand_y(R_val) {
+
+	let Dy = Params_HS.Ly - 2.0*R_val - 2.0*Coords_HS.EPSILON;
+	return (Dy*this.mc.unif01_rng() + R_val + Coords_HS.EPSILON);
     }
 
     get_area() {
@@ -257,9 +262,9 @@ class Coords_HS extends Coords {
 	return total_particle_area / this.get_area();
     }
 
-    IC_free_of_overlaps() {
+    particle_config_free_of_overlaps() {
 
-	for (let i = 1; i < Params_HS.N; i++) {  // check each pair... NOTE starting index of i == 1
+	for (let i = 1; i < this.particles.length; i++) {  // use particles.length instead of N to be able to check partially-formed config; check each pair... NOTE starting index of i == 1
 	    for (let j = 0; j < i; j++) {        //                    NOTE ending index of j == i - 1
 		if (CollisionEvent_PP.are_overlapping(this.particles[i], this.particles[j])) {
 		    return false;
@@ -269,6 +274,16 @@ class Coords_HS extends Coords {
 	return true;
     }
 
+    candidate_particle_position_free_of_overlaps(cand_particle) {
+
+	for (let j = 0; j < this.particles.length; j++) {  // use particles.length instead of N to be able to check partially-formed config
+	    if (CollisionEvent_PP.are_overlapping(this.particles[j], cand_particle)) {
+		return false;
+	    }
+	}
+	return true;
+    }
+    
     // add entries to both the main data structure (cet.table) and auxiliary entries within each particle's cet_entries array
     add_collision_event_PP(i, j, s_to_add) {  // s_to_add will be added to Ds_coll to give absolute time s_coll for collision event
 
@@ -294,9 +309,20 @@ class Coords_HS extends Coords {
 
 	if (Params_HS.UICI_R.use_distribution()) {  // if R distribution is being used...
 
-	    if (false) {//((indx == 0) && Params_HS.color_tracker_particle) {  // if this is a tracker particle...
-		return Params_HS.R_min;  // keep it small so it moves around fast and far
-	    } else {
+	    if (Params_HS.UICI_IC.position_on_grid()) {  // if we are positioning particles on a grid
+
+		for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
+
+		    let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
+		    let candidate_R_val = ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
+		    if (candidate_R_val < (this.grid_seg_length - Coords_HS.EPSILON)) {  // don't let R exceed grid spacing
+			return candidate_R_val;
+		    }
+		}
+		console.log("ERROR:   Failed to draw a small enough Beta-distributed radius even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and/or try reloading SSNS.");
+
+	    } else {  // we're positioning randomly, and don't need to check
+
 		let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
 		return ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
 	    }
@@ -315,67 +341,83 @@ class Coords_HS extends Coords {
 	}
     }
 
-    load_particle_position(indx, grid_size, grid_seg_length, pc) {  // determine and load the new particle's x and y coordinates
+    set_up_grid_structures() {
 
-	if (Params_HS.UICI_IC.position_on_grid()) {
+	// determine grid_size ("size" of grid, meaning the number of particles per row or column)
+	let grid_size = 1;
+	while (Params_HS.N > grid_size*grid_size) {
+	    grid_size += 1;
+	}
+	this.grid_seg_length = 1.0 / (grid_size + 1);
 
-	    let ci = grid_size - 1 - parseInt(Math.floor(indx / grid_size));  // ci = column index
-	    let ri = indx % grid_size;  // ri = row index
-	    pc.x = (ri + 1) * grid_seg_length;
-	    pc.y = (ci + 1) * grid_seg_length;
+	// add N coordinate pairs to an array, which can then be optionally shuffled
+	this.grid_coordinate_pairs = [];
+	for (let i = 0; i < Params_HS.N; i++) {
+	    let ci = grid_size - 1 - parseInt(Math.floor(i / grid_size));  // ci = column index
+	    let ri = i % grid_size;  // ri = row index
+	    let xc = (ri + 1) * this.grid_seg_length;
+	    let yc = (ci + 1) * this.grid_seg_length;
+	    this.grid_coordinate_pairs.push([xc, yc]);
+	}
+	this.grid_coordinate_pairs = shuffle(this.grid_coordinate_pairs, {'copy': 'none'});  // shuffle items (the coordinate pairs) to randomize density arrangement
+    }
+    
+    load_particle_position(R_val, pc) {  // determine and load the new particle's x and y coordinates
 
-	} else {  // position randomly
+	Coords_HS.dummy_particle.R = R_val;  // needs to be set for call(s) to are_overlapping() below
 
-	    for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
+	if (Params_HS.UICI_IC.position_on_grid()) {  // if we are positioning particles on a grid
 
-		// NEED TO BRING R_val INTO CALCULATION
-		// JUST CHECK FOR OVERLAP AFTER grid vs. random COVERING BOTH METHODS
-		
-		Coords_HS.dummy_particle.x = this.get_rand_x();  // candidate x position
-		Coords_HS.dummy_particle.y = this.get_rand_y();  // candidate y position
-		let viable_candidate_position = true;
-		for (let j = 0; j < this.particles.length; j++) {
-		    console.log("LKJLKJL", this.particles.length, i, j);///////////
-		    if (CollisionEvent_PP.are_overlapping(this.particles[j], Coords_HS.dummy_particle)) {
-			console.log("LKJLKJL OVERLAPPING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			viable_candidate_position = false;
-			break;
-		    }
-		}
-		if (viable_candidate_position) {
+	    for (let i = 0; i < this.grid_coordinate_pairs.length; i++) {  // iterate down grid_coordinate_pairs, i.e., try all unfilled grid positions
+
+		Coords_HS.dummy_particle.x = this.grid_coordinate_pairs[i][0];  // candidate x position
+		Coords_HS.dummy_particle.y = this.grid_coordinate_pairs[i][1];  // candidate y position
+		if (this.candidate_particle_position_free_of_overlaps(Coords_HS.dummy_particle)) {
+		    this.grid_coordinate_pairs.splice(i, 1);
 		    pc.x = Coords_HS.dummy_particle.x;
 		    pc.y = Coords_HS.dummy_particle.y;
 		    return;
 		}
 	    }
-	    console.log("ERROR:   Failed to find a FILL IN...");//well-formed initial configuration of particles, even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and try reloading SSNS.");
-	    return;
+	    console.log("ERROR:   Failed to find a non-overlapping position for particle out of all remaining grid spots.  Check parameter values and/or try reloading SSNS.");
+
+	} else {  // position randomly
+
+	    for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
+
+		Coords_HS.dummy_particle.x = this.get_rand_x(R_val);  // candidate x position
+		Coords_HS.dummy_particle.y = this.get_rand_y(R_val);  // candidate y position
+		if (this.candidate_particle_position_free_of_overlaps(Coords_HS.dummy_particle)) {
+		    pc.x = Coords_HS.dummy_particle.x;
+		    pc.y = Coords_HS.dummy_particle.y;
+		    return;
+		}
+	    }
+	    console.log("ERROR:   Failed to find a non-overlapping position for particle even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and/or try reloading SSNS.");
 	}
     }
 
-    initialize_particles_on_grid() {
+    initialize_particles() {
+
+	// calculate R_max (or R_single_value, for non-distribution case); check for overlaps, etc.
+	Params_HS.R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
+	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
+	if (Params_HS.UICI_IC.position_on_grid()) {
+	    this.set_up_grid_structures();
+	}
 
 	let new_p;
 	let pc = {x: 0.0, y: 0.0};  // pc = position components (to pass into methods that set both)
 	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
 
-	// determine grid_size ("size" of grid, meaning the number of particles per row or column)
-	this.grid_size = 1;
-	while (Params_HS.N > this.grid_size*this.grid_size) {
-	    this.grid_size += 1;
-	}
-	this.grid_seg_length = 1.0 / (this.grid_size + 1);
-
 	for (let i = 0; i < Params_HS.N; i++) {
-
 
 	    let R_val = this.get_particle_R_val(i);  // determine new particle's radius
 	    let rho_val_i = this.get_particle_rho_val_i(i);  // determine new particle's density value index, which then is used...
 	    let rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
 	    let mass_val = this.get_particle_mass_val(rho_val, R_val);  // determine new particle's mass
 
-	    this.load_particle_position(i, this.grid_size, this.grid_seg_length, pc);  // load the new particle's x and y coordinates
-
+	    this.load_particle_position(R_val, pc);  // load the new particle's x and y coordinates
 	    
 	    ///////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
 	    /////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, mass);
@@ -386,7 +428,6 @@ class Coords_HS extends Coords {
 
 	    // create new particle object
 	    new_p = new GasParticle_HS(pc.x, pc.y, R_val, mass_val, vx, vy, rho_val_i, rho_val);
-	    //console.log(new_p);///
 
 	    // store quantity histogram bin indices and update respective histograms
 	    new_p.v_hist_bi = this.psh.get_bin_indx(new_p.get_speed());
@@ -398,30 +439,10 @@ class Coords_HS extends Coords {
 	}
     }
 
-    initialize_particles() {
-
-	// calculated R_max (or R_single_value, for non-distribution case); check for overlaps, etc.
-	Params_HS.R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
-	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
-
-	// create initial particle configuration (may require multiple attempts, but should eventually succeed if parameters have reasonable values)
-	this.initialize_particles_on_grid();///////////
-	/*
-	for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
-	    this.particles = [];  // clear any previous attempts
-	    this.initialize_particles_on_grid();
-	    if (this.IC_free_of_overlaps()) {
-		console.log("INFO:   Particle IC creation succeeded on attempt", (i + 1), "of", Params_HS.num_IC_creation_attempts, ".  Actual area fraction =", this.get_area_frac());
-		return;
-	    }
-	}
-	console.log("ERROR:   Failed to create a well-formed initial configuration of particles, even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and try reloading SSNS.");
-	*/
-    }
-
     initialize_particles_collision_structures_etc() {
 
 	this.initialize_particles();
+	console.log("CCCCCCCCCCCCCHECK", this.particle_config_free_of_overlaps());//////////
 	this.RW_cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);  // tracks all PW/WC collisions Right Wall (RW) might have
 	Coords_HS.WC_just_occurred = false;
 
