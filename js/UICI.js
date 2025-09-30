@@ -116,10 +116,10 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(1);  // override parent class default value
+	this.sv(4);  // override parent class default value
     }
 
-    set_special_param_vals(area, grid_spacing) {
+    set_param_vals(area, grid_spacing) {
 
 	// handle calculation of R_max
 	let ideal_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, area, Params_HS.target_area_frac);
@@ -128,6 +128,10 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	//if (candidate_R_val < (this.grid_seg_length - Coords_HS.EPSILON)) {  // don't let R exceed grid spacing
 	//    return candidate_R_val;
 	//}
+
+	$("#UI_P_SM_HS_rho").show();
+	$("#UI_P_SM_HS_R").show();
+	$("#UI_P_SM_HS_N").removeAttr("disabled");
 
 	switch (this.v) {
 
@@ -144,6 +148,10 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	    Params_HS.R_max = ideal_R_max;
 	    break;
 	case 4:  // confinement
+	    $("#UI_P_SM_HS_rho").hide();
+	    $("#UI_P_SM_HS_R").hide();
+	    $("#UI_P_SM_HS_N").val(100);
+	    $("#UI_P_SM_HS_N").attr("disabled", "true");
 	    Params_HS.R_max = ideal_R_max;
 	    break;
 	default:

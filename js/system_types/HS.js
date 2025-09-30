@@ -402,7 +402,7 @@ class Coords_HS extends Coords {
 	if (Params_HS.UICI_IC.position_on_grid()) {
 	    this.set_up_grid_structures();
 	}
-	Params_HS.UICI_IC.set_special_param_vals(this.get_area(), this.grid_seg_length);  // ANY NEED TO HAVE SEPARATE VALUE OF R_max THAT IS USED EVEN IF IC'S AREN'T USED?
+	Params_HS.UICI_IC.set_param_vals(this.get_area(), this.grid_seg_length);  // ANY NEED TO HAVE SEPARATE VALUE OF R_max THAT IS USED EVEN IF IC'S AREN'T USED?
 
 	let new_p;
 	let pc = {x: 0.0, y: 0.0};  // pc = position components (to pass into methods that set both)
