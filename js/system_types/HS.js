@@ -428,6 +428,9 @@ class Coords_HS extends Coords {
 	let rand_angle;
 	let v_0_conserve_tot_energy;
 	let trigger_particle_i;
+	let x_mid = (Params_HS.Lx_max - this.x_RW) / 2.0;
+	let y_mid = Params_HS.Ly / 2.0;
+
 	switch(Params_HS.UICI_IC.v) {
 
 	case 0:
@@ -468,6 +471,16 @@ class Coords_HS extends Coords {
 		this.particles[i].vx = v_0_conserve_tot_energy * Math.cos(rand_angle);
 		this.particles[i].vy = v_0_conserve_tot_energy * Math.sin(rand_angle);
 
+	    } else if (Params_HS.UICI_IC.v == 1) {  //
+
+		let Dx = this.particles[i].x - x_mid;
+		let Dy = this.particles[i].y - y_mid;
+		let angle_from_center = atan2(Dy, Dx);  // note argument order!
+		let dist_from_center = Math.sqrt( Dx*Dx + Dy*Dy );
+		let speed = 1e-2 * dist_from_center / Params_HS.ds;
+		this.particles[i].vx = -1.0 * speed * Math.cos(angle_from_center);
+		this.particles[i].vy = -1.0 * speed * Math.sin(angle_from_center);
+		
 	    } else if (Params_HS.UICI_IC.v == 2) {  // 
 
 		let speed = this.mc.mbde.get_BD_v(Params_HS.kT0, this.particles[i].m);
