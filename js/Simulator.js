@@ -94,7 +94,7 @@ class Simulator {
 	    this.trjs["PF"] = new Trajectory_PF(this);
 	    break;
 	default:
-	    throw new Error("ERROR 298291: Invalid ST_str!  Exiting...");
+	    throw new Error("ERROR 298291: Invalid ST_str:", ST_str, " !  Exiting...");
 	}
     }
 

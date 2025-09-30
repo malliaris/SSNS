@@ -150,8 +150,11 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	case 4:  // confinement
 	    $("#UI_P_SM_HS_rho").hide();
 	    $("#UI_P_SM_HS_R").hide();
-	    $("#UI_P_SM_HS_N").val(100);
+	    Params_HS.UINI_N.sv(1);  // NEED TO SET Params_HS.N as well???  how to best do this???
+	    //Params_HS.N = Params_HS.UINI_N.v; //////////
+	    //$("#UI_P_SM_HS_N").val(1);
 	    $("#UI_P_SM_HS_N").attr("disabled", "true");
+	    this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
 	    Params_HS.R_max = ideal_R_max;
 	    break;
 	default:
@@ -169,7 +172,11 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
     }
 
     position_on_grid() {
-	return ((this.v == 1) || (this.v == 2) || (this.v == 4));  // based on order of values chosen in UserInterface.js
+	return ((this.v == 1) || (this.v == 2));  // based on order of values chosen in UserInterface.js
+    }
+
+    position_randomly() {
+	return ((this.v == 0) || (this.v == 3));  // based on order of values chosen in UserInterface.js
     }
 }
 

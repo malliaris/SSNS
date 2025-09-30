@@ -378,7 +378,7 @@ class Coords_HS extends Coords {
 	    }
 	    console.log("ERROR:   Failed to find a non-overlapping position for particle out of all remaining grid spots.  Check parameter values and/or try reloading SSNS.");
 
-	} else {  // position randomly
+	} else if (Params_HS.UICI_IC.position_randomly()) {  // if we are positioning particles randomly
 
 	    for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
 
@@ -391,6 +391,10 @@ class Coords_HS extends Coords {
 		}
 	    }
 	    console.log("ERROR:   Failed to find a non-overlapping position for particle even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and/or try reloading SSNS.");
+
+	} else {  // position "manually"; currently, this is only for "confinement" IC
+	    pc.x = 0.5;
+	    pc.y = 0.5;
 	}
     }
 
