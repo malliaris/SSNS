@@ -311,15 +311,12 @@ class Coords_HS extends Coords {
 
 	    if (Params_HS.UICI_IC.position_on_grid()) {  // if we are positioning particles on a grid
 
-		for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
-
-		    let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
-		    let candidate_R_val = ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
-		    if (candidate_R_val < (this.grid_seg_length/2.0 - Coords_HS.EPSILON)) {  // don't let R exceed grid spacing
-			return candidate_R_val;
-		    }
-		}
-		console.log("ERROR:   Failed to draw a small enough Beta-distributed radius even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and/or try reloading SSNS.");
+		//for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
+		let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
+		    //let candidate_R_val = ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
+		return ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
+		//}
+		//console.log("ERROR:   Failed to draw a small enough Beta-distributed radius even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and/or try reloading SSNS.");
 
 	    } else {  // we're positioning randomly, and don't need to check
 
@@ -400,11 +397,12 @@ class Coords_HS extends Coords {
     initialize_particles_R_rho_m_x_y() {
 
 	// calculate R_max (or R_single_value, for non-distribution case); check for overlaps, etc.
-	Params_HS.R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
-	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
+	//Params_HS.R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
+	//console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
 	if (Params_HS.UICI_IC.position_on_grid()) {
 	    this.set_up_grid_structures();
 	}
+	Params_HS.UICI_IC.set_special_param_vals(this.get_area(), this.grid_seg_length);  // ANY NEED TO HAVE SEPARATE VALUE OF R_max THAT IS USED EVEN IF IC'S AREN'T USED?
 
 	let new_p;
 	let pc = {x: 0.0, y: 0.0};  // pc = position components (to pass into methods that set both)
@@ -437,7 +435,7 @@ class Coords_HS extends Coords {
 	    /////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, mass);
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, Math.sqrt(2.0));
 
-	    if (Params_HS.UICI_IC.v == 1) {  // 
+	    if (Params_HS.UICI_IC.v == 0) {  // 
 
 		let v_0_conserve_tot_energy = Math.sqrt(2.0 * Params_HS.N * Params_HS.kT0 / this.sum_of_masses);
 		this.particles[i].vx = v_0_conserve_tot_energy * Math.cos(rand_angle);

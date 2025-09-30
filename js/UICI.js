@@ -116,9 +116,43 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(1);  // override parent class default value
+	this.sv(0);  // override parent class default value
     }
 
+    set_special_param_vals(area, grid_spacing) {
+
+	// handle calculation of R_max
+	let ideal_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, area, Params_HS.target_area_frac);
+	let just_under_grid_spacing = grid_spacing - Coords_HS.EPSILON;
+	let just_under_half_grid_spacing = grid_spacing/2.0 - Coords_HS.EPSILON;
+	//if (candidate_R_val < (this.grid_seg_length - Coords_HS.EPSILON)) {  // don't let R exceed grid spacing
+	//    return candidate_R_val;
+	//}
+
+	switch (this.v) {
+
+	case 0:  // random | single v_0
+	    Params_HS.R_max = ideal_R_max;
+	    break;
+	case 1:  // im/ex-plosion
+	    Params_HS.R_max = Math.min(ideal_R_max, just_under_grid_spacing);
+	    break;
+	case 2:  // grid | all v_{y,0} ~= 0
+	    Params_HS.R_max = Math.min(ideal_R_max, just_under_half_grid_spacing);
+	    break;
+	case 3:  // equilibrium
+	    Params_HS.R_max = ideal_R_max;
+	    break;
+	case 4:  // confinement
+	    Params_HS.R_max = ideal_R_max;
+	    break;
+	default:
+	    console.log("ERROR:   invalid code value in UICI_HS_IC::set_special_param_vals()");
+	    break;
+	}
+	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
+    }
+    
     cycle() {
 
 	this.cycle_basics();
@@ -127,7 +161,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
     }
 
     position_on_grid() {
-	return ((this.v == 0) || (this.v == 2) || (this.v == 4));  // based on order of values chosen in UserInterface.js
+	return ((this.v == 1) || (this.v == 2) || (this.v == 4));  // based on order of values chosen in UserInterface.js
     }
 }
 
