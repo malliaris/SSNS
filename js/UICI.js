@@ -116,7 +116,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(0);  // override parent class default value
+	this.sv(2);  // override parent class default value
     }
 
     set_special_param_vals(area, grid_spacing) {

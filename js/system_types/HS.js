@@ -423,11 +423,39 @@ class Coords_HS extends Coords {
     initialize_particles_velocities_etc() {
 
 	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
-	this.sum_of_masses = 0.0;
-	for (let i = 0; i < Params_HS.N; i++) {
-	    this.sum_of_masses += this.particles[i].m;
+
+	let sum_of_masses;
+	let rand_angle;
+	let v_0_conserve_tot_energy;
+	let trigger_particle_i;
+	switch(Params_HS.UICI_IC.v) {
+
+	case 0:
+	    sum_of_masses = 0.0;
+	    for (let i = 0; i < Params_HS.N; i++) {
+		sum_of_masses += this.particles[i].m;
+	    }
+	    rand_angle = this.mc.mbde.get_rand_angle();
+	    v_0_conserve_tot_energy = Math.sqrt(2.0 * Params_HS.N * Params_HS.kT0 / sum_of_masses);
+	    break;
+
+	case 1:
+
+	    break;
+	case 2:
+	    trigger_particle_i = this.mc.discunif_rng(0, Params_HS.N - 1);
+	    console.log("trigger_particle_i =", trigger_particle_i, this.particles[trigger_particle_i].x, this.particles[trigger_particle_i].y);
+	    break;
+	case 3:
+
+	    break;
+	case 4:
+
+	    break;
+	default:
+
+	    break;
 	}
-	let rand_angle = this.mc.mbde.get_rand_angle();
 
 	for (let i = 0; i < Params_HS.N; i++) {
 
@@ -437,7 +465,6 @@ class Coords_HS extends Coords {
 
 	    if (Params_HS.UICI_IC.v == 0) {  // 
 
-		let v_0_conserve_tot_energy = Math.sqrt(2.0 * Params_HS.N * Params_HS.kT0 / this.sum_of_masses);
 		this.particles[i].vx = v_0_conserve_tot_energy * Math.cos(rand_angle);
 		this.particles[i].vy = v_0_conserve_tot_energy * Math.sin(rand_angle);
 
@@ -449,7 +476,13 @@ class Coords_HS extends Coords {
 		} else {
 		    this.particles[i].vx = speed;
 		}
-		this.particles[i].vy = 0.0;
+		if (i == trigger_particle_i) {
+		    //this.particles[i].vy = 1.5e-14*speed;  // destabilizes t ~ 100, but not consistently across seed values....  worth investigating?
+		    //this.particles[i].vy = 1e-14*speed;  // appears to be stable... nope
+		    this.particles[i].vy = 0.0;
+		} else {
+		    this.particles[i].vy = 0.0;
+		}
 
 	    } else {
 
