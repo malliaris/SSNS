@@ -116,7 +116,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(4);  // override parent class default value
+	this.sv(0);  // override parent class default value
 	this.stored_N_val = Params_HS.UINI_N.v;
     }
 
@@ -190,43 +190,6 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
     }
 
-    // ASSUME piston is fully extended when this method is called, so that Lx = Ly = 1
-    set_up_confinement_IC(particles_arr, grid_size, grid_spacing, grid_coordinate_pairs, mc, psh, peh) {
-	console.log("grid_coordinate_pairs =", grid_coordinate_pairs);
-	let new_p;
-	let R_val = grid_spacing/2.0 - Coords_HS.EPSILON;
-	let rho_val_i = 3;
-	let rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
-	let mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
-
-	for (let i = 0; i < grid_coordinate_pairs.length; i++) {  // 
-
-	    let xc = grid_coordinate_pairs[i][0];  // x position
-	    let yc = grid_coordinate_pairs[i][1];  // y position
-	    new_p = new GasParticle_HS(xc, yc, R_val, mass_val, 0.0, 0.0, rho_val_i, rho_val);  // 0.0 for vx and vy
-	    particles_arr.push(new_p);
-	}
-
-	let num_confined_particles = Params_HS.N - grid_coordinate_pairs.length;
-	rho_val_i = 0;
-	rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
-	mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
-	let offset_from_wall = 4.0 * grid_spacing;
-	for (let i = 0; i < num_confined_particles; i++) {
-	    let xc = offset_from_wall + (1.0 - 2.0*offset_from_wall)*mc.unif01_rng();
-	    let yc = offset_from_wall + (1.0 - 2.0*offset_from_wall)*mc.unif01_rng();
-	    new_p = new GasParticle_HS(xc, yc, 0.005, mass_val, 0.1, 0.0, rho_val_i, rho_val);
-	    particles_arr.push(new_p);
-	}
-
-	for (let i = 0; i < Params_HS.N; i++) {
-	    particles_arr[i].v_hist_bi = psh.get_bin_indx(particles_arr[i].get_speed());
-	    CU.incr_entry_OM(psh.hist, particles_arr[i].v_hist_bi);  // increment bin count
-	    particles_arr[i].E_hist_bi = peh.get_bin_indx(particles_arr[i].get_KE());
-	    CU.incr_entry_OM(peh.hist, particles_arr[i].E_hist_bi);  // increment bin count
-	}
-    }
-    
     cycle() {
 
 	this.cycle_basics();

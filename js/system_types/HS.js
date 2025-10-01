@@ -236,16 +236,16 @@ class Coords_HS extends Coords {
 	//this.check_cet_table_and_entries_integrity_and_output(true);
     }
 
-    get_rand_x(R_val) {
+    get_rand_x_centered_interval(length, offset) {
 
-	let Dx = Params_HS.Lx_max - this.x_RW - 2.0*R_val - 2.0*Coords_HS.EPSILON;
-	return (Dx*this.mc.unif01_rng() + R_val + Coords_HS.EPSILON);
+	let Dx = length - 2.0*offset;
+	return (Dx*this.mc.unif01_rng() + offset);
     }
 
-    get_rand_y(R_val) {
+    get_rand_y_centered_interval(length, offset) {
 
-	let Dy = Params_HS.Ly - 2.0*R_val - 2.0*Coords_HS.EPSILON;
-	return (Dy*this.mc.unif01_rng() + R_val + Coords_HS.EPSILON);
+	let Dy = length - 2.0*offset;
+	return (Dy*this.mc.unif01_rng() + offset);
     }
 
     get_area() {
@@ -338,7 +338,7 @@ class Coords_HS extends Coords {
 	}
     }
 
-    set_up_grid_structures(only_perimeter, shuffle) {
+    set_up_grid_structures(only_perimeter, shuffle_spots) {
 
 	// determine grid_size ("size" of grid, meaning the number of particles per row or column)
 	this.grid_size = 1;
@@ -361,7 +361,7 @@ class Coords_HS extends Coords {
 		this.grid_coordinate_pairs.push([xc, yc]);
 	    }
 	}
-	if (shuffle) this.grid_coordinate_pairs = shuffle(this.grid_coordinate_pairs, {'copy': 'none'});  // shuffle items (the coordinate pairs) to randomize density arrangement
+	if (shuffle_spots) this.grid_coordinate_pairs = shuffle(this.grid_coordinate_pairs, {'copy': 'none'});  // shuffle items (the coordinate pairs) to randomize density arrangement
     }
     
     load_particle_position(R_val, pc) {  // determine and load the new particle's x and y coordinates
@@ -387,8 +387,8 @@ class Coords_HS extends Coords {
 
 	    for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
 
-		Coords_HS.dummy_particle.x = this.get_rand_x(R_val);  // candidate x position
-		Coords_HS.dummy_particle.y = this.get_rand_y(R_val);  // candidate y position
+		Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(Params_HS.Lx_max - this.x_RW, R_val + Coords_HS.EPSILON);  // candidate x position
+		Coords_HS.dummy_particle.y = this.get_rand_y_centered_interval(Params_HS.Ly, R_val + Coords_HS.EPSILON);  // candidate y position
 		if (this.candidate_particle_position_free_of_overlaps(Coords_HS.dummy_particle)) {
 		    pc.x = Coords_HS.dummy_particle.x;
 		    pc.y = Coords_HS.dummy_particle.y;
@@ -518,12 +518,50 @@ class Coords_HS extends Coords {
 	}
     }
 
+    // ASSUME piston is fully extended when this method is called, so that Lx = Ly = 1
+    set_up_confinement_IC() {
+
+	let new_p;
+	let R_val = this.grid_seg_length/2.0 - Coords_HS.EPSILON;
+	let rho_val_i = 3;
+	let rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
+	let mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
+
+	for (let i = 0; i < this.grid_coordinate_pairs.length; i++) {  // 
+
+	    let xc = this.grid_coordinate_pairs[i][0];  // x position
+	    let yc = this.grid_coordinate_pairs[i][1];  // y position
+	    new_p = new GasParticle_HS(xc, yc, R_val, mass_val, 0.0, 0.0, rho_val_i, rho_val);  // 0.0 for vx and vy
+	    this.particles.push(new_p);
+	}
+
+	let num_confined_particles = Params_HS.N - this.grid_coordinate_pairs.length;
+	R_val = 0.005;
+	rho_val_i = 0;
+	rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
+	mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
+	let offset_from_wall = 4.0 * this.grid_seg_length;
+	for (let i = 0; i < num_confined_particles; i++) {
+	    let xc = this.get_rand_x_centered_interval(Params_HS.Lx_max - this.x_RW, offset_from_wall);
+	    let yc = this.get_rand_y_centered_interval(Params_HS.Ly, offset_from_wall);
+	    new_p = new GasParticle_HS(xc, yc, R_val, mass_val, 0.1, 0.0, rho_val_i, rho_val);
+	    this.particles.push(new_p);
+	}
+
+	for (let i = 0; i < Params_HS.N; i++) {
+	    this.particles[i].v_hist_bi = this.psh.get_bin_indx(this.particles[i].get_speed());
+	    CU.incr_entry_OM(this.psh.hist, this.particles[i].v_hist_bi);  // increment bin count
+	    this.particles[i].E_hist_bi = this.peh.get_bin_indx(this.particles[i].get_KE());
+	    CU.incr_entry_OM(this.peh.hist, this.particles[i].E_hist_bi);  // increment bin count
+	}
+    }
+    
     initialize_particles_collision_structures_etc() {
 
 	if (Params_HS.UICI_IC.v == 4) {  // confinement positions/velocities done manually
 
 	    this.set_up_grid_structures(true, false);
-	    Params_HS.UICI_IC.set_up_confinement_IC(this.particles, this.grid_size, this.grid_seg_length, this.grid_coordinate_pairs, this.mc, this.psh, this.peh);
+	    this.set_up_confinement_IC();
 	    
 	} else {
 
@@ -588,6 +626,7 @@ class Coords_HS extends Coords {
 	}
     }
 
+    // PLANNED REFACTORING: tentative plan is to wrap cet_entries, RW_cet_entries in a group of related classes in either collision.js or a separate source file
     // update all relevant data structures in the "processing" of a Particle-Particle (PP) collision
     // system has been time-evolved to the exact moment of the collision when this method is called...
     update_collision_structures_PP(curr_s) {  // curr_s is current absolute time which is required argument for methods that add collision events
@@ -680,6 +719,7 @@ class Coords_HS extends Coords {
 	}
     }
 
+    // PLANNED REFACTORING: tentative plan is to wrap cet_entries, RW_cet_entries in a group of related classes in either collision.js or a separate source file
     // update all relevant data structures in the "processing" of a Particle-Wall (PW) collision
     // system has been time-evolved to the exact moment of the collision when this method is called...
     update_collision_structures_PW(curr_s) {  // curr_s is current absolute time which is required argument for methods that add collision events
@@ -738,6 +778,7 @@ class Coords_HS extends Coords {
 	}
     }
 
+    // PLANNED REFACTORING: tentative plan is to wrap cet_entries, RW_cet_entries in a group of related classes in either collision.js or a separate source file
     delete_and_reenter_RW_entries(curr_s) {  // curr_s is current absolute time which is required argument for methods that add collision events
 
 	// iterate over Right Wall's cet_entries performing necessary deletions
@@ -768,6 +809,7 @@ class Coords_HS extends Coords {
 	}
     }
     
+    // PLANNED REFACTORING: tentative plan is to wrap cet_entries, RW_cet_entries in a group of related classes in either collision.js or a separate source file
     // update all relevant data structures in the "processing" of a Wall-Container (WC) collision
     // system has been time-evolved to the exact moment of the collision when this method is called...
     update_collision_structures_WC(curr_s) {  // curr_s is current absolute time which is required argument for methods that add collision events
@@ -793,6 +835,7 @@ class Coords_HS extends Coords {
 	}
     }
 
+    // PLANNED REFACTORING: tentative plan is to wrap cet_entries, RW_cet_entries in a group of related classes in either collision.js or a separate source file
     check_cet_table_and_entries_integrity_and_output(output_individual_entries) {
 
 	let PP_entries_main = 0;
