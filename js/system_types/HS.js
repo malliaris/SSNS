@@ -338,25 +338,28 @@ class Coords_HS extends Coords {
 	}
     }
 
-    set_up_grid_structures() {
+    set_up_grid_structures(only_perimeter, shuffle) {
 
 	// determine grid_size ("size" of grid, meaning the number of particles per row or column)
-	let grid_size = 1;
-	while (Params_HS.N > grid_size*grid_size) {
-	    grid_size += 1;
+	this.grid_size = 1;
+	while (Params_HS.N > this.grid_size*this.grid_size) {
+	    this.grid_size += 1;
 	}
-	this.grid_seg_length = 1.0 / (grid_size + 1);
+	this.grid_seg_length = 1.0 / (this.grid_size + 1);
 
 	// add N coordinate pairs to an array, which can then be optionally shuffled
 	this.grid_coordinate_pairs = [];
 	for (let i = 0; i < Params_HS.N; i++) {
-	    let ci = grid_size - 1 - parseInt(Math.floor(i / grid_size));  // ci = column index
-	    let ri = i % grid_size;  // ri = row index
+	    let ci = this.grid_size - 1 - parseInt(Math.floor(i / this.grid_size));  // ci = column index
+	    let ri = i % this.grid_size;  // ri = row index
 	    let xc = (ri + 1) * this.grid_seg_length;
 	    let yc = (ci + 1) * this.grid_seg_length;
-	    this.grid_coordinate_pairs.push([xc, yc]);
+	    let on_perimeter = (ci == 0) || (ci == this.grid_size - 1) || (ri == 0) || (ri == this.grid_size - 1);  // site is on perimeter (top, bottom, R, or L)
+	    if (( ! only_perimeter) || (on_perimeter)) {
+		this.grid_coordinate_pairs.push([xc, yc]);
+	    }
 	}
-	this.grid_coordinate_pairs = shuffle(this.grid_coordinate_pairs, {'copy': 'none'});  // shuffle items (the coordinate pairs) to randomize density arrangement
+	if (shuffle) this.grid_coordinate_pairs = shuffle(this.grid_coordinate_pairs, {'copy': 'none'});  // shuffle items (the coordinate pairs) to randomize density arrangement
     }
     
     load_particle_position(R_val, pc) {  // determine and load the new particle's x and y coordinates
@@ -378,7 +381,7 @@ class Coords_HS extends Coords {
 	    }
 	    console.log("ERROR:   Failed to find a non-overlapping position for particle out of all remaining grid spots.  Check parameter values and/or try reloading SSNS.");
 
-	} else if (Params_HS.UICI_IC.position_randomly()) {  // if we are positioning particles randomly
+	} else {  //if (Params_HS.UICI_IC.position_randomly()) {  // if we are positioning particles randomly
 
 	    for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
 
@@ -392,10 +395,7 @@ class Coords_HS extends Coords {
 	    }
 	    console.log("ERROR:   Failed to find a non-overlapping position for particle even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and/or try reloading SSNS.");
 
-	} else {  // position "manually"; currently, this is only for "confinement" IC
-	    pc.x = 0.5;
-	    pc.y = 0.5;
-	}
+	}  // else {  // position "manually"; currently, this is only for "confinement" IC
     }
 
     initialize_particles_R_rho_m_x_y() {
@@ -404,7 +404,7 @@ class Coords_HS extends Coords {
 	//Params_HS.R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
 	//console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
 	if (Params_HS.UICI_IC.position_on_grid()) {
-	    this.set_up_grid_structures();
+	    this.set_up_grid_structures(false, true);
 	}
 	Params_HS.UICI_IC.set_param_vals(this.get_area(), this.grid_seg_length);  // ANY NEED TO HAVE SEPARATE VALUE OF R_max THAT IS USED EVEN IF IC'S AREN'T USED?
 
@@ -518,9 +518,18 @@ class Coords_HS extends Coords {
 
     initialize_particles_collision_structures_etc() {
 
-	this.initialize_particles_R_rho_m_x_y();
-	console.log("CCCCCCCCCCCCCHECK", this.particle_config_free_of_overlaps());//////////
-	this.initialize_particles_velocities_etc();
+	if (Params_HS.UICI_IC.v == 4) {  // confinement positions/velocities done manually
+
+	    this.set_up_grid_structures(true, false);
+	    Params_HS.UICI_IC.set_up_confinement_IC(this.particles, this.grid_size, this.grid_seg_length, this.grid_coordinate_pairs, this.mc, this.psh, this.peh);
+	    
+	} else {
+
+	    this.initialize_particles_R_rho_m_x_y();
+	    console.log("CCCCCCCCCCCCCHECK", this.particle_config_free_of_overlaps());//////////
+	    this.initialize_particles_velocities_etc();
+	}
+
 	this.RW_cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);  // tracks all PW/WC collisions Right Wall (RW) might have
 	Coords_HS.WC_just_occurred = false;
 
@@ -965,6 +974,7 @@ class Trajectory_HS extends Trajectory {
 
     constructor(sim) {
 
+	Params_HS.UICI_IC.handle_N_vals();
 	Coords_HS.s = 0.0;  // zero the official "clock" for our continuous time gas system; (don't confuse with SSNS discrete time step t)
 	Params_HS.N = Params_HS.UINI_N.v;
 	Params_HS.kT0 = Params_HS.UINI_kT0.v;
