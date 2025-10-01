@@ -211,11 +211,11 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	rho_val_i = 0;
 	rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
 	mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
-	let offset_from_wall = 2.0 * grid_spacing;
+	let offset_from_wall = 4.0 * grid_spacing;
 	for (let i = 0; i < num_confined_particles; i++) {
 	    let xc = offset_from_wall + (1.0 - 2.0*offset_from_wall)*mc.unif01_rng();
 	    let yc = offset_from_wall + (1.0 - 2.0*offset_from_wall)*mc.unif01_rng();
-	    new_p = new GasParticle_HS(xc, yc, 0.01, mass_val, 0.1, 0.0, rho_val_i, rho_val);
+	    new_p = new GasParticle_HS(xc, yc, 0.005, mass_val, 0.1, 0.0, rho_val_i, rho_val);
 	    particles_arr.push(new_p);
 	}
 

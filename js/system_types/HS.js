@@ -354,7 +354,9 @@ class Coords_HS extends Coords {
 	    let ri = i % this.grid_size;  // ri = row index
 	    let xc = (ri + 1) * this.grid_seg_length;
 	    let yc = (ci + 1) * this.grid_seg_length;
-	    let on_perimeter = (ci == 0) || (ci == this.grid_size - 1) || (ri == 0) || (ri == this.grid_size - 1);  // site is on perimeter (top, bottom, R, or L)
+	    let on_verticals = (((ci == 2) || (ci == this.grid_size - 3)) && (ri >= 2) && (ri <= this.grid_size - 3));
+	    let on_horizontals = (((ri == 2) || (ri == this.grid_size - 3)) && (ci >= 2) && (ci <= this.grid_size - 3));
+	    let on_perimeter = on_verticals || on_horizontals;  // site is on (not necessarily outermost) square perimeter
 	    if (( ! only_perimeter) || (on_perimeter)) {
 		this.grid_coordinate_pairs.push([xc, yc]);
 	    }
