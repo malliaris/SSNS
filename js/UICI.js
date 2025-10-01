@@ -117,37 +117,16 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
 	this.sv(4);  // override parent class default value
-	this.stored_N_val = Params_HS.UINI_N.v;
     }
 
     handle_N_vals() {
 
-	switch (this.v) {
-
-	case 0:  // random | single v_0
-	    Params_HS.UINI_N.sv(this.stored_N_val);
-	    $("#UI_P_SM_HS_N").removeAttr("disabled");
-	    break;
-	case 1:  // im/ex-plosion
-	    Params_HS.UINI_N.sv(this.stored_N_val);
-	    $("#UI_P_SM_HS_N").removeAttr("disabled");
-	    break;
-	case 2:  // grid | all v_{y,0} ~= 0
-	    Params_HS.UINI_N.sv(this.stored_N_val);
-	    $("#UI_P_SM_HS_N").removeAttr("disabled");
-	    break;
-	case 3:  // equilibrium
-	    Params_HS.UINI_N.sv(this.stored_N_val);
-	    $("#UI_P_SM_HS_N").removeAttr("disabled");
-	    break;
-	case 4:  // confinement
-	    this.stored_N_val = Params_HS.UINI_N.v;
-	    Params_HS.UINI_N.sv(100);
+	if (this.v == 4) {  // confinement
+	    Params_HS.UINI_N.sv(512);  // 12 for perimeter and 500 confined within
 	    $("#UI_P_SM_HS_N").attr("disabled", "true");
-	    break;
-	default:
-	    console.log("ERROR:   invalid code value in UICI_HS_IC::handle_N_vals()");
-	    break;
+	} else {
+	    $("#UI_P_SM_HS_N").removeAttr("disabled");
+	    Params_HS.UINI_N.sv(100);
 	}
     }
 

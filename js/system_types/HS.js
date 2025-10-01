@@ -338,24 +338,24 @@ class Coords_HS extends Coords {
 	}
     }
 
-    set_up_grid_structures(only_perimeter, shuffle_spots) {
+    set_up_grid_structures(N, only_perimeter, shuffle_spots) {
 
 	// determine grid_size ("size" of grid, meaning the number of particles per row or column)
 	this.grid_size = 1;
-	while (Params_HS.N > this.grid_size*this.grid_size) {
+	while (N > this.grid_size*this.grid_size) {
 	    this.grid_size += 1;
 	}
 	this.grid_seg_length = 1.0 / (this.grid_size + 1);
 
 	// add N coordinate pairs to an array, which can then be optionally shuffled
 	this.grid_coordinate_pairs = [];
-	for (let i = 0; i < Params_HS.N; i++) {
+	for (let i = 0; i < N; i++) {
 	    let ci = this.grid_size - 1 - parseInt(Math.floor(i / this.grid_size));  // ci = column index
 	    let ri = i % this.grid_size;  // ri = row index
 	    let xc = (ri + 1) * this.grid_seg_length;
 	    let yc = (ci + 1) * this.grid_seg_length;
-	    let on_verticals = (((ci == 2) || (ci == this.grid_size - 3)) && (ri >= 2) && (ri <= this.grid_size - 3));
-	    let on_horizontals = (((ri == 2) || (ri == this.grid_size - 3)) && (ci >= 2) && (ci <= this.grid_size - 3));
+	    let on_verticals = (((ci == 1) || (ci == this.grid_size - 2)) && (ri >= 1) && (ri <= this.grid_size - 2));
+	    let on_horizontals = (((ri == 1) || (ri == this.grid_size - 2)) && (ci >= 1) && (ci <= this.grid_size - 2));
 	    let on_perimeter = on_verticals || on_horizontals;  // site is on (not necessarily outermost) square perimeter
 	    if (( ! only_perimeter) || (on_perimeter)) {
 		this.grid_coordinate_pairs.push([xc, yc]);
@@ -389,7 +389,7 @@ class Coords_HS extends Coords {
 
 		if (Params_HS.UICI_IC.v == 4) {  // confinement IC
 
-		    let offset_from_wall = 4.0 * this.grid_seg_length;
+		    let offset_from_wall = 2.6 * this.grid_seg_length;
 		    Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(Params_HS.Lx_max - this.x_RW, offset_from_wall);  // candidate x position
 		    Coords_HS.dummy_particle.y = this.get_rand_y_centered_interval(Params_HS.Ly, offset_from_wall);  // candidate y position
 
@@ -416,7 +416,7 @@ class Coords_HS extends Coords {
 	//Params_HS.R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
 	//console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
 	if (Params_HS.UICI_IC.position_on_grid()) {
-	    this.set_up_grid_structures(false, true);
+	    this.set_up_grid_structures(Params_HS.N, false, true);
 	}
 	Params_HS.UICI_IC.set_param_vals(this.get_area(), this.grid_seg_length);  // ANY NEED TO HAVE SEPARATE VALUE OF R_max THAT IS USED EVEN IF IC'S AREN'T USED?
 
@@ -546,15 +546,19 @@ class Coords_HS extends Coords {
 	}
 
 	let num_confined_particles = Params_HS.N - this.grid_coordinate_pairs.length;
+	let confined_particle_pseudo_kT = Params_HS.N * Params_HS.kT0 / num_confined_particles;
+	console.log("confined_particle_pseudo_kT =", confined_particle_pseudo_kT);////////////
 	let pc = {x: 0.0, y: 0.0};  // pc = position components (to pass into methods that set both)
-	R_val = 0.005;
+	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
+	R_val = 0.003;
 	rho_val_i = 0;
 	rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
 	mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
-	let offset_from_wall = 4.0 * this.grid_seg_length;
+	// NOTE: awkward.... offset_from_wall set in load_particle_position().... refactor when you get a chance...
 	for (let i = 0; i < num_confined_particles; i++) {
 	    this.load_particle_position(R_val, pc);  // load the new particle's x and y coordinates	    
-	    new_p = new GasParticle_HS(pc.x, pc.y, R_val, mass_val, 0.1, 0.0, rho_val_i, rho_val);
+	    this.mc.mbde.load_vc_spec_v_rand_dir(vc, this.mc.mbde.get_BD_v(confined_particle_pseudo_kT, mass_val));
+	    new_p = new GasParticle_HS(pc.x, pc.y, R_val, mass_val, vc.x, vc.y, rho_val_i, rho_val);
 	    this.particles.push(new_p);
 	}
 
@@ -570,7 +574,7 @@ class Coords_HS extends Coords {
 
 	if (Params_HS.UICI_IC.v == 4) {  // confinement positions/velocities done manually
 
-	    this.set_up_grid_structures(true, false);
+	    this.set_up_grid_structures(36, true, false);
 	    this.set_up_confinement_IC();
 	    
 	} else {
@@ -991,9 +995,9 @@ class Coords_HS extends Coords {
 	//this.num_x_collisions += this.gpud.num_collisions;  // ...then grab calculated values
 	//this.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_HS.Ly * ds);  // 2*Ly in denominator converts force to pressure
 
-	let avg_KE = this.get_avg_KE();
-	let VT_constant = this.get_area() * avg_KE;
-	//console.log("total_KE =", total_KE);/////////
+	//let avg_KE = this.get_avg_KE();
+	//let VT_constant = this.get_area() * avg_KE;
+	//console.log("total_KE =", this.get_total_KE());/////////
 	///console.log("avg_KE =", avg_KE);/////////
 	//console.log("VT_constant =", avg_KE, VT_constant);/////////
 	//console.log("this.cet.table.size() =", this.cet.table.size())
