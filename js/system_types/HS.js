@@ -387,8 +387,18 @@ class Coords_HS extends Coords {
 
 	    for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
 
-		Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(Params_HS.Lx_max - this.x_RW, R_val + Coords_HS.EPSILON);  // candidate x position
-		Coords_HS.dummy_particle.y = this.get_rand_y_centered_interval(Params_HS.Ly, R_val + Coords_HS.EPSILON);  // candidate y position
+		if (Params_HS.UICI_IC.v == 4) {  // confinement IC
+
+		    let offset_from_wall = 4.0 * this.grid_seg_length;
+		    Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(Params_HS.Lx_max - this.x_RW, offset_from_wall);  // candidate x position
+		    Coords_HS.dummy_particle.y = this.get_rand_y_centered_interval(Params_HS.Ly, offset_from_wall);  // candidate y position
+
+		} else {  // all other random ICs
+
+		    Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(Params_HS.Lx_max - this.x_RW, R_val + Coords_HS.EPSILON);  // candidate x position
+		    Coords_HS.dummy_particle.y = this.get_rand_y_centered_interval(Params_HS.Ly, R_val + Coords_HS.EPSILON);  // candidate y position
+		}
+
 		if (this.candidate_particle_position_free_of_overlaps(Coords_HS.dummy_particle)) {
 		    pc.x = Coords_HS.dummy_particle.x;
 		    pc.y = Coords_HS.dummy_particle.y;
@@ -536,15 +546,15 @@ class Coords_HS extends Coords {
 	}
 
 	let num_confined_particles = Params_HS.N - this.grid_coordinate_pairs.length;
+	let pc = {x: 0.0, y: 0.0};  // pc = position components (to pass into methods that set both)
 	R_val = 0.005;
 	rho_val_i = 0;
 	rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
 	mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
 	let offset_from_wall = 4.0 * this.grid_seg_length;
 	for (let i = 0; i < num_confined_particles; i++) {
-	    let xc = this.get_rand_x_centered_interval(Params_HS.Lx_max - this.x_RW, offset_from_wall);
-	    let yc = this.get_rand_y_centered_interval(Params_HS.Ly, offset_from_wall);
-	    new_p = new GasParticle_HS(xc, yc, R_val, mass_val, 0.1, 0.0, rho_val_i, rho_val);
+	    this.load_particle_position(R_val, pc);  // load the new particle's x and y coordinates	    
+	    new_p = new GasParticle_HS(pc.x, pc.y, R_val, mass_val, 0.1, 0.0, rho_val_i, rho_val);
 	    this.particles.push(new_p);
 	}
 
@@ -566,9 +576,9 @@ class Coords_HS extends Coords {
 	} else {
 
 	    this.initialize_particles_R_rho_m_x_y();
-	    console.log("CCCCCCCCCCCCCHECK", this.particle_config_free_of_overlaps());//////////
 	    this.initialize_particles_velocities_etc();
 	}
+	console.log("DDDDDDDDDDDDDDDDDDCHECK", this.particle_config_free_of_overlaps());////////// REMOVE WHEN READY
 
 	this.RW_cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);  // tracks all PW/WC collisions Right Wall (RW) might have
 	Coords_HS.WC_just_occurred = false;
