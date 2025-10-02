@@ -448,11 +448,11 @@
 <label class="form-check-label w-100" for="UI_ST_SP">stochastic processes</label>
 </div>
 <div id="UI_ST_SM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); " checked>
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); ">
 <label class="form-check-label w-100" for="UI_ST_SM">statistical mechanics</label>
 </div>
 <div id="UI_ST_ND_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_ND" value="ND" onchange="window.sim.ui.update_ST_area_settings(); ">
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_ND" value="ND" onchange="window.sim.ui.update_ST_area_settings(); " checked>
 <label class="form-check-label w-100" for="UI_ST_ND">nonlinear dynamics</label>
 </div>
 <div id="UI_ST_FD_form_check" class="form-check pl-4 py-1">
@@ -488,7 +488,7 @@
 <label class="form-check-label w-100" for="UI_ST_SM_IG">2D ideal gas ($$ \texttt{IG} $$)</label>
 </div>
 <div id="UI_ST_SM_HS_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_HS" value="HS" onchange="window.sim.process_cmd('ST'); " checked>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_HS" value="HS" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_SM_HS">2D hard sphere gas ($$ \texttt{HS} $$)</label>
 </div>
 <div id="UI_ST_SM_IS_form_check" class="form-check pl-4 py-1">
@@ -511,7 +511,7 @@
 <label class="form-check-label w-100" for="UI_ST_ND_LM">logistic map ($$ \texttt{LM} $$)</label>
 </div>
 <div id="UI_ST_ND_GM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_GM" value="GM" onchange="window.sim.process_cmd('ST'); ">
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_GM" value="GM" onchange="window.sim.process_cmd('ST'); " checked>
 <label class="form-check-label w-100" for="UI_ST_ND_GM">gingerbread-man map ($$ \texttt{GM} $$)</label>
 </div>
 </div>
@@ -652,7 +652,9 @@ text-align: center; vertical-align: middle !important;
 <p>When a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system type</a> is selected, its <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Parameter_space">parameters</a> populate the <samp>PRMS</samp> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-sliders"></i></button> dropdown area.  A parameter could be, say, a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_mu'); ">mutation rate</a> in a biological model, or <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_T'); ">temperature</a> in a physical model, like so:</p>
 <img class="hv_fw_img" src="/static/images/SSNS/hv_interface_pics/PRMS_example_-_T_parameter.png">
 
-<p>The input field has the current value ($$1.2$$, here) and, on the left, the parameter's symbol ($$T$$) on a colored background.  The color indicates when a changed value takes effect &mdash; <span class="ctrl_eff_immed px-2 py-0 mr-1">blue</span><strong>:</strong> immediately, or at next recorded step; <span class="ctrl_eff_reload px-2 py-0 mr-1">green</span><strong>:</strong> a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RELOAD_CMDS'); ">reload</a> is needed.  <strong><em>Any of the colored symbol backgrounds in the</em></strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> <em><strong>and</em></strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> <em><strong>dropdown areas can be clicked to view the corresponding quantity's help page</em></strong>.</p>
+<p>The input field includes the current value ($$1.2$$, here) and, on the left, the parameter's symbol ($$T$$) on a colored background.  The color indicates when a changed value takes effect &mdash; <span class="ctrl_eff_immed px-2 py-0 mr-1">blue</span><strong>:</strong> immediately, or at next recorded step; <span class="ctrl_eff_reload px-2 py-0 mr-1">green</span><strong>:</strong> a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RELOAD_CMDS'); ">reload</a> is needed.  <strong><em>Any of the colored symbol backgrounds in the</em></strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> <em><strong>and</em></strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> <em><strong>dropdown areas can be clicked to view the corresponding quantity's help page</em></strong>.</p>
+
+<p>A system type might also have one or more <span class="ctrl_precip_reload px-2 py-0 mr-1">grey</span> "meta-parameter" buttons.  They generally handle "settings" that are more complicated than parameter values.  For instance, the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">hard sphere gas</a> has an <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial condition</a> ($$\mathrm{IC}$$) button that determines the initial positions and velocities of all gas particles.  As it's clicked, each "meta-parameter" button cycles through a fixed number of options and displays description / indicator / icon like so: $$\mathrm{description}$$ <span><img height="30" width="6" src="/static/images/SSNS/UICI/cycle_indicator_5_2.svg">&#128070;</span></p>
 
 <p>On load, each input field in the app has a sensible default value.  Further, JavaScript $$\texttt{onChange}$$ <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Event_(computing)#Event_handler">listeners</a> and a layer of <strong>SSNS</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_IO'); ">$$\texttt{UINI}$$ objects</a> mean <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Data_validation">out-of-range values</a> will never reach the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_ORGANIZATION'); ">$$\texttt{Trajectory}$$</a> machinery.</p>
 
@@ -1125,7 +1127,12 @@ The variable $$ x $$ represents the number of individuals that possess version $
 <li>$$x_0 = 0$$ and any $$r$$</li>
 <li>$$r = 4$$ and $$x_0 = 1/2$$</li>
 <li>if $$ 0 < r < 1 $$ for so many time steps that the value of $$x$$ experiences <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Arithmetic_underflow">underflow</a></li></ul>
+</div><!-- CLOSES div class="hv_view" -->
 
+<div id="HV_P_ND_GM_IC" class="hv_view" data-ready="0" data-hvmh="\mathrm{IC}">
+<ul><li> an aligning <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Fundamental_interaction">interaction</a> of each spin with its nearest neighbors</li>
+<li> an aligning <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Fundamental_interaction">interaction</a> of each spin with an <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Magnetic_field">external field</a> $$ \vec{h} $$</li>
+<li> randomizing <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermal_fluctuations">thermal kicks</a> with strength determined by the temperature $$ T $$</ul>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_ND_GM_x_0" class="hv_view" data-ready="0" data-hvmh="x_0">
