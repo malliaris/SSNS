@@ -1035,7 +1035,6 @@ class Trajectory_HS extends Trajectory {
 
     constructor(sim) {
 
-	Params_HS.UICI_IC.handle_N_vals();
 	Coords_HS.s = 0.0;  // zero the official "clock" for our continuous time gas system; (don't confuse with SSNS discrete time step t)
 	Params_HS.N = Params_HS.UINI_N.v;
 	Params_HS.kT0 = Params_HS.UINI_kT0.v;

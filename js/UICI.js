@@ -114,20 +114,21 @@ class UICI_HS_R extends UICI {
 
 class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditions) of particle positions and velocities
 
+    static confinement_IC_N_val = 512;  // 12 for perimeter and 500 confined within
+    
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(1);  // override parent class default value
+	this.sv(4);  // override parent class default value
+	if (this.v == 4) {  // confinement
+	    this.saved_N_val = $("#UI_P_SM_HS_N").prop('defaultValue');
+	    this.set_confinement_IC_N_val();
+	}
     }
 
-    handle_N_vals() {
+    set_confinement_IC_N_val() {
 
-	if (this.v == 4) {  // confinement
-	    Params_HS.UINI_N.sv(512);  // 12 for perimeter and 500 confined within
-	    $("#UI_P_SM_HS_N").attr("disabled", "true");
-	} else {
-	    $("#UI_P_SM_HS_N").removeAttr("disabled");
-	    Params_HS.UINI_N.sv(100);
-	}
+	$("#UI_P_SM_HS_N").attr("disabled", "true");
+	Params_HS.UINI_N.sv(UICI_HS_IC.confinement_IC_N_val);
     }
 
     set_param_vals(area, under_grid_spacing, under_half_grid_spacing) {
@@ -163,7 +164,13 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
     cycle() {
 
 	this.cycle_basics();
-	//Params_LM.UINI_x_0.sv(new_x_0);
+	if (this.v == 4) {  // confinement
+	    this.saved_N_val = Params_HS.UINI_N.v;
+	    this.set_confinement_IC_N_val();
+	} else if (this.v == 0) {  // single v_0 (or whichever IC is cycled to after confinement)
+	    Params_HS.UINI_N.sv(this.saved_N_val);
+	    $("#UI_P_SM_HS_N").removeAttr("disabled");
+	}
 	this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
     }
 
