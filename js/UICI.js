@@ -116,7 +116,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(4);  // override parent class default value
+	this.sv(1);  // override parent class default value
     }
 
     handle_N_vals() {
@@ -130,37 +130,28 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	}
     }
 
-    set_param_vals(area, grid_spacing) {
+    set_param_vals(area, under_grid_spacing, under_half_grid_spacing) {
 
 	// handle calculation of R_max
 	let ideal_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, area, Params_HS.target_area_frac);
-	let just_under_grid_spacing = grid_spacing - Coords_HS.EPSILON;
-	let just_under_half_grid_spacing = grid_spacing/2.0 - Coords_HS.EPSILON;
-	//if (candidate_R_val < (this.grid_seg_length - Coords_HS.EPSILON)) {  // don't let R exceed grid spacing
-	//    return candidate_R_val;
-	//}
 
-	$("#UI_P_SM_HS_rho").show();
-	$("#UI_P_SM_HS_R").show();
-
+	Params_HS.R_max = ideal_R_max;
 	switch (this.v) {
 
 	case 0:  // random | single v_0
-	    Params_HS.R_max = ideal_R_max;
+	    Params_HS.R_cutoff = ideal_R_max;
 	    break;
 	case 1:  // im/ex-plosion
-	    Params_HS.R_max = Math.min(ideal_R_max, just_under_grid_spacing);
+	    Params_HS.R_cutoff = under_half_grid_spacing/4.0;
 	    break;
-	case 2:  // grid | all v_{y,0} ~= 0
-	    Params_HS.R_max = Math.min(ideal_R_max, just_under_half_grid_spacing);
+	case 2:  // 1D oscillators
+	    Params_HS.R_cutoff = under_half_grid_spacing;
 	    break;
 	case 3:  // equilibrium
-	    Params_HS.R_max = ideal_R_max;
+	    Params_HS.R_cutoff = ideal_R_max;
 	    break;
 	case 4:  // confinement
-	    $("#UI_P_SM_HS_rho").hide();
-	    $("#UI_P_SM_HS_R").hide();
-	    Params_HS.R_max = ideal_R_max;
+	    Params_HS.R_cutoff = ideal_R_max;
 	    break;
 	default:
 	    console.log("ERROR:   invalid code value in UICI_HS_IC::set_special_param_vals()");

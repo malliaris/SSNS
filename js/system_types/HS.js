@@ -54,9 +54,18 @@ class ModelCalc_HS extends ModelCalc_Gas {
 	this.rs = rs;  // this is reference to RunState object this.sim.rs to access params_changed in CoordsHS constructor...
     }
 
-    static get_rand_R_val(R_min, R_max, rv_0_1) {  // rv_0_1 = random value on [0, 1)
+    get_rand_R_val(R_min, R_max, R_cutoff) {
 
-	return R_min + (R_max - R_min)*rv_0_1;
+	for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
+
+	    let beta_dist_val = this.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
+	    let candidate_R = R_min + (R_max - R_min)*beta_dist_val;
+	    if (candidate_R < R_cutoff) {
+		return candidate_R;
+	    }
+	}
+	console.log("ERROR:   Failed to draw a small enough Beta-distributed radius even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and/or try reloading SSNS.");
+	return 0.0;  // dummy value
     }
 
     static get_m_from_rho_and_R(rho, R) {
@@ -308,22 +317,7 @@ class Coords_HS extends Coords {
     get_particle_R_val(indx) {  // determine and return new particle's radius
 
 	if (Params_HS.UICI_R.use_distribution()) {  // if R distribution is being used...
-
-	    if (Params_HS.UICI_IC.position_on_grid()) {  // if we are positioning particles on a grid
-
-		//for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
-		let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
-		    //let candidate_R_val = ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
-		return ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
-		//}
-		//console.log("ERROR:   Failed to draw a small enough Beta-distributed radius even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and/or try reloading SSNS.");
-
-	    } else {  // we're positioning randomly, and don't need to check
-
-		let R_beta_dist_val = this.mc.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
-		return ModelCalc_HS.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, R_beta_dist_val);
-	    }
-
+	    return this.mc.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, Params_HS.R_cutoff);
 	} else {  // otherwise, all particles have the same R value
 	    return Params_HS.R_single_value;
 	}
@@ -346,6 +340,8 @@ class Coords_HS extends Coords {
 	    this.grid_size += 1;
 	}
 	this.grid_seg_length = 1.0 / (this.grid_size + 1);
+	this.under_grid_spacing = this.grid_seg_length - Coords_HS.EPSILON;
+	this.under_half_grid_spacing = this.grid_seg_length/2.0 - Coords_HS.EPSILON;
 
 	// add N coordinate pairs to an array, which can then be optionally shuffled
 	this.grid_coordinate_pairs = [];
@@ -418,7 +414,7 @@ class Coords_HS extends Coords {
 	if (Params_HS.UICI_IC.position_on_grid()) {
 	    this.set_up_grid_structures(Params_HS.N, false, true);
 	}
-	Params_HS.UICI_IC.set_param_vals(this.get_area(), this.grid_seg_length);  // ANY NEED TO HAVE SEPARATE VALUE OF R_max THAT IS USED EVEN IF IC'S AREN'T USED?
+	Params_HS.UICI_IC.set_param_vals(this.get_area(), this.under_grid_spacing, this.under_half_grid_spacing);  // ANY NEED TO HAVE SEPARATE VALUE OF R_max THAT IS USED EVEN IF IC'S AREN'T USED?
 
 	let new_p;
 	let pc = {x: 0.0, y: 0.0};  // pc = position components (to pass into methods that set both)
@@ -531,6 +527,8 @@ class Coords_HS extends Coords {
     // ASSUME piston is fully extended when this method is called, so that Lx = Ly = 1
     set_up_confinement_IC() {
 
+	$("#UI_P_SM_HS_rho").hide();
+	$("#UI_P_SM_HS_R").hide();
 	let new_p;
 	let R_val = this.grid_seg_length/2.0 - Coords_HS.EPSILON;
 	let rho_val_i = 3;
@@ -574,11 +572,15 @@ class Coords_HS extends Coords {
 
 	if (Params_HS.UICI_IC.v == 4) {  // confinement positions/velocities done manually
 
+	    $("#UI_P_SM_HS_rho").hide();
+	    $("#UI_P_SM_HS_R").hide();
 	    this.set_up_grid_structures(36, true, false);
 	    this.set_up_confinement_IC();
 	    
 	} else {
 
+	    $("#UI_P_SM_HS_rho").show();
+	    $("#UI_P_SM_HS_R").show();
 	    this.initialize_particles_R_rho_m_x_y();
 	    this.initialize_particles_velocities_etc();
 	}
