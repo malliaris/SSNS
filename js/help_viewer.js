@@ -85,7 +85,7 @@ class HelpViewer {
 
 	// basic/miscellaneous settings
 	this.sim = sim;
-	this.initial_view = "HV_PRMS_DROPDOWN";  // default setting
+	this.initial_view = "HV_P_ND_LM_IC";//PRMS_DROPDOWN";  // default setting
 	this.curr_view = "";
 	this.prev_view = "";
 	this.show_on_load = true;  // whether to show HelpViewer on app loading
@@ -214,6 +214,7 @@ class HelpViewer {
 			new HelpViewerNode("HV_ST_LZ", []),
 			new HelpViewerNode("HV_ST_LM", [
 
+			    new HelpViewerNode("HV_P_ND_LM_IC", []),
 			    new HelpViewerNode("HV_P_ND_LM_r", []),
 			    new HelpViewerNode("HV_P_ND_LM_x_0", []),
 
@@ -221,6 +222,7 @@ class HelpViewer {
 
 			new HelpViewerNode("HV_ST_GM", [
 
+			    new HelpViewerNode("HV_P_ND_GM_IC", []),
 			    new HelpViewerNode("HV_P_ND_GM_x_0", []),
 			    new HelpViewerNode("HV_P_ND_GM_y_0", []),
 

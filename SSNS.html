@@ -254,22 +254,22 @@
 
 <div class="row" id="UI_P_ND_LM">
 
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_IC'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ \mathrm{IC} \atop (r, x_0) $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_LM.UICI_IC.cycle(); "><span id="UI_P_ND_LM_IC_UICI_val"></span><span><img id="UI_P_ND_LM_IC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
+
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_r'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ r $$ </span></div><input id="UI_P_ND_LM_r" class="form-control" type="number" min="0.0" max="4.0" step="0.01" value="3.44" onchange="Params_LM.UINI_r.try_update(this.value); "></div></div>
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_x_0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ x_0 $$ </span></div><input id="UI_P_ND_LM_x_0" class="form-control" type="number" min="0.0" max="1.0" step="0.01" value="0.999999" onchange="Params_LM.UINI_x_0.try_update(this.value); "></div></div>
-
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ \mathrm{IC} \atop (r, x_0) $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_LM.UICI_IC.cycle(); "><span id="UI_P_ND_LM_IC_UICI_val"></span><span><img id="UI_P_ND_LM_IC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
 
 </div><!-- CLOSES div class="row" -->
 
 
 <div class="row" id="UI_P_ND_GM">
 
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_IC'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ \mathrm{IC} \atop (x_0, y_0) $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_GM.UICI_IC.cycle(); "><span id="UI_P_ND_GM_IC_UICI_val"></span><span><img id="UI_P_ND_GM_IC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
+
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_x_0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ x_0 $$ </span></div><input id="UI_P_ND_GM_x_0" class="form-control" type="number" min="-2.5" max="5.0" step="0.1" value="0.9" onchange="Params_GM.UINI_x_0.try_update(this.value); "></div></div>
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_y_0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ y_0 $$ </span></div><input id="UI_P_ND_GM_y_0" class="form-control" type="number" min="-2.5" max="5.0" step="0.1" value="-2" onchange="Params_GM.UINI_y_0.try_update(this.value); "></div></div>
-
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ \mathrm{IC} \atop (x_0, y_0) $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_GM.UICI_IC.cycle(); "><span id="UI_P_ND_GM_IC_UICI_val"></span><span><img id="UI_P_ND_GM_IC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
 
 </div><!-- CLOSES div class="row" -->
 
@@ -507,11 +507,11 @@
 <label class="form-check-label w-100" for="UI_ST_ND_LZ">Lorenz system ($$ \texttt{LZ} $$)</label>
 </div>
 <div id="UI_ST_ND_LM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_LM" value="LM" onchange="window.sim.process_cmd('ST'); ">
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_LM" value="LM" onchange="window.sim.process_cmd('ST'); " checked>
 <label class="form-check-label w-100" for="UI_ST_ND_LM">logistic map ($$ \texttt{LM} $$)</label>
 </div>
 <div id="UI_ST_ND_GM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_GM" value="GM" onchange="window.sim.process_cmd('ST'); " checked>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_GM" value="GM" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_ND_GM">gingerbread-man map ($$ \texttt{GM} $$)</label>
 </div>
 </div>
@@ -986,9 +986,9 @@ The variable $$ x $$ represents the number of individuals that possess version $
 
 <p>What about chaotic behavior?  With the logistic map, it was the value of the parameter $$r$$ that separated the trajectories into categories.  But the gingerbread-man map has no parameters!  It turns out that the choice of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial values</a> $$($$<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_x_0'); ">$$x_0$$</a>$$,$$<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_y_0'); ">$$y_0$$</a>$$)$$ will determine the type of gingerbread-man trajectory.</p>
 
-<p>The "center" of the gingerbread-man, $$(1,1)$$, is a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Fixed_point_(mathematics)">fixed point</a> (it continually maps to itself &mdash; try it!).  The "heart" of the gingerbread-man is the elongated hexagon $$ {\small (0,0) \to } $$ $$ {\small (1,0) \to } $$ $$ {\small (2,1) \to } $$ $$ {\small (2,2) \to } $$ $$ {\small (1,2) \to } $$ $$ {\small (0,1) \to } $$ $$ {\small (0,0) } $$.  Setting $$(x_0,y_0)$$ to <em>any point</em> on or inside this region will yield a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Periodic_sequence">period</a>-6 cycle like the one above.  However, for initial coordinates just outside the region, e.g., $$(1.1, 0)$$, you'll see chaotic trajectories!</p>
+<p>The "center" of the gingerbread-man, $$(1,1)$$, is a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Fixed_point_(mathematics)">fixed point</a> (it continually maps to itself &mdash; try it!).  The "heart" of the gingerbread-man is the elongated hexagon $$ {\small (0,0) \to } $$ $$ {\small (1,0) \to } $$ $$ {\small (2,1) \to } $$ $$ {\small (2,2) \to } $$ $$ {\small (1,2) \to } $$ $$ {\small (0,1) \to } $$ $$ {\small (0,0) } $$.  Setting $$(x_0,y_0)$$ to <em>any point</em> on or inside this region will yield a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Periodic_sequence">period</a>-6 cycle like the one above.  However, for initial coordinates just outside the region, e.g., $$(1.1, 0)$$, you'll see chaotic trajectories!  More <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_IC'); ">here</a>.</p>
 
-<p>There is much to discover in this simple map (period-30 cycles, etc.).  The original paper by R. L. Devaney is <a href="https://doi.org/10.1016/0167-2789(84)90187-8">here</a> for those who are interested.</p>
+<p>There is much to discover in this simple map.  The original paper by R. L. Devaney is <a target="_blank" class="hv_ext_link" href="https://doi.org/10.1016/0167-2789(84)90187-8">here</a> for those who are interested.</p>
 
 </div><!-- CLOSES div class="hv_view" -->
 
@@ -1080,6 +1080,16 @@ The variable $$ x $$ represents the number of individuals that possess version $
 <p>the number of gas particles $$ 1 \le N \le 1000 $$</p>
 </div><!-- CLOSES div class="hv_view" -->
 
+<div id="HV_P_SM_HS_IC" class="hv_view" data-ready="0" data-hvmh="\mathrm{IC}">
+
+<p>This <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter button</a> cycles through the following gas particle <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a> ($$\mathrm{IC}$$s):</p>
+
+<ul><li>  the initial positions and velocities  </li>
+<li> an </li>
+<li> ss </li></ul>
+
+</div><!-- CLOSES div class="hv_view" -->
+
 <div id="HV_P_SM_HS_kT0" class="hv_view" data-ready="0" data-hvmh="k_B T_0">
 <p>initial value of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_temperature">absolute temperature</a> $$T_0 > 0$$ multiplied by the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a> $$k_B$$ so that it has units of energy ($$\mathrm{J}$$); DISCUSS COMPRESSION ETC</p>
 </div><!-- CLOSES div class="hv_view" -->
@@ -1112,6 +1122,18 @@ The variable $$ x $$ represents the number of individuals that possess version $
 <p>the number of spins along any side of the square <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Lattice_model_(physics)">lattice</a>, so that the total number is $$ N^2 $$</p>
 </div><!-- CLOSES div class="hv_view" -->
 
+<div id="HV_P_ND_LM_IC" class="hv_view" data-ready="0" data-hvmh="\mathrm{IC}">
+<p>This <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter</a> button cycles through various <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a> ($$\mathrm{IC}$$s), which, for the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_LM'); ">logistic map</a>, each include an inital value <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_x_0'); ">$$ x_0 $$</a> and a parameter value <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_r'); ">$$ r $$</a>.  The 5 options for the $$(r, x_0)$$ pair &mdash; and the behavior each leads to &mdash; are:  </p>
+
+<ul>
+<li> $$(3.44, 0.999999)$$: </li>
+<li> $$(1.25, 0.9999)$$: </li>
+<li> $$(4, 0.75001)$$: </li>
+<li> $$(2.99, 0.51)$$: </li>
+<li> $$(0.999, 0.5)$$: </li>
+</ul>
+</div><!-- CLOSES div class="hv_view" -->
+
 <div id="HV_P_ND_LM_r" class="hv_view" data-ready="0" data-hvmh="r">
 <p><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_growth#Population_growth_rate">growth rate</a> for the population, taking values $$ \; 0 \le r \le 4 $$</p>
 <p>be aware that the trajectory will get "stuck" at $$0$$ for any of the following parameter combinations:</p>
@@ -1130,9 +1152,13 @@ The variable $$ x $$ represents the number of individuals that possess version $
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_ND_GM_IC" class="hv_view" data-ready="0" data-hvmh="\mathrm{IC}">
-<ul><li> an aligning <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Fundamental_interaction">interaction</a> of each spin with its nearest neighbors</li>
-<li> an aligning <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Fundamental_interaction">interaction</a> of each spin with an <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Magnetic_field">external field</a> $$ \vec{h} $$</li>
-<li> randomizing <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermal_fluctuations">thermal kicks</a> with strength determined by the temperature $$ T $$</ul>
+<p>This <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter</a> button cycles through various <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a> ($$\mathrm{IC}$$s), which, for the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">gingerbread-man map</a>, are inital value pairs $$($$<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_x_0'); ">$$x_0$$</a>$$,$$<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_y_0'); ">$$y_0$$</a>$$)$$.  The 5 options &mdash; and the behavior each leads to &mdash; are:</p>
+
+<ul><li> $$(0.9, -2)$$: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a> trajectory that draws the gingerbread-man from the outside in</li>
+<li> $$(1.1, 0)$$: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a> trajectory that draws the gingerbread-man starting at his "heart" and moving outward</li>
+<li> $$(0.8, 0.4)$$: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Periodic_sequence">period</a>-6 cycle within the gingerbread-man's "heart"</li>
+<li> $$(5, -0.8)$$: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Periodic_sequence">period</a>-114 cycle within the gingerbread-man's "coat"</li>
+<li> $$(5.73, -2)$$: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a> trajectory that draws the gingerbread-man's "coat"</li></ul>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_ND_GM_x_0" class="hv_view" data-ready="0" data-hvmh="x_0">
