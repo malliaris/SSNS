@@ -971,7 +971,7 @@ The variable $$ x $$ represents the number of individuals that possess version $
 
 %% x_{ \mathrm{next} } = r x (1 - x), %%
 
-<p>where the parameter <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_r'); ">$$ r $$</a> represents a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_growth#Population_growth_rate">growth rate</a>.  For particular $$ r $$ and initial fraction <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_x_0'); ">$$ x_0 $$</a>, the trajectory of the system is completely <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Deterministic_system">determined</a>.  In addition, the trajectories fall into one of several categories based on $$ r $$ value, with simple ones below $$ \cong \negmedspace 3.57 $$ and chaotic ones above.  <a target="_blank" class="hv_ext_link" href="https://tedm.us/Parameter_Spaces#LM_entry">Here</a> is a <em>static</em>, pseudo-artistic visualization of the $$ x(r, t)$$ structure: <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Oscillation">oscillations</a>, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Bifurcation_theory">bifurcations</a>, etc.<!-- This TECH DEMO?? offers some technical details and --></p>
+<p>where the parameter <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_r'); ">$$ r $$</a> represents a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_growth#Population_growth_rate">growth rate</a>.  For particular $$ r $$ and initial fraction <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_x_0'); ">$$ x_0 $$</a>, the trajectory of the system is completely <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Deterministic_system">determined</a>.  In addition, the trajectories fall into one of several categories based on $$ r $$ value, with simple ones below $$ \cong \negmedspace 3.57 $$ and chaotic ones above.  There is a "meta-parameter" button in the interface (described <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_IC'); ">here</a>) that allows easy selection of interesting $$(r, x_0)$$ combinations.  Also, a <em>static</em>, pseudo-artistic visualization of the $$ x(r, t)$$ structure: <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Oscillation">oscillations</a>, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Bifurcation_theory">bifurcations</a>, etc. can be found <a target="_blank" class="hv_ext_link" href="https://tedm.us/Parameter_Spaces#LM_entry">here</a>.</p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_ST_GM" class="hv_view" data-ready="1" data-hvmh="Gingerbread-man Map">
@@ -1126,11 +1126,16 @@ The variable $$ x $$ represents the number of individuals that possess version $
 <p>This <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter</a> button cycles through various <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a> ($$\mathrm{IC}$$s), which, for the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_LM'); ">logistic map</a>, each include an inital value <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_x_0'); ">$$ x_0 $$</a> and a parameter value <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_r'); ">$$ r $$</a>.  The 5 options for the $$(r, x_0)$$ pair &mdash; and the behavior each leads to &mdash; are:  </p>
 
 <ul>
-<li> $$(3.44, 0.999999)$$: </li>
-<li> $$(1.25, 0.9999)$$: </li>
-<li> $$(4, 0.75001)$$: </li>
-<li> $$(2.99, 0.51)$$: </li>
+<li> $$(1.25, 0.9999)$$: the trajectory starts with a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Transient_response">transient</a> dip, lingering near the unstable <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Fixed_point_(mathematics)">fixed point</a> at $$x = 0$$; it then gradually and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Monotonic_function">monotonically</a> approaches the stable fixed point at $$x_f = \frac{r - 1}{r} = \frac{1}{5}$$ (value shown in <span style="color:cyan; font-weight: bold">cyan</span>) </li>
+<li> $$(3.83, 0.738903394256)$$: </li>
+<li> $$(3.44, 0.999999999132462)$$: after a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Transient_response">transient</a> dip to low $$x$$ values, the trajectory settles into <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Oscillation">oscillation</a> between two values given by:
+
+%% x_{\pm} = \frac{ r + 1 \pm \sqrt{(r - 3)(r + 1)} }{ 2r } %%
+
+and drawn as <span style="color:cyan; font-weight: bold">cyan</span> lines</li>
+<li> $$(4, 0.75001)$$: the map has unstable <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Fixed_point_(mathematics)">fixed point</a> which has a value of $$x_f = \frac{r - 1}{r} = \frac{1}{5}$$ and is shown in </li>
 <li> $$(0.999, 0.5)$$: </li>
+<!-- 3.44 0.999999999132462 -->
 </ul>
 </div><!-- CLOSES div class="hv_view" -->
 
