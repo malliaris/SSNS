@@ -16,6 +16,7 @@ class HelpViewerNode {
 	let page_is_ready = parseInt($("#" + this.id_str).attr('data-ready'));  // TEMPORARY; REMOVE WHEN HELP PAGE WRITING IS COMPLETE
 	/////console.log("YyYyYy", id_str, (page_is_ready ? "" : "not"), "ready");///////////////////////
 	if (this.is_param_node) {  // nodes that represent system parameters are represented as LaTeX'd variables
+	    /////console.log("YYYYYYYYY", id_str, header_txt);////////
 	    this.header_html = katex.renderToString(header_txt, {throwOnError: false});
 	} else {  // plain text for all others
 	    this.header_html = header_txt;
@@ -85,7 +86,7 @@ class HelpViewer {
 
 	// basic/miscellaneous settings
 	this.sim = sim;
-	this.initial_view = "HV_P_ND_LM_IC";//PRMS_DROPDOWN";  // default setting
+	this.initial_view = "HV_GAS_MODELS";//HV_P_ND_LM_IC";//PRMS_DROPDOWN";  // default setting
 	this.curr_view = "";
 	this.prev_view = "";
 	this.show_on_load = true;  // whether to show HelpViewer on app loading
@@ -179,13 +180,16 @@ class HelpViewer {
 			    new HelpViewerNode("HV_P_SM_IG_N", []),
 			    new HelpViewerNode("HV_P_SM_IG_V", []),
 			    new HelpViewerNode("HV_P_SM_IG_kT", []),
-			    //new HelpViewerNode("HV_P_SM_IG_BC", []),
+			    new HelpViewerNode("HV_P_SM_IG_BC", []),
 
 			]),
 
 			new HelpViewerNode("HV_ST_HS", [
 
 			    new HelpViewerNode("HV_P_SM_HS_N", []),
+			    new HelpViewerNode("HV_P_SM_HS_IC", []),
+			    new HelpViewerNode("HV_P_SM_HS_rho", []),
+			    new HelpViewerNode("HV_P_SM_HS_R", []),
 			    new HelpViewerNode("HV_P_SM_HS_kT0", []),
 			    new HelpViewerNode("HV_P_SM_HS_v_pist", []),
 

@@ -208,7 +208,7 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_kT'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ k_B T $$ </span></div><input id="UI_P_SM_IG_kT" class="form-control" type="number" min="1e-10" max="1e10" step="0.1" value="0.01" onchange="Params_IG.UINI_kT.try_update(this.value); "></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \mathrm{BC} \atop x|y $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_IG.UICI_BC.cycle(); "><span id="UI_P_SM_IG_BC_UICI_val"></span><span><img id="UI_P_SM_IG_BC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_BC'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \mathrm{BC} \atop x|y $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_IG.UICI_BC.cycle(); "><span id="UI_P_SM_IG_BC_UICI_val"></span><span><img id="UI_P_SM_IG_BC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
 
 </div><!-- CLOSES div class="row" -->
 
@@ -217,11 +217,11 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_N'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ N $$ </span></div><input id="UI_P_SM_HS_N" class="form-control" type="number" min="1" max="2000" step="1" value="100" onchange="Params_HS.UINI_N.try_update(this.value); "></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ \mathrm{IC} \atop \mathbf{r}, \mathbf{v} $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_HS.UICI_IC.cycle(); "><span id="UI_P_SM_HS_IC_UICI_val"></span><span><img id="UI_P_SM_HS_IC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_IC'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ \mathrm{IC} \atop \mathbf{r}, \mathbf{v} $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_HS.UICI_IC.cycle(); "><span id="UI_P_SM_HS_IC_UICI_val"></span><span><img id="UI_P_SM_HS_IC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
 
-<div id="UI_P_SM_HS_rho" class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ \rho $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_HS.UICI_rho.cycle(); "><span id="UI_P_SM_HS_rho_UICI_val"></span><span><img id="UI_P_SM_HS_rho_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
+<div id="UI_P_SM_HS_rho" class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_rho'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ \rho $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_HS.UICI_rho.cycle(); "><span id="UI_P_SM_HS_rho_UICI_val"></span><span><img id="UI_P_SM_HS_rho_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
 
-<div id="UI_P_SM_HS_R" class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ R $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_HS.UICI_R.cycle(); "><span id="UI_P_SM_HS_R_UICI_val"></span><span><img id="UI_P_SM_HS_R_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
+<div id="UI_P_SM_HS_R" class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_R'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ R $$ </span></div><span class="form-control d-flex justify-content-between lrg_bg_areas" onclick="Params_HS.UICI_R.cycle(); "><span id="UI_P_SM_HS_R_UICI_val"></span><span><img id="UI_P_SM_HS_R_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_kT0'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ k_B T_0 $$ </span></div><input id="UI_P_SM_HS_kT0" class="form-control" type="number" min="0.0" max="1000000000" step="0.01" value="1" onchange="Params_HS.UINI_kT0.try_update(this.value); "></div></div>
 
@@ -827,7 +827,7 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 <p><strong>SSNS</strong> includes implementations of two gas models: the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IG'); ">ideal gas (<samp>IG</samp>)</a> and the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">hard sphere gas (<samp>HS</samp>)</a>.  General points:</p>
 
 <ul>
-<li>in <samp>IG</samp>, $$V$$ is user-specified; in <samp>HS</samp>, it is controlled indirectly via piston speed $$v_{\mathrm{pist.}}$$</li>
+<li>in <samp>IG</samp>, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_V'); ">$$V$$</a> is user-specified; in <samp>HS</samp>, it is controlled indirectly via piston speed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_v_pist'); ">$$v_{\mathrm{pist.}}$$</a></li>
 <li>Both gases are <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Monatomic_gas">monatomic</a>, and both models are <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Kinetic_theory_of_gases">classical</a> and implemented in 2D.  (For $$p V$$ to have units of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Work_(physics)#Work_by_a_gas">work</a>/energy, think of the volume $$V$$ and pressure $$p$$ as having units of area and force/length, respectively.)</li>
 <li>$$T \ge 0$$ is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_temperature">absolute temperature</a>, and $$k_B$$ is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a>.  The combination $$k_B T$$ also has units of energy.</li>
 <li>Neither gas model involves a non-trivial <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Interatomic_potential">potential energy</a>, the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Internal_energy">total energy</a> of the gas sample is just the sum of the individual particle <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Kinetic_energy">kinetic energies</a>.</li>
@@ -930,7 +930,7 @@ The variable $$ x $$ represents the number of individuals that possess version $
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_ST_IG" class="hv_view" data-ready="1" data-hvmh="Ideal Gas">
-<p>I believe surveys show the single best remembered equation from introductory science is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Ideal_gas">ideal gas</a> law, $$P V = n R T$$.  For our <strong>SSNS</strong> implementations, we'll use $$p$$ for pressure and substitute $$n R \to N R / N_A \to N k_B$$ since it would be odd to specify $$N = 1000$$ particles in <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mole_(unit)">moles</a>.  Thus, we'll use:</p>
+<p>I believe surveys show the single best remembered equation from introductory science is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Ideal_gas">ideal gas</a> law, $$P V = n R T$$.  For our <strong>SSNS</strong> implementations, we'll use $$p$$ for pressure and substitute $$n R \to N R / N_A \to N k_B$$ since it would be odd to specify <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_N'); ">$$N$$</a> $$ = 1000$$ particles in <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mole_(unit)">moles</a>.  Thus, we'll use:</p>
   
 %% p V = N k_B T %%
 
@@ -946,7 +946,7 @@ The variable $$ x $$ represents the number of individuals that possess version $
 
 %% V(r) = \begin{cases} \infty, \; \; & r < D \\ 0, \; \; & r \ge D, \end{cases} %%
 
-</p>where $$r$$ is the inter-particle distance and $$D$$ is the particle diameter.  Because $$V(r)$$ is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Step_function">piecewise constant</a>, however, the particles move freely like ideal gas particles except for infinitely <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Elastic_collision">elastic collisions</a> when they approach &mdash; just like billiard balls.</p>
+</p>where $$r$$ is the inter-particle distance and $$D$$ is the particle diameter.  Because $$V(r)$$ is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Step_function">piecewise constant</a>, however, the particles move freely like ideal gas particles except for infinitely <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Elastic_collision">elastic collisions</a> when they touch &mdash; just like billiard balls.</p>
 
 <p>As discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>, the hard sphere <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Equations_of_motion">equations of motion</a> are <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Deterministic_system">deterministic</a>, and we take advantage of that fact with the following efficient update algorithm.  With the radii, initial positions, and initial velocities of all $$N$$ particles, we calculate how far into the future each pair would collide, if at all.  These <samp>CollisionEvent</samp> objects are loaded into a main <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Data_structure">data structure</a>, ordered soonest to latest.  While a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Brute-force_search">brute-force</a> approach would involve the $$O(N^2)$$ checking of each pair for an impending collision, our algorithm processes collisions one-by-one from the top of main data structure, with a reasonable amount of updating of main and auxiliary structures in between.</p>
 
@@ -1076,6 +1076,10 @@ The variable $$ x $$ represents the number of individuals that possess version $
 <p><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_temperature">absolute temperature</a> $$T > 0$$ multiplied by the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a> $$k_B$$ so that it has units of energy ($$\mathrm{J}$$)</p>
 </div><!-- CLOSES div class="hv_view" -->
 
+<div id="HV_P_SM_IG_BC" class="hv_view" data-ready="0" data-hvmh="\mathrm{BC}">
+<p>This <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter</a> button cycles through various <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a> ($$\mathrm{IC}$$s), which, for the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_LM'); ">logistic map</a>, </p>
+</div><!-- CLOSES div class="hv_view" -->
+
 <div id="HV_P_SM_HS_N" class="hv_view" data-ready="0" data-hvmh="N">
 <p>the number of gas particles $$ 1 \le N \le 1000 $$</p>
 </div><!-- CLOSES div class="hv_view" -->
@@ -1088,6 +1092,14 @@ The variable $$ x $$ represents the number of individuals that possess version $
 <li> an </li>
 <li> ss </li></ul>
 
+</div><!-- CLOSES div class="hv_view" -->
+
+<div id="HV_P_SM_HS_rho" class="hv_view" data-ready="0" data-hvmh="\rho">
+<p>initial value of </p>
+</div><!-- CLOSES div class="hv_view" -->
+
+<div id="HV_P_SM_HS_R" class="hv_view" data-ready="0" data-hvmh="R">
+<p>initial value of </p>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_P_SM_HS_kT0" class="hv_view" data-ready="0" data-hvmh="k_B T_0">
