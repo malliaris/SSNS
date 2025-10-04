@@ -86,7 +86,7 @@ class HelpViewer {
 
 	// basic/miscellaneous settings
 	this.sim = sim;
-	this.initial_view = "HV_GAS_MODELS";//HV_P_ND_LM_IC";//PRMS_DROPDOWN";  // default setting
+	this.initial_view = "HV_P_SM_HS_R";// HV_GAS_MODELS PRMS_DROPDOWN   // default setting
 	this.curr_view = "";
 	this.prev_view = "";
 	this.show_on_load = true;  // whether to show HelpViewer on app loading
