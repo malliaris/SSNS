@@ -1098,11 +1098,15 @@ The variable $$ x $$ represents the number of individuals that possess version $
 
 <div id="HV_P_SM_HS_IC" class="hv_view" data-ready="0" data-hvmh="\mathrm{IC}">
 
-<p>This <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter button</a> cycles through the following gas particle <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a> ($$\mathrm{IC}$$s):</p>
-<!-- <span class="lrg_bg_areas">$$\mathrm{single \; value}$$</span>  ["\\mathrm{single} \\; \\mathbf{v}_0", "\\textrm{im/ex-plosion}", "\\mathrm{1D \\; oscillators}", "\\mathrm{equilibrium}", "\\mathrm{confinement}"]  -->
-<ul><li>  the initial positions and velocities  </li>
-<li> an </li>
-<li> ss </li></ul>
+<p>The space of possible <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a> ($$\mathrm{IC}$$s) for the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">hard sphere gas</a> is quite large.  This <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter button</a> cycles through five interesting ones we have chosen to implement:</p>
+
+<ul><li><span class="lrg_bg_areas">$$\mathrm{single} \; \mathbf{v}_0$$</span>: For this $$\mathrm{IC}$$, the particle <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_R'); ">$$R$$</a>, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_rho'); ">$$\rho$$</a>, and initial position values are identical to those in <span class="lrg_bg_areas">$$\mathrm{equilibrium}$$</span>.  All particles are given the same initial velocity $$\mathbf{v}_0$$, however, with its direction being random and its magnitude so that the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_kT0'); ">total energy</a> is $$N k_B T_0$$.</li>
+<li><span class="lrg_bg_areas">$$\textrm{im/ex-plosion}$$</span>: </li>
+<li><span class="lrg_bg_areas">$$\mathrm{1D \; oscillators}$$</span>: </li>
+<li><span class="lrg_bg_areas">$$\mathrm{equilibrium}$$</span>: We know &mdash; statistically speaking &mdash; what an <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_equilibrium">equilibrium</a> configuration of the gas looks like.  Particle positions and directions are random, and particle energies (or speeds) are sampled from the appropriate <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_kT0'); ">$$T$$</a>-dependent Boltzmann (or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Maxwell%E2%80%93Boltzmann_distribution">MB</a>) distribution.</li>
+<li><span class="lrg_bg_areas">$$\mathrm{confinement}$$</span>: </li></ul>
+
+<p> tie in to seeds and link to ENSEMBLES</p>
 
 </div><!-- CLOSES div class="hv_view" -->
 
