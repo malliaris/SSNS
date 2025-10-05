@@ -1083,10 +1083,12 @@ The variable $$ x $$ represents the number of individuals that possess version $
 <li><span class="lrg_bg_areas">$$\mathrm{reflecting \; in} \; \hat{x} \; | \; \mathrm{reflecting \; in} \; \hat{y}$$</span></li>
 <li><span class="lrg_bg_areas">$$\mathrm{reflecting \; in} \; \hat{x} \; | \; \mathrm{periodic \; in} \; \hat{y}$$</span></li>
 <li>$$\hspace{0.595em}$$<span class="lrg_bg_areas">$$\mathrm{periodic \; in} \; \hat{x} \; | \; \mathrm{reflecting \; in} \; \hat{y}$$</span></li>
-<li>$$\hspace{0.595em}$$<span class="lrg_bg_areas">$$\phantom{} \mathrm{periodic \; in} \; \hat{x} \; | \; \mathrm{periodic \; in} \; \hat{y}$$</span></li>
+<li>$$\hspace{0.595em}$$<span class="lrg_bg_areas">$$\mathrm{periodic \; in} \; \hat{x} \; | \; \mathrm{periodic \; in} \; \hat{y}$$</span></li>
 </ul>
 
-<p>A reflecting boundary in $$\hat{x}$$, for instance, means a rightward moving particle will bounce &mdash; just like a light ray off a mirrored surface &mdash; with equal angles of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Angle_of_incidence_(optics)">incidence</a> and reflection, and then be moving leftward.  A periodic boundary in $$\hat{x}$$, however, means a particle, on hitting the right boundary, will be instantaneously "transported" to the same vertical spot on the left boundary, where it continues its rightward motion.</p>
+<p>A particle hitting a reflecting boundary bounces, with equal angles of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Angle_of_incidence_(optics)">incidence</a> and reflection.  A particle hitting a periodic boundary, however, will be "transported" to the equivalent spot on opposite side while maintaining its velocity.</p>
+
+<p>As mentioned <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>, we "measure" gas <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Pressure">pressure</a> by counting particle-wall collisions.  Thus, for <span class="lrg_bg_areas">$$\mathrm{periodic \; in} \; \hat{x} \; | \; \mathrm{periodic \; in} \; \hat{y}$$</span>, the ideal gas will display $$p = 0$$!  For simplicity, the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">hard sphere gas</a> only implements reflecting boundary conditions.  It does, however, offer an <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_IC'); ">initial condition</a> called "confinement" for which $$p = 0$$ for most of the trajectory.</p>
 
 </div><!-- CLOSES div class="hv_view" -->
 

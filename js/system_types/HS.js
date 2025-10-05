@@ -530,10 +530,30 @@ class Coords_HS extends Coords {
 	$("#UI_P_SM_HS_rho").hide();
 	$("#UI_P_SM_HS_R").hide();
 	let new_p;
-	let R_val = this.grid_seg_length/2.0 - Coords_HS.EPSILON;
-	let rho_val_i = 3;
+
+	// set up confined particles first so that the red i == 0 tracker particle is one of them
+	let num_confined_particles = Params_HS.N - this.grid_coordinate_pairs.length;
+	let confined_particle_pseudo_kT = Params_HS.N * Params_HS.kT0 / num_confined_particles;
+	console.log("confined_particle_pseudo_kT =", confined_particle_pseudo_kT);////////////
+	let pc = {x: 0.0, y: 0.0};  // pc = position components (to pass into methods that set both)
+	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
+	let R_val = 0.003;
+	let rho_val_i = 0;
 	let rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
 	let mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
+	// NOTE: awkward.... offset_from_wall set in load_particle_position().... refactor when you get a chance...
+	for (let i = 0; i < num_confined_particles; i++) {
+	    this.load_particle_position(R_val, pc);  // load the new particle's x and y coordinates	    
+	    this.mc.mbde.load_vc_spec_v_rand_dir(vc, this.mc.mbde.get_BD_v(confined_particle_pseudo_kT, mass_val));
+	    new_p = new GasParticle_HS(pc.x, pc.y, R_val, mass_val, vc.x, vc.y, rho_val_i, rho_val);
+	    this.particles.push(new_p);
+	}
+
+	// set up large enclosure particles second (see note above)
+	R_val = this.grid_seg_length/2.0 - Coords_HS.EPSILON;
+	rho_val_i = 3;
+	rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
+	mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
 
 	for (let i = 0; i < this.grid_coordinate_pairs.length; i++) {  // 
 
@@ -543,23 +563,7 @@ class Coords_HS extends Coords {
 	    this.particles.push(new_p);
 	}
 
-	let num_confined_particles = Params_HS.N - this.grid_coordinate_pairs.length;
-	let confined_particle_pseudo_kT = Params_HS.N * Params_HS.kT0 / num_confined_particles;
-	console.log("confined_particle_pseudo_kT =", confined_particle_pseudo_kT);////////////
-	let pc = {x: 0.0, y: 0.0};  // pc = position components (to pass into methods that set both)
-	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
-	R_val = 0.003;
-	rho_val_i = 0;
-	rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
-	mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
-	// NOTE: awkward.... offset_from_wall set in load_particle_position().... refactor when you get a chance...
-	for (let i = 0; i < num_confined_particles; i++) {
-	    this.load_particle_position(R_val, pc);  // load the new particle's x and y coordinates	    
-	    this.mc.mbde.load_vc_spec_v_rand_dir(vc, this.mc.mbde.get_BD_v(confined_particle_pseudo_kT, mass_val));
-	    new_p = new GasParticle_HS(pc.x, pc.y, R_val, mass_val, vc.x, vc.y, rho_val_i, rho_val);
-	    this.particles.push(new_p);
-	}
-
+	// update histograms for all particles
 	for (let i = 0; i < Params_HS.N; i++) {
 	    this.particles[i].v_hist_bi = this.psh.get_bin_indx(this.particles[i].get_speed());
 	    CU.incr_entry_OM(this.psh.hist, this.particles[i].v_hist_bi);  // increment bin count
