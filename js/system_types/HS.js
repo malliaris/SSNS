@@ -406,6 +406,7 @@ class Coords_HS extends Coords {
 	}  // else {  // position "manually"; currently, this is only for "confinement" IC
     }
 
+    // NOTE: confinement IC (Params_HS.UICI_IC.v == 4) does not use this method
     initialize_particles_R_rho_m_x_y() {
 
 	// calculate R_max (or R_single_value, for non-distribution case); check for overlaps, etc.
@@ -432,6 +433,7 @@ class Coords_HS extends Coords {
 	}
     }
 
+    // NOTE: confinement IC (Params_HS.UICI_IC.v == 4) does not use this method
     initialize_particles_velocities_etc() {
 
 	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
@@ -439,77 +441,47 @@ class Coords_HS extends Coords {
 	let sum_of_masses;
 	let rand_angle;
 	let v_0_conserve_tot_energy;
-	let trigger_particle_i;
 	let x_mid = (Params_HS.Lx_max - this.x_RW) / 2.0;
 	let y_mid = Params_HS.Ly / 2.0;
 
-	switch(Params_HS.UICI_IC.v) {
+	if (Params_HS.UICI_IC.v == 0) {  // single v_0 only, so that it is not needlessly repeated in for loop below
 
-	case 0:
 	    sum_of_masses = 0.0;
 	    for (let i = 0; i < Params_HS.N; i++) {
 		sum_of_masses += this.particles[i].m;
 	    }
 	    rand_angle = this.mc.mbde.get_rand_angle();
 	    v_0_conserve_tot_energy = Math.sqrt(2.0 * Params_HS.N * Params_HS.kT0 / sum_of_masses);
-	    break;
-
-	case 1:
-
-	    break;
-	case 2:
-	    trigger_particle_i = this.mc.discunif_rng(0, Params_HS.N - 1);
-	    console.log("trigger_particle_i =", trigger_particle_i, this.particles[trigger_particle_i].x, this.particles[trigger_particle_i].y);
-	    break;
-	case 3:
-
-	    break;
-	case 4:
-
-	    break;
-	default:
-
-	    break;
 	}
 
 	for (let i = 0; i < Params_HS.N; i++) {
 
-    	    ///////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, Params_HS.m);
-	    /////this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.kT0, mass);
-	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, Math.sqrt(2.0));
-
-	    if (Params_HS.UICI_IC.v == 0) {  // 
+	    if (Params_HS.UICI_IC.v == 0) {  // single v_0
 
 		this.particles[i].vx = v_0_conserve_tot_energy * Math.cos(rand_angle);
 		this.particles[i].vy = v_0_conserve_tot_energy * Math.sin(rand_angle);
 
-	    } else if (Params_HS.UICI_IC.v == 1) {  //
+	    } else if (Params_HS.UICI_IC.v == 1) {  // im/ex-plosion
 
 		let Dx = this.particles[i].x - x_mid;
 		let Dy = this.particles[i].y - y_mid;
 		let angle_from_center = atan2(Dy, Dx);  // note argument order!
 		let dist_from_center = Math.sqrt( Dx*Dx + Dy*Dy );
-		let speed = 1e-2 * dist_from_center / Params_HS.ds;
+		let speed = 1e-2 * dist_from_center / Params_HS.ds;  // deal w magic # 1e-2!!!
 		this.particles[i].vx = -1.0 * speed * Math.cos(angle_from_center);
 		this.particles[i].vy = -1.0 * speed * Math.sin(angle_from_center);
 		
-	    } else if (Params_HS.UICI_IC.v == 2) {  // 
-
+	    } else if (Params_HS.UICI_IC.v == 2) {  // 1D oscillators
+		    
 		let speed = this.mc.mbde.get_BD_v(Params_HS.kT0, this.particles[i].m);
 		if (this.mc.discunif_rng(0, 1) == 0) {
 		    this.particles[i].vx = -1.0 * speed;
 		} else {
 		    this.particles[i].vx = speed;
 		}
-		if (i == trigger_particle_i) {
-		    //this.particles[i].vy = 1.5e-14*speed;  // destabilizes t ~ 100, but not consistently across seed values....  worth investigating?
-		    //this.particles[i].vy = 1e-14*speed;  // appears to be stable... nope
-		    this.particles[i].vy = 0.0;
-		} else {
-		    this.particles[i].vy = 0.0;
-		}
+		this.particles[i].vy = 0.0;
 
-	    } else {
+	    } else {  // equilibrium
 
 		this.mc.mbde.load_vc_spec_v_rand_dir(vc, this.mc.mbde.get_BD_v(Params_HS.kT0, this.particles[i].m));
 		this.particles[i].vx = vc.x;
@@ -525,6 +497,7 @@ class Coords_HS extends Coords {
     }
 
     // ASSUME piston is fully extended when this method is called, so that Lx = Ly = 1
+    // NOTE: this method relates only to the confinement IC (Params_HS.UICI_IC.v == 4)
     set_up_confinement_IC() {
 
 	$("#UI_P_SM_HS_rho").hide();
