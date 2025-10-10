@@ -952,11 +952,6 @@ class Coords_HS extends Coords {
 
     update_state(ds) {
 
-	this.num_x_collisions = 0;
-	this.num_y_collisions = 0;
-	this.P_x = 0.0;
-	this.P_y = 0.0;
-
 	let curr_s = Coords_HS.s;
 	let new_s = Coords_HS.s + ds;
 
@@ -969,10 +964,7 @@ class Coords_HS extends Coords {
 	}
 
 	this.time_evolve(new_s - curr_s);
-
-	// update x-direction position and quantities	    
-	//this.num_x_collisions += this.gpud.num_collisions;  // ...then grab calculated values
-	//this.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_HS.Ly * ds);  // 2*Ly in denominator converts force to pressure
+	////////update_for_time_step() {
 
 	//let avg_KE = this.get_avg_KE();
 	//let VT_constant = this.get_area() * avg_KE;
@@ -981,15 +973,6 @@ class Coords_HS extends Coords {
 	//console.log("VT_constant =", avg_KE, VT_constant);/////////
 	//console.log("this.cet.table.size() =", this.cet.table.size())
 	//this.cet.output_info();
-
-	// update time-averaged quantities
-	this.num_t_avg_contribs += 1;
-	this.P_x_cumul += this.P_x;
-	this.P_y_cumul += this.P_y;
-	this.P_x_t_avg = this.P_x_cumul / this.num_t_avg_contribs;
-	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
-	//this.PVoNkT_x_t_avg = this.P_x_t_avg * Params_HS.V / (Params_HS.N * Params_HS.kT0);
-	//this.PVoNkT_y_t_avg = this.P_y_t_avg * Params_HS.V / (Params_HS.N * Params_HS.kT0);
 
 	// update (continuous time) clock; (don't confuse with SSNS discrete time step t)
 	Coords_HS.s = new_s;

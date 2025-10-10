@@ -209,7 +209,12 @@ class CollisionEvent_PW extends CollisionEvent_Wall {
     }
 
     static process_collision(p, wi, v_RW) {  // v_RW is velocity of Right Wall
-
+	/*
+	this.num_x_collisions += this.gpud.num_collisions;  // ...then grab calculated values
+	this.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_IG.Ly * dt);  // 2*Ly in denominator converts force to pressure
+	this.num_y_collisions += this.gpud.num_collisions;  // ...then grab calculated values
+	this.P_y += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vy) / (2 * Params_IG.Lx * dt);  // 2*Lx in denominator converts force to pressure
+	*/
 	switch(wi) {
 
 	case Params_HS.T_W:
@@ -304,4 +309,59 @@ class CollisionEventsTable {
 	console.log("WC_entries    = ", WC_entries);
 	console.log("total_entries = ", total_entries);
     }
+}
+
+// tracks number of collisions, instantaneous pressure, and cumulative quantities to track average pressure, in both x and y for all
+class CollisionPressureStats {
+/*
+    constructor() {
+
+	this.num_t_avg_contribs = 0;
+	this.num_x_collisions_cumul = 0;
+	this.num_y_collisions_cumul = 0;
+	this.P_x_cumul = 0.0;
+	this.P_y_cumul = 0.0;
+	this.prepare_for_time_step();
+    }
+
+    static copy(gptc) {  // "copy constructor"; cpstc = CollisionPressureStats to copy
+
+	let ncps = new CollisionPressureStats();
+
+	ncps.num_t_avg_contribs = cpstc.num_t_avg_contribs;
+	ncps.P_x_cumul = cpstc.P_x_cumul;
+	ncps.P_y_cumul = cpstc.P_y_cumul;
+	ncps.num_x_collisions_cumul += cpstc.num_x_collisions;
+	ncps.num_y_collisions_cumul += cpstc.num_y_collisions;
+	return ncps;
+    }
+
+    prepare_for_time_step() {
+
+	this.num_x_collisions = 0;
+	this.num_y_collisions = 0;
+	this.P_x = 0.0;
+	this.P_y = 0.0;
+	// could track other things, like types of collisions, etc.
+    }
+
+    calc_quantities() {
+
+	this.num_t_avg_contribs += 1;
+	this.num_x_collisions_cumul += this.num_x_collisions;
+	this.num_y_collisions_cumul += this.num_y_collisions;
+	this.P_x_cumul += this.P_x;
+	this.P_y_cumul += this.P_y;
+	this.P_x_t_avg = this.P_x_cumul / this.num_t_avg_contribs;
+	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
+	//this.PVoNkT_x_t_avg = this.P_x_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT);
+	//this.PVoNkT_y_t_avg = this.P_y_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT);
+    }
+
+    update_for_time_step() {
+
+	this.calc_quantities();
+	this.prepare_for_time_step();
+	}
+	*/
 }
