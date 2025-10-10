@@ -208,29 +208,34 @@ class CollisionEvent_PW extends CollisionEvent_Wall {
 	return ce_array;
     }
 
-    static process_collision(p, wi, v_RW, cps) {  // v_RW is velocity of Right Wall
-
-	//this.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_IG.Ly * dt);  // 2*Ly in denominator converts force to pressure
-	//this.P_y += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vy) / (2 * Params_IG.Lx * dt);  // 2*Lx in denominator converts force to pressure
+    static process_collision(p, wi, v_RW, cps, ds, Lx) {  // v_RW is velocity of Right Wall
 
 	switch(wi) {
 
 	case Params_HS.T_W:
 	    p.vy *= -1.0;
 	    cps.num_y_collisions += 1;
+	    cps.P_y += 2.0 * p.m * Math.abs(p.vy) / (2 * Lx * ds);  // 2*Lx in denominator converts force to pressure
 	    break;
 
 	case Params_HS.L_W:
 	    p.vx *= -1.0;
+	    cps.num_x_collisions += 1;
+	    cps.P_x += 2.0 * p.m * Math.abs(p.vx) / (2 * Params_HS.Ly * ds);  // 2*Ly in denominator converts force to pressure
 	    break;
 
 	case Params_HS.B_W:
 	    p.vy *= -1.0;
 	    cps.num_y_collisions += 1;
+	    cps.P_y += 2.0 * p.m * Math.abs(p.vy) / (2 * Lx * ds);  // 2*Lx in denominator converts force to pressure
 	    break;
 
 	case Params_HS.R_W:
-	    p.vx = -1.0*p.vx - 2.0*v_RW;  // easily derived by taking 1D elastic collision equations with M >> m; NOTE: sign of v_RW is flipped!!
+	    let new_vx = -1.0*p.vx - 2.0*v_RW;  // easily derived by taking 1D elastic collision equations with M >> m; NOTE: sign of v_RW is flipped!!
+	    let Delta_vx = -2.0*p.vx - 2.0*v_RW;  // new value above minus old value of vx
+	    p.vx = new_vx;
+	    cps.num_x_collisions += 1;
+	    cps.P_x += p.m * Math.abs(Delta_vx) / (2 * Params_HS.Ly * ds);  // 2*Ly in denominator converts force to pressure; NOTE: formula different from L_W version above!
 	    break;
 	}
     }
@@ -360,9 +365,12 @@ class CollisionPressureStats {
 
     update_for_time_step() {
 
-	console.log("AAAthis.num_t_avg_contribs =", this.num_t_avg_contribs, this.num_y_collisions, this.num_y_collisions_cumul);
+	//console.log("AAAthis.num_t_avg_contribs =", this.P_y, this.P_y_cumul);
+	//console.log("AAAthis.num_t_avg_contribs =", this.num_t_avg_contribs, this.num_y_collisions, this.num_y_collisions_cumul);
 	this.calc_quantities();
 	this.prepare_for_time_step();
-	console.log("BBBthis.num_t_avg_contribs =", this.num_t_avg_contribs, this.num_y_collisions, this.num_y_collisions_cumul);
+	//console.log("BBBthis.num_t_avg_contribs =", this.num_x_collisions_cumul, this.num_y_collisions_cumul);
+	//console.log("BBBthis.num_t_avg_contribs =", this.P_y, this.P_y_cumul);
+	console.log("BBB =", this.P_x_t_avg, this.P_y_t_avg);
     }
 }

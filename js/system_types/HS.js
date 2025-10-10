@@ -259,8 +259,12 @@ class Coords_HS extends Coords {
 	return (Dy*this.mc.unif01_rng() + offset);
     }
 
+    get_Lx() {
+	return (Params_HS.Lx_max - this.x_RW);  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
+    }
+
     get_area() {
-	return (Params_HS.Ly * (Params_HS.Lx_max - this.x_RW));  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
+	return (Params_HS.Ly * this.get_Lx());  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
     }
 
     get_area_frac() {
@@ -388,12 +392,12 @@ class Coords_HS extends Coords {
 		if (Params_HS.UICI_IC.v == 4) {  // confinement IC
 
 		    let offset_from_wall = 2.6 * this.grid_seg_length;
-		    Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(Params_HS.Lx_max - this.x_RW, offset_from_wall);  // candidate x position
+		    Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(this.get_Lx(), offset_from_wall);  // candidate x position
 		    Coords_HS.dummy_particle.y = this.get_rand_y_centered_interval(Params_HS.Ly, offset_from_wall);  // candidate y position
 
 		} else {  // all other random ICs
 
-		    Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(Params_HS.Lx_max - this.x_RW, R_val + Coords_HS.EPSILON);  // candidate x position
+		    Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(this.get_Lx(), R_val + Coords_HS.EPSILON);  // candidate x position
 		    Coords_HS.dummy_particle.y = this.get_rand_y_centered_interval(Params_HS.Ly, R_val + Coords_HS.EPSILON);  // candidate y position
 		}
 
@@ -443,7 +447,7 @@ class Coords_HS extends Coords {
 	let sum_of_masses;
 	let rand_angle;
 	let v_0_conserve_tot_energy;
-	let x_mid = (Params_HS.Lx_max - this.x_RW) / 2.0;
+	let x_mid = this.get_Lx() / 2.0;
 	let y_mid = Params_HS.Ly / 2.0;
 
 	if (Params_HS.UICI_IC.v == 0) {  // single v_0 only, so that it is not needlessly repeated in for loop below
@@ -717,14 +721,14 @@ class Coords_HS extends Coords {
     // PLANNED REFACTORING: tentative plan is to wrap cet_entries, RW_cet_entries in a group of related classes in either collision.js or a separate source file
     // update all relevant data structures in the "processing" of a Particle-Wall (PW) collision
     // system has been time-evolved to the exact moment of the collision when this method is called...
-    update_collision_structures_PW(curr_s) {  // curr_s is current absolute time which is required argument for methods that add collision events
+    update_collision_structures_PW(curr_s, cps, ds) {  // curr_s is current absolute time which is required argument for methods that add collision events
 
 	// for convenience
 	let pi = this.cet.table.front().pi;
 	let wi = this.cet.table.front().wi;
 	let prt = this.particles[this.cet.table.front().pi];  // prt = particle
 
-	CollisionEvent_PW.process_collision(prt, wi, this.v_RW, this.cps);  // update velocity of particle
+	CollisionEvent_PW.process_collision(prt, wi, this.v_RW, cps, ds, this.get_Lx());  // update velocity of particle, etc.
 
 	// if collision is with a moving right wall (RW) --- the only case that might change particle's speed/KE --- update histograms
 	if ((wi == Params_HS.R_W) && (this.v_RW != 0.0)) {
@@ -819,12 +823,12 @@ class Coords_HS extends Coords {
 	// NOTE: no need to check for new WC since we know the piston is stopped after collision processing above
     }
 
-    update_collision_structures(curr_s) {
+    update_collision_structures(curr_s, cps, ds) {
 
 	if (this.cet.table.front().is_PP()) {  // if top entry is a PP collision...
 	    this.update_collision_structures_PP(curr_s);
 	} else if (this.cet.table.front().is_PW()) {  // else, if top entry is PW collision...
-	    this.update_collision_structures_PW(curr_s);
+	    this.update_collision_structures_PW(curr_s, cps, ds);
 	} else {  // else, top entry is WC collision...
 	    this.update_collision_structures_WC(curr_s);
 	}
@@ -962,7 +966,7 @@ class Coords_HS extends Coords {
 	    let partial_ds = this.cet.table.front().s - curr_s;
 	    this.time_evolve(partial_ds);
 	    curr_s += partial_ds;
-	    this.update_collision_structures(curr_s);
+	    this.update_collision_structures(curr_s, this.cps, ds);
 	}
 
 	this.time_evolve(new_s - curr_s);
