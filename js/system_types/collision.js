@@ -208,17 +208,16 @@ class CollisionEvent_PW extends CollisionEvent_Wall {
 	return ce_array;
     }
 
-    static process_collision(p, wi, v_RW) {  // v_RW is velocity of Right Wall
-	/*
-	this.num_x_collisions += this.gpud.num_collisions;  // ...then grab calculated values
-	this.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_IG.Ly * dt);  // 2*Ly in denominator converts force to pressure
-	this.num_y_collisions += this.gpud.num_collisions;  // ...then grab calculated values
-	this.P_y += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vy) / (2 * Params_IG.Lx * dt);  // 2*Lx in denominator converts force to pressure
-	*/
+    static process_collision(p, wi, v_RW, cps) {  // v_RW is velocity of Right Wall
+
+	//this.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_IG.Ly * dt);  // 2*Ly in denominator converts force to pressure
+	//this.P_y += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vy) / (2 * Params_IG.Lx * dt);  // 2*Lx in denominator converts force to pressure
+
 	switch(wi) {
 
 	case Params_HS.T_W:
 	    p.vy *= -1.0;
+	    cps.num_y_collisions += 1;
 	    break;
 
 	case Params_HS.L_W:
@@ -227,6 +226,7 @@ class CollisionEvent_PW extends CollisionEvent_Wall {
 
 	case Params_HS.B_W:
 	    p.vy *= -1.0;
+	    cps.num_y_collisions += 1;
 	    break;
 
 	case Params_HS.R_W:
@@ -313,7 +313,7 @@ class CollisionEventsTable {
 
 // tracks number of collisions, instantaneous pressure, and cumulative quantities to track average pressure, in both x and y for all
 class CollisionPressureStats {
-/*
+
     constructor() {
 
 	this.num_t_avg_contribs = 0;
@@ -324,15 +324,15 @@ class CollisionPressureStats {
 	this.prepare_for_time_step();
     }
 
-    static copy(gptc) {  // "copy constructor"; cpstc = CollisionPressureStats to copy
+    static copy(cpstc) {  // "copy constructor"; cpstc = CollisionPressureStats to copy
 
 	let ncps = new CollisionPressureStats();
 
 	ncps.num_t_avg_contribs = cpstc.num_t_avg_contribs;
 	ncps.P_x_cumul = cpstc.P_x_cumul;
 	ncps.P_y_cumul = cpstc.P_y_cumul;
-	ncps.num_x_collisions_cumul += cpstc.num_x_collisions;
-	ncps.num_y_collisions_cumul += cpstc.num_y_collisions;
+	ncps.num_x_collisions_cumul = cpstc.num_x_collisions_cumul;
+	ncps.num_y_collisions_cumul = cpstc.num_y_collisions_cumul;
 	return ncps;
     }
 
@@ -360,8 +360,9 @@ class CollisionPressureStats {
 
     update_for_time_step() {
 
+	console.log("AAAthis.num_t_avg_contribs =", this.num_t_avg_contribs, this.num_y_collisions, this.num_y_collisions_cumul);
 	this.calc_quantities();
 	this.prepare_for_time_step();
-	}
-	*/
+	console.log("BBBthis.num_t_avg_contribs =", this.num_t_avg_contribs, this.num_y_collisions, this.num_y_collisions_cumul);
+    }
 }
