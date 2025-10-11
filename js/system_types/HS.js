@@ -93,6 +93,12 @@ class ModelCalc_HS extends ModelCalc_Gas {
 	let R_max = -0.5*B + 0.5*Math.sqrt( B*B - 4.0*C );  // take positive root in quadratic formula
 	return R_max;
     }
+
+    static get_PVoNkT_carnahan(f) {  // see Carnahan and Starling, 1969
+
+	let omf = 1.0 - f;  // omf = one minus f
+	return (1.0 + f + f*f - f*f*f) / (omf*omf*omf);
+    }
 }
 
 // js equivalent of a C #define macro... see static get accessors in Params_HS
@@ -970,7 +976,7 @@ class Coords_HS extends Coords {
 	}
 
 	this.time_evolve(new_s - curr_s);
-	this.cps.update_for_time_step();
+	this.cps.update_for_time_step(this.get_area());
 
 	//let avg_KE = this.get_avg_KE();
 	//let VT_constant = this.get_area() * avg_KE;

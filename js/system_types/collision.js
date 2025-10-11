@@ -350,7 +350,7 @@ class CollisionPressureStats {
 	// could track other things, like types of collisions, etc.
     }
 
-    calc_quantities() {
+    calc_quantities(area) {
 
 	this.num_t_avg_contribs += 1;
 	this.num_x_collisions_cumul += this.num_x_collisions;
@@ -359,18 +359,13 @@ class CollisionPressureStats {
 	this.P_y_cumul += this.P_y;
 	this.P_x_t_avg = this.P_x_cumul / this.num_t_avg_contribs;
 	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
-	//this.PVoNkT_x_t_avg = this.P_x_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT);
-	//this.PVoNkT_y_t_avg = this.P_y_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT);
+	this.PVoNkT_x_t_avg = this.P_x_t_avg * area / (Params_HS.N * Params_HS.kT0);
+	this.PVoNkT_y_t_avg = this.P_y_t_avg * area / (Params_HS.N * Params_HS.kT0);
     }
 
-    update_for_time_step() {
+    update_for_time_step(area) {
 
-	//console.log("AAAthis.num_t_avg_contribs =", this.P_y, this.P_y_cumul);
-	//console.log("AAAthis.num_t_avg_contribs =", this.num_t_avg_contribs, this.num_y_collisions, this.num_y_collisions_cumul);
-	this.calc_quantities();
+	this.calc_quantities(area);
 	this.prepare_for_time_step();
-	//console.log("BBBthis.num_t_avg_contribs =", this.num_x_collisions_cumul, this.num_y_collisions_cumul);
-	//console.log("BBBthis.num_t_avg_contribs =", this.P_y, this.P_y_cumul);
-	console.log("BBB =", this.P_x_t_avg, this.P_y_t_avg);
     }
 }

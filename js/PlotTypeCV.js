@@ -158,9 +158,13 @@ class PlotTypeCV_HS extends PlotTypeCV_Gas {
 
 	    let cp = this.trj.get_x(t).particles[i];  // cp = current particle
 
-	    if (Params_HS.draw_tiny_particles_artificially_large && (Params_HS.R < 0.002)) {
+	    if (Params_HS.draw_tiny_particles_artificially_large && (cp.R < 0.002)) {
 
-		this.draw_circle(cp.x, cp.y, 0.01, false, "black");
+		if ((i == 0) && Params_HS.color_tracker_particle) {  // the tracker particle, if enabled, is always red
+		    this.draw_circle(cp.x, cp.y, 0.01, false, "red");
+		} else {
+		    this.draw_circle(cp.x, cp.y, 0.01, false, "black");
+		}
 
 	    } else {
 
