@@ -94,10 +94,11 @@ class ModelCalc_HS extends ModelCalc_Gas {
 	return R_max;
     }
 
-    static get_PVoNkT_carnahan(f) {  // see Carnahan and Starling, 1969
+    static get_PVoNkT_solana(eta) {  // see Mulero - Theory and Simulation of Hard-Sphere Fluids and Related Systems: equation 3.42 (due to Solana)
 
-	let omf = 1.0 - f;  // omf = one minus f
-	return (1.0 + f + f*f - f*f*f) / (omf*omf*omf);
+	//let omf = 1.0 - f;  // omf = one minus f
+	//return (1.0 + f + f*f - f*f*f) / (omf*omf*omf);
+	return (1.0 + 5.0*eta*eta/64.0) / ( (1.0 - eta)*(1.0 - eta) );
     }
 }
 

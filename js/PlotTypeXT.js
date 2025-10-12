@@ -362,7 +362,7 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 	super();
 	this.trj = trj;
 	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
-	this.set_ylim_flot(this.flot_gen_opts, 0, 2);
+	this.set_ylim_flot(this.flot_gen_opts, 0, 4);
     }
 
     get_ext_y_axis_lbl_str() {
@@ -383,8 +383,8 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 
     get_flot_gen_opts(t) {
 
-	let PVoNkT_carnahan = ModelCalc_HS.get_PVoNkT_carnahan(this.trj.get_x(t).get_area_frac());
-	console.log("PVoNkT_carnahan =", this.trj.get_x(t).get_area_frac(), PVoNkT_carnahan);////////
+	let PVoNkT_solana = ModelCalc_HS.get_PVoNkT_solana(this.trj.get_x(t).get_area_frac());
+	console.log("PVoNkT_solana =", this.trj.get_x(t).get_area_frac(), PVoNkT_solana);////////
 	return this.flot_gen_opts;
     }
 }
