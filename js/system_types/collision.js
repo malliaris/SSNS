@@ -361,6 +361,8 @@ class CollisionPressureStats {
 	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
 	this.PVoNkT_x_t_avg = this.P_x_t_avg * area / (Params_HS.N * Params_HS.kT0);
 	this.PVoNkT_y_t_avg = this.P_y_t_avg * area / (Params_HS.N * Params_HS.kT0);
+	this.PVoNkTZSolana_x_t_avg = this.PVoNkT_x_t_avg / ModelCalc_HS.Z_Solana;
+	this.PVoNkTZSolana_y_t_avg = this.PVoNkT_y_t_avg / ModelCalc_HS.Z_Solana;
     }
 
     update_for_time_step(area) {

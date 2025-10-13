@@ -47,6 +47,8 @@ class GasParticle_HS extends GasParticle {
 // NOTE: T is measured in energy units, i.e., it could be called tau = k_B T
 class ModelCalc_HS extends ModelCalc_Gas {
 
+    static Z_Solana;  // set in do_post_particle_creation_tasks() and used in CollisionPressureStats.calc_quantities()
+    
     constructor(rs) {
 
 	super();
@@ -76,25 +78,25 @@ class ModelCalc_HS extends ModelCalc_Gas {
 	return N * Math.PI * R_mean * R_mean / A;
     }
 
-    static get_mean_R(R_min, R_max, R_dist_a, R_dist_b) {
-
-	let beta_dist_mean = R_dist_a / (R_dist_a + R_dist_b);
-	return (R_min + (R_max - R_min)*beta_dist_mean);
-    }
-
     // solve quadratic to find R_max that will produce desired mean area fraction, given R_min, N, etc.;
     // calculation involved E[X] and E[X^2] (via the variance) for X ~ Beta(a, b)
+    // basic Beta dist stats printed out since it's convenient
     static get_R_max_from_mean_area_frac(N, R_min, a, b, A, frac) {  // "R_dist_*" removed for brevity
 
-	let gamma = a*(a + 1.0) / ((a + b)*(a + b + 1.0));  // for convenience; this is E[X^2]
-	let zeta = (b / (a + 1.0)) + 1.0;  // for convenience; this is E[X] / E[X^2]
-	let B = 2.0 * R_min * (zeta - 1.0);  // coefficient of linear term; quadratic coefficient A = 1
-	let C = R_min*R_min*(1.0 - 2.0*zeta + 1.0/gamma) - frac*A / (N*Math.PI*gamma);  // constant term
+	let mean = a / (a + b);  // mean of Beta dist
+	let vrnce = a*b / ((a + b)*(a + b)*(a + b + 1.0));  // variance of Beta dist
+	let stddev = Math.sqrt(vrnce);
+	let EX2 = vrnce + mean*mean;  // for convenience; this is E[X^2]
+	let EXoEX2 = mean / EX2;  // for convenience; this is E[X] / E[X^2]
+	let B = 2.0 * R_min * (EXoEX2 - 1.0);  // coefficient of linear term; quadratic coefficient A = 1
+	let C = R_min*R_min*(1.0 - 2.0*EXoEX2 + 1.0/EX2) - frac*A / (N*Math.PI*EX2);  // constant term
 	let R_max = -0.5*B + 0.5*Math.sqrt( B*B - 4.0*C );  // take positive root in quadratic formula
+	console.log("INFO:   Beta dist stats (mean, variance, std. dev.) =", mean, ",", vrnce, ",", stddev);
+	console.log("INFO:   ... cont'd ... (mean - stddev, mean + stddev, R_max)", (mean - stddev), (mean + stddev), R_max);
 	return R_max;
     }
 
-    static get_PVoNkT_solana(eta) {  // see Mulero - Theory and Simulation of Hard-Sphere Fluids and Related Systems: equation 3.42 (due to Solana)
+    static get_Z_Solana(eta) {  // see Mulero - Theory and Simulation of Hard-Sphere Fluids and Related Systems: equation 3.42 (due to Solana)
 
 	return (1.0 + 5.0*eta*eta/64.0) / ( (1.0 - eta)*(1.0 - eta) );
     }
@@ -123,12 +125,12 @@ class Params_HS extends Params {
     static UICI_R;  // = new UICI_HS_R(this, "UI_P_SM_HS_R", false);  assignment occurs in UserInterface(); see discussion there
     static UICI_IC;  // = new UICI_HS_IC(this, "UI_P_SM_HS_IC", false);  assignment occurs in UserInterface(); see discussion there
 
-    static R_min = 1e-6;
-    static R_max;  // = 50 * Params_HS.R_min; now auto-calculated in get_R_max_from_mean_area_frac() based on other parameter values
-    static R_dist_a = 1.001;
-    static R_dist_b = 20;
-    static R_single_value = 1.5 * Params_HS.R_min;
-    static target_area_frac = 0.15;  // keep around 0.1 or lower
+    static R_min = 1e-10;  // basically set R_min = 0 and allow Beta distribution effectively set R_min; Beta dist mean, mode are a/(a + b) and (a - 1)/(a + b - 2), resp.
+    static R_max;  // now auto-calculated in get_R_max_from_mean_area_frac() based on other parameter values
+    static R_dist_a = 1.000001;
+    static R_dist_b = 100;
+    static R_single_value = 0.006;//1.5 * Params_HS.R_min;
+    static target_area_frac = 0.3;  // keep around 0.1 or lower
     static R_tiny_particle_cutoff = 0.005;
     static R_tiny_particle_drawn_as = 0.01;
     static draw_tiny_particles_artificially_large = true;
@@ -345,6 +347,17 @@ class Coords_HS extends Coords {
 	}
     }
 
+    report_num_particles_w_R_below_cutoff() {
+
+	let num_particles_w_R_below_cutoff = 0;
+	for (let i = 0; i < Params_HS.N; i++) {
+	    if (this.particles[i].R < Params_HS.R_tiny_particle_cutoff) {
+		num_particles_w_R_below_cutoff += 1;
+	    }
+	}
+	console.log("INFO:   ", num_particles_w_R_below_cutoff, "out of", Params_HS.N, "particles are below cutoff and therefore depicted as open circles");
+    }
+
     set_up_grid_structures(N, only_perimeter, shuffle_spots) {
 
 	// determine grid_size ("size" of grid, meaning the number of particles per row or column)
@@ -422,9 +435,6 @@ class Coords_HS extends Coords {
     // NOTE: confinement IC (Params_HS.UICI_IC.v == 4) does not use this method
     initialize_particles_R_rho_m_x_y() {
 
-	// calculate R_max (or R_single_value, for non-distribution case); check for overlaps, etc.
-	//Params_HS.R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
-	//console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
 	if (Params_HS.UICI_IC.position_on_grid()) {
 	    this.set_up_grid_structures(Params_HS.N, false, true);
 	}
@@ -557,6 +567,15 @@ class Coords_HS extends Coords {
 	    CU.incr_entry_OM(this.peh.hist, this.particles[i].E_hist_bi);  // increment bin count
 	}
     }
+
+    do_post_particle_creation_tasks() {
+
+	let area_frac = this.get_area_frac();
+	console.log("INFO:   Generated gas of particles is", ((this.particle_config_free_of_overlaps() ? "" : "NOT") + "free of overlaps and has area fraction of"), area_frac);
+	this.report_num_particles_w_R_below_cutoff();
+	ModelCalc_HS.Z_Solana = ModelCalc_HS.get_Z_Solana(area_frac);
+	console.log("INFO:   Z_Solana =", ModelCalc_HS.Z_Solana);
+    }
     
     initialize_particles_collision_structures_etc() {
 
@@ -574,8 +593,8 @@ class Coords_HS extends Coords {
 	    this.initialize_particles_R_rho_m_x_y();
 	    this.initialize_particles_velocities_etc();
 	}
-	console.log("DDDDDDDDDDDDDDDDDDCHECK", this.particle_config_free_of_overlaps());////////// REMOVE WHEN READY
-
+	this.do_post_particle_creation_tasks();
+		
 	this.RW_cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);  // tracks all PW/WC collisions Right Wall (RW) might have
 	Coords_HS.WC_just_occurred = false;
 

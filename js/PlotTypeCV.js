@@ -189,7 +189,7 @@ class PlotTypeCV_HS extends PlotTypeCV_Gas {
 		// possibly need to update particle stroke color (see note above)
 		let stroke_color_str = color_str;
 		if (stroke_color_str != prev_stroke_color_str) {
-		    this.cc.strokeStyle = color_str;  // call only made if necessary, i.e., if color choice has changed
+		    this.cc.strokeStyle = stroke_color_str;  // call only made if necessary, i.e., if color choice has changed
 		    prev_stroke_color_str = stroke_color_str;  // ready for next iteration
 		}
 		this.draw_stroked_circle(cp.x, cp.y, Params_HS.R_tiny_particle_drawn_as);
@@ -199,7 +199,7 @@ class PlotTypeCV_HS extends PlotTypeCV_Gas {
 		// possibly need to update particle fill color (see note above)
 		let fill_color_str = color_str;
 		if (fill_color_str != prev_fill_color_str) {
-		    this.cc.fillStyle = color_str;  // call only made if necessary, i.e., if color choice has changed
+		    this.cc.fillStyle = fill_color_str;  // call only made if necessary, i.e., if color choice has changed
 		    prev_fill_color_str = fill_color_str;  // ready for next iteration
 		}
 		this.draw_filled_circle(cp.x, cp.y, cp.R);

@@ -75,7 +75,7 @@ class UICI_HS_rho extends UICI {
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(0);  // override parent class default value
+	this.sv(1);  // override parent class default value
     }
 
     cycle() {
@@ -99,7 +99,7 @@ class UICI_HS_R extends UICI {
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(0);  // override parent class default value
+	this.sv(1);  // override parent class default value
     }
 
     cycle() {
@@ -158,7 +158,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	    console.log("ERROR:   invalid code value in UICI_HS_IC::set_special_param_vals()");
 	    break;
 	}
-	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max);
+	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max, "and R_cutoff of", Params_HS.R_cutoff);
     }
 
     cycle() {

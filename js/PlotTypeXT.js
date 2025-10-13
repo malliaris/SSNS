@@ -362,7 +362,7 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 	super();
 	this.trj = trj;
 	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
-	this.set_ylim_flot(this.flot_gen_opts, 0, 4);
+	this.set_ylim_flot(this.flot_gen_opts, 0, 1.5);
     }
 
     get_ext_y_axis_lbl_str() {
@@ -374,17 +374,14 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 	this.update_x_axis_flot(this.flot_gen_opts, this.t_L, this.t_R, this.trj.t_edge);
 
 	let fds = [];  // fds = flot_data_series
-	let fxn_obj = t => {return this.trj.get_x(t).cps.PVoNkT_x_t_avg; };
+	let fxn_obj = t => {return this.trj.get_x(t).cps.PVoNkTZSolana_x_t_avg; };
 	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
-	fxn_obj = t => {return this.trj.get_x(t).cps.PVoNkT_y_t_avg; };
+	fxn_obj = t => {return this.trj.get_x(t).cps.PVoNkTZSolana_y_t_avg; };
 	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
 	return fds;
     }
 
     get_flot_gen_opts(t) {
-
-	let PVoNkT_solana = ModelCalc_HS.get_PVoNkT_solana(this.trj.get_x(t).get_area_frac());
-	console.log("PVoNkT_solana =", this.trj.get_x(t).get_area_frac(), PVoNkT_solana);////////
 	return this.flot_gen_opts;
     }
 }
