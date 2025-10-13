@@ -96,8 +96,6 @@ class ModelCalc_HS extends ModelCalc_Gas {
 
     static get_PVoNkT_solana(eta) {  // see Mulero - Theory and Simulation of Hard-Sphere Fluids and Related Systems: equation 3.42 (due to Solana)
 
-	//let omf = 1.0 - f;  // omf = one minus f
-	//return (1.0 + f + f*f - f*f*f) / (omf*omf*omf);
 	return (1.0 + 5.0*eta*eta/64.0) / ( (1.0 - eta)*(1.0 - eta) );
     }
 }
@@ -125,15 +123,17 @@ class Params_HS extends Params {
     static UICI_R;  // = new UICI_HS_R(this, "UI_P_SM_HS_R", false);  assignment occurs in UserInterface(); see discussion there
     static UICI_IC;  // = new UICI_HS_IC(this, "UI_P_SM_HS_IC", false);  assignment occurs in UserInterface(); see discussion there
 
-    static R_min = 0.005;
+    static R_min = 1e-6;
     static R_max;  // = 50 * Params_HS.R_min; now auto-calculated in get_R_max_from_mean_area_frac() based on other parameter values
     static R_dist_a = 1.001;
     static R_dist_b = 20;
     static R_single_value = 1.5 * Params_HS.R_min;
     static target_area_frac = 0.15;  // keep around 0.1 or lower
+    static R_tiny_particle_cutoff = 0.005;
+    static R_tiny_particle_drawn_as = 0.01;
     static draw_tiny_particles_artificially_large = true;
-    static m = 1.0;
     static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
+    static m = 1.0;  // still used?
     static num_rho_vals = 4;                                                        // VALUE MUST MATCH NUMBER OF ENTRIES IN ARRAYS BELOW!
     static rho_vals = [1e4, 1e5, 1e6, 1e7];                                         // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
     static rho_greyscale_val_strs = ["#cccccc", "#888888", "#444444", "#000000"];   // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!

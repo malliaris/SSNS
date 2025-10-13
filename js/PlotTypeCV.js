@@ -51,6 +51,7 @@ class PlotTypeCV extends PlotType {
 	}
     }
 
+    // fillStyle expected to be set outside of this method (hopefully it doesn't need to be set before each call, which will speed canvas drawing up)
     draw_filled_circle(x, y, R) {
 
 	let xc = this.rtoa(x);
@@ -60,6 +61,18 @@ class PlotTypeCV extends PlotType {
 	this.cc.beginPath();
 	this.cc.arc(xc, yc, Rc, 0, 2*Math.PI);
 	this.cc.fill();
+    }
+
+    // strokeStyle expected to be set outside of this method (hopefully it doesn't need to be set before each call, which will speed canvas drawing up)
+    draw_stroked_circle(x, y, R) {
+
+	let xc = this.rtoa(x);
+	let yc = this.fyc(this.rtoa(y));
+	let Rc = this.rtoa(R);
+
+	this.cc.beginPath();
+	this.cc.arc(xc, yc, Rc, 0, 2*Math.PI);
+	this.cc.stroke();
     }
 
     // take x coordinate and width w -- all in relative units, i.e., on the unit square -- and draw corresponding vertical line on canvas
@@ -152,38 +165,44 @@ class PlotTypeCV_HS extends PlotTypeCV_Gas {
     update_canvas(t) {
 
 	this.clear_canvas();
-	let fill_color_str;  // to prevent unnecessary calls to fillStyle (see note below)
+	let color_str;
+	let prev_stroke_color_str = "";  // to prevent unnecessary calls to strokeStyle (see note below)
 	let prev_fill_color_str = "";  // to prevent unnecessary calls to fillStyle (see note below)
 	for (let i = 0; i < this.trj.get_x(t).particles.length; i++) {
 
 	    let cp = this.trj.get_x(t).particles[i];  // cp = current particle
 
-	    if (Params_HS.draw_tiny_particles_artificially_large && (cp.R < 0.002)) {
+	    // determine particle color
+	    // NOTE: the SSNS HS code is organized so that the number of different particle colors is ~1, and so that all particles of a given color are drawn in succession,
+	    //       thus limiting calls to set strokeStyle/fillStyle for efficiency; we tried a different color for each particle, and it's **really** slow for large N!
+	    if ((i == 0) && Params_HS.color_tracker_particle) {  // the tracker particle, if enabled, is always red
+		color_str = "red";
+	    } else if (Params_HS.UICI_rho.all_particles_same_m()) {
+		color_str = "black";
+	    } else {
+		color_str = Params_HS.rho_greyscale_val_strs[cp.rho_val_i];
+	    }
 
-		if ((i == 0) && Params_HS.color_tracker_particle) {  // the tracker particle, if enabled, is always red
-		    this.draw_circle(cp.x, cp.y, 0.01, false, "red");
-		} else {
-		    this.draw_circle(cp.x, cp.y, 0.01, false, "black");
+	    // draw either a stroked (i.e., outlined) circle, or a filled one
+	    if (Params_HS.draw_tiny_particles_artificially_large && (cp.R < Params_HS.R_tiny_particle_cutoff)) {
+
+		// possibly need to update particle stroke color (see note above)
+		let stroke_color_str = color_str;
+		if (stroke_color_str != prev_stroke_color_str) {
+		    this.cc.strokeStyle = color_str;  // call only made if necessary, i.e., if color choice has changed
+		    prev_stroke_color_str = stroke_color_str;  // ready for next iteration
 		}
+		this.draw_stroked_circle(cp.x, cp.y, Params_HS.R_tiny_particle_drawn_as);
 
 	    } else {
 
-		// determine particle fill color
-		// NOTE: the SSNS HS code is organized so that the number of different particle colors is ~1, and so that all particles of a given color are drawn in succession,
-		//       thus limiting calls to set fillStyle for efficiency; we tried a different color for each particle, and it's **really** slow for large N!
-		if ((i == 0) && Params_HS.color_tracker_particle) {  // the tracker particle, if enabled, is always red
-		    fill_color_str = "red";
-		} else if (Params_HS.UICI_rho.all_particles_same_m()) {
-		    fill_color_str = "black";
-		} else {
-		    fill_color_str = Params_HS.rho_greyscale_val_strs[cp.rho_val_i];
-		}
-
+		// possibly need to update particle fill color (see note above)
+		let fill_color_str = color_str;
 		if (fill_color_str != prev_fill_color_str) {
-		    this.cc.fillStyle = fill_color_str;  // call only made if necessary, i.e., if color choice has changed
+		    this.cc.fillStyle = color_str;  // call only made if necessary, i.e., if color choice has changed
+		    prev_fill_color_str = fill_color_str;  // ready for next iteration
 		}
 		this.draw_filled_circle(cp.x, cp.y, cp.R);
-		prev_fill_color_str = prev_fill_color_str;  // ready for next iteration
 	    }
 	}
 	let x_piston = 1.0 - this.trj.get_x(t).x_RW;  // subtract since piston's coordinate system has origin at zero compression
