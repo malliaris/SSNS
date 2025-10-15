@@ -130,7 +130,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	$("#UI_P_SM_HS_N").attr("disabled", "true");
 	Params_HS.UINI_N.sv(UICI_HS_IC.confinement_IC_N_val);
     }
-
+    /*
     set_param_vals(area, under_grid_spacing, under_half_grid_spacing) {
 
 	// handle calculation of R_max
@@ -160,7 +160,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	}
 	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max, "and R_cutoff of", Params_HS.R_cutoff);
     }
-
+    */
     cycle() {
 
 	this.cycle_basics();

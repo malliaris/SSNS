@@ -137,8 +137,8 @@ class Params_HS extends Params {
     static R_max;  // now auto-calculated in get_R_max_from_mean_area_frac() based on other parameter values
     static R_dist_a = 1.000001;
     static R_dist_b = 100;
-    static R_single_value = 0.0028209479177387815;//0.015450968080927583;//0.012615662610100801;//0.006;//1.5 * Params_HS.R_min;
-    static target_area_frac = 0.01;  // keep around 0.1 or lower
+    static R_single_value;  // now auto-calculated in create_particles_w_random_R_x_y() based on other parameter values
+    static target_area_frac = 0.3;  // keep around 0.1 or lower
     static R_tiny_particle_cutoff = 0.005;
     static R_tiny_particle_drawn_as = 0.01;
     static draw_tiny_particles_artificially_large = true;
@@ -206,7 +206,8 @@ class Coords_HS extends Coords {
 	    this.peh = new GasSpeedHistogram(0.5);  // peh = particle energy histogram
 	    this.cet = new CollisionEventsTable();
 	    this.particles = new Array();
-	    this.initialize_particles_collision_structures_etc();
+	    this.initialize_particle_basics();
+	    this.initialize_collision_structures();
 
 	    // initialize quantities involved in time-averaging
 	    this.num_t_avg_contribs = 0;
@@ -393,7 +394,7 @@ class Coords_HS extends Coords {
 	}
 	if (shuffle_spots) this.grid_coordinate_pairs = shuffle(this.grid_coordinate_pairs, {'copy': 'none'});  // shuffle items (the coordinate pairs) to randomize density arrangement
     }
-    
+    /*    
     load_particle_position(R_val, pc) {  // determine and load the new particle's x and y coordinates
 
 	Coords_HS.dummy_particle.R = R_val;  // needs to be set for call(s) to are_overlapping() below
@@ -575,7 +576,7 @@ class Coords_HS extends Coords {
 	    CU.incr_entry_OM(this.peh.hist, this.particles[i].E_hist_bi);  // increment bin count
 	}
     }
-
+    */
     create_particles_w_random_R_x_y() {
 
 	// load R_vals array
@@ -688,19 +689,48 @@ class Coords_HS extends Coords {
 	    }
 	}
     }
-
+    /*
     do_post_particle_creation_tasks() {
 
+	// store quantity histogram bin indices and update respective histograms
+	for (let i = 0; i < Params_HS.N; i++) {
+
+	    this.particles[i].v_hist_bi = this.psh.get_bin_indx(this.particles[i].get_speed());
+	    CU.incr_entry_OM(this.psh.hist, this.particles[i].v_hist_bi);  // increment bin count
+	    this.particles[i].E_hist_bi = this.peh.get_bin_indx(this.particles[i].get_KE());
+	    CU.incr_entry_OM(this.peh.hist, this.particles[i].E_hist_bi);  // increment bin count
+	}
+
+	// miscellaneous tasks
 	let area_frac = this.get_area_frac();
-	console.log("INFO:   Generated gas of particles is", ((this.particle_config_free_of_overlaps() ? "" : "NOT") + "free of overlaps and has area fraction of"), area_frac);
+	console.log("INFO:   Generated gas of particles is", ((this.particle_config_free_of_overlaps() ? "" : "NOT") + "free of overlaps and has area fraction of"), area_frac);  // GET RID OF OVERLAP CHECK???
+	this.report_num_particles_w_R_below_cutoff();
+	ModelCalc_HS.Z_Solana = ModelCalc_HS.get_Z_Solana(area_frac);
+	console.log("INFO:   Z_Solana =", ModelCalc_HS.Z_Solana);
+    }
+    */
+    do_post_particle_creation_tasks() {
+
+	// store quantity histogram bin indices and update respective histograms
+	for (let i = 0; i < Params_HS.N; i++) {
+
+	    this.particles[i].v_hist_bi = this.psh.get_bin_indx(this.particles[i].get_speed());
+	    CU.incr_entry_OM(this.psh.hist, this.particles[i].v_hist_bi);  // increment bin count
+	    this.particles[i].E_hist_bi = this.peh.get_bin_indx(this.particles[i].get_KE());
+	    CU.incr_entry_OM(this.peh.hist, this.particles[i].E_hist_bi);  // increment bin count
+	}
+
+	// miscellaneous tasks
+	let area_frac = this.get_area_frac();
+	console.log("INFO:   Generated gas of particles is", ((this.particle_config_free_of_overlaps() ? "" : "NOT") + "free of overlaps and has area fraction of"), area_frac);  // GET RID OF OVERLAP CHECK???
 	this.report_num_particles_w_R_below_cutoff();
 	ModelCalc_HS.Z_Solana = ModelCalc_HS.get_Z_Solana(area_frac);
 	ModelCalc_HS.Z_SHY = ModelCalc_HS.get_Z_SHY(area_frac);
 	console.log("INFO:   Z_Solana =", ModelCalc_HS.Z_Solana);
 	console.log("INFO:   Z_SHY =", ModelCalc_HS.Z_SHY);
 	console.log("INFO:   avg_KE =", this.get_avg_KE());
-	let targrad = Math.sqrt(Params_HS.target_area_frac * this.get_area() / (Params_HS.N * Math.PI));//////////////
-	console.log("INFO:   targrad =", targrad);///////////
+	//let targrad = Math.sqrt(Params_HS.target_area_frac * this.get_area() / (Params_HS.N * Math.PI));//////////////
+	//console.log("INFO:   targrad =", targrad);///////////
     }
     
     initialize_particle_basics() {
@@ -788,7 +818,7 @@ class Coords_HS extends Coords {
 	    }
 	}
     }
-
+    /*
     initialize_particles_collision_structures_etc() {
 
 	if (Params_HS.UICI_IC.v == 4) {  // confinement positions/velocities done manually
@@ -841,7 +871,7 @@ class Coords_HS extends Coords {
 	    }
 	}
     }
-
+    */
     copy_particles_collision_structures_etc() {
 
 	// copy each particle (particle cet_entries are copied within)
