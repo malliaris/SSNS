@@ -48,6 +48,7 @@ class GasParticle_HS extends GasParticle {
 class ModelCalc_HS extends ModelCalc_Gas {
 
     static Z_Solana;  // set in do_post_particle_creation_tasks() and used in CollisionPressureStats.calc_quantities()
+    static Z_SHY;  // set in do_post_particle_creation_tasks() and used in CollisionPressureStats.calc_quantities()
     
     constructor(rs) {
 
@@ -100,6 +101,13 @@ class ModelCalc_HS extends ModelCalc_Gas {
 
 	return (1.0 + 5.0*eta*eta/64.0) / ( (1.0 - eta)*(1.0 - eta) );
     }
+
+    static get_Z_SHY(eta) {  // see Mulero - Theory and Simulation of Hard-Sphere Fluids and Related Systems: equation 3.35
+
+	let eta_c = Math.PI * Math.sqrt(3.0) / 6.0;
+	let eta_c_fctr = (2.0*eta_c - 1.0) / (eta_c*eta_c);
+	return 1.0 / ( 1.0 - 2.0*eta + eta_c_fctr*eta*eta);
+    }
 }
 
 // js equivalent of a C #define macro... see static get accessors in Params_HS
@@ -129,8 +137,8 @@ class Params_HS extends Params {
     static R_max;  // now auto-calculated in get_R_max_from_mean_area_frac() based on other parameter values
     static R_dist_a = 1.000001;
     static R_dist_b = 100;
-    static R_single_value = 0.006;//1.5 * Params_HS.R_min;
-    static target_area_frac = 0.3;  // keep around 0.1 or lower
+    static R_single_value = 0.0028209479177387815;//0.015450968080927583;//0.012615662610100801;//0.006;//1.5 * Params_HS.R_min;
+    static target_area_frac = 0.01;  // keep around 0.1 or lower
     static R_tiny_particle_cutoff = 0.005;
     static R_tiny_particle_drawn_as = 0.01;
     static draw_tiny_particles_artificially_large = true;
@@ -568,15 +576,219 @@ class Coords_HS extends Coords {
 	}
     }
 
+    create_particles_w_random_R_x_y() {
+
+	// load R_vals array
+	let R_vals = [];
+	if (Params_HS.UICI_R.use_distribution()) {  // if R distribution is being used...
+
+	    for (let i = 0; i < Params_HS.N; i++) {
+		R_vals.push(this.mc.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, Params_HS.R_cutoff));
+	    }
+	    R_vals = R_vals.sort( (R1, R2) => R2 - R1);  // sort bigger R's first so they are positioned first below
+
+	} else {  // otherwise, all particles have the same R value, which we calculate from target_area_frac
+
+	    let particle_area = Params_HS.target_area_frac * this.get_area() / Params_HS.N;
+	    Params_HS.R_single_value = Math.sqrt(particle_area / Math.PI);
+	    for (let i = 0; i < Params_HS.N; i++) {
+		R_vals.push(Params_HS.R_single_value);
+	    }
+	}
+
+	// create particles, setting R, x, and y along the way
+	for (let i = 0; i < Params_HS.N; i++) {
+
+	    Coords_HS.dummy_particle.R = R_vals[i];  // set dummy particle's R using array from above
+	    let particle_positioning_successful = false;
+	    for (let j = 0; j < Params_HS.num_IC_creation_attempts; j++) {  // make repeated attempts to position this particle
+
+		let dist_from_wall = Coords_HS.dummy_particle.R + Coords_HS.EPSILON;
+		Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(this.get_Lx(), dist_from_wall);  // candidate x position
+		Coords_HS.dummy_particle.y = this.get_rand_y_centered_interval(Params_HS.Ly, dist_from_wall);  // candidate y position
+
+		if (this.candidate_particle_position_free_of_overlaps(Coords_HS.dummy_particle)) {  // check dummy particle against existing particles array entries for overlap
+
+		    particle_positioning_successful = true;
+		    let newp = new GasParticle_HS(Coords_HS.dummy_particle.x, Coords_HS.dummy_particle.y, Coords_HS.dummy_particle.R, 0.0, 0.0, 0.0, 0, 0.0);
+		    let random_position = this.mc.discunif_rng(0, this.particles.length);
+		    this.particles.splice(random_position, 0, newp);  // (0 is # of items to delete in splice() method)
+		    break;
+		}
+	    }
+	    if ( ! particle_positioning_successful) {
+		throw new Error("ERROR:   Failed to find a non-overlapping position for particle even after " + Params_HS.num_IC_creation_attempts + " attempts.  Check parameter values and/or try reloading SSNS.");
+	    }
+	}
+    }
+
+    set_particle_rho_mass() {
+
+	for (let i = 0; i < Params_HS.N; i++) {
+
+	    let cp = this.particles[i];  // for convenience
+	    cp.rho_val_i = this.get_particle_rho_val_i(i);  // determine new particle's density value index, which then is used...
+	    cp.rho = Params_HS.rho_vals[cp.rho_val_i];     // ... to determine density
+	    cp.m = this.get_particle_mass_val(cp.rho, cp.R);  // determine new particle's mass
+	}
+    }
+    
+    set_particle_velocities() {
+
+	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
+
+	let sum_of_masses;
+	let rand_angle;
+	let v_0_conserve_tot_energy;
+	let x_mid = this.get_Lx() / 2.0;
+	let y_mid = Params_HS.Ly / 2.0;
+
+	if (Params_HS.UICI_IC.v == 0) {  // single v_0 only, so that it is not needlessly repeated in for loop below
+
+	    sum_of_masses = 0.0;
+	    for (let i = 0; i < Params_HS.N; i++) {
+		sum_of_masses += this.particles[i].m;
+	    }
+	    rand_angle = this.mc.mbde.get_rand_angle();
+	    v_0_conserve_tot_energy = Math.sqrt(2.0 * Params_HS.N * Params_HS.kT0 / sum_of_masses);
+	}
+
+	for (let i = 0; i < Params_HS.N; i++) {
+
+	    if (Params_HS.UICI_IC.v == 0) {  // single v_0
+
+		this.particles[i].vx = v_0_conserve_tot_energy * Math.cos(rand_angle);
+		this.particles[i].vy = v_0_conserve_tot_energy * Math.sin(rand_angle);
+
+	    } else if (Params_HS.UICI_IC.v == 1) {  // im/ex-plosion
+
+		let Dx = this.particles[i].x - x_mid;
+		let Dy = this.particles[i].y - y_mid;
+		let angle_from_center = atan2(Dy, Dx);  // note argument order!
+		let dist_from_center = Math.sqrt( Dx*Dx + Dy*Dy );
+		let speed = 1e-2 * dist_from_center / Params_HS.ds;  // deal w magic # 1e-2!!!
+		this.particles[i].vx = -1.0 * speed * Math.cos(angle_from_center);
+		this.particles[i].vy = -1.0 * speed * Math.sin(angle_from_center);
+		
+	    } else if (Params_HS.UICI_IC.v == 2) {  // 1D oscillators
+		    
+		let speed = this.mc.mbde.get_BD_v(Params_HS.kT0, this.particles[i].m);
+		if (this.mc.discunif_rng(0, 1) == 0) {
+		    this.particles[i].vx = -1.0 * speed;
+		} else {
+		    this.particles[i].vx = speed;
+		}
+		this.particles[i].vy = 0.0;
+
+	    } else {  // equilibrium
+
+		this.mc.mbde.load_vc_spec_v_rand_dir(vc, this.mc.mbde.get_BD_v(Params_HS.kT0, this.particles[i].m));
+		this.particles[i].vx = vc.x;
+		this.particles[i].vy = vc.y;
+	    }
+	}
+    }
+
     do_post_particle_creation_tasks() {
 
 	let area_frac = this.get_area_frac();
 	console.log("INFO:   Generated gas of particles is", ((this.particle_config_free_of_overlaps() ? "" : "NOT") + "free of overlaps and has area fraction of"), area_frac);
 	this.report_num_particles_w_R_below_cutoff();
 	ModelCalc_HS.Z_Solana = ModelCalc_HS.get_Z_Solana(area_frac);
+	ModelCalc_HS.Z_SHY = ModelCalc_HS.get_Z_SHY(area_frac);
 	console.log("INFO:   Z_Solana =", ModelCalc_HS.Z_Solana);
+	console.log("INFO:   Z_SHY =", ModelCalc_HS.Z_SHY);
+	console.log("INFO:   avg_KE =", this.get_avg_KE());
+	let targrad = Math.sqrt(Params_HS.target_area_frac * this.get_area() / (Params_HS.N * Math.PI));//////////////
+	console.log("INFO:   targrad =", targrad);///////////
     }
     
+    initialize_particle_basics() {
+
+	let ideal_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
+	Params_HS.R_max = ideal_R_max;
+
+	switch (Params_HS.UICI_IC.v) {
+
+	case 0:  // random | single v_0
+	    Params_HS.R_cutoff = Math.min(ideal_R_max, 0.75);  // this setup not ideal yet... ideal_R_max may be > 1, which obviously won't fit
+	    this.create_particles_w_random_R_x_y();
+	    break;
+	case 1:  // im/ex-plosion
+	    Params_HS.R_cutoff = this.under_half_grid_spacing/4.0;
+	    this.set_up_grid_structures(Params_HS.N, false, true);
+	    break;
+	case 2:  // 1D oscillators
+	    Params_HS.R_cutoff = this.under_half_grid_spacing;
+	    this.set_up_grid_structures(Params_HS.N, false, true);
+	    break;
+	case 3:  // equilibrium
+	    Params_HS.R_cutoff = Math.min(ideal_R_max, 0.75);  // this setup not ideal yet... ideal_R_max may be > 1, which obviously won't fit
+	    this.create_particles_w_random_R_x_y();
+	    this.set_particle_rho_mass();
+	    this.set_particle_velocities();
+	    break;
+	case 4:  // confinement
+	    this.set_up_grid_structures(36, true, false);
+	    this.set_up_confinement_IC();
+	    break;
+	default:
+	    console.log("ERROR:   invalid code value in UICI_HS_IC::set_special_param_vals()");
+	    break;
+	}
+
+	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max, "and R_cutoff of", Params_HS.R_cutoff);
+	this.do_post_particle_creation_tasks();
+
+	// all ICs except confinement (4) allow user to switch rho and R between single values and distributions
+	if (Params_HS.UICI_IC.v == 4) {
+
+	    $("#UI_P_SM_HS_rho").hide();
+	    $("#UI_P_SM_HS_R").hide();
+	} else {
+
+	    $("#UI_P_SM_HS_rho").show();
+	    $("#UI_P_SM_HS_R").show();
+	}
+    }
+
+    initialize_collision_structures() {
+
+	this.RW_cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);  // tracks all PW/WC collisions Right Wall (RW) might have
+	Coords_HS.WC_just_occurred = false;
+
+	// initial insertion into CollisionEventsTable of possible Wall-Container (WC) collision
+	// this is the Right Wall (RW) of the container which acts as a piston and will hit "stops" at its min/max extent
+	if (CollisionEvent_WC.piston_is_moving(this.v_RW)) {
+	    let ce = new CollisionEvent_WC(this.x_RW, this.v_RW, Coords_HS.s);  // Coords_HS.s == 0.0 at this point
+	    this.cet.table.insert(ce);  // Coords_HS.s == 0.0 at this point
+	    this.RW_cet_entries.insert(copy(ce));
+	}
+	
+	// initial insertion into CollisionEventsTable of potential future Particle-Wall (PW) collisions
+	for (let i = 0; i < Params_HS.N; i++) {
+	    let ce_array = CollisionEvent_PW.get_wall_collision_event_array(this.particles[i], i, this.x_RW, this.v_RW, Coords_HS.s);  // Coords_HS.s == 0.0 at this point
+	    for (let ce of ce_array) {
+		if (ce != null) {
+		    this.cet.table.insert(ce);
+		    this.particles[i].cet_entries.insert(copy(ce));
+		    if (ce.wi == Params_HS.R_W) {  // if this future PW collision is with the Right Wall (RW), keep track of it
+			this.RW_cet_entries.insert(copy(ce));
+		    }
+		}
+	    }
+	}
+
+	// initial insertion into CollisionEventsTable of potential future Particle-Particle (PP) collisions
+	for (let i = 1; i < Params_HS.N; i++) {  // check each pair... NOTE starting index of i == 1
+	    for (let j = 0; j < i; j++) {        //                    NOTE ending index of j == i - 1
+		if (CollisionEvent_PP.will_collide(this.particles[i], this.particles[j])) {
+		    this.add_collision_event_PP(j, i, Coords_HS.s);  // by convention, we have pai < pbi, so we use j,i rather than i,j
+		}
+	    }
+	}
+    }
+
     initialize_particles_collision_structures_etc() {
 
 	if (Params_HS.UICI_IC.v == 4) {  // confinement positions/velocities done manually
@@ -996,7 +1208,7 @@ class Coords_HS extends Coords {
 	}
 
 	this.time_evolve(new_s - curr_s);
-	this.cps.update_for_time_step(this.get_area());
+	this.cps.update_for_time_step(this.get_area(), this.get_avg_KE());
 
 	//let avg_KE = this.get_avg_KE();
 	//let VT_constant = this.get_area() * avg_KE;

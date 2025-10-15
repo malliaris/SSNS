@@ -75,7 +75,7 @@ class UICI_HS_rho extends UICI {
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(1);  // override parent class default value
+	this.sv(0);  // override parent class default value
     }
 
     cycle() {
@@ -99,7 +99,7 @@ class UICI_HS_R extends UICI {
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(1);  // override parent class default value
+	this.sv(0);  // override parent class default value
     }
 
     cycle() {

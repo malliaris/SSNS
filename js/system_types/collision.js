@@ -350,7 +350,7 @@ class CollisionPressureStats {
 	// could track other things, like types of collisions, etc.
     }
 
-    calc_quantities(area) {
+    calc_quantities(area, avg_KE) {
 
 	this.num_t_avg_contribs += 1;
 	this.num_x_collisions_cumul += this.num_x_collisions;
@@ -359,15 +359,15 @@ class CollisionPressureStats {
 	this.P_y_cumul += this.P_y;
 	this.P_x_t_avg = this.P_x_cumul / this.num_t_avg_contribs;
 	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
-	this.PVoNkT_x_t_avg = this.P_x_t_avg * area / (Params_HS.N * Params_HS.kT0);
-	this.PVoNkT_y_t_avg = this.P_y_t_avg * area / (Params_HS.N * Params_HS.kT0);
-	this.PVoNkTZSolana_x_t_avg = this.PVoNkT_x_t_avg / ModelCalc_HS.Z_Solana;
-	this.PVoNkTZSolana_y_t_avg = this.PVoNkT_y_t_avg / ModelCalc_HS.Z_Solana;
+	this.PVoNkT_x_t_avg = this.P_x_t_avg * area / (Params_HS.N * avg_KE);//Params_HS.kT0);
+	this.PVoNkT_y_t_avg = this.P_y_t_avg * area / (Params_HS.N * avg_KE);//Params_HS.kT0);
+	this.PVoNkTZSolana_x_t_avg = this.PVoNkT_x_t_avg / ModelCalc_HS.Z_SHY;//Solana;
+	this.PVoNkTZSolana_y_t_avg = this.PVoNkT_y_t_avg / ModelCalc_HS.Z_SHY;//Solana;
     }
 
-    update_for_time_step(area) {
+    update_for_time_step(area, avg_KE) {
 
-	this.calc_quantities(area);
+	this.calc_quantities(area, avg_KE);
 	this.prepare_for_time_step();
     }
 }
