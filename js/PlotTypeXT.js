@@ -362,11 +362,34 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 	super();
 	this.trj = trj;
 	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
-	this.set_ylim_flot(this.flot_gen_opts, 0, 1.5);
+	this.eta_color = "cyan";
+	this.E_avg_color = "yellow";
+	this.Z_x_color = "orange";
+	this.Z_y_color = "red";
+	this.Z_color = "blue";
+	this.Z_SHY_color = "green";//rgb(90, 190, 55)";
+	this.set_ylim_flot(this.flot_gen_opts, 0, 2.0);
     }
+
+    /*
+	// determine range of segment indices and iterate over them
+	let si_i = this.trj.get_si(t_i);  // determine si_i = segment index, initial
+	let si_f = this.trj.get_si(t_f);  // determine si_f = segment index, final
+	for (let si = si_i; si <= si_f; si++) {
+    */
 
     get_ext_y_axis_lbl_str() {
 	return "\\mathrm{gas \\; pressure, \\; etc.}";
+    }
+
+    overwrite_line_color(flot_arr, new_color_str) {  // operates on arrays returned from assemble_data_by_seg()
+
+	for (let i = 0; i < (flot_arr.length - 1); i++) {  // skip first entry (which is black open circle representing current time)
+	    flot_arr.at(i + 1).color = new_color_str;
+	    if ("points" in flot_arr.at(i + 1)) {
+		flot_arr.at(i + 1).points.fillColor = new_color_str;
+	    }
+	}
     }
 
     get_flot_data_series(t) {
@@ -374,16 +397,72 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 	this.update_x_axis_flot(this.flot_gen_opts, this.t_L, this.t_R, this.trj.t_edge);
 
 	let fds = [];  // fds = flot_data_series
-	let fxn_obj = t => {return this.trj.get_x(t).cps.PVoNkTZSolana_x_t_avg; };
-	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
-	fxn_obj = t => {return this.trj.get_x(t).cps.PVoNkTZSolana_y_t_avg; };
-	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
+
+	let fxn_obj = t => {return this.trj.get_x(t).get_area_frac(); };
+	let curr_arr = [];  // used to manipulate smaller array pieces as they're added to fds
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.eta_color);
+	fds = fds.concat(curr_arr);
+
+	fxn_obj = t => {return this.trj.get_x(t).get_avg_KE() / Params_HS.kT0; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.E_avg_color);
+	fds = fds.concat(curr_arr);
+
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_x_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_x_color);
+	fds = fds.concat(curr_arr);
+
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_y_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_y_color);
+	fds = fds.concat(curr_arr);
+
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_color);
+	fds = fds.concat(curr_arr);
+
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_SHY_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_SHY_color);
+	fds = fds.concat(curr_arr);
+
+	//console.log("JJJ", fds);////////////////////
 	return fds;
     }
 
     get_flot_gen_opts(t) {
 	return this.flot_gen_opts;
     }
+
+
+    /*
+    get_ext_y_axis_lbl_str() {
+	return "\\textcolor{#f07814}{\\rho/\\rho_L} \\, , \\; \\textcolor{#0000ff}{p/p_L} \\, , \\; \\textcolor{#ff0000}{u/c_L} \\, , \\; \\textcolor{#00ff00}{\\mathrm{Ma}}";
+    }
+    get_flot_gen_opts(t) {
+	let opts = {};
+	this.set_ylim_flot(opts, -0.05, 1.05);
+	this.add_horiz_line_flot(opts, ModelCalc_SH.p2/Params_SH.pL, 1, "#444444");  // fyi, p2 == p3
+	this.add_horiz_line_flot(opts, ModelCalc_SH.rho2/Params_SH.rhoL, 1, "#444444");
+	this.add_horiz_line_flot(opts, ModelCalc_SH.rho3/Params_SH.rhoL, 1, "#444444");
+	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.cL, 1, "#444444");  // fyi, u2 == u3
+	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.c2, 1, "#444444");
+	this.add_horiz_line_flot(opts, ModelCalc_SH.u3/ModelCalc_SH.c3, 1, "#444444");
+	this.add_vert_line_flot(opts, Params_SH.L_x / 2, 1, "#444444");
+	this.add_vert_line_flot(opts, this.trj.get_x(t).x_contact_discont_analyt, 1, "#444444");
+	this.add_vert_line_flot(opts, this.trj.get_x(t).x_shock_analyt, 1, "#444444");
+	return opts;
+    }
+*/
+    
 }
 
 class PlotTypeXT_LM extends PlotTypeXT_rect {

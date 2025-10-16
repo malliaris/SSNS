@@ -317,6 +317,7 @@ class CollisionEventsTable {
 }
 
 // tracks number of collisions, instantaneous pressure, and cumulative quantities to track average pressure, in both x and y for all
+// NOTE: we use the compressibility factor Z = p V / N k T, in terms of area fraction eta, to gauge deviation of HD fluid from ideality
 class CollisionPressureStats {
 
     constructor() {
@@ -327,6 +328,10 @@ class CollisionPressureStats {
 	this.P_x_cumul = 0.0;
 	this.P_y_cumul = 0.0;
 	this.prepare_for_time_step();
+	this.Z_x_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
+	this.Z_y_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
+	this.Z_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
+	this.Z_SHY_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
     }
 
     static copy(cpstc) {  // "copy constructor"; cpstc = CollisionPressureStats to copy
@@ -359,10 +364,10 @@ class CollisionPressureStats {
 	this.P_y_cumul += this.P_y;
 	this.P_x_t_avg = this.P_x_cumul / this.num_t_avg_contribs;
 	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
-	this.PVoNkT_x_t_avg = this.P_x_t_avg * area / (Params_HS.N * avg_KE);//Params_HS.kT0);
-	this.PVoNkT_y_t_avg = this.P_y_t_avg * area / (Params_HS.N * avg_KE);//Params_HS.kT0);
-	this.PVoNkTZSolana_x_t_avg = this.PVoNkT_x_t_avg / ModelCalc_HS.Z_SHY;//Solana;
-	this.PVoNkTZSolana_y_t_avg = this.PVoNkT_y_t_avg / ModelCalc_HS.Z_SHY;//Solana;
+	this.Z_x_t_avg = this.P_x_t_avg * area / (Params_HS.N * avg_KE);//Params_HS.kT0);
+	this.Z_y_t_avg = this.P_y_t_avg * area / (Params_HS.N * avg_KE);//Params_HS.kT0);
+	this.Z_t_avg = 0.5 * ( this.Z_x_t_avg + this.Z_y_t_avg );
+	this.Z_SHY_t_avg = this.Z_t_avg / ModelCalc_HS.Z_SHY;//Solana;
     }
 
     update_for_time_step(area, avg_KE) {

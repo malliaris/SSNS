@@ -51,9 +51,9 @@ class PlottingMachinery {
 	    break;
 	case "HS":
 	    this.plots["HS"] = {};
+	    this.plots["HS"]["XT"] = new PlotTypeXT_HS(this.sim.trjs["HS"]);
 	    this.plots["HS"]["CV"] = new PlotTypeCV_HS(this.sim.trjs["HS"]);
 	    this.plots["HS"]["HX"] = new PlotTypeHX_HS(this.sim.trjs["HS"]);
-	    this.plots["HS"]["XT"] = new PlotTypeXT_HS(this.sim.trjs["HS"]);
 	    break;
 	case "IS":
 	    this.plots["IS"] = {};
