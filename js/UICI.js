@@ -75,7 +75,7 @@ class UICI_HS_rho extends UICI {
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(0);  // override parent class default value
+	this.sv(1);  // override parent class default value
     }
 
     cycle() {
@@ -99,7 +99,7 @@ class UICI_HS_R extends UICI {
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(0);  // override parent class default value
+	this.sv(1);  // override parent class default value
     }
 
     cycle() {
@@ -118,7 +118,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
     
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(3);  // override parent class default value
+	this.sv(0);  // override parent class default value
 	if (this.v == 4) {  // confinement
 	    this.saved_N_val = $("#UI_P_SM_HS_N").prop('defaultValue');
 	    this.set_confinement_IC_N_val();
@@ -130,37 +130,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	$("#UI_P_SM_HS_N").attr("disabled", "true");
 	Params_HS.UINI_N.sv(UICI_HS_IC.confinement_IC_N_val);
     }
-    /*
-    set_param_vals(area, under_grid_spacing, under_half_grid_spacing) {
 
-	// handle calculation of R_max
-	let ideal_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, area, Params_HS.target_area_frac);
-
-	Params_HS.R_max = ideal_R_max;
-	switch (this.v) {
-
-	case 0:  // random | single v_0
-	    Params_HS.R_cutoff = ideal_R_max;
-	    break;
-	case 1:  // im/ex-plosion
-	    Params_HS.R_cutoff = under_half_grid_spacing/4.0;
-	    break;
-	case 2:  // 1D oscillators
-	    Params_HS.R_cutoff = under_half_grid_spacing;
-	    break;
-	case 3:  // equilibrium
-	    Params_HS.R_cutoff = ideal_R_max;
-	    break;
-	case 4:  // confinement
-	    Params_HS.R_cutoff = ideal_R_max;
-	    break;
-	default:
-	    console.log("ERROR:   invalid code value in UICI_HS_IC::set_special_param_vals()");
-	    break;
-	}
-	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max, "and R_cutoff of", Params_HS.R_cutoff);
-    }
-    */
     cycle() {
 
 	this.cycle_basics();
@@ -174,11 +144,11 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
     }
 
-    position_on_grid() {
+    position_on_grid() {  // MAY BE OBSOLETE???
 	return ((this.v == 1) || (this.v == 2));  // based on order of values chosen in UserInterface.js
     }
 
-    position_randomly() {
+    position_randomly() {  // MAY BE OBSOLETE???
 	return ((this.v == 0) || (this.v == 3));  // based on order of values chosen in UserInterface.js
     }
 }
