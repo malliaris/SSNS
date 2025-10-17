@@ -362,24 +362,30 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 	super();
 	this.trj = trj;
 	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
-	this.eta_color = "cyan";
-	this.E_avg_color = "yellow";
-	this.Z_x_color = "orange";
-	this.Z_y_color = "red";
-	this.Z_color = "blue";
-	this.Z_SHY_color = "green";//rgb(90, 190, 55)";
-	this.set_ylim_flot(this.flot_gen_opts, 0, 2.0);
+	this.eta_color = "#007700";
+	this.E_avg_color = "#fabb00";
+	this.Z_x_color = "#ff00ff";
+	this.Z_y_color = "#00dddd";
+	this.Z_color = "#0000ff";
+	this.Z_SHY_color = "#ff0000";
+	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
+	//this.set_ylim_flot(this.flot_gen_opts, 0, 2.0);
     }
 
-    /*
-	// determine range of segment indices and iterate over them
-	let si_i = this.trj.get_si(t_i);  // determine si_i = segment index, initial
-	let si_f = this.trj.get_si(t_f);  // determine si_f = segment index, final
-	for (let si = si_i; si <= si_f; si++) {
-    */
+    get_arr_seg_boundary_locs() {
+
+	let loc_arr = [];
+	let si_i = this.trj.get_si(this.t_i);  // determine si_i = segment index, initial
+	let si_f = this.trj.get_si(this.t_f);  // determine si_f = segment index, final
+	for (let si = si_i; si < si_f; si++) {
+	    loc_arr.push(this.trj.segs[si].t_last + 0.5);
+	}
+	return loc_arr;
+    }
 
     get_ext_y_axis_lbl_str() {
-	return "\\mathrm{gas \\; pressure, \\; etc.}";
+	return "\\textcolor{#fabb00}{ \\langle E \\rangle / k_B T_0 } \\, , \\; \\textcolor{#0000ff}{Z}_{\\textcolor{#ff00ff}{x},\\textcolor{#00dddd}{y}} \\, , \\; \\textcolor{#ff0000}{Z / Z_{\\mathrm{SHY}}} \\, , \\; \\textcolor{#007700}{\\eta}";
+	//return "\\mathrm{gas \\; pressure, \\; etc.}";
     }
 
     overwrite_line_color(flot_arr, new_color_str) {  // operates on arrays returned from assemble_data_by_seg()
@@ -439,30 +445,13 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
     }
 
     get_flot_gen_opts(t) {
-	return this.flot_gen_opts;
-    }
-
-
-    /*
-    get_ext_y_axis_lbl_str() {
-	return "\\textcolor{#f07814}{\\rho/\\rho_L} \\, , \\; \\textcolor{#0000ff}{p/p_L} \\, , \\; \\textcolor{#ff0000}{u/c_L} \\, , \\; \\textcolor{#00ff00}{\\mathrm{Ma}}";
-    }
-    get_flot_gen_opts(t) {
-	let opts = {};
-	this.set_ylim_flot(opts, -0.05, 1.05);
-	this.add_horiz_line_flot(opts, ModelCalc_SH.p2/Params_SH.pL, 1, "#444444");  // fyi, p2 == p3
-	this.add_horiz_line_flot(opts, ModelCalc_SH.rho2/Params_SH.rhoL, 1, "#444444");
-	this.add_horiz_line_flot(opts, ModelCalc_SH.rho3/Params_SH.rhoL, 1, "#444444");
-	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.cL, 1, "#444444");  // fyi, u2 == u3
-	this.add_horiz_line_flot(opts, ModelCalc_SH.u2/ModelCalc_SH.c2, 1, "#444444");
-	this.add_horiz_line_flot(opts, ModelCalc_SH.u3/ModelCalc_SH.c3, 1, "#444444");
-	this.add_vert_line_flot(opts, Params_SH.L_x / 2, 1, "#444444");
-	this.add_vert_line_flot(opts, this.trj.get_x(t).x_contact_discont_analyt, 1, "#444444");
-	this.add_vert_line_flot(opts, this.trj.get_x(t).x_shock_analyt, 1, "#444444");
+	let opts = copy(this.flot_gen_opts);
+	let seg_boundary_locs = this.get_arr_seg_boundary_locs();
+	for (let i = 0; i < seg_boundary_locs.length; i++) {
+	    this.add_vert_line_flot(opts, seg_boundary_locs[i], 10, "#dddddd");
+	}
 	return opts;
     }
-*/
-    
 }
 
 class PlotTypeXT_LM extends PlotTypeXT_rect {
