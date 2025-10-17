@@ -770,9 +770,10 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 <p>There are also a few supplemental pages that go a bit deeper, or cross categories:</p>
 
 <ul><li>a bit on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">statistical ensembles</a>, relevant to the first two categories</li>
-<li>a bit on the various <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_MARKOV_ONE_STEP'); ">types of stochastic processes</a></li>
-<li>a bit on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">spin systems</a>, of which system types <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IS'); ">Ising</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_XY'); ">XY</a> are examples</li>
-<li>a bit on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PHASE_TRANSITIONS'); ">phase transitions</a> (part of statistical mechanics, and relevant to those same two spin systems)</li></ul>
+<li>the various <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_MARKOV_ONE_STEP'); ">types of stochastic processes</a></li>
+<li>for statistical mechanical systems, we implement, two <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">gas models</a> and two <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">spin systems</a></li>
+<li>a bit on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PHASE_TRANSITIONS'); ">phase transitions</a>, and if/how they will appear in those statistical mechanical systems</li>
+<li>a bit on the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_THEORY_COMPARISON'); ">comparison</a> between theory and computational results, as illustrated with our <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">Hard Sphere</a> implementation</li></ul>
 </div><!-- CLOSES div class="hv_view" -->
 
 <div id="HV_ENSEMBLES" class="hv_view" data-ready="1" data-hvmh="Ensembles, Averaging">
@@ -839,6 +840,14 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 <li>while we implement a number of "artificial" <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a> (e.g., to play with the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Relaxation_(physics)"><em>approach</em></a> to equilibrium), the default (and most realistic) is to use <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Non-uniform_random_variate_generation">random sampling</a>.</li>
 <li>How? Sample <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Continuous_uniform_distribution">uniform</a> particle positions and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Maxwell%E2%80%93Boltzmann_distribution">Maxwell-Boltzmann</a> velocities.  Thus, while the system motion is deterministic, its initial state is stochastic and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RNG_RECR_TRAJ'); ">seed</a>-controlled.</li>
 </ul>
+
+</div><!-- CLOSES div class="hv_view" -->
+
+<div id="HV_GAS_THEORY_COMPARISON" class="hv_view" data-ready="1" data-hvmh="Theory Comparison">
+
+<p>A sample of water can be switched between frozen and liquid states by manipulating the sample's temperature.  Similarly, the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IS'); ">Ising</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_XY'); ">XY</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">spin systems</a> we have implemented exhibit temperature-induced <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Critical_phenomena">phase transitions</a>.  Roughly speaking, low-<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_T'); ">$$ T $$</a> states will be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_and_disorder">ordered</a> (areas of like-colored tiles), while high-<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_T'); ">$$ T $$</a> states will be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_and_disorder">disordered</a> (random distribution of colors).</p>
+
+<p><em>True</em> phase transitions only appear in the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_limit">thermodynamic limit</a> (for us, lattice size <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_N'); ">$$ N $$</a> $$ \to \infty $$).  Careful simulation of such phenomena would require large lattices, a large <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">ensemble</a>, and slowly changing $$ T $$ to "hug" <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_equilibrium">equilibrium</a> states.  While <strong>SSNS</strong>'s <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Central_processing_unit">CPU</a>-based computation is <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_FUTURE'); ">limited</a> in these areas, <em>transition-like</em> behavior can certainly be observed.  For a higher-performance, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Graphics_processing_unit">GPU</a>-based web app, see <a target="_blank" class="hv_ext_link" href="//kjslag.github.io/XY/">this XY simulation</a>.</p>
 
 </div><!-- CLOSES div class="hv_view" -->
 
