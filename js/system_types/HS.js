@@ -96,7 +96,7 @@ class ModelCalc_HS extends ModelCalc_Gas {
 	let B = 2.0 * R_min * (EXoEX2 - 1.0);  // coefficient of linear term; quadratic coefficient A = 1
 	let C = R_min*R_min*(1.0 - 2.0*EXoEX2 + 1.0/EX2) - frac*A / (N*Math.PI*EX2);  // constant term
 	let R_max = -0.5*B + 0.5*Math.sqrt( B*B - 4.0*C );  // take positive root in quadratic formula
-	console.log("INFO:   Beta dist stats (mean, variance, std. dev.) =", mean, ",", vrnce, ",", stddev);
+	console.log("INFO:   Beta dist stats (mean, variance, std. dev.) =", mean, ",", vrnce, ",", stddev, R_min, (B*B - 4.0*C));
 	console.log("INFO:   ... cont'd ... (mean - stddev, mean + stddev, R_max)", (mean - stddev), (mean + stddev), R_max);
 	return R_max;
     }
@@ -137,12 +137,13 @@ class Params_HS extends Params {
     static UICI_R;  // = new UICI_HS_R(this, "UI_P_SM_HS_R", false);  assignment occurs in UserInterface(); see discussion there
     static UICI_IC;  // = new UICI_HS_IC(this, "UI_P_SM_HS_IC", false);  assignment occurs in UserInterface(); see discussion there
 
-    static R_min = 1e-10;  // basically set R_min = 0 and allow Beta distribution effectively set R_min; Beta dist mean, mode are a/(a + b) and (a - 1)/(a + b - 2), resp.
+    static R_min = 1e-10;  // see initialize_particle_basics(); coordinate value with Beta distribution; Beta dist mean, mode are a/(a + b) and (a - 1)/(a + b - 2), resp.
     static R_max;  // now auto-calculated in get_R_max_from_mean_area_frac() based on other parameter values
     static R_dist_a = 1.000001;
     static R_dist_b = 100;
     static R_single_value;  // now auto-calculated in create_particles_w_random_R_x_y() based on other parameter values
-    static target_area_frac = 0.2;  // keep around 0.1 or lower
+    static target_area_frac = 0.01;
+    static total_particle_area;  // calculated once (in do_post_particle_creation_tasks()) after particles are created
     static R_tiny_particle_cutoff = 0.005;
     static R_tiny_particle_drawn_as = 0.01;
     static draw_tiny_particles_artificially_large = true;
@@ -290,14 +291,18 @@ class Coords_HS extends Coords {
 	return (Params_HS.Ly * this.get_Lx());  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
     }
 
-    get_area_frac() {
+    get_total_particle_area() {
 
 	let total_particle_area = 0.0;
 	for (let i = 0; i < Params_HS.N; i++) {
 	    let particle_area = Math.PI * this.particles[i].R * this.particles[i].R;
 	    total_particle_area += particle_area;
 	}
-	return total_particle_area / this.get_area();
+	return total_particle_area;
+    }
+
+    get_area_frac() {
+	return Params_HS.total_particle_area / this.get_area();
     }
 
     particle_config_free_of_overlaps() {
@@ -599,8 +604,10 @@ class Coords_HS extends Coords {
 
 	// miscellaneous tasks
 	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max, "and R_cutoff of", Params_HS.R_cutoff);
+	Params_HS.total_particle_area = this.get_total_particle_area();
 	let area_frac = this.get_area_frac();
-	console.log("INFO:   Generated gas of particles is", ((this.particle_config_free_of_overlaps() ? "" : "NOT") + "free of overlaps and has area fraction of"), area_frac);  // GET RID OF OVERLAP CHECK???
+	//console.log("INFO:   Generated gas of particles is", ((this.particle_config_free_of_overlaps() ? "" : "NOT") + "free of overlaps and has area fraction of"), area_frac);  // GET RID OF OVERLAP CHECK???
+	console.log("INFO:   Generated gas of particles has total particle area", Params_HS.total_particle_area, " and (currently) area fraction", area_frac);
 	this.report_num_particles_w_R_below_cutoff();
 	ModelCalc_HS.Z_Solana = ModelCalc_HS.get_Z_Solana(area_frac);
 	ModelCalc_HS.Z_SHY = ModelCalc_HS.get_Z_SHY(area_frac);
@@ -613,7 +620,7 @@ class Coords_HS extends Coords {
     
     initialize_particle_basics() {
 
-	let ideal_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, Params_HS.R_min, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);
+	let ideal_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, 1e-10, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);  // NOTE: 0 for R_min, here
 	Params_HS.R_max = ideal_R_max;
 
 	switch (Params_HS.UICI_IC.v) {

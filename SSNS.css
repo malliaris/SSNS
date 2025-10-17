@@ -58,12 +58,15 @@
     padding: 0 4px 1px 4px;
     margin-bottom: 4px;
 }
+.UICI_btn {
+    background-color: #f0f0f0;
+    cursor:pointer; 
+}
 .plot_icon_axes            {border-left: 3px solid; border-bottom: 3px solid; border-radius: 0px 0px 0px 3px; }
 
 .gentle_warning            {color: #bbbbbb; }
 .btn_contrast_txt          {color: #aaaaaa; }
-
-.btn_w_txt                 {letter-spacing: 0.05em; }
+/*.btn_w_txt                 {letter-spacing: 0.05em; } NOT USED ANYMORE? */
 
 .t_indicators_etc          {pointer-events: none; color: #000000; background-color: #cccccc; }  /* match colors to .btn-ssns entries above */
 #PRMS_icon_and_indicator   {border: 0px solid yellow; }

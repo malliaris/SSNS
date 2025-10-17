@@ -118,7 +118,7 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
     
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
-	this.sv(0);  // override parent class default value
+	this.sv(3);  // override parent class default value
 	if (this.v == 4) {  // confinement
 	    this.saved_N_val = $("#UI_P_SM_HS_N").prop('defaultValue');
 	    this.set_confinement_IC_N_val();
@@ -142,14 +142,6 @@ class UICI_HS_IC extends UICI {  // used specifically for HS IC (initial conditi
 	    $("#UI_P_SM_HS_N").removeAttr("disabled");
 	}
 	this.ui.sim.process_cmd("RT");  // reload to create new Trajectory with new value
-    }
-
-    position_on_grid() {  // MAY BE OBSOLETE???
-	return ((this.v == 1) || (this.v == 2));  // based on order of values chosen in UserInterface.js
-    }
-
-    position_randomly() {  // MAY BE OBSOLETE???
-	return ((this.v == 0) || (this.v == 3));  // based on order of values chosen in UserInterface.js
     }
 }
 
