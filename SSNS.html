@@ -845,7 +845,27 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 
 <div id="HV_GAS_THEORY_COMPARISON" class="hv_view" data-ready="1" data-hvmh="Theory Comparison">
 
-<p>A sample of water can be switched between frozen and liquid states by manipulating the sample's temperature.  Similarly, the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IS'); ">Ising</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_XY'); ">XY</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">spin systems</a> we have implemented exhibit temperature-induced <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Critical_phenomena">phase transitions</a>.  Roughly speaking, low-<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_T'); ">$$ T $$</a> states will be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_and_disorder">ordered</a> (areas of like-colored tiles), while high-<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_T'); ">$$ T $$</a> states will be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_and_disorder">disordered</a> (random distribution of colors).</p>
+<p>The <strong>SSNS</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">Hard Sphere</a> (<samp>HS</samp>) implementation can be thought of as a virtual laboratory apparatus &mdash; there are "dials" to adjust and quantities to "measure."  And, while we're unlikely to break new ground, we are free to <em>experiment</em> and check against existing theoretical results.  Thoughts:</p>
+
+<ul>
+<li>The <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Ideal_gas">ideal gas law</a> can, of course, be tested with our <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IG'); ">ideal gas</a> implementation (via the <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-arrow-trend-up"></i></button> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_PLOT_TYPES'); ">plot type</a>).  But this check is also available in <samp>HS</samp> indirectly as the particle radius $$R$$ <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Limit_(mathematics)">approaches</a> zero.</li>
+<li>The <samp>HS</samp> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-arrow-trend-up"></i></button> plot shows the following quantities over time $$t$$: the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Packing_density">area fraction</a> $$\eta$$, </li>
+<li>MB, B dists</li>
+<li><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Phase_portrait">phase-portrait</a>-like</li>
+<li></li>
+<li> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-arrows-spin"></i></button>, </li>
+<li>application to R, rho dists sitch</li>
+</ul>
+
+
+
+<a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Hard_spheres#Carnahan%E2%80%93Starling_equation_of_state">EOS</a>
+<a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Compressibility_factor">compressibility factor</a> $$Z = \frac{p V}{ N k_B T }$$
+<a target="_blank" class="hv_ext_link" href=""></a>
+<a target="_blank" class="hv_ext_link" href=""></a>
+<a target="_blank" class="hv_ext_link" href=""></a>
+
+<p>One thought that occurs once  <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Adiabatic_process#Adiabatic_compression_and_expansion">adiabatic compression</a> <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Isothermal_process">isothermal compression</a>   <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Maxwell%27s_demon">Maxwellian demon</a></p>
 
 <p><em>True</em> phase transitions only appear in the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_limit">thermodynamic limit</a> (for us, lattice size <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_N'); ">$$ N $$</a> $$ \to \infty $$).  Careful simulation of such phenomena would require large lattices, a large <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">ensemble</a>, and slowly changing $$ T $$ to "hug" <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_equilibrium">equilibrium</a> states.  While <strong>SSNS</strong>'s <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Central_processing_unit">CPU</a>-based computation is <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_FUTURE'); ">limited</a> in these areas, <em>transition-like</em> behavior can certainly be observed.  For a higher-performance, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Graphics_processing_unit">GPU</a>-based web app, see <a target="_blank" class="hv_ext_link" href="//kjslag.github.io/XY/">this XY simulation</a>.</p>
 
@@ -1353,7 +1373,7 @@ The variable $$ x $$ represents the number of individuals that possess version $
 <td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><i class="fas fa-fw fa-lg fa-arrow-trend-up"></i></span></td></tr>
 <tr><td>plot of non-$$t$$-dependent function, e.g., a probability distribution $$ P(x) $$; plot <em>refreshes</em> each $$ t $$</td>
 <td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><i class="fas fa-fw fa-lg fa-chart-simple"></i></span></td></tr>
-<tr><td><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Heat_map">heat map</a> array of tiles; array refreshes each $$ t $$; color of tile indicates variable value</td>
+<tr><td>a canvas of pixels, used to show the current configuration of a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Degrees_of_freedom_(mechanics)">high-dimensional</a> system, refreshing each $$ t $$</td>
 <td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><i class="fab fa-fw fa-lg fa-buromobelexperte"></i></span></td></tr>
 <tr><td>phase plane plot with one data point, e.g., $$ [ x(t), y(t) ] $$, for each of a fixed number of past time steps</td>
 <td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><i class="fas fa-fw fa-lg fa-arrows-spin"></i></span></td></tr>
