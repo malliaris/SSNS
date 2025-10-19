@@ -362,10 +362,10 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 	super();
 	this.trj = trj;
 	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
-	this.eta_color = "#007700";
 	this.E_avg_color = "#fabb00";
+	this.eta_color = "#00aa00";
 	this.Z_x_color = "#ff00ff";
-	this.Z_y_color = "#00dddd";
+	this.Z_y_color = "#00bbff";
 	this.Z_color = "#0000ff";
 	this.Z_SHY_color = "#ff0000";
 	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
@@ -373,7 +373,7 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
     }
 
     get_ext_y_axis_lbl_str() {
-	return "\\textcolor{#fabb00}{ \\langle E \\rangle / k_B T_0 } \\, , \\; \\textcolor{#0000ff}{Z}_{\\textcolor{#ff00ff}{x},\\textcolor{#00dddd}{y}} \\, , \\; \\textcolor{#ff0000}{Z / Z_{\\mathrm{SHY}}} \\, , \\; \\textcolor{#007700}{\\eta}";
+	return "\\textcolor{#fabb00}{ U / N k T_0 } \\, , \\; \\textcolor{#00aa00}{{\\large \\eta}} \\, , \\; \\textcolor{#0000ff}{Z}_{\\textcolor{#ff00ff}{x},\\textcolor{#00bbff}{y}} \\, , \\; \\textcolor{#ff0000}{Z / Z_{\\mathrm{SHY}}}";
     }
 
     get_arr_seg_boundary_locs() {
