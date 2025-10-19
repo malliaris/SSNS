@@ -362,7 +362,7 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 	super();
 	this.trj = trj;
 	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
-	this.E_avg_color = "#fabb00";
+	this.T_T0_color = "#fabb00";
 	this.eta_color = "#00aa00";
 	this.Z_x_color = "#ff00ff";
 	this.Z_y_color = "#00bbff";
@@ -373,7 +373,7 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
     }
 
     get_ext_y_axis_lbl_str() {
-	return "\\textcolor{#fabb00}{ U / N k T_0 } \\, , \\; \\textcolor{#00aa00}{{\\large \\eta}} \\, , \\; \\textcolor{#0000ff}{Z}_{\\textcolor{#ff00ff}{x},\\textcolor{#00bbff}{y}} \\, , \\; \\textcolor{#ff0000}{Z / Z_{\\mathrm{SHY}}}";
+	return "\\textcolor{#fabb00}{ T / T_0 } \\, , \\; \\textcolor{#00aa00}{{\\large \\eta}} \\, , \\; \\textcolor{#0000ff}{Z}_{\\textcolor{#ff00ff}{x},\\textcolor{#00bbff}{y}} \\, , \\; \\textcolor{#ff0000}{Z / Z_{\\mathrm{SHY}}}";
     }
 
     get_arr_seg_boundary_locs() {
@@ -416,7 +416,7 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 	fxn_obj = t => {return this.trj.get_x(t).get_avg_KE() / Params_HS.kT0; };
 	curr_arr = [];
 	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
-	this.overwrite_line_color(curr_arr, this.E_avg_color);
+	this.overwrite_line_color(curr_arr, this.T_T0_color);
 	fds = fds.concat(curr_arr);
 
 	// plot Z_x = P_x A / N <E>
