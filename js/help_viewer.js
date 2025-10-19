@@ -180,7 +180,7 @@ class HelpViewer {
 
 			    new HelpViewerNode("HV_P_SM_IG_N", []),
 			    new HelpViewerNode("HV_P_SM_IG_V", []),
-			    new HelpViewerNode("HV_P_SM_IG_kT", []),
+			    new HelpViewerNode("HV_P_SM_IG_kT0", []),
 			    new HelpViewerNode("HV_P_SM_IG_BC", []),
 
 			]),

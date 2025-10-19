@@ -79,8 +79,8 @@ class Params_IG extends Params {
     static N;
     static UINI_V;  // = new UINI_float(this, "UI_P_SM_IG_V", false);  assignment occurs in UserInterface(); see discussion there
     static V;
-    static UINI_kT;  // = new UINI_float(this, "UI_P_SM_IG_kT", true);  assignment occurs in UserInterface(); see discussion there
-    static kT;
+    static UINI_kT0;  // = new UINI_float(this, "UI_P_SM_IG_kT0", true);  assignment occurs in UserInterface(); see discussion there
+    static kT0;
     static UICI_BC;  // = new UICI_IG(this, "UI_P_SM_IG_BC", ...);  assignment occurs in UserInterface(); see discussion there
 
     static R = 0.003;  // EVENTUALLY MAKE AN INPUT PARAMETER?
@@ -103,12 +103,12 @@ class Params_IG extends Params {
 	// summarize physical parameter values
 	console.log("physical parameter value summary:");
 	console.log("N     :", Params_IG.N);
-	console.log("kT    :", Params_IG.kT);
+	console.log("kT_0  :", Params_IG.kT0);
 	console.log("V     :", Params_IG.V);
 	console.log("Lx    :", Params_IG.Lx);
 	console.log("Ly    :", Params_IG.Ly);
 	console.log("dt    :", Params_IG.dt);
-	console.log("p_thr :", (Params_IG.N * Params_IG.kT / Params_IG.V));
+	console.log("p_thr :", (Params_IG.N * Params_IG.kT0 / Params_IG.V));
     }
 
     push_vals_to_UI() {
@@ -172,15 +172,15 @@ class Coords_IG extends Coords {
 	    let rx = this.get_rand_x();  // random x position
 	    let ry = this.get_rand_y();  // random y position
 
-	    //let v_chi = this.mc.mbde.get_MBD_v_chi(Params_IG.kT, Params_IG.m);
+	    //let v_chi = this.mc.mbde.get_MBD_v_chi(Params_IG.kT0, Params_IG.m);
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, v_chi);
 
-	    //let v_avg = this.mc.mbde.get_MBD_v_avg(Params_IG.kT, Params_IG.m);
+	    //let v_avg = this.mc.mbde.get_MBD_v_avg(Params_IG.kT0, Params_IG.m);
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, v_avg);
 
 	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, 1.0);
 
-	    this.mc.mbde.load_vc_MBD_v_comps(vc, Params_IG.kT, Params_IG.m);
+	    this.mc.mbde.load_vc_MBD_v_comps(vc, Params_IG.kT0, Params_IG.m);
 
 	    let vx = vc.x;
 	    let vy = vc.y;
@@ -221,8 +221,8 @@ class Coords_IG extends Coords {
 	this.P_y_cumul += this.P_y;
 	this.P_x_t_avg = this.P_x_cumul / this.num_t_avg_contribs;
 	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
-	this.PVoNkT_x_t_avg = this.P_x_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT);
-	this.PVoNkT_y_t_avg = this.P_y_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT);
+	this.PVoNkT_x_t_avg = this.P_x_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT0);
+	this.PVoNkT_y_t_avg = this.P_y_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT0);
     }
 
     output() {
@@ -241,7 +241,7 @@ class Trajectory_IG extends Trajectory {
 
 	Params_IG.N = Params_IG.UINI_N.v;
 	Params_IG.V = Params_IG.UINI_V.v;
-	Params_IG.kT = Params_IG.UINI_kT.v;
+	Params_IG.kT0 = Params_IG.UINI_kT0.v;
 
 	// Volume V is achieved by setting Lx = V and Ly = 1
 	Params_IG.Lx = Params_IG.V;

@@ -142,7 +142,7 @@ class Params_HS extends Params {
     static R_dist_a = 1.000001;
     static R_dist_b = 100;
     static R_single_value;  // now auto-calculated in create_particles_w_random_R_x_y() based on other parameter values
-    static target_area_frac = 0.001;
+    static target_area_frac = 0.2;
     static total_particle_area;  // calculated once (in do_post_particle_creation_tasks()) after particles are created
     static R_tiny_particle_cutoff = 0.005;
     static R_tiny_particle_drawn_as = 0.01;
@@ -348,15 +348,7 @@ class Coords_HS extends Coords {
 	}
     }
 
-    get_particle_R_val(indx) {  // determine and return new particle's radius
-
-	if (Params_HS.UICI_R.use_distribution()) {  // if R distribution is being used...
-	    return this.mc.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, Params_HS.R_cutoff);
-	} else {  // otherwise, all particles have the same R value
-	    return Params_HS.R_single_value;
-	}
-    }
-
+    // REVIEW HOW THIS METHOD FITS IN AND CONSIDER REFACTORING TO SIMPLIFY
     get_particle_mass_val(rho_val, R_val) {  // determine and return new particle's mass
 
 	if (Params_HS.UICI_rho.all_particles_same_m()) {
@@ -567,17 +559,31 @@ class Coords_HS extends Coords {
 	return Math.sqrt(2.0 * Params_HS.N * Params_HS.kT0 / sum_of_masses);
     }
 
-    set_particle_velocity_implosion(p) {
+    set_particle_velocities_implosion() {
 
-	let x_mid = this.get_Lx() / 2.0;  // these only need to be calculated once, but no big efficiency downside since we only use routine for IC
-	let y_mid = Params_HS.Ly / 2.0;   // these only need to be calculated once, but no big efficiency downside since we only use routine for IC
-	let Dx = p.x - x_mid;
-	let Dy = p.y - y_mid;
-	let angle_from_center = atan2(Dy, Dx);  // note argument order!
-	let dist_from_center = Math.sqrt( Dx*Dx + Dy*Dy );
-	let speed = 1e-2 * dist_from_center / Params_HS.ds;  // deal w magic # 1e-2!!!
-	p.vx = -1.0 * speed * Math.cos(angle_from_center);
-	p.vy = -1.0 * speed * Math.sin(angle_from_center);
+	let x_mid = this.get_Lx() / 2.0;
+	let y_mid = Params_HS.Ly / 2.0;
+
+	// calculate the sum of m_i * d_i^2 for use below
+	let sum_m_d2 = 0.0;
+	for (let i = 0; i < Params_HS.N; i++) {
+	    let Dx = this.particles[i].x - x_mid;
+	    let Dy = this.particles[i].y - y_mid;
+	    let dist_from_center = Math.sqrt( Dx*Dx + Dy*Dy );
+	    sum_m_d2 += this.particles[i].m * dist_from_center * dist_from_center;
+	}
+
+	// actually set particle velocities
+	let speed_mult_fctr = Math.sqrt(2.0 * Params_HS.N * Params_HS.kT0 / sum_m_d2);  // use sum_m_d2 from above so that total energy is N*k_B*T_0
+	for (let i = 0; i < Params_HS.N; i++) {
+	    let Dx = this.particles[i].x - x_mid;
+	    let Dy = this.particles[i].y - y_mid;
+	    let dist_from_center = Math.sqrt( Dx*Dx + Dy*Dy );
+	    let speed = speed_mult_fctr * dist_from_center;
+	    let angle_from_center = atan2(Dy, Dx);  // note argument order!
+	    this.particles[i].vx = -1.0 * speed * Math.cos(angle_from_center);
+	    this.particles[i].vy = -1.0 * speed * Math.sin(angle_from_center);
+	}
     }
 
     do_post_particle_creation_tasks() {
@@ -645,9 +651,7 @@ class Coords_HS extends Coords {
 	    Params_HS.R_cutoff = this.under_half_grid_spacing/2.0;
 	    this.create_particles_on_grid_w_random_R();
 	    this.set_particle_rho_mass();
-	    for (let i = 0; i < Params_HS.N; i++) {
-		this.set_particle_velocity_implosion(this.particles[i]);
-	    }
+	    this.set_particle_velocities_implosion();
 	    break;
 
 	case 2:  // 1D oscillators

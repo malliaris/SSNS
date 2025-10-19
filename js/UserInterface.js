@@ -45,7 +45,7 @@ class UserInterface {
 	Coords_CH.x_0 = new UINI_int(this, "UI_P_SP_CH_x_0", false);
 	Params_IG.UINI_N = new UINI_int(this, "UI_P_SM_IG_N", false);
 	Params_IG.UINI_V = new UINI_float(this, "UI_P_SM_IG_V", false);
-	Params_IG.UINI_kT = new UINI_float(this, "UI_P_SM_IG_kT", false);
+	Params_IG.UINI_kT0 = new UINI_float(this, "UI_P_SM_IG_kT0", false);
 	Params_IG.UICI_BC = new UICI_IG(this, "UI_P_SM_IG_BC", ["\\small \\mathrm{reflecting \\; | \\; reflecting}", "\\small \\mathrm{reflecting \\; | \\; periodic}", "\\small \\mathrm{periodic \\; | \\; reflecting}", "\\small \\mathrm{periodic \\; | \\; periodic}"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", true);
 	Params_HS.UINI_N = new UINI_int(this, "UI_P_SM_HS_N", false);
 	Params_HS.UINI_kT0 = new UINI_float(this, "UI_P_SM_HS_kT0", false);
