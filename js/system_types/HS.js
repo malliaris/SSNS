@@ -206,7 +206,7 @@ class Coords_HS extends Coords {
 
 	    this.x_RW = 0.0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
-	    this.cps = new CollisionPressureStats();
+	    this.cps = new CollisionPressureStats_HS();
 	    this.psh = new GasSpeedHistogram(GasSpeedHistogram.get_reasonable_v_bin_width(Params_HS.kT0, Params_HS.m_single_value, Params_HS.N));// 0.2);  // psh = particle speed histogram
 	    this.peh = new GasSpeedHistogram(GasSpeedHistogram.get_reasonable_E_bin_width(Params_HS.kT0, Params_HS.N));// 0.5);  // peh = particle energy histogram
 	    this.cet = new CollisionEventsTable();
@@ -222,7 +222,7 @@ class Coords_HS extends Coords {
 
 	} else {
 
-	    this.cps = CollisionPressureStats.copy(this.c_prev.cps);
+	    this.cps = CollisionPressureStats_HS.copy(this.c_prev.cps);
 	    this.psh = GasSpeedHistogram.copy(this.c_prev.psh);
 	    this.peh = GasSpeedHistogram.copy(this.c_prev.peh);  // peh = particle energy histogram
 	    this.copy_particles_collision_structures_etc();
@@ -1094,7 +1094,7 @@ class Coords_HS extends Coords {
 	}
 
 	this.time_evolve(new_s - curr_s);
-	this.cps.update_for_time_step(this.get_area(), this.get_kT());
+	this.cps.update_for_time_step(this.get_area(), Params_HS.N, this.get_kT());
 
 	//let avg_KE = this.get_kT();
 	//let VT_constant = this.get_area() * avg_KE;

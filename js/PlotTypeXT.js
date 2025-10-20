@@ -441,7 +441,7 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 	fds = fds.concat(curr_arr);
 
 	// plot Z / Z_SHY
-	fxn_obj = t => {return this.trj.get_x(t).cps.Z_SHY_t_avg; };
+	fxn_obj = t => {return this.trj.get_x(t).cps.get_Z_SHY_t_avg(); };
 	curr_arr = [];
 	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
 	this.overwrite_line_color(curr_arr, this.Z_SHY_color);

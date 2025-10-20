@@ -331,12 +331,14 @@ class CollisionPressureStats {
 	this.Z_x_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
 	this.Z_y_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
 	this.Z_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
-	this.Z_SHY_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
     }
 
     static copy(cpstc) {  // "copy constructor"; cpstc = CollisionPressureStats to copy
 
-	let ncps = new CollisionPressureStats();
+	let ncps;
+	if (cpstc instanceof CollisionPressureStats_HS) {
+	    ncps = new CollisionPressureStats_HS();
+	}  // add more when ready...
 
 	ncps.num_t_avg_contribs = cpstc.num_t_avg_contribs;
 	ncps.P_x_cumul = cpstc.P_x_cumul;
@@ -355,7 +357,7 @@ class CollisionPressureStats {
 	// could track other things, like types of collisions, etc.
     }
 
-    calc_quantities(area, avg_KE) {
+    calc_quantities(area, N, kT) {
 
 	this.num_t_avg_contribs += 1;
 	this.num_x_collisions_cumul += this.num_x_collisions;
@@ -364,15 +366,22 @@ class CollisionPressureStats {
 	this.P_y_cumul += this.P_y;
 	this.P_x_t_avg = this.P_x_cumul / this.num_t_avg_contribs;
 	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
-	this.Z_x_t_avg = this.P_x_t_avg * area / (Params_HS.N * avg_KE);//Params_HS.kT0);
-	this.Z_y_t_avg = this.P_y_t_avg * area / (Params_HS.N * avg_KE);//Params_HS.kT0);
+	this.Z_x_t_avg = this.P_x_t_avg * area / (N * kT);
+	this.Z_y_t_avg = this.P_y_t_avg * area / (N * kT);
 	this.Z_t_avg = 0.5 * ( this.Z_x_t_avg + this.Z_y_t_avg );
-	this.Z_SHY_t_avg = this.Z_t_avg / ModelCalc_HS.Z_SHY;//Solana;
     }
 
-    update_for_time_step(area, avg_KE) {
+    update_for_time_step(area, N, kT) {
 
-	this.calc_quantities(area, avg_KE);
+	this.calc_quantities(area, N, kT);
 	this.prepare_for_time_step();
+    }
+}
+
+class CollisionPressureStats_HS extends CollisionPressureStats {
+
+    get_Z_SHY_t_avg() {
+
+	return ( (this.num_t_avg_contribs == 0) ? 0.0 : (this.Z_t_avg / ModelCalc_HS.Z_SHY) );  // 0 not terribly meaningful (since no collisions have occurred) but makes plotting easier
     }
 }
