@@ -338,7 +338,9 @@ class CollisionPressureStats {
 	let ncps;
 	if (cpstc instanceof CollisionPressureStats_HS) {
 	    ncps = new CollisionPressureStats_HS();
-	}  // add more when ready...
+	} else {
+	    ncps = new CollisionPressureStats_IG();
+	}
 
 	ncps.num_t_avg_contribs = cpstc.num_t_avg_contribs;
 	ncps.P_x_cumul = cpstc.P_x_cumul;
@@ -377,6 +379,8 @@ class CollisionPressureStats {
 	this.prepare_for_time_step();
     }
 }
+
+class CollisionPressureStats_IG extends CollisionPressureStats {}
 
 class CollisionPressureStats_HS extends CollisionPressureStats {
 

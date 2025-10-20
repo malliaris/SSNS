@@ -1063,7 +1063,7 @@ class Coords_HS extends Coords {
 	return total_KE;
     }
 
-    // get the temperature T (ask kT), which is just the average KE for HS gas, and is fixed unless/until piston moves
+    // get the temperature T (as kT), which is just the average KE for HS gas, and is fixed unless/until piston moves
     get_kT() {
 	return this.get_total_KE() / Params_HS.N;
     }

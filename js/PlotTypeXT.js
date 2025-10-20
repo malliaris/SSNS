@@ -343,10 +343,69 @@ class PlotTypeXT_IG extends PlotTypeXT_rect {
 	this.update_x_axis_flot(this.flot_gen_opts, this.t_L, this.t_R, this.trj.t_edge);
 
 	let fds = [];  // fds = flot_data_series
-	let fxn_obj = t => {return this.trj.get_x(t).PVoNkT_x_t_avg; };
+        let fxn_obj = t => {return this.trj.get_x(t).cps.Z_x_t_avg; };
 	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
-	fxn_obj = t => {return this.trj.get_x(t).PVoNkT_y_t_avg; };
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_y_t_avg; };
 	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_t_avg; };
+	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
+	//fxn_obj = t => {return this.trj.get_x(t).cps.Z_y_t_avg; };
+	//this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
+
+	// plot Z_x = P_x A / N <E>
+	///fxn_obj = t => {return this.trj.get_x(t).cps.Z_x_t_avg; };
+	//curr_arr = [];
+	//this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	//this.overwrite_line_color(curr_arr, this.Z_x_color);
+	//fds = fds.concat(curr_arr);
+
+
+	/*
+	let fds = [];  // fds = flot_data_series
+
+	// plot area fraction eta
+	let fxn_obj = t => {return this.trj.get_x(t).get_area_frac(); };
+	//let fxn_obj = t => {return this.trj.get_x(t).get_area(); };
+	let curr_arr = [];  // used to manipulate smaller array pieces as they're added to fds
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.eta_color);
+	fds = fds.concat(curr_arr);
+
+	// plot T / T_0
+	fxn_obj = t => {return this.trj.get_x(t).get_kT() / Params_HS.kT0; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.T_T0_color);
+	fds = fds.concat(curr_arr);
+
+	// plot Z_x = P_x A / N <E>
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_x_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_x_color);
+	fds = fds.concat(curr_arr);
+
+	// plot Z_y = P_y A / N <E>
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_y_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_y_color);
+	fds = fds.concat(curr_arr);
+
+	// plot Z = (Z_x + Z_y) / 2
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_color);
+	fds = fds.concat(curr_arr);
+
+	// plot Z / Z_SHY
+	fxn_obj = t => {return this.trj.get_x(t).cps.get_Z_SHY_t_avg(); };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_SHY_color);
+	fds = fds.concat(curr_arr);
+	*/
 	return fds;
     }
 
