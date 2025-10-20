@@ -159,8 +159,8 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 	let curr_psh = this.trj.get_x(t).psh;  // current gas speed histogram object, from which we will draw all data
 	let curr_peh = this.trj.get_x(t).peh;  // current particle energy histogram object, from which we will draw data
 
-	let avg_KE = this.trj.get_x(t).get_avg_KE();
-	let avg_ish_v = Math.sqrt(2.0 * avg_KE / Params_HS.m);
+	let curr_kT = this.trj.get_x(t).get_kT();
+	let avg_ish_v = Math.sqrt(2.0 * curr_kT / Params_HS.m_single_value);  // OBSOLETE?
 
 	if (Params_HS.UICI_rho.all_particles_same_m()) {
 	
@@ -174,14 +174,14 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 
 	    // load theoretical functional form over-plot (2D Maxwell-Boltzmann speed distribution)
 	    let mult_fctr = curr_psh.bin_width * Params_HS.N;  // multiply pdf by bin width to get a probability and by Params_HS.N to get expected # particles
-	    let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, Params_HS.kT0, Params_HS.m, mult_fctr);
+	    let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, curr_kT, Params_HS.m_single_value, mult_fctr);
 	    this.flot_data_opts_theory["data"] = theory_data;
 	    data_series.push(this.flot_data_opts_theory);
 
 	} else {
 
-	    let y_intercept = Math.log(Params_HS.N * curr_peh.bin_width / Params_HS.kT0);
-	    let x_intercept = y_intercept * Params_HS.kT0;
+	    let y_intercept = Math.log(Params_HS.N * curr_peh.bin_width / curr_kT);
+	    let x_intercept = y_intercept * curr_kT;
 	    this.flot_data_opts_theory["data"] = [[0, y_intercept], [x_intercept, 0]];//theory_data;
 	    data_series.push(this.flot_data_opts_theory);
 
@@ -196,7 +196,7 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 
     get_flot_gen_opts(t) {
 	let opts = {};
-	this.set_xlim_flot(opts, -0.05, 5);
+	//this.set_xlim_flot(opts, -0.05, 5);
 	return opts;
     }
 }

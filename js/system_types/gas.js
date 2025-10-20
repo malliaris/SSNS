@@ -64,6 +64,14 @@ class GasSpeedHistogram {
 	return new_gsh;
     }
 
+    static get_reasonable_E_bin_width(kT, N) {  // adjustable factor (based on aesthetics) times std. dev. of distribution divided by root N
+	return 10.0 * kT / Math.sqrt(N);
+    }
+    
+    static get_reasonable_v_bin_width(kT, m, N) {  // adjustable factor (based on aesthetics) times std. dev. of distribution divided by root N
+	return 5.0 * Math.sqrt( kT / (m * N) );
+    }
+    
     get_bin_indx(v) {
 	return parseInt(modf(v / this.bin_width)[0]);
     }

@@ -148,7 +148,7 @@ class Params_HS extends Params {
     static R_tiny_particle_drawn_as = 0.01;
     static draw_tiny_particles_artificially_large = true;
     static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
-    static m = 1.0;  // still used?
+    static m_single_value = 1.0;  // not a big loss of flexibility setting m to unity since other parameters, e.g., T can always be tweaked
     static num_rho_vals = 4;                                                        // VALUE MUST MATCH NUMBER OF ENTRIES IN ARRAYS BELOW!
     static rho_vals = [1e4, 1e5, 1e6, 1e7];                                         // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
     static rho_greyscale_val_strs = ["#cccccc", "#888888", "#444444", "#000000"];   // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
@@ -207,8 +207,8 @@ class Coords_HS extends Coords {
 	    this.x_RW = 0.0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
 	    this.cps = new CollisionPressureStats();
-	    this.psh = new GasSpeedHistogram(0.2);  // psh = particle speed histogram
-	    this.peh = new GasSpeedHistogram(0.5);  // peh = particle energy histogram
+	    this.psh = new GasSpeedHistogram(GasSpeedHistogram.get_reasonable_v_bin_width(Params_HS.kT0, Params_HS.m_single_value, Params_HS.N));// 0.2);  // psh = particle speed histogram
+	    this.peh = new GasSpeedHistogram(GasSpeedHistogram.get_reasonable_E_bin_width(Params_HS.kT0, Params_HS.N));// 0.5);  // peh = particle energy histogram
 	    this.cet = new CollisionEventsTable();
 	    this.particles = new Array();
 	    this.initialize_particle_basics();
@@ -352,7 +352,7 @@ class Coords_HS extends Coords {
     get_particle_mass_val(rho_val, R_val) {  // determine and return new particle's mass
 
 	if (Params_HS.UICI_rho.all_particles_same_m()) {
-	    return 1.0;  // not a big loss of flexibility setting m to unity since other parameters, e.g., T can always be tweaked
+	    return Params_HS.m_single_value;
 	} else {
 	    return ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);
 	}
@@ -619,7 +619,7 @@ class Coords_HS extends Coords {
 	ModelCalc_HS.Z_SHY = ModelCalc_HS.get_Z_SHY(area_frac);
 	console.log("INFO:   Z_Solana =", ModelCalc_HS.Z_Solana);
 	console.log("INFO:   Z_SHY =", ModelCalc_HS.Z_SHY);
-	console.log("INFO:   avg_KE =", this.get_avg_KE());
+	console.log("INFO:   kT =", this.get_kT());
 	//let targrad = Math.sqrt(Params_HS.target_area_frac * this.get_area() / (Params_HS.N * Math.PI));//////////////
 	//console.log("INFO:   targrad =", targrad);///////////
     }
@@ -1063,7 +1063,8 @@ class Coords_HS extends Coords {
 	return total_KE;
     }
 
-    get_avg_KE() {
+    // get the temperature T (ask kT), which is just the average KE for HS gas, and is fixed unless/until piston moves
+    get_kT() {
 	return this.get_total_KE() / Params_HS.N;
     }
 
@@ -1093,9 +1094,9 @@ class Coords_HS extends Coords {
 	}
 
 	this.time_evolve(new_s - curr_s);
-	this.cps.update_for_time_step(this.get_area(), this.get_avg_KE());
+	this.cps.update_for_time_step(this.get_area(), this.get_kT());
 
-	//let avg_KE = this.get_avg_KE();
+	//let avg_KE = this.get_kT();
 	//let VT_constant = this.get_area() * avg_KE;
 	//console.log("total_KE =", this.get_total_KE());/////////
 	///console.log("avg_KE =", avg_KE);/////////

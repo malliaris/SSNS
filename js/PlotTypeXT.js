@@ -412,8 +412,8 @@ class PlotTypeXT_HS extends PlotTypeXT_rect {
 	this.overwrite_line_color(curr_arr, this.eta_color);
 	fds = fds.concat(curr_arr);
 
-	// plot <E> (E per particle) divided by k_B T_0
-	fxn_obj = t => {return this.trj.get_x(t).get_avg_KE() / Params_HS.kT0; };
+	// plot T / T_0
+	fxn_obj = t => {return this.trj.get_x(t).get_kT() / Params_HS.kT0; };
 	curr_arr = [];
 	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
 	this.overwrite_line_color(curr_arr, this.T_T0_color);
