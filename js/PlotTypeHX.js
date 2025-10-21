@@ -107,7 +107,7 @@ class PlotTypeHX_IG extends PlotTypeHX_Gas {
 	let vL = 0.0;  //curr_gsh.get_x_val_min();
 	let vR = curr_gsh.get_x_val_max();
 	let mult_fctr = curr_gsh.bin_width * Params_IG.N;  // multiply pdf by bin width to get a probability, and by N to get expected num particles
-	let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, Params_IG.kT, Params_IG.m, mult_fctr);
+	let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, Params_IG.kT0, Params_IG.m, mult_fctr);
 	this.flot_data_opts_theory["data"] = theory_data;
 	data_series.push(this.flot_data_opts_theory);
 
