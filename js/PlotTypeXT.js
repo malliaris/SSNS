@@ -324,7 +324,45 @@ class PlotTypeXT_MN extends PlotTypeXT_SP {
     }
 }
 
-class PlotTypeXT_IG extends PlotTypeXT_rect {
+class PlotTypeXT_Gas extends PlotTypeXT_rect {
+
+    constructor() {
+
+	super();
+
+	this.T_T0_color = "#fabb00";
+	this.eta_color = "#00aa00";
+	this.Z_x_color = "#ff00ff";
+	this.Z_y_color = "#00bbff";
+	this.Z_color = "#0000ff";
+	this.Z_SHY_color = "#ff0000";
+    }
+
+    // PlotTypeXT_Gas classes IG and HS generally require plotting multiple quantities, so we use color to identify **quantity** and vertical lines to indicate **TrajSeg boundaries**
+    get_arr_seg_boundary_locs() {
+
+	let loc_arr = [];
+	let si_i = this.trj.get_si(this.t_i);  // determine si_i = segment index, initial
+	let si_f = this.trj.get_si(this.t_f);  // determine si_f = segment index, final
+	for (let si = si_i; si < si_f; si++) {
+	    loc_arr.push(this.trj.segs[si].t_last + 0.5);
+	}
+	return loc_arr;
+    }
+
+    // PlotTypeXT_Gas classes IG and HS generally require plotting multiple quantities, so we use color to identify **quantity** and vertical lines to indicate **TrajSeg boundaries**
+    overwrite_line_color(flot_arr, new_color_str) {  // operates on arrays returned from assemble_data_by_seg()
+
+	for (let i = 0; i < (flot_arr.length - 1); i++) {  // skip first entry (which is black open circle representing current time)
+	    flot_arr.at(i + 1).color = new_color_str;
+	    if ("points" in flot_arr.at(i + 1)) {
+		flot_arr.at(i + 1).points.fillColor = new_color_str;
+	    }
+	}
+    }
+}
+
+class PlotTypeXT_IG extends PlotTypeXT_Gas {
 
     constructor(trj) {
 
@@ -335,45 +373,19 @@ class PlotTypeXT_IG extends PlotTypeXT_rect {
     }
 
     get_ext_y_axis_lbl_str() {
-	return "\\mathrm{gas \\; pressure, \\; etc.}";
+	return "\\textcolor{" + this.T_T0_color + "}{ T / T_0 } \\, , \\; \\textcolor{" + this.Z_color + "}{Z}_{\\textcolor{" + this.Z_x_color + "}{x},\\textcolor{" + this.Z_y_color + "}{y}}";
     }
 
     get_flot_data_series(t) {
+
 	this.update_window();  // updates values of this.t_L/i/f/R; consider small class to encapsulate window t's and return it from call
 	this.update_x_axis_flot(this.flot_gen_opts, this.t_L, this.t_R, this.trj.t_edge);
 
 	let fds = [];  // fds = flot_data_series
-        let fxn_obj = t => {return this.trj.get_x(t).cps.Z_x_t_avg; };
-	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
-	fxn_obj = t => {return this.trj.get_x(t).cps.Z_y_t_avg; };
-	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
-	fxn_obj = t => {return this.trj.get_x(t).cps.Z_t_avg; };
-	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
-	//fxn_obj = t => {return this.trj.get_x(t).cps.Z_y_t_avg; };
-	//this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
-
-	// plot Z_x = P_x A / N <E>
-	///fxn_obj = t => {return this.trj.get_x(t).cps.Z_x_t_avg; };
-	//curr_arr = [];
-	//this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
-	//this.overwrite_line_color(curr_arr, this.Z_x_color);
-	//fds = fds.concat(curr_arr);
-
-
-	/*
-	let fds = [];  // fds = flot_data_series
-
-	// plot area fraction eta
-	let fxn_obj = t => {return this.trj.get_x(t).get_area_frac(); };
-	//let fxn_obj = t => {return this.trj.get_x(t).get_area(); };
-	let curr_arr = [];  // used to manipulate smaller array pieces as they're added to fds
-	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
-	this.overwrite_line_color(curr_arr, this.eta_color);
-	fds = fds.concat(curr_arr);
 
 	// plot T / T_0
-	fxn_obj = t => {return this.trj.get_x(t).get_kT() / Params_HS.kT0; };
-	curr_arr = [];
+	let fxn_obj = t => {return this.trj.get_x(t).get_kT() / Params_IG.kT0; };
+	let curr_arr = [];
 	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
 	this.overwrite_line_color(curr_arr, this.T_T0_color);
 	fds = fds.concat(curr_arr);
@@ -399,13 +411,6 @@ class PlotTypeXT_IG extends PlotTypeXT_rect {
 	this.overwrite_line_color(curr_arr, this.Z_color);
 	fds = fds.concat(curr_arr);
 
-	// plot Z / Z_SHY
-	fxn_obj = t => {return this.trj.get_x(t).cps.get_Z_SHY_t_avg(); };
-	curr_arr = [];
-	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
-	this.overwrite_line_color(curr_arr, this.Z_SHY_color);
-	fds = fds.concat(curr_arr);
-	*/
 	return fds;
     }
 
@@ -414,46 +419,18 @@ class PlotTypeXT_IG extends PlotTypeXT_rect {
     }
 }
 
-class PlotTypeXT_HS extends PlotTypeXT_rect {
+class PlotTypeXT_HS extends PlotTypeXT_Gas {
 
     constructor(trj) {
 
 	super();
 	this.trj = trj;
 	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
-	this.T_T0_color = "#fabb00";
-	this.eta_color = "#00aa00";
-	this.Z_x_color = "#ff00ff";
-	this.Z_y_color = "#00bbff";
-	this.Z_color = "#0000ff";
-	this.Z_SHY_color = "#ff0000";
-	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
 	this.set_ylim_flot(this.flot_gen_opts, 0, 2.0);
     }
 
     get_ext_y_axis_lbl_str() {
-	return "\\textcolor{#fabb00}{ T / T_0 } \\, , \\; \\textcolor{#00aa00}{{\\large \\eta}} \\, , \\; \\textcolor{#0000ff}{Z}_{\\textcolor{#ff00ff}{x},\\textcolor{#00bbff}{y}} \\, , \\; \\textcolor{#ff0000}{Z / Z_{\\mathrm{SHY}}}";
-    }
-
-    get_arr_seg_boundary_locs() {
-
-	let loc_arr = [];
-	let si_i = this.trj.get_si(this.t_i);  // determine si_i = segment index, initial
-	let si_f = this.trj.get_si(this.t_f);  // determine si_f = segment index, final
-	for (let si = si_i; si < si_f; si++) {
-	    loc_arr.push(this.trj.segs[si].t_last + 0.5);
-	}
-	return loc_arr;
-    }
-
-    overwrite_line_color(flot_arr, new_color_str) {  // operates on arrays returned from assemble_data_by_seg()
-
-	for (let i = 0; i < (flot_arr.length - 1); i++) {  // skip first entry (which is black open circle representing current time)
-	    flot_arr.at(i + 1).color = new_color_str;
-	    if ("points" in flot_arr.at(i + 1)) {
-		flot_arr.at(i + 1).points.fillColor = new_color_str;
-	    }
-	}
+	return "\\textcolor{" + this.T_T0_color + "}{ T / T_0 } \\, , \\; \\textcolor{" + this.eta_color + "}{{\\large \\eta}} \\, , \\; \\textcolor{" + this.Z_color + "}{Z}_{\\textcolor{" + this.Z_x_color + "}{x},\\textcolor{" + this.Z_y_color + "}{y}} \\, , \\; \\textcolor{" + this.Z_SHY_color + "}{Z / Z_{\\mathrm{SHY}}}";
     }
 
     get_flot_data_series(t) {

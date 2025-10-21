@@ -135,26 +135,14 @@ class Coords_IG extends Coords {
 	    this.gsh = new GasSpeedHistogram(0.01);
 	    this.particles = new Array();
 	    this.initialize_particles_etc();
-
-	    // initialize quantities involved in time-averaging
+	    console.log("INFO:   kT =", this.get_kT());
 	    this.cps = new CollisionPressureStats_IG();
-	    /*
-	    this.num_t_avg_contribs = 0;
-	    this.P_x_cumul = 0.0;
-	    this.P_y_cumul = 0.0;
-	    */
+
 	} else {
 
 	    this.gsh = GasSpeedHistogram.copy(this.c_prev.gsh);
 	    this.particles = copy(this.c_prev.particles);
-
-	    // copy over quantities involved in time-averaging
 	    this.cps = CollisionPressureStats_IG.copy(this.c_prev.cps);
-	    /*
-	    this.num_t_avg_contribs = this.c_prev.num_t_avg_contribs;
-	    this.P_x_cumul = this.c_prev.P_x_cumul;
-	    this.P_y_cumul = this.c_prev.P_y_cumul;
-	    */
 	    this.update_state(Params_IG.dt);
 	}
     }
@@ -167,6 +155,10 @@ class Coords_IG extends Coords {
 	return (Params_IG.Ly * this.mc.unif01_rng());
     }
 
+    get_kT() {  // wrapper for convenience
+	return this.mc.get_kT(Params_IG.N, this.particles);
+    }
+
     initialize_particles_etc() {
 
 	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (useful for passing into methods that set both)
@@ -175,20 +167,8 @@ class Coords_IG extends Coords {
 
 	    let rx = this.get_rand_x();  // random x position
 	    let ry = this.get_rand_y();  // random y position
-
-	    //let v_chi = this.mc.mbde.get_MBD_v_chi(Params_IG.kT0, Params_IG.m);
-	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, v_chi);
-
-	    //let v_avg = this.mc.mbde.get_MBD_v_avg(Params_IG.kT0, Params_IG.m);
-	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, v_avg);
-
-	    //this.mc.mbde.load_vc_spec_v_rand_dir(vc, 1.0);
-
 	    this.mc.mbde.load_vc_MBD_v_comps(vc, Params_IG.kT0, Params_IG.m);
-
-	    let vx = vc.x;
-	    let vy = vc.y;
-	    let new_p = new GasParticle(rx, ry, Params_IG.R, Params_IG.m, vx, vy);
+	    let new_p = new GasParticle(rx, ry, Params_IG.R, Params_IG.m, vc.x, vc.y);
 	    new_p.v_hist_bi = this.gsh.get_bin_indx(new_p.get_speed());
 	    CU.incr_entry_OM(this.gsh.hist, new_p.v_hist_bi);  // increment bin count
 	    this.particles.push(new_p);
@@ -196,20 +176,13 @@ class Coords_IG extends Coords {
     }
     
     update_state(dt) {
-	/*
-	this.num_x_collisions = 0;
-	this.num_y_collisions = 0;
-	this.P_x = 0.0;
-	this.P_y = 0.0;
-	*/
+
 	for (let i = 0; i < Params_IG.N; i++) {
 
 	    // update x-direction position and quantities
 	    this.gpud.set_inputs(this.particles[i].x, this.particles[i].vx, Params_IG.Lx, this.p.x_BC_refl, dt);  // set inputs...
 	    this.particles[i].x = this.gpud.new_z;           // ...then grab calculated values
 	    this.particles[i].vx = this.gpud.new_vz;         // ...then grab calculated values
-	    //this.num_x_collisions += this.gpud.num_collisions;  // ...then grab calculated values
-	    //this.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_IG.Ly * dt);  // 2*Ly in denominator converts force to pressure
 	    this.cps.num_x_collisions += this.gpud.num_collisions;
 	    this.cps.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_IG.Ly * dt);  // 2*Ly in denominator converts force to pressure
 
@@ -217,23 +190,12 @@ class Coords_IG extends Coords {
 	    this.gpud.set_inputs(this.particles[i].y, this.particles[i].vy, Params_IG.Ly, this.p.y_BC_refl, dt);  // set inputs...
 	    this.particles[i].y = this.gpud.new_z;           // ...then grab calculated values
 	    this.particles[i].vy = this.gpud.new_vz;         // ...then grab calculated values
-	    //this.num_y_collisions += this.gpud.num_collisions;  // ...then grab calculated values
-	    //this.P_y += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vy) / (2 * Params_IG.Lx * dt);  // 2*Lx in denominator converts force to pressure
 	    this.cps.num_y_collisions += this.gpud.num_collisions;
 	    this.cps.P_y += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vy) / (2 * Params_IG.Lx * dt);  // 2*Lx in denominator converts force to pressure
 	}
 	
 	// update time-averaged quantities
 	this.cps.update_for_time_step(Params_IG.V, Params_IG.N, Params_IG.kT0);
-	/*
-	this.num_t_avg_contribs += 1;
-	this.P_x_cumul += this.P_x;
-	this.P_y_cumul += this.P_y;
-	this.P_x_t_avg = this.P_x_cumul / this.num_t_avg_contribs;
-	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
-	this.PVoNkT_x_t_avg = this.P_x_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT0);
-	this.PVoNkT_y_t_avg = this.P_y_t_avg * Params_IG.V / (Params_IG.N * Params_IG.kT0);
-	*/
     }
 
     output() {

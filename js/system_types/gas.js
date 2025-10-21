@@ -237,4 +237,18 @@ class ModelCalc_Gas extends ModelCalc {
     }
 
     model_is_stoch() {return false; }  // model considered non-stochastic since time evolution is non-stochastic (even though initial condition might be randomly generated)
+
+    get_total_KE(N, prts) {
+
+	let total_KE = 0.0;
+    	for (let i = 0; i < N; i++) {
+	    total_KE += prts[i].get_KE();
+	}
+	return total_KE;
+    }
+
+    // get the temperature T (as kT), which is just the average KE for both IG and HS gas
+    get_kT(N, prts) {
+	return this.get_total_KE(N, prts) / N;
+    }
 }

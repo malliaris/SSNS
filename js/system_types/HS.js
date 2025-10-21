@@ -283,6 +283,10 @@ class Coords_HS extends Coords {
 	return (Dy*this.mc.unif01_rng() + offset);
     }
 
+    get_kT() {  // wrapper for convenience
+	return this.mc.get_kT(Params_HS.N, this.particles);
+    }
+
     get_Lx() {
 	return (Params_HS.Lx_max - this.x_RW);  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
     }
@@ -620,8 +624,6 @@ class Coords_HS extends Coords {
 	console.log("INFO:   Z_Solana =", ModelCalc_HS.Z_Solana);
 	console.log("INFO:   Z_SHY =", ModelCalc_HS.Z_SHY);
 	console.log("INFO:   kT =", this.get_kT());
-	//let targrad = Math.sqrt(Params_HS.target_area_frac * this.get_area() / (Params_HS.N * Math.PI));//////////////
-	//console.log("INFO:   targrad =", targrad);///////////
     }
     
     initialize_particle_basics() {
@@ -1054,20 +1056,6 @@ class Coords_HS extends Coords {
 	}
     }
 
-    get_total_KE() {
-
-	let total_KE = 0.0;
-    	for (let i = 0; i < Params_HS.N; i++) {
-	    total_KE += this.particles[i].get_KE();
-	}
-	return total_KE;
-    }
-
-    // get the temperature T (as kT), which is just the average KE for HS gas, and is fixed unless/until piston moves
-    get_kT() {
-	return this.get_total_KE() / Params_HS.N;
-    }
-
     time_evolve(s) {
 
 	// update position of each particle
@@ -1096,18 +1084,14 @@ class Coords_HS extends Coords {
 	this.time_evolve(new_s - curr_s);
 	this.cps.update_for_time_step(this.get_area(), Params_HS.N, this.get_kT());
 
-	//let avg_KE = this.get_kT();
 	//let VT_constant = this.get_area() * avg_KE;
-	//console.log("total_KE =", this.get_total_KE());/////////
-	///console.log("avg_KE =", avg_KE);/////////
 	//console.log("VT_constant =", avg_KE, VT_constant);/////////
 	//console.log("this.cet.table.size() =", this.cet.table.size())
 	//this.cet.output_info();
+	//console.log("this.v,x_RW,s =", this.v_RW, this.x_RW, Coords_HS.s);/////////
 
 	// update (continuous time) clock; (don't confuse with SSNS discrete time step t)
 	Coords_HS.s = new_s;
-	//console.log("this.cet.table.size() = ", this.cet.table.size());//////////
-	//console.log("this.v,x_RW,s =", this.v_RW, this.x_RW, Coords_HS.s);/////////
     }
 
     output() {
