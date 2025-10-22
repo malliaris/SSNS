@@ -11,21 +11,21 @@ Being a web app, **SSNS** makes heavy use of HTML/CSS.  All computation and logi
 * the app's integrated help viewer; visit [tedm.us/SSNS](https://tedm.us/SSNS) and click the big yellow "?"
 * the JavaScript source ([<samp>/js/</samp>](/js/) and [<samp>/js/system_types/</samp>](/js/system_types/)), and the HTML source in [<samp>SSNS.html</samp>](SSNS.html)
 * this README document
-* the [<samp>/class_diagrams/</samp>](/class_diagrams/), which summarize the structure of the code; individual diagrams (example below) in both <samp>svg</samp> and <samp>pdf</samp>, and [<samp>all.pdf</samp>](/class_diagrams/all.pdf), which contains all diagrams
+* the [<samp>/docs/class_diagrams/</samp>](/docs/class_diagrams/), which summarize the structure of the code; individual diagrams (example below) in both <samp>svg</samp> and <samp>pdf</samp>, and [<samp>all.pdf</samp>](/docs/class_diagrams/all.pdf), which contains all diagrams
 
-<a href="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><img src="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"></a>
+<a href="/docs/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><img src="/docs/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"></a>
 
 The source code is well structured and commented, but not the fastest way to get the gist of things.  The app itself aims to be simple, intuitive, and accessible &mdash; diving right in and relying on the integrated help viewer is a great way to get started.  There is plenty of overlap between the content of the help viewer pages and this README.  However, the former is organized as a linked network of small chunks of info, while the latter is more verbose, more focused on the code/computation, and doesn't discuss the conceptual side of things.
 
 ## Classes, Hierarchies, etc.
 
-The example class diagram pictured above and its companions in the [<samp>/class_diagrams/</samp>](/class_diagrams/) directory capture the structure of the **SSNS** code.  Individual diagrams will be linked to in this section as they come up.
+The example class diagram pictured above and its companions in the [<samp>/docs/class_diagrams/</samp>](/docs/class_diagrams/) directory capture the structure of the **SSNS** code.  Individual diagrams will be linked to in this section as they come up.
 
-The central class of the **SSNS** app is the <samp>Trajectory</samp>.  An implemented model/map/equation/process is referred to as a "system type" (for lack of a better term).  Each system type has its own <samp>Trajectory</samp> subclass &mdash; a leaf node on the <a href="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><samp>Trajectory</samp> inheritance</a> tree.  Its two-letter [abbreviation](#abbreviations-labels-etc) gives the subclass its name, e.g., <samp>Trajectory_XY</samp>.  There are also intermediate-level subclasses, e.g., <samp>Trajectory_Stoch</samp>.  The XY model uses stochastic machinery, so <samp>Trajectory_XY</samp> inherits from <samp>Trajectory_Stoch</samp>, which inherits from <samp>Trajectory</samp>.
+The central class of the **SSNS** app is the <samp>Trajectory</samp>.  An implemented model/map/equation/process is referred to as a "system type" (for lack of a better term).  Each system type has its own <samp>Trajectory</samp> subclass &mdash; a leaf node on the <a href="/docs/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><samp>Trajectory</samp> inheritance</a> tree.  Its two-letter [abbreviation](#abbreviations-labels-etc) gives the subclass its name, e.g., <samp>Trajectory_XY</samp>.  There are also intermediate-level subclasses, e.g., <samp>Trajectory_Stoch</samp>.  The XY model uses stochastic machinery, so <samp>Trajectory_XY</samp> inherits from <samp>Trajectory_Stoch</samp>, which inherits from <samp>Trajectory</samp>.
 
-A <samp>Trajectory</samp> object contains everything needed to generate output &mdash; and store it for "playback" &mdash; via discrete-time update equations.  Each <samp>Trajectory</samp> is <a href="/class_diagrams/Trajectory_composition_-_no_section_label.svg">composed</a> of a <samp>ModelCalc</samp> object (to perform all model-specific calculations), and one or more <samp>TrajSeg</samp> objects to hold the trajectory data.  A <samp>TrajSeg</samp> represents a portion ("segment") of a trajectory evolved with a particular set of parameter values.  It is thus <a href="/class_diagrams/TrajSeg_composition_-_no_section_label.svg">composed</a> of one <samp>Params</samp> object and one or more <samp>Coords</samp> objects.  Each <samp>Coords</samp> holds all dependent variable data for a single time step &mdash; it could be a single scalar value, or a large 2D matrix of values, integer or floating point, etc.
+A <samp>Trajectory</samp> object contains everything needed to generate output &mdash; and store it for "playback" &mdash; via discrete-time update equations.  Each <samp>Trajectory</samp> is <a href="/docs/class_diagrams/Trajectory_composition_-_no_section_label.svg">composed</a> of a <samp>ModelCalc</samp> object (to perform all model-specific calculations), and one or more <samp>TrajSeg</samp> objects to hold the trajectory data.  A <samp>TrajSeg</samp> represents a portion ("segment") of a trajectory evolved with a particular set of parameter values.  It is thus <a href="/docs/class_diagrams/TrajSeg_composition_-_no_section_label.svg">composed</a> of one <samp>Params</samp> object and one or more <samp>Coords</samp> objects.  Each <samp>Coords</samp> holds all dependent variable data for a single time step &mdash; it could be a single scalar value, or a large 2D matrix of values, integer or floating point, etc.
 
-There are system-type-dependent class hierarchies for <a href="/class_diagrams/Coords_inheritance.svg"><samp>Coords</samp></a> objects, <a href="/class_diagrams/Params_inheritance.svg"><samp>Params</samp></a> objects, and <a href="/class_diagrams/ModelCalc_inheritance.svg"><samp>ModelCalc</samp></a> objects.  At the cost of some flexibility, it was possible to keep the <samp>TrajSeg</samp> class system-type-independent, so it <em>does not</em> have a hierarchy.  On the data visualization side of things, there is an inheritance hierarchy for the <samp>PlotType</samp> class.  Its diagram will be available shortly.  Referring to the section on [abbreviations](#abbreviations-labels-etc) can be helpful when viewing these hierarchies.
+There are system-type-dependent class hierarchies for <a href="/docs/class_diagrams/Coords_inheritance.svg"><samp>Coords</samp></a> objects, <a href="/docs/class_diagrams/Params_inheritance.svg"><samp>Params</samp></a> objects, and <a href="/docs/class_diagrams/ModelCalc_inheritance.svg"><samp>ModelCalc</samp></a> objects.  At the cost of some flexibility, it was possible to keep the <samp>TrajSeg</samp> class system-type-independent, so it <em>does not</em> have a hierarchy.  On the data visualization side of things, there is an inheritance hierarchy for the <samp>PlotType</samp> class.  Its diagram will be available shortly.  Referring to the section on [abbreviations](#abbreviations-labels-etc) can be helpful when viewing these hierarchies.
 
 The following classes, which are listed roughly from "largest" (i.e., "outermost") to "smallest," are not part of the <samp>Trajectory</samp> "ecosystem."  They do not have large class hierarchies, and are mainly used as single instances:
 
@@ -199,6 +199,21 @@ Browser developer tools are indispensable when doing development, but also handy
   * not too familiar with how <samp>const</samp>ness works in JavaScript, but change <samp>let</samp> to <samp>const</samp> wherever possible
   * what about JavaScript "strict mode"?
   * handle support for very old browsers?
+
+## Miscellaneous Notes
+
+### Logistic Map Bifurcation Diagram Re-creation
+
+Class <samp>PlotTypePP_LM</samp>, the phase-portrait "PP" type plot for the Logistic Map "LM" allows (with a bit of patience) re-creation of the well-known LM bifurcation diagram.  The main thing to realize is that the transient behavior in x(t) must be "discarded."  This is done by having <samp>PlotTypePP_LM</samp> inherit from <samp>PlotTypePP_Select</samp>, which only plots data points that have been actively added to the collection.  To use, follow the steps below.  Optionally, open your browser's developer tools console to view info along the way.  Steps:
+
+* start by viewing the XT plot type (the default)
+* select an r value
+* record until x(t) settles in to its single steady value (or oscillations among a small number of values)
+* pause the recording
+* switch to PP plot type
+* press the unmarked button next to the "Reload Page" button (console shows "this.ui.aux_toggle_ctrl = true", which means the PP setup is ready to record a data point)
+* record a single step (console shows "data point (r, x) collected and appended")
+* repeat the above steps re-creating the diagram with as much detail as desired (note that this.ui.aux_toggle_ctrl is set to false after a data point is collected, so the unmarked button must be hit before each collection)
 
 ## Help Viewer "Sitemap"
 
