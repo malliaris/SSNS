@@ -215,7 +215,7 @@ class Coords_HS extends Coords {
 	    this.do_post_particle_creation_tasks();
 	    this.initialize_collision_structures();
 
-	    // initialize quantities involved in time-averaging
+	    // OBSOLETE???  DELETE???  initialize quantities involved in time-averaging
 	    this.num_t_avg_contribs = 0;
 	    this.P_x_cumul = 0.0;
 	    this.P_y_cumul = 0.0;
@@ -261,7 +261,7 @@ class Coords_HS extends Coords {
 		this.v_RW = this.c_prev.v_RW;
 	    }
 
-	    // copy over quantities involved in time-averaging
+	    // OBSOLETE???  DELETE???  copy over quantities involved in time-averaging
 	    this.num_t_avg_contribs = this.c_prev.num_t_avg_contribs;
 	    this.P_x_cumul = this.c_prev.P_x_cumul;
 	    this.P_y_cumul = this.c_prev.P_y_cumul;

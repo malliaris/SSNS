@@ -51,6 +51,7 @@ class PlottingMachinery {
 	    break;
 	case "HS":
 	    this.plots["HS"] = {};
+	    this.plots["HS"]["PP"] = new PlotTypePP_HS(this.sim.trjs["HS"]);
 	    this.plots["HS"]["CV"] = new PlotTypeCV_HS(this.sim.trjs["HS"]);
 	    this.plots["HS"]["XT"] = new PlotTypeXT_HS(this.sim.trjs["HS"]);
 	    this.plots["HS"]["HX"] = new PlotTypeHX_HS(this.sim.trjs["HS"]);
@@ -65,8 +66,8 @@ class PlottingMachinery {
 	    break;
 	case "LM":
 	    this.plots["LM"] = {};
-	    this.plots["LM"]["PP"] = new PlotTypePP_LM(this.sim.trjs["LM"]);
 	    this.plots["LM"]["XT"] = new PlotTypeXT_LM(this.sim.trjs["LM"]);
+	    this.plots["LM"]["PP"] = new PlotTypePP_LM(this.sim.trjs["LM"]);
 	    break;
 	case "GM":
 	    this.plots["GM"] = {};

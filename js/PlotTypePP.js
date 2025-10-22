@@ -85,6 +85,35 @@ class PlotTypePP_Select extends PlotTypePP {
     }
 }
 
+class PlotTypePP_HS extends PlotTypePP_Select {
+
+    constructor(trj) {
+
+	super(trj);
+
+	this.flot_gen_opts = {};
+	this.set_xlim_flot(this.flot_gen_opts, 0.0, 1.0);
+	// ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
+	this.set_ylim_flot(this.flot_gen_opts, 0.0, 300.0);
+    }
+
+    get_ext_x_axis_lbl_str() {
+	return "V";
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "p";
+    }
+
+    append_data_pt(t, arr) {
+
+	let V_val = this.trj.get_x(t).get_area();
+	let p_val = 0.5 * (this.trj.get_x(t).cps.P_x_t_avg + this.trj.get_x(t).cps.P_y_t_avg);
+	let kT_val = this.trj.get_x(t).get_kT();
+	arr.push( [ V_val, p_val ] );
+    }
+}
+
 class PlotTypePP_LM extends PlotTypePP_Select {
 
     constructor(trj) {

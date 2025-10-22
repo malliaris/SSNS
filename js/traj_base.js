@@ -237,6 +237,7 @@ class Trajectory {
 	    }
 	    this.t_edge++;
 	    this.t = this.t_edge;
+	    // MAKE INCISION HERE???
 	    return true;  // successfully recorded one step forward
 	}
     }
