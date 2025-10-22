@@ -200,6 +200,12 @@ Browser developer tools are indispensable when doing development, but also handy
   * what about JavaScript "strict mode"?
   * handle support for very old browsers?
 
+## Miscellaneous Notes
+
+### Logistic Map Bifurcation Diagram Re-creation
+
+<samp>PlotTypePP_LM</samp>
+
 ## Help Viewer "Sitemap"
 
 	    HV_HOME
