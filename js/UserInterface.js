@@ -76,6 +76,7 @@ class UserInterface {
 	Params_PF.UINI_Dt = new UINI_float(this, "UI_P_FD_PF_Dt", true);
 
 	// other UI stuff
+	this.aux_toggle_ctrl = false;  // boolean toggle used for miscellaneous, ST-dependent signaling by user, e.g., to start/stop something
 	for (let ST_val of Simulator.unregistered_STs.values()) {  // if any disabled ST's have parameter HTML content (e.g., while under development), hide it
 	    let id_str = "#UI_P_" + Simulator.lookup_area_from_ST[ST_val] + "_" + ST_val;  // reconstruct, e.g., #UI_P_SM_IS
 	    if ($(id_str).length != 0) {  // check for existence of tag

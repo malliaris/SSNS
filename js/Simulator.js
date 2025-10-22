@@ -173,6 +173,9 @@ class Simulator {
 	    this.update_plot_and_UI();
 	    break;
 	case "CK":
+	    this.ui.aux_toggle_ctrl = ! this.ui.aux_toggle_ctrl;  // boolean toggle used for miscellaneous, ST-dependent signaling by user, e.g., to start/stop something
+	    console.log("this.ui.aux_toggle_ctrl =", this.ui.aux_toggle_ctrl);///////////
+
 	    //console.log("yyyy", RootFinding.bisect_method(RootFinding.dummyf, -7, 0.9, 1e-15, 100));
 	    //alert("HWWW");
 	    //let ds = new CollisionPressureStats();

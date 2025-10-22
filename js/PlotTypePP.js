@@ -32,7 +32,7 @@ class PlotTypePP extends PlotType {
 }
 
 // a crude version of the LM bifurcation diagram can be outlined by varying r (not quite a phase portrait -- I know)
-class PlotTypePP_LM extends PlotTypePP {
+class PlotTypePP_Select extends PlotTypePP {
 
     constructor(trj) {
 
@@ -48,42 +48,11 @@ class PlotTypePP_LM extends PlotTypePP {
 		radius: 2,
 	    },
 	};
-
-	this.flot_data_opts_curr_t = {  // additional outline circle to indicate current t
-	    color: "#000000",
-	    points: {
-		show: true,
-		radius: 6,
-		fill: 0.3,
-		fillColor: null,
-	    },
-	};
-
-	this.flot_gen_opts = {
-	    xaxis: {  // really the r axis
-		autoScale: "none",
-		min: 0,
-		max: 4,
-	    },
-	    yaxis: {  // really the x axis
-		autoScale: "none",
-		min: 0,
-		max: 1,
-	    }
-	};
-    }
-
-    get_ext_x_axis_lbl_str() {
-	return "r";
-    }
-
-    get_ext_y_axis_lbl_str() {
-	return "x";
     }
 
     get_plot_data_reg(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
 
-	let max_num_data_pts = 1000;  // eventually put this in UI?
+	let max_num_data_pts = 500;
 	let num_data_pts_up_to_t = t - this.trj.t_0 + 1;  // how much past trajectory is there to possibly plot?
 	let num_data_pts = Math.min(max_num_data_pts, num_data_pts_up_to_t);  // determine how much we will actually plot
 	let t_i = t - num_data_pts + 1;
@@ -105,8 +74,6 @@ class PlotTypePP_LM extends PlotTypePP {
 	let data_series = [];
 	this.flot_data_opts_reg["data"] = this.get_plot_data_reg(t);
 	data_series.push(this.flot_data_opts_reg);
-	this.flot_data_opts_curr_t["data"] = this.get_plot_data_curr_t(t);
-	data_series.push(this.flot_data_opts_curr_t);
 	return data_series;
     }
 
@@ -115,7 +82,33 @@ class PlotTypePP_LM extends PlotTypePP {
     }
 }
 
-class PlotTypePP_GM extends PlotTypePP {
+class PlotTypePP_LM extends PlotTypePP_Select {
+
+    constructor(trj) {
+
+	super(trj);
+
+	this.flot_gen_opts = {};
+	this.set_xlim_flot(this.flot_gen_opts, 0.0, 4.0);
+	this.set_ylim_flot(this.flot_gen_opts, 0.0, 1.0);
+    }
+
+    get_ext_x_axis_lbl_str() {
+	return "r";
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "x";
+    }
+
+    append_data_pt(t, arr) {
+
+	let curr_r_val = this.trj.segs[this.trj.get_si(t)].p.r;
+	arr.push( [ curr_r_val, this.trj.get_x(t).x ] );
+    }
+}
+
+class PlotTypePP_All extends PlotTypePP {
 
     constructor(trj) {
 
@@ -141,34 +134,11 @@ class PlotTypePP_GM extends PlotTypePP {
 		fillColor: null,
 	    },
 	};
-
-	this.flot_gen_opts = {
-	    xaxis: {
-		autoScale: "none",
-		min: -4,
-		max: 10,
-		transform: function (v) { return -v; },  // make the gingerbread-man easier to recognize by flipping axis
-	    },
-	    yaxis: {
-		autoScale: "none",
-		min: -4,
-		max: 10,
-		transform: function (v) { return -v; },  // make the gingerbread-man easier to recognize by flipping axis
-	    }
-	};
-    }
-
-    get_ext_x_axis_lbl_str() {
-	return "\\xleftarrow{\\hspace*{1.0cm}} x";
-    }
-
-    get_ext_y_axis_lbl_str() {
-	return "\\xleftarrow{\\hspace*{1.0cm}} y";
     }
 
     get_plot_data_reg(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
 
-	let max_num_data_pts = 2000;  // eventually put this in UI?
+	let max_num_data_pts = 500;
 	let num_data_pts_up_to_t = t - this.trj.t_0 + 1;  // how much past trajectory is there to possibly plot?
 	let num_data_pts = Math.min(max_num_data_pts, num_data_pts_up_to_t);  // determine how much we will actually plot
 	let t_i = t - num_data_pts + 1;
@@ -195,5 +165,27 @@ class PlotTypePP_GM extends PlotTypePP {
 
     get_flot_gen_opts() {
 	return this.flot_gen_opts;
+    }
+}
+
+class PlotTypePP_GM extends PlotTypePP_All {
+
+    constructor(trj) {
+
+	super(trj);
+
+	this.flot_gen_opts = {};
+	this.set_xlim_flot(this.flot_gen_opts, -4.0, 10.0);
+	this.set_ylim_flot(this.flot_gen_opts, -4.0, 10.0);
+	this.flot_gen_opts["xaxis"]["transform"] = function (v) { return -v; };  // make the gingerbread-man easier to recognize by flipping axis
+	this.flot_gen_opts["yaxis"]["transform"] = function (v) { return -v; };  // make the gingerbread-man easier to recognize by flipping axis
+    }
+
+    get_ext_x_axis_lbl_str() {
+	return "\\xleftarrow{\\hspace*{1.0cm}} x";
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\xleftarrow{\\hspace*{1.0cm}} y";
     }
 }
