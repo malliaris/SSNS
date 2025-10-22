@@ -204,7 +204,16 @@ Browser developer tools are indispensable when doing development, but also handy
 
 ### Logistic Map Bifurcation Diagram Re-creation
 
-<samp>PlotTypePP_LM</samp>
+Class <samp>PlotTypePP_LM</samp>, the phase-portrait "PP" type plot for the Logistic Map "LM" allows (with a bit of patience) re-creation of the well-known LM bifurcation diagram.  The main thing to realize is that the transient behavior in x(t) must be "discarded."  This is done by having <samp>PlotTypePP_LM</samp> inherit from <samp>PlotTypePP_Select</samp>, which only plots data points that have been actively added to the collection.  To use, follow the steps below.  Optionally, open your browser's developer tools console to view info along the way.  Steps:
+
+* start by viewing the XT plot type (the default)
+* select an r value
+* record until the x(t) value settles in to its single steady value (or oscillations among a small number of values)
+* pause the recording
+* switch to PP plot type
+* press the unmarked button next to the "Reload Page" button (console shows "this.ui.aux_toggle_ctrl = true", which means the PP setup is ready to record a data point)
+* record a single step (console shows "data point (r, x) collected and appended")
+* repeat the above steps re-creating the diagram with as much detail as desired (note that this.ui.aux_toggle_ctrl is set to false after a data point is collected, so the unmarked button must be hit before each collection)
 
 ## Help Viewer "Sitemap"
 
