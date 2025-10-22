@@ -208,7 +208,7 @@ Class <samp>PlotTypePP_LM</samp>, the phase-portrait "PP" type plot for the Logi
 
 * start by viewing the XT plot type (the default)
 * select an r value
-* record until the x(t) value settles in to its single steady value (or oscillations among a small number of values)
+* record until x(t) settles in to its single steady value (or oscillations among a small number of values)
 * pause the recording
 * switch to PP plot type
 * press the unmarked button next to the "Reload Page" button (console shows "this.ui.aux_toggle_ctrl = true", which means the PP setup is ready to record a data point)
