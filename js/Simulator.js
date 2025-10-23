@@ -176,9 +176,22 @@ class Simulator {
 	    this.ui.aux_toggle_ctrl = ! this.ui.aux_toggle_ctrl;  // boolean toggle used for miscellaneous, ST-dependent signaling by user, e.g., to start/stop something
 	    console.log("this.ui.aux_toggle_ctrl =", this.ui.aux_toggle_ctrl);///////////
 
-	    //console.log("yyyy", RootFinding.bisect_method(RootFinding.dummyf, -7, 0.9, 1e-15, 100));
-	    //alert("HWWW");
-	    //let ds = new CollisionPressureStats();
+	    /*
+	this.da = new Array();//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// REMOVE
+	this.da_ctr = 0;
+	    if (this.da_ctr < 10) {
+		let dia = new Array();//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// REMOVE
+		for (let i = 0; i < 10000000; i++) dia.push(i);
+		this.da.push(dia);
+		this.da_ctr += 1;
+	    } else {
+		this.da[5] = null;
+		this.da[6] = null;
+		this.da[7] = null;
+		console.log("this.da =", this.da);/////////
+	    }
+	    console.log("this.da_ctr =", this.da_ctr);/////////
+	    */
 
 	    break;
 	default:

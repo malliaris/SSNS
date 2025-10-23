@@ -142,7 +142,7 @@ class Params_HS extends Params {
     static R_dist_a = 1.000001;
     static R_dist_b = 100;
     static R_single_value;  // now auto-calculated in create_particles_w_random_R_x_y() based on other parameter values
-    static target_area_frac = 0.2;
+    static target_area_frac = 0.001;
     static total_particle_area;  // calculated once (in do_post_particle_creation_tasks()) after particles are created
     static R_tiny_particle_cutoff = 0.005;
     static R_tiny_particle_drawn_as = 0.01;
