@@ -50,10 +50,11 @@ class ModelCalc_HS extends ModelCalc_Gas {
     static Z_Solana;  // set in do_post_particle_creation_tasks() and used in CollisionPressureStats.calc_quantities()
     static Z_SHY;  // set in do_post_particle_creation_tasks() and used in CollisionPressureStats.calc_quantities()
     
-    constructor(rs) {
+    constructor(ui, rs) {
 
 	super();
 
+	this.ui = ui;  // this is reference to UserInterface object this.sim.ui to access aux_toggle machinery in CollisionPressureStats...
 	this.rs = rs;  // this is reference to RunState object this.sim.rs to access params_changed in CoordsHS constructor...
     }
 
@@ -206,7 +207,7 @@ class Coords_HS extends Coords {
 
 	    this.x_RW = 0.0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
-	    this.cps = new CollisionPressureStats_HS();
+	    this.cps = new CollisionPressureStats_HS(this.mc.ui);
 	    this.psh = new GasSpeedHistogram(GasSpeedHistogram.get_reasonable_v_bin_width(Params_HS.kT0, Params_HS.m_single_value, Params_HS.N));// 0.2);  // psh = particle speed histogram
 	    this.peh = new GasSpeedHistogram(GasSpeedHistogram.get_reasonable_E_bin_width(Params_HS.kT0, Params_HS.N));// 0.5);  // peh = particle energy histogram
 	    this.cet = new CollisionEventsTable();
@@ -1084,8 +1085,6 @@ class Coords_HS extends Coords {
 	this.time_evolve(new_s - curr_s);
 	this.cps.update_for_time_step(this.get_area(), Params_HS.N, this.get_kT());
 
-	//let VT_constant = this.get_area() * avg_KE;
-	//console.log("VT_constant =", avg_KE, VT_constant);/////////
 	//console.log("this.cet.table.size() =", this.cet.table.size())
 	//this.cet.output_info();
 	//console.log("this.v,x_RW,s =", this.v_RW, this.x_RW, Coords_HS.s);/////////
@@ -1118,7 +1117,7 @@ class Trajectory_HS extends Trajectory {
     }
 
     gmc() {  // gmc = get ModelCalc object
-	return new ModelCalc_HS(this.sim.rs);  // arg is reference to RunState object this.sim.rs to access params_changed in CoordsHS constructor...
+	return new ModelCalc_HS(this.sim.ui, this.sim.rs);  // args are references to UserInterface and RunState objects needed within...
     }
 
     gp() {  // gp = get Params object

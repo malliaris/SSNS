@@ -100,7 +100,11 @@ class UserInterface {
 	this.hv = new HelpViewer(this.sim, this.bsvs);
     }
 
-    // update machinery that gives both aux_toggle's state and recent change status
+    // update TOGGLE MACHINERY that gives both aux_toggle's state and recent change status;
+    // called in step_forward_and_record() and depends on following line further down in that method:
+    //
+    // this.sim.ui.aux_toggle_ctrl_prev_val = this.sim.ui.aux_toggle_ctrl;  // prepare for next iteration in TOGGLE MACHINERY
+    //
     update_aux_toggle_signal() {
 
 	// start with everything false...
@@ -117,8 +121,7 @@ class UserInterface {
 		this.aux_toggle_ctrl_just_turned_off = true;
 	    }
 	}
-
-	console.log("IIIIIIIIIOIOIOIOI", this.aux_toggle_ctrl_prev_val, this.aux_toggle_ctrl, this.aux_toggle_ctrl_just_turned_on, this.aux_toggle_ctrl_just_turned_off, this.aux_toggle_ctrl_just_toggled);///////////
+	//console.log("IIIIIIIIIOIOIOIOI", this.aux_toggle_ctrl_prev_val, this.aux_toggle_ctrl, this.aux_toggle_ctrl_just_turned_on, this.aux_toggle_ctrl_just_turned_off, this.aux_toggle_ctrl_just_toggled);///////////
     }
 
     get_bsvs() {  // bsvs = Bootstrap viewport size

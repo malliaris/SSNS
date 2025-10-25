@@ -58,7 +58,7 @@ class PlotTypePP_Select extends PlotTypePP {
 
     get_plot_data_reg(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
 
-	if (this.trj.sim.ui.aux_toggle_ctrl_just_toggled) {  // aux_toggle_ctrl_just_toggled used as a signal that a single data point should be collected
+	if (this.trj.sim.ui.aux_toggle_ctrl_just_turned_off) {  // aux_toggle_ctrl_just_turned_off used as a signal that a single data point should be collected (**every other** button press)
 
 	    if (this.select_data.length < PlotTypePP_Select.max_num_data_pts) {
 
@@ -88,12 +88,11 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	let NkT = Params_HS.N * curr_kT;
 	let VR = 1.0;
 	let p_min = 0.9 * NkT / VR;  // ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
-	let p_max = 5000.0;  // ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
+	let p_max = 50.0;  // ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
 	let VL_isotherms = NkT / p_max;
 	this.set_xlim_flot(this.flot_gen_opts, 0.0, 1.0);
 	this.set_ylim_flot(this.flot_gen_opts, p_min, p_max);
 	let isotherm_data = this.trj.mc.mbde.get_flot_IG_isotherm(VL_isotherms, VR, 1000, NkT);
-	console.log("isotherm_data =", VL_isotherms, isotherm_data);//////////
 	this.flot_data_opts_theory = copy(PlotType.flot_data_opts_theory_curve);
 	this.flot_data_opts_theory["data"] = isotherm_data;
     }

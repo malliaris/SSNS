@@ -320,8 +320,9 @@ class CollisionEventsTable {
 // NOTE: we use the compressibility factor Z = p V / N k T, in terms of area fraction eta, to gauge deviation of HD fluid from ideality
 class CollisionPressureStats {
 
-    constructor() {
+    constructor(ui) {
 
+	this.ui = ui;  // needed for aux_toggle communication
 	this.reset_accumulators();
 	this.prepare_for_time_step();
 	this.Z_x_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
@@ -338,6 +339,7 @@ class CollisionPressureStats {
 	    ncps = new CollisionPressureStats_IG();
 	}
 
+	ncps.ui = cpstc.ui;
 	ncps.num_t_avg_contribs = cpstc.num_t_avg_contribs;
 	ncps.P_x_cumul = cpstc.P_x_cumul;
 	ncps.P_y_cumul = cpstc.P_y_cumul;
@@ -380,9 +382,10 @@ class CollisionPressureStats {
 
     update_for_time_step(area, N, kT) {
 
-	//if (this.trj.sim.ui.aux_toggle_ctrl) {  // reset toggle since new point has been collected
-	//    this.reset_accumulators();
-	//}
+	if (this.ui.aux_toggle_ctrl_just_turned_on) {  // reset toggle since new point has been collected
+	    this.reset_accumulators();
+	    console.log("INFO:   CollisionPressureStats accumulators reset...");
+	}
 	this.calc_quantities(area, N, kT);
 	this.prepare_for_time_step();
     }
