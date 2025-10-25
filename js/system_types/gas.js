@@ -215,6 +215,19 @@ class MaxBoltzDistEtc {
 	}
 	return arr_to_return;
     }
+
+    get_flot_IG_isotherm(VL, VR, num_points, NkT) {
+
+	let arr_to_return = [];
+	let V_vals = linspace(VL, VR, num_points);
+	for (let i = 0; i < num_points; i++) {
+
+	    let V = V_vals[i];
+	    let p = NkT / V;
+	    arr_to_return.push( [ V, p ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	}
+	return arr_to_return;
+    }
 }
 
 class ModelCalc_Gas extends ModelCalc {

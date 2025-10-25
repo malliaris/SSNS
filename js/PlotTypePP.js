@@ -73,13 +73,6 @@ class PlotTypePP_Select extends PlotTypePP {
 	return this.select_data;
     }
 
-    get_flot_data_series(t) {
-	let data_series = [];
-	this.flot_data_opts_reg["data"] = this.get_plot_data_reg(t);
-	data_series.push(this.flot_data_opts_reg);
-	return data_series;
-    }
-
     get_flot_gen_opts() {
 	return this.flot_gen_opts;
     }
@@ -92,9 +85,18 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	super(trj);
 
 	this.flot_gen_opts = {};
+	let curr_kT = this.trj.get_x(0).get_kT();
+	let NkT = Params_HS.N * curr_kT;
+	let VR = 1.0;
+	let p_min = 0.9 * NkT / VR;  // ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
+	let p_max = 5000.0;  // ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
+	let VL_isotherms = NkT / p_max;
 	this.set_xlim_flot(this.flot_gen_opts, 0.0, 1.0);
-	// ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
-	this.set_ylim_flot(this.flot_gen_opts, 0.0, 300.0);
+	this.set_ylim_flot(this.flot_gen_opts, p_min, p_max);
+	let isotherm_data = this.trj.mc.mbde.get_flot_IG_isotherm(VL_isotherms, VR, 1000, NkT);
+	console.log("isotherm_data =", VL_isotherms, isotherm_data);//////////
+	this.flot_data_opts_theory = copy(PlotType.flot_data_opts_theory_curve);
+	this.flot_data_opts_theory["data"] = isotherm_data;
     }
 
     get_ext_x_axis_lbl_str() {
@@ -104,13 +106,21 @@ class PlotTypePP_HS extends PlotTypePP_Select {
     get_ext_y_axis_lbl_str() {
 	return "p";
     }
-
+    
     append_data_pt(t, arr) {
 
 	let V_val = this.trj.get_x(t).get_area();
 	let p_val = 0.5 * (this.trj.get_x(t).cps.P_x_t_avg + this.trj.get_x(t).cps.P_y_t_avg);
 	let kT_val = this.trj.get_x(t).get_kT();
 	arr.push( [ V_val, p_val ] );
+    }
+
+    get_flot_data_series(t) {
+	let data_series = [];
+	data_series.push(this.flot_data_opts_theory);
+	this.flot_data_opts_reg["data"] = this.get_plot_data_reg(t);
+	data_series.push(this.flot_data_opts_reg);
+	return data_series;
     }
 }
 
@@ -137,6 +147,13 @@ class PlotTypePP_LM extends PlotTypePP_Select {
 
 	let curr_r_val = this.trj.segs[this.trj.get_si(t)].p.r;
 	arr.push( [ curr_r_val, this.trj.get_x(t).x ] );
+    }
+
+    get_flot_data_series(t) {
+	let data_series = [];
+	this.flot_data_opts_reg["data"] = this.get_plot_data_reg(t);
+	data_series.push(this.flot_data_opts_reg);
+	return data_series;
     }
 }
 

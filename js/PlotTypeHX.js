@@ -25,13 +25,6 @@ class PlotTypeHX extends PlotType {
 	    fillColor: "rgba(50, 50, 255, 0.5)"
 	}
     };
-    static flot_data_opts_theory_curve = {
-	color: "rgba(240, 120, 20, 1.0)",
-	lines: {
-	    show: true,
-	    lineWidth: 2,
-	}
-    };
     static flot_data_opts_theory_points = {
 	color: "rgba(240, 120, 20, 1.0)",
 	points: {
@@ -75,7 +68,7 @@ class PlotTypeHX_Gas extends PlotTypeHX {
 
 	this.trj = trj;
 	this.flot_data_opts_hist = copy(PlotTypeHX.flot_data_opts_histogram);
-	this.flot_data_opts_theory = copy(PlotTypeHX.flot_data_opts_theory_curve);
+	this.flot_data_opts_theory = copy(PlotType.flot_data_opts_theory_curve);
     }
 }
 
@@ -123,7 +116,7 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 
 	super(trj);
 
-	this.flot_data_opts_Boltz_PRELIM = {
+	this.flot_data_opts_Boltz = {
 
 	    color: "rgba(40, 40, 200, 0.2)",
 	    points: {
@@ -187,8 +180,8 @@ class PlotTypeHX_HS extends PlotTypeHX_Gas {
 
 	    // load E histogram data
 	    let E_hist_data = curr_peh.get_flot_semilog_point_data(1.0);  // 1.0 is multiplicative factor for returned data (not used, here)
-	    this.flot_data_opts_Boltz_PRELIM["data"] = E_hist_data;
-	    data_series.push(this.flot_data_opts_Boltz_PRELIM);
+	    this.flot_data_opts_Boltz["data"] = E_hist_data;
+	    data_series.push(this.flot_data_opts_Boltz);
 	}
 
 	return data_series;

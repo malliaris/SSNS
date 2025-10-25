@@ -322,11 +322,7 @@ class CollisionPressureStats {
 
     constructor() {
 
-	this.num_t_avg_contribs = 0;
-	this.num_x_collisions_cumul = 0;
-	this.num_y_collisions_cumul = 0;
-	this.P_x_cumul = 0.0;
-	this.P_y_cumul = 0.0;
+	this.reset_accumulators();
 	this.prepare_for_time_step();
 	this.Z_x_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
 	this.Z_y_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
@@ -348,6 +344,15 @@ class CollisionPressureStats {
 	ncps.num_x_collisions_cumul = cpstc.num_x_collisions_cumul;
 	ncps.num_y_collisions_cumul = cpstc.num_y_collisions_cumul;
 	return ncps;
+    }
+
+    reset_accumulators() {
+
+	this.num_t_avg_contribs = 0;
+	this.num_x_collisions_cumul = 0;
+	this.num_y_collisions_cumul = 0;
+	this.P_x_cumul = 0.0;
+	this.P_y_cumul = 0.0;
     }
 
     prepare_for_time_step() {
@@ -375,6 +380,9 @@ class CollisionPressureStats {
 
     update_for_time_step(area, N, kT) {
 
+	if (this.trj.sim.ui.aux_toggle_ctrl) {  // reset toggle since new point has been collected
+	    this.reset_accumulators();
+	}
 	this.calc_quantities(area, N, kT);
 	this.prepare_for_time_step();
     }
