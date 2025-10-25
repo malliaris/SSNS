@@ -87,15 +87,28 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	let curr_kT = this.trj.get_x(0).get_kT();
 	let NkT = Params_HS.N * curr_kT;
 	let VR = 1.0;
-	let p_min = 0.9 * NkT / VR;  // ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
+	let p_min = 0.0 * NkT / VR;  // ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
 	let p_max = 50.0;  // ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
 	let VL_isotherms = NkT / p_max;
 	this.set_xlim_flot(this.flot_gen_opts, 0.0, 1.0);
 	this.set_ylim_flot(this.flot_gen_opts, p_min, p_max);
-	let isotherm_data = this.trj.mc.mbde.get_flot_IG_isotherm(VL_isotherms, VR, 1000, NkT);
-	this.flot_data_opts_theory = copy(PlotType.flot_data_opts_theory_curve);
-	this.flot_data_opts_theory["data"] = isotherm_data;
-    }
+	let isotherm_fxn_obj = V => {return NkT / V; };
+	let isotherm_data_it1 = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, isotherm_fxn_obj);  // it1 = iso-therm 1
+	this.flot_data_opts_theory_it1 = copy(PlotType.flot_data_opts_theory_curve);
+	this.flot_data_opts_theory_it1["data"] = isotherm_data_it1;
+
+	isotherm_fxn_obj = V => {return 2.0 * NkT / V; };
+	let isotherm_data_it2 = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, isotherm_fxn_obj);  // it2 = iso-therm 2; reusing VL_isotherms means some data will be off of plot, but no big deal...
+	this.flot_data_opts_theory_it2 = copy(PlotType.flot_data_opts_theory_curve);
+	this.flot_data_opts_theory_it2["color"] = "rgba(0, 120, 20)";
+	this.flot_data_opts_theory_it2["data"] = isotherm_data_it2;
+
+    	isotherm_fxn_obj = V => {return NkT / ( V*V); };
+	let isotherm_data_ab = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, isotherm_fxn_obj);  // ab = adia-bat; reusing VL_isotherms means some data will be off of plot, but no big deal...
+	this.flot_data_opts_theory_ab = copy(PlotType.flot_data_opts_theory_curve);
+	this.flot_data_opts_theory_ab["color"] = "rgba(0, 0, 220)";
+	this.flot_data_opts_theory_ab["data"] = isotherm_data_ab;
+}
 
     get_ext_x_axis_lbl_str() {
 	return "V";
@@ -115,7 +128,9 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 
     get_flot_data_series(t) {
 	let data_series = [];
-	data_series.push(this.flot_data_opts_theory);
+	data_series.push(this.flot_data_opts_theory_it1);
+	data_series.push(this.flot_data_opts_theory_it2);
+	data_series.push(this.flot_data_opts_theory_ab);
 	this.flot_data_opts_reg["data"] = this.get_plot_data_reg(t);
 	data_series.push(this.flot_data_opts_reg);
 	return data_series;

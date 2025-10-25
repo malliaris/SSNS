@@ -216,14 +216,15 @@ class MaxBoltzDistEtc {
 	return arr_to_return;
     }
 
-    get_flot_IG_isotherm(VL, VR, num_points, NkT) {
+    get_flot_p_of_V_curve(VL, VR, num_points, fxn_of_V) {
 
 	let arr_to_return = [];
 	let V_vals = linspace(VL, VR, num_points);
 	for (let i = 0; i < num_points; i++) {
 
 	    let V = V_vals[i];
-	    let p = NkT / V;
+	    //let p = NkT / V;
+	    let p = fxn_of_V(V);
 	    arr_to_return.push( [ V, p ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	return arr_to_return;
