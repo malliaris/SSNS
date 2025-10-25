@@ -218,10 +218,15 @@ class Trajectory {
     }
     
     step_forward_and_record() {  // add a step to the trajectory (only possible in the forward direction)
+
 	if (this.at_t_max()) {  // if there's no "room", i.e., t_edge == t_max, alert the user
+
 	    sim.ui.hv.show_view('HV_E_T_MAX_REACHED');
 	    return false;  // no step/recording/changes made
+
 	} else {  // otherwise, we can add a step, and figure out the details...
+
+	    this.sim.ui.update_aux_toggle_signal();  // update machinery that gives both aux_toggle's state and recent change status
 	    if (this.t < this.t_edge) {  // if we're back from the edge of the recorded trajectory...
 		this.truncate_traj();  // ... truncate it in preparation for new segment
 		if ((this.mc.model_is_stoch()) && CU.gcb("UI_CTRL_rng_recreate_traj")) {
@@ -237,6 +242,7 @@ class Trajectory {
 	    }
 	    this.t_edge++;
 	    this.t = this.t_edge;
+	    this.sim.ui.aux_toggle_ctrl_prev_val = this.sim.ui.aux_toggle_ctrl;  // prepare for next iteration
 
 	    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	    //////////////////////////////// COMMENT OUT WHEN NOT IN USE!!!!!!!!!!!  USE WITH CAUTION AS THIS BREAKS MANY THINGS!!!!!!!!!!! ///////////////////////////////////////////////

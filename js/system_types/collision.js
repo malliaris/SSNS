@@ -380,9 +380,9 @@ class CollisionPressureStats {
 
     update_for_time_step(area, N, kT) {
 
-	if (this.trj.sim.ui.aux_toggle_ctrl) {  // reset toggle since new point has been collected
-	    this.reset_accumulators();
-	}
+	//if (this.trj.sim.ui.aux_toggle_ctrl) {  // reset toggle since new point has been collected
+	//    this.reset_accumulators();
+	//}
 	this.calc_quantities(area, N, kT);
 	this.prepare_for_time_step();
     }

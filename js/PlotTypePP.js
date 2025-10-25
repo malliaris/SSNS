@@ -58,13 +58,12 @@ class PlotTypePP_Select extends PlotTypePP {
 
     get_plot_data_reg(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
 
-	if (this.trj.sim.ui.aux_toggle_ctrl) {  // aux_toggle_ctrl used as a signal that a single data point should be collected
+	if (this.trj.sim.ui.aux_toggle_ctrl_just_toggled) {  // aux_toggle_ctrl_just_toggled used as a signal that a single data point should be collected
 
 	    if (this.select_data.length < PlotTypePP_Select.max_num_data_pts) {
 
 		this.append_data_pt(t, this.select_data);
 		console.log("INFO:   data point", this.select_data.at(-1), " collected and appended.");
-		this.trj.sim.ui.aux_toggle_ctrl = false;  // reset toggle since new point has been collected
 
 	    } else {
 		console.log("INFO:   unable to append another data point as PlotTypePP_Select.max_num_data_pts has been reached (", PlotTypePP_Select.max_num_data_pts, ")...");

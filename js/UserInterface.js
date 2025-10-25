@@ -75,8 +75,14 @@ class UserInterface {
 	Params_PF.UINI_N = new UINI_int(this, "UI_P_FD_PF_N", false);
 	Params_PF.UINI_Dt = new UINI_float(this, "UI_P_FD_PF_Dt", true);
 
+	// boolean toggle used for miscellaneous, ST-dependent signaling by user, e.g., to start/stop something
+	this.aux_toggle_ctrl = false;
+	this.aux_toggle_ctrl_prev_val = false;
+	this.aux_toggle_ctrl_just_turned_on = false;
+	this.aux_toggle_ctrl_just_turned_off = false;
+	this.aux_toggle_ctrl_just_toggled = false;
+	
 	// other UI stuff
-	this.aux_toggle_ctrl = false;  // boolean toggle used for miscellaneous, ST-dependent signaling by user, e.g., to start/stop something
 	for (let ST_val of Simulator.unregistered_STs.values()) {  // if any disabled ST's have parameter HTML content (e.g., while under development), hide it
 	    let id_str = "#UI_P_" + Simulator.lookup_area_from_ST[ST_val] + "_" + ST_val;  // reconstruct, e.g., #UI_P_SM_IS
 	    if ($(id_str).length != 0) {  // check for existence of tag
@@ -92,6 +98,27 @@ class UserInterface {
 	$("#navbar_collapse").on("show.bs.collapse", function ()   {  $("#plot_y_axis_lbl").hide();  });
 	$("#navbar_collapse").on("hidden.bs.collapse", function () {  $("#plot_y_axis_lbl").show();  });
 	this.hv = new HelpViewer(this.sim, this.bsvs);
+    }
+
+    // update machinery that gives both aux_toggle's state and recent change status
+    update_aux_toggle_signal() {
+
+	// start with everything false...
+	this.aux_toggle_ctrl_just_turned_on = false;
+	this.aux_toggle_ctrl_just_turned_off = false;
+	this.aux_toggle_ctrl_just_toggled = false;
+	
+	// if there's been a change, set appropriate variables to true
+	if (this.aux_toggle_ctrl != this.aux_toggle_ctrl_prev_val) {
+	    this.aux_toggle_ctrl_just_toggled = true;
+	    if (this.aux_toggle_ctrl) {
+		this.aux_toggle_ctrl_just_turned_on = true;
+	    } else {  // this.aux_toggle_ctrl_prev_val is true
+		this.aux_toggle_ctrl_just_turned_off = true;
+	    }
+	}
+
+	console.log("IIIIIIIIIOIOIOIOI", this.aux_toggle_ctrl_prev_val, this.aux_toggle_ctrl, this.aux_toggle_ctrl_just_turned_on, this.aux_toggle_ctrl_just_turned_off, this.aux_toggle_ctrl_just_toggled);///////////
     }
 
     get_bsvs() {  // bsvs = Bootstrap viewport size
