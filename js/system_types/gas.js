@@ -223,7 +223,6 @@ class MaxBoltzDistEtc {
 	for (let i = 0; i < num_points; i++) {
 
 	    let V = V_vals[i];
-	    //let p = NkT / V;
 	    let p = fxn_of_V(V);
 	    arr_to_return.push( [ V, p ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}

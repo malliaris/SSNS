@@ -87,22 +87,26 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	let curr_kT = this.trj.get_x(0).get_kT();
 	let NkT = Params_HS.N * curr_kT;
 	let VR = 1.0;
-	let p_min = 0.0 * NkT / VR;  // ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
-	let p_max = 50.0;  // ideally, we'd autocalculate upper/lower bounds for p based on other parameter values...
+	let p_min = 0.0;
+	let p_max = 10.0 * NkT;  // the lower T isotherm will leave the plot at V = 0.1
 	let VL_isotherms = NkT / p_max;
 	this.set_xlim_flot(this.flot_gen_opts, 0.0, 1.0);
 	this.set_ylim_flot(this.flot_gen_opts, p_min, p_max);
+
+	// plot isotherm 1 "it1" -- the one at lower T
 	let isotherm_fxn_obj = V => {return NkT / V; };
 	let isotherm_data_it1 = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, isotherm_fxn_obj);  // it1 = iso-therm 1
 	this.flot_data_opts_theory_it1 = copy(PlotType.flot_data_opts_theory_curve);
 	this.flot_data_opts_theory_it1["data"] = isotherm_data_it1;
 
+	// plot isotherm 2 "it2" -- the one at higher T
 	isotherm_fxn_obj = V => {return 2.0 * NkT / V; };
 	let isotherm_data_it2 = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, isotherm_fxn_obj);  // it2 = iso-therm 2; reusing VL_isotherms means some data will be off of plot, but no big deal...
 	this.flot_data_opts_theory_it2 = copy(PlotType.flot_data_opts_theory_curve);
 	this.flot_data_opts_theory_it2["color"] = "rgba(0, 120, 20)";
 	this.flot_data_opts_theory_it2["data"] = isotherm_data_it2;
 
+	// plot adiabat
     	isotherm_fxn_obj = V => {return NkT / ( V*V); };
 	let isotherm_data_ab = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, isotherm_fxn_obj);  // ab = adia-bat; reusing VL_isotherms means some data will be off of plot, but no big deal...
 	this.flot_data_opts_theory_ab = copy(PlotType.flot_data_opts_theory_curve);
