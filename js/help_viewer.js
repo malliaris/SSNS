@@ -86,7 +86,7 @@ class HelpViewer {
 
 	// basic/miscellaneous settings
 	this.sim = sim;
-	this.initial_view = "HV_GAS_THEORY_COMPARISON";// GAS_MODELS CONCEPTS _P_SM_HS_v_pist";//    // default setting
+	this.initial_view = "HV_P_SM_HS_v_pist";// GAS_THEORY_COMPARISON GAS_MODELS CONCEPTS _P_SM_HS_v_pist";//    // default setting
 	this.curr_view = "";
 	this.prev_view = "";
 	this.show_on_load = true;  // whether to show HelpViewer on app loading
