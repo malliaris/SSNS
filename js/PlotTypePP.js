@@ -34,7 +34,7 @@ class PlotTypePP extends PlotType {
 // a crude version of the LM bifurcation diagram can be outlined by varying r (not quite a phase portrait -- I know)
 class PlotTypePP_Select extends PlotTypePP {
 
-    static max_num_data_pts = 500;
+    static max_num_data_pts = 10000;///////////////////////500;
 
     constructor(trj) {
 
@@ -56,9 +56,9 @@ class PlotTypePP_Select extends PlotTypePP {
 	};
     }
 
-    get_plot_data_reg(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
+    get_plot_data_cond_append(t, to_append) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
 
-	if (this.trj.sim.ui.aux_toggle_ctrl_just_turned_off) {  // aux_toggle_ctrl_just_turned_off used as a signal that a single data point should be collected (**every other** button press)
+	if (to_append) {  // aux_toggle_ctrl_just_turned_off used as a signal that a single data point should be collected (**every other** button press)
 
 	    if (this.select_data.length < PlotTypePP_Select.max_num_data_pts) {
 
@@ -135,7 +135,7 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	data_series.push(this.flot_data_opts_theory_it1);
 	data_series.push(this.flot_data_opts_theory_it2);
 	data_series.push(this.flot_data_opts_theory_ab);
-	this.flot_data_opts_reg["data"] = this.get_plot_data_reg(t);
+	this.flot_data_opts_reg["data"] = this.get_plot_data_cond_append(t, this.trj.sim.ui.aux_toggle_ctrl_just_turned_off);
 	data_series.push(this.flot_data_opts_reg);
 	return data_series;
     }
@@ -150,6 +150,15 @@ class PlotTypePP_LM extends PlotTypePP_Select {
 	this.flot_gen_opts = {};
 	this.set_xlim_flot(this.flot_gen_opts, 0.0, 4.0);
 	this.set_ylim_flot(this.flot_gen_opts, 0.0, 1.0);
+	this.flot_data_opts_bifurc_dgrm = {  // for PP bifurcation diagram
+	    color: "rgba(0, 0, 0, 1)",
+	    points: {
+		fillColor: "rgba(0, 0, 0, 0.5)",
+		show: true,
+		radius: 1.5,
+		lineWidth: 0.7,
+	    },
+	};
     }
 
     get_ext_x_axis_lbl_str() {
@@ -168,8 +177,8 @@ class PlotTypePP_LM extends PlotTypePP_Select {
 
     get_flot_data_series(t) {
 	let data_series = [];
-	this.flot_data_opts_reg["data"] = this.get_plot_data_reg(t);
-	data_series.push(this.flot_data_opts_reg);
+	this.flot_data_opts_bifurc_dgrm["data"] = this.get_plot_data_cond_append(t, this.trj.sim.ui.aux_toggle_ctrl);
+	data_series.push(this.flot_data_opts_bifurc_dgrm);
 	return data_series;
     }
 }
