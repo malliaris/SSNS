@@ -213,7 +213,8 @@ Class <samp>PlotTypePP_LM</samp>, the phase-portrait "PP" type plot for the Logi
 * switch to PP plot type
 * press the unmarked button next to the "Reload Page" button (console shows "this.ui.aux_toggle_ctrl = true", which means the PP setup is ready to record a data point)
 * record a single step (console shows "data point (r, x) collected and appended")
-* repeat the above steps re-creating the diagram with as much detail as desired (note that this.ui.aux_toggle_ctrl is set to false after a data point is collected, so the unmarked button must be hit before each collection)
+* press the unmarked button again (console shows "this.ui.aux_toggle_ctrl = false") to temporarily stop data point capture
+* repeat the above steps re-creating the diagram with as much detail as desired
 
 <a href="img/plot_screenshots/LM_PP_bifurcation_diagram.png"><img src="img/plot_screenshots/LM_PP_bifurcation_diagram.png"></a>
 
