@@ -269,7 +269,7 @@ class CollisionEvent_WC extends CollisionEvent_Wall {
 	if (v_RW > 0.0) {  // NOTE: v_RW positive is compression
 	    ds_coll = (Params_HS.x_RW_max - x_RW) / v_RW;
 	} else {  // v_RW < 0.0; NOTE: v_RW negative is expansion --- negative sign makes expression below positive
-	    ds_coll = -1.0 * x_RW / v_RW;
+	    ds_coll = -1.0 * (x_RW - Params_HS.x_RW_min) / v_RW;
 	}
 	let s_coll = s_to_add + ds_coll;
 

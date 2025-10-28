@@ -160,7 +160,7 @@ class Params_HS extends Params {
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
     static Ly = 1.0;  // assignment occurs in Trajectory_HS constructor
     static x_RW_max = Params_HS.Lx_max - Params_HS.Lx_min;  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
-    static x_RW_min = 0.0;
+    static x_RW_min = 0.07;
     static x_RW_0 = 0.5;  // initial value of x_RW
     
     static get_wi_char(i) {
@@ -176,13 +176,15 @@ class Params_HS extends Params {
 
 	// summarize physical parameter values
 	console.log("physical parameter value summary:");
-	console.log("N     :", Params_HS.N);
-	console.log("kT    :", Params_HS.kT0);
-	console.log("Ly    :", Params_HS.Ly);
-	console.log("Lx_min:", Params_HS.Lx_min);
-	console.log("Lx_max:", Params_HS.Lx_max);
-	console.log("x_RW_max:", Params_HS.x_RW_max);
-	console.log("ds    :", Params_HS.ds);
+	console.log("N        :", Params_HS.N);
+	console.log("kT       :", Params_HS.kT0);
+	console.log("Ly       :", Params_HS.Ly);
+	console.log("Lx_min   :", Params_HS.Lx_min);
+	console.log("Lx_max   :", Params_HS.Lx_max);
+	console.log("x_RW_min :", Params_HS.x_RW_min);
+	console.log("x_RW_max :", Params_HS.x_RW_max);
+	console.log("x_RW_0   :", Params_HS.x_RW_max);
+	console.log("ds       :", Params_HS.ds);
     }
 
     push_vals_to_UI() {
@@ -207,7 +209,7 @@ class Coords_HS extends Coords {
 
 	if (this.constructing_init_cond) {
 
-	    this.x_RW = Params_HS.x_RW_0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
+	    this.x_RW = Params_HS.x_RW_0;  // set Right Wall (RW) piston initial position
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
 	    this.cps = new CollisionPressureStats_HS(this.mc.ui);
 	    this.psh = new GasSpeedHistogram(GasSpeedHistogram.get_reasonable_v_bin_width(Params_HS.kT0, Params_HS.m_single_value, Params_HS.N));// 0.2);  // psh = particle speed histogram
@@ -248,7 +250,7 @@ class Coords_HS extends Coords {
 		    // determine whether requested value of v_RW is allowed given state of x_RW
 		    let requested_v_pist_0 = this.p.v_pist_0;
 		    let attempting_overcompress = ((requested_v_pist_0 > 0) && (this.x_RW >= Params_HS.x_RW_max));  // can't compress beyond compression limit
-		    let attempting_overexpand = ((requested_v_pist_0 < 0) && (this.x_RW <= 0.0));  // can't expand beyond expansion limit
+		    let attempting_overexpand = ((requested_v_pist_0 < 0) && (this.x_RW <= Params_HS.x_RW_min));  // can't expand beyond expansion limit
 		    if (attempting_overcompress || attempting_overexpand) {
 			this.v_RW = 0.0;
 			this.p.v_pist_0 = 0.0;
@@ -271,6 +273,7 @@ class Coords_HS extends Coords {
 
 	    this.update_state(Params_HS.ds);
 	}
+	this.check_basic_machinery_integrity_and_output();
 	//this.check_cet_table_and_entries_integrity_and_output(true);
     }
 
@@ -942,7 +945,7 @@ class Coords_HS extends Coords {
     update_collision_structures_WC(curr_s) {  // curr_s is current absolute time which is required argument for methods that add collision events
 
 	// process the collision
-	this.x_RW = (this.v_RW > 0.0) ? Params_HS.x_RW_max : 0.0;  // fix piston position; NOTE: v_pist positive (negative) is compression (expansion)
+	this.x_RW = (this.v_RW > 0.0) ? Params_HS.x_RW_max : Params_HS.x_RW_min;  // fix piston position; NOTE: v_pist positive (negative) is compression (expansion)
 	this.v_RW = 0.0;  // and stop the motion of the piston
 
 	this.delete_and_reenter_RW_entries(curr_s);  // update collision event data structures
@@ -959,6 +962,20 @@ class Coords_HS extends Coords {
 	    this.update_collision_structures_PW(curr_s, cps, ds);
 	} else {  // else, top entry is WC collision...
 	    this.update_collision_structures_WC(curr_s);
+	}
+    }
+
+    check_integrity_and_output(output_individual_entries) {
+
+	check_basic_machinery_integrity_and_output();
+	check_cet_table_and_entries_integrity_and_output(output_individual_entries);
+    }
+
+    check_basic_machinery_integrity_and_output() {
+
+	console.log("INFO:   checking basic machinery integrity...");
+	if ( ! ((1.0 >= Params_HS.x_RW_max) && (Params_HS.x_RW_max >= this.x_RW) && (this.x_RW >= Params_HS.x_RW_min) && (Params_HS.x_RW_min >= 0.0)) ) {
+	    alert("ERROR 119962: x_RW and/or limits out of range!...");
 	}
     }
 
