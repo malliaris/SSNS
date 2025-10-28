@@ -160,7 +160,9 @@ class Params_HS extends Params {
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
     static Ly = 1.0;  // assignment occurs in Trajectory_HS constructor
     static x_RW_max = Params_HS.Lx_max - Params_HS.Lx_min;  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
-
+    static x_RW_min = 0.0;
+    static x_RW_0 = 0.5;  // initial value of x_RW
+    
     static get_wi_char(i) {
 	let char_arr = ["T", "L", "B", "R"];
 	return char_arr[i];
@@ -205,7 +207,7 @@ class Coords_HS extends Coords {
 
 	if (this.constructing_init_cond) {
 
-	    this.x_RW = 0.0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
+	    this.x_RW = Params_HS.x_RW_0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
 	    this.cps = new CollisionPressureStats_HS(this.mc.ui);
 	    this.psh = new GasSpeedHistogram(GasSpeedHistogram.get_reasonable_v_bin_width(Params_HS.kT0, Params_HS.m_single_value, Params_HS.N));// 0.2);  // psh = particle speed histogram
