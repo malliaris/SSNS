@@ -160,8 +160,8 @@ class Params_HS extends Params {
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
     static Ly = 1.0;  // assignment occurs in Trajectory_HS constructor
     static x_RW_max = Params_HS.Lx_max - Params_HS.Lx_min;  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
-    static x_RW_min = 0.07;
-    static x_RW_0 = 0.5;  // initial value of x_RW
+    static x_RW_min = 0.9;
+    static x_RW_0 = 0.9;  // initial value of x_RW
     
     static get_wi_char(i) {
 	let char_arr = ["T", "L", "B", "R"];
@@ -220,11 +220,6 @@ class Coords_HS extends Coords {
 	    this.do_post_particle_creation_tasks();
 	    this.initialize_collision_structures();
 
-	    // OBSOLETE???  DELETE???  initialize quantities involved in time-averaging
-	    this.num_t_avg_contribs = 0;
-	    this.P_x_cumul = 0.0;
-	    this.P_y_cumul = 0.0;
-
 	} else {
 
 	    this.cps = CollisionPressureStats_HS.copy(this.c_prev.cps);
@@ -234,7 +229,7 @@ class Coords_HS extends Coords {
 
 	    // determine this timestep's x_RW and v_RW initial values (actual values may change during timestep's update_state() routines)
 	    this.x_RW = this.c_prev.x_RW;  // initial Right Wall (RW) piston position is always taken from previous CoordsHS
-	    if (this.mc.rs.params_changed) {  // value of initial Right Wall (RW) piston velocity depends on various things...
+	    if ((this.mc.rs.params_changed) || (Coords_HS.WC_just_occurred)) {  // value of initial Right Wall (RW) piston velocity depends on various things...
 
 		if (Coords_HS.WC_just_occurred) {  // if a Wall-Container (WC) collision just occurred
 
@@ -266,14 +261,9 @@ class Coords_HS extends Coords {
 		this.v_RW = this.c_prev.v_RW;
 	    }
 
-	    // OBSOLETE???  DELETE???  copy over quantities involved in time-averaging
-	    this.num_t_avg_contribs = this.c_prev.num_t_avg_contribs;
-	    this.P_x_cumul = this.c_prev.P_x_cumul;
-	    this.P_y_cumul = this.c_prev.P_y_cumul;
-
 	    this.update_state(Params_HS.ds);
 	}
-	this.check_basic_machinery_integrity_and_output();
+	//this.check_basic_machinery_integrity_and_output();
 	//this.check_cet_table_and_entries_integrity_and_output(true);
     }
 

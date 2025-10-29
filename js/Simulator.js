@@ -176,6 +176,8 @@ class Simulator {
 	    this.ui.aux_toggle_ctrl = ! this.ui.aux_toggle_ctrl;  // boolean toggle used for miscellaneous, ST-dependent signaling by user, e.g., to start/stop something
 	    console.log("this.ui.aux_toggle_ctrl =", this.ui.aux_toggle_ctrl);///////////
 
+	    Params_HS.x_RW_min -= 0.1;
+	    
 	    /*
 	this.da = new Array();//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// REMOVE
 	this.da_ctr = 0;
