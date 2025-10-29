@@ -174,9 +174,34 @@ class Simulator {
 	    break;
 	case "CK":
 	    this.ui.aux_toggle_ctrl = ! this.ui.aux_toggle_ctrl;  // boolean toggle used for miscellaneous, ST-dependent signaling by user, e.g., to start/stop something
-	    console.log("this.ui.aux_toggle_ctrl =", this.ui.aux_toggle_ctrl);///////////
+	    //console.log("aux_toggle_ctrl =", this.ui.aux_toggle_ctrl);///////////
 
-	    Params_HS.x_RW_min -= 0.1;
+	    console.log("aux_cyclic_indicator =", this.ui.aux_cyclic_indicator);///////////
+	    this.ui.aux_cyclic_indicator = (this.ui.aux_cyclic_indicator + 1 ) % this.ui.aux_cyclic_indicator_num_vals;
+
+	    if (this.ui.aux_cyclic_indicator == 0) {
+		// open
+	    } else if (this.ui.aux_cyclic_indicator == 1) {
+		console.log("Params_HS.x_RW_min =", Params_HS.x_RW_min);///////////
+		Params_HS.x_RW_min -= 0.1;
+		if (Params_HS.x_RW_min < 0.0001) {
+		    Params_HS.x_RW_min = 0;
+		}
+		console.log("Params_HS.x_RW_min =", Params_HS.x_RW_min);///////////
+		if (Params_HS.x_RW_min > 0.0) {
+		    Params_HS.UINI_v_pist.sv(-1e100);
+		    this.ui.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+		}
+	    } else if (this.ui.aux_cyclic_indicator == 2) {
+		// reset_accumulators() call in CollisionPressureStats
+	    } else if (this.ui.aux_cyclic_indicator == 3) {
+		// open
+	    } else if (this.ui.aux_cyclic_indicator == 4) {
+		// collect data point
+	    }// else if (this.ui.aux_cyclic_indicator == 5) {
+	    //}
+	    console.log("aux_cyclic_indicator =", this.ui.aux_cyclic_indicator);///////////
+
 	    
 	    /*
 	this.da = new Array();//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// REMOVE

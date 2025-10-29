@@ -382,7 +382,8 @@ class CollisionPressureStats {
 
     update_for_time_step(area, N, kT) {
 
-	if (this.ui.aux_toggle_ctrl_just_turned_on) {  // reset toggle since new point has been collected
+	if (this.ui.aux_cyclic_indicator == 2) {
+	//if (this.ui.aux_toggle_ctrl_just_turned_on) {
 	    this.reset_accumulators();
 	    console.log("INFO:   CollisionPressureStats accumulators reset...");
 	}

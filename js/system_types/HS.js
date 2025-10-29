@@ -263,7 +263,7 @@ class Coords_HS extends Coords {
 
 	    this.update_state(Params_HS.ds);
 	}
-	//this.check_basic_machinery_integrity_and_output();
+	this.check_basic_machinery_integrity_and_output();
 	//this.check_cet_table_and_entries_integrity_and_output(true);
     }
 

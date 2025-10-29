@@ -135,7 +135,8 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	data_series.push(this.flot_data_opts_theory_it1);
 	data_series.push(this.flot_data_opts_theory_it2);
 	data_series.push(this.flot_data_opts_theory_ab);
-	this.flot_data_opts_reg["data"] = this.get_plot_data_cond_append(t, this.trj.sim.ui.aux_toggle_ctrl_just_turned_off);
+	//this.flot_data_opts_reg["data"] = this.get_plot_data_cond_append(t, this.trj.sim.ui.aux_toggle_ctrl_just_turned_off);
+	this.flot_data_opts_reg["data"] = this.get_plot_data_cond_append(t, (this.trj.sim.ui.aux_cyclic_indicator == 4));
 	data_series.push(this.flot_data_opts_reg);
 	return data_series;
     }
