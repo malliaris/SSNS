@@ -83,6 +83,7 @@ class UserInterface {
 	this.aux_toggle_ctrl_just_toggled = false;
 	this.aux_cyclic_indicator = 0;
 	this.aux_cyclic_indicator_num_vals = 5;
+	this.aux_ctr = 0;
 	
 	// other UI stuff
 	for (let ST_val of Simulator.unregistered_STs.values()) {  // if any disabled ST's have parameter HTML content (e.g., while under development), hide it

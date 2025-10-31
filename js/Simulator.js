@@ -178,7 +178,31 @@ class Simulator {
 
 	    console.log("aux_cyclic_indicator =", this.ui.aux_cyclic_indicator);///////////
 	    this.ui.aux_cyclic_indicator = (this.ui.aux_cyclic_indicator + 1 ) % this.ui.aux_cyclic_indicator_num_vals;
+	    this.ui.aux_ctr = (this.ui.aux_cyclic_indicator + 1 ) % this.ui.aux_cyclic_indicator_num_vals;
 
+	    let num_sweep_pos = 5;
+	    //let modf_parts = modf(this.ui.aux_ctr / num_sweep_pos);
+	    let sweep_indx = Math.floor(this.ui.aux_ctr / num_sweep_pos);
+	    let pos_within_sweep = this.ui.aux_ctr % num_sweep_pos;
+	    let Delta_x_RW_limit = 0.1;
+
+	    if (pos_within_sweep == 0) {
+		// open
+	    } else if (pos_within_sweep == 1) {
+		console.log("Params_HS.x_RW_min =", Params_HS.x_RW_min);///////////
+		if (sweep_indx == 1) {
+		    Params_HS.x_RW_min = pos_within_sweep * Delta_x_RW_limit; 
+		    Params_HS.UINI_v_pist.sv(-1e100);
+		    this.ui.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+		}
+	    } else if (pos_within_sweep == 2) {
+		// reset_accumulators() call in CollisionPressureStats
+	    } else if (pos_within_sweep == 3) {
+		// open
+	    } else if (pos_within_sweep == 4) {
+		// collect data point
+	    }
+	    /*
 	    if (this.ui.aux_cyclic_indicator == 0) {
 		// open
 	    } else if (this.ui.aux_cyclic_indicator == 1) {
@@ -199,6 +223,7 @@ class Simulator {
 	    } else if (this.ui.aux_cyclic_indicator == 4) {
 		// collect data point
 	    }// else if (this.ui.aux_cyclic_indicator == 5) {
+	    */
 	    //}
 	    console.log("aux_cyclic_indicator =", this.ui.aux_cyclic_indicator);///////////
 
