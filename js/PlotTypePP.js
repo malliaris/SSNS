@@ -58,7 +58,7 @@ class PlotTypePP_Select extends PlotTypePP {
 
     get_plot_data_cond_append(t, to_append) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
 
-	if (to_append) {  // aux_toggle_ctrl_just_turned_off used as a signal that a single data point should be collected (**every other** button press)
+	if (to_append) {  // aux_ctr, etc. used as a signal that a single data point should be collected
 
 	    if (this.select_data.length < PlotTypePP_Select.max_num_data_pts) {
 
@@ -135,8 +135,7 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	data_series.push(this.flot_data_opts_theory_it1);
 	data_series.push(this.flot_data_opts_theory_it2);
 	data_series.push(this.flot_data_opts_theory_ab);
-	//this.flot_data_opts_reg["data"] = this.get_plot_data_cond_append(t, this.trj.sim.ui.aux_toggle_ctrl_just_turned_off);
-	this.flot_data_opts_reg["data"] = this.get_plot_data_cond_append(t, (this.trj.sim.ui.aux_cyclic_indicator == 4));
+	this.flot_data_opts_reg["data"] = this.get_plot_data_cond_append(t, (this.trj.sim.ui.pos_within_data_pt == 4));
 	data_series.push(this.flot_data_opts_reg);
 	return data_series;
     }
@@ -178,7 +177,7 @@ class PlotTypePP_LM extends PlotTypePP_Select {
 
     get_flot_data_series(t) {
 	let data_series = [];
-	this.flot_data_opts_bifurc_dgrm["data"] = this.get_plot_data_cond_append(t, this.trj.sim.ui.aux_toggle_ctrl);
+	this.flot_data_opts_bifurc_dgrm["data"] = this.get_plot_data_cond_append(t, (this.trj.sim.ui.pos_within_data_pt == 1));
 	data_series.push(this.flot_data_opts_bifurc_dgrm);
 	return data_series;
     }

@@ -226,7 +226,6 @@ class Trajectory {
 
 	} else {  // otherwise, we can add a step, and figure out the details...
 
-	    this.sim.ui.update_aux_toggle_signal();  // update TOGGLE MACHINERY that gives both aux_toggle's state and recent change status
 	    if (this.t < this.t_edge) {  // if we're back from the edge of the recorded trajectory...
 		this.truncate_traj();  // ... truncate it in preparation for new segment
 		if ((this.mc.model_is_stoch()) && CU.gcb("UI_CTRL_rng_recreate_traj")) {
@@ -242,7 +241,6 @@ class Trajectory {
 	    }
 	    this.t_edge++;
 	    this.t = this.t_edge;
-	    this.sim.ui.aux_toggle_ctrl_prev_val = this.sim.ui.aux_toggle_ctrl;  // prepare for next iteration in TOGGLE MACHINERY
 
 	    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	    //////////////////////////////// COMMENT OUT WHEN NOT IN USE!!!!!!!!!!!  USE WITH CAUTION AS THIS BREAKS MANY THINGS!!!!!!!!!!! ///////////////////////////////////////////////

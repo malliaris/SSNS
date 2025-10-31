@@ -173,60 +173,31 @@ class Simulator {
 	    this.update_plot_and_UI();
 	    break;
 	case "CK":
-	    this.ui.aux_toggle_ctrl = ! this.ui.aux_toggle_ctrl;  // boolean toggle used for miscellaneous, ST-dependent signaling by user, e.g., to start/stop something
-	    //console.log("aux_toggle_ctrl =", this.ui.aux_toggle_ctrl);///////////
 
-	    console.log("aux_cyclic_indicator =", this.ui.aux_cyclic_indicator);///////////
-	    this.ui.aux_cyclic_indicator = (this.ui.aux_cyclic_indicator + 1 ) % this.ui.aux_cyclic_indicator_num_vals;
-	    this.ui.aux_ctr = (this.ui.aux_cyclic_indicator + 1 ) % this.ui.aux_cyclic_indicator_num_vals;
+	    let x_RW_lim_v_pist_arr = [[0.95, 0.8, -1e100], [0.95, 0.7, -1e100], [0.95, 0.6, -1e100], [0.95, 0.5, -1e100], [0.95, 0.4, -1e100], [0.95, 0.3, -1e100], [0.95, 0.2, -1e100], [0.95, 0.1, -1e100], [0.95, 0.0, -1e100], [0.1, 0.0, 0.01], [0.2, 0.0, 0.01], [0.3, 0.0, 0.01], [0.4, 0.0, 0.01], [0.5, 0.0, 0.01], [0.5, 0.4, -1e100], [0.5, 0.3, -1e100], [0.5, 0.2, -1e100], [0.5, 0.1, -1e100], [0.5, 0.0, -1e100]];
+	    let num_sweep_pos = 5
+	    let data_pt_num = Math.floor(this.ui.aux_ctr / num_sweep_pos);
+	    this.ui.pos_within_data_pt = this.ui.aux_ctr % num_sweep_pos;
+	    console.log("this.ui.aux_ctr,this.ui.pos_within_data_pt =", this.ui.aux_ctr, this.ui.pos_within_data_pt);///////////////
 
-	    let num_sweep_pos = 5;
-	    //let modf_parts = modf(this.ui.aux_ctr / num_sweep_pos);
-	    let sweep_indx = Math.floor(this.ui.aux_ctr / num_sweep_pos);
-	    let pos_within_sweep = this.ui.aux_ctr % num_sweep_pos;
-	    let Delta_x_RW_limit = 0.1;
-
-	    if (pos_within_sweep == 0) {
+	    if (this.ui.pos_within_data_pt == 0) {
 		// open
-	    } else if (pos_within_sweep == 1) {
-		console.log("Params_HS.x_RW_min =", Params_HS.x_RW_min);///////////
-		if (sweep_indx == 1) {
-		    Params_HS.x_RW_min = pos_within_sweep * Delta_x_RW_limit; 
-		    Params_HS.UINI_v_pist.sv(-1e100);
-		    this.ui.indicate_new_param_vals_ready_to_pull_UI_to_traj();
-		}
-	    } else if (pos_within_sweep == 2) {
+	    } else if (this.ui.pos_within_data_pt == 1) {
+		console.log("Params_HS.x_RW_max,min , vpist =", Params_HS.x_RW_max, Params_HS.x_RW_min, Params_HS.UINI_v_pist.v);///////////
+		Params_HS.x_RW_max = x_RW_lim_v_pist_arr[data_pt_num][0];
+		Params_HS.x_RW_min = x_RW_lim_v_pist_arr[data_pt_num][1];
+		Params_HS.UINI_v_pist.sv(x_RW_lim_v_pist_arr[data_pt_num][2]);
+		this.ui.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+		console.log("Params_HS.x_RW_max,min , vpist =", Params_HS.x_RW_max, Params_HS.x_RW_min, Params_HS.UINI_v_pist.v);///////////
+	    } else if (this.ui.pos_within_data_pt == 2) {
 		// reset_accumulators() call in CollisionPressureStats
-	    } else if (pos_within_sweep == 3) {
+	    } else if (this.ui.pos_within_data_pt == 3) {
 		// open
-	    } else if (pos_within_sweep == 4) {
+	    } else if (this.ui.pos_within_data_pt == 4) {
 		// collect data point
 	    }
-	    /*
-	    if (this.ui.aux_cyclic_indicator == 0) {
-		// open
-	    } else if (this.ui.aux_cyclic_indicator == 1) {
-		console.log("Params_HS.x_RW_min =", Params_HS.x_RW_min);///////////
-		Params_HS.x_RW_min -= 0.1;
-		if (Params_HS.x_RW_min < 0.0001) {
-		    Params_HS.x_RW_min = 0;
-		}
-		console.log("Params_HS.x_RW_min =", Params_HS.x_RW_min);///////////
-		if (Params_HS.x_RW_min > 0.0) {
-		    Params_HS.UINI_v_pist.sv(-1e100);
-		    this.ui.indicate_new_param_vals_ready_to_pull_UI_to_traj();
-		}
-	    } else if (this.ui.aux_cyclic_indicator == 2) {
-		// reset_accumulators() call in CollisionPressureStats
-	    } else if (this.ui.aux_cyclic_indicator == 3) {
-		// open
-	    } else if (this.ui.aux_cyclic_indicator == 4) {
-		// collect data point
-	    }// else if (this.ui.aux_cyclic_indicator == 5) {
-	    */
-	    //}
-	    console.log("aux_cyclic_indicator =", this.ui.aux_cyclic_indicator);///////////
-
+	    this.ui.aux_ctr += 1;
+	    console.log("this.ui.aux_ctr,this.ui.pos_within_data_pt =", this.ui.aux_ctr, this.ui.pos_within_data_pt);///////////////
 	    
 	    /*
 	this.da = new Array();//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// REMOVE

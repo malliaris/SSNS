@@ -75,16 +75,10 @@ class UserInterface {
 	Params_PF.UINI_N = new UINI_int(this, "UI_P_FD_PF_N", false);
 	Params_PF.UINI_Dt = new UINI_float(this, "UI_P_FD_PF_Dt", true);
 
-	// boolean toggle used for miscellaneous, ST-dependent signaling by user, e.g., to start/stop something
-	this.aux_toggle_ctrl = false;
-	this.aux_toggle_ctrl_prev_val = false;
-	this.aux_toggle_ctrl_just_turned_on = false;
-	this.aux_toggle_ctrl_just_turned_off = false;
-	this.aux_toggle_ctrl_just_toggled = false;
-	this.aux_cyclic_indicator = 0;
-	this.aux_cyclic_indicator_num_vals = 5;
+	// auxiliary counter, etc. used for miscellaneous, ST-dependent signaling by user, e.g., to start/stop something
 	this.aux_ctr = 0;
-	
+	this.pos_within_data_pt;
+
 	// other UI stuff
 	for (let ST_val of Simulator.unregistered_STs.values()) {  // if any disabled ST's have parameter HTML content (e.g., while under development), hide it
 	    let id_str = "#UI_P_" + Simulator.lookup_area_from_ST[ST_val] + "_" + ST_val;  // reconstruct, e.g., #UI_P_SM_IS
@@ -101,30 +95,6 @@ class UserInterface {
 	$("#navbar_collapse").on("show.bs.collapse", function ()   {  $("#plot_y_axis_lbl").hide();  });
 	$("#navbar_collapse").on("hidden.bs.collapse", function () {  $("#plot_y_axis_lbl").show();  });
 	this.hv = new HelpViewer(this.sim, this.bsvs);
-    }
-
-    // update TOGGLE MACHINERY that gives both aux_toggle's state and recent change status;
-    // called in step_forward_and_record() and depends on following line further down in that method:
-    //
-    // this.sim.ui.aux_toggle_ctrl_prev_val = this.sim.ui.aux_toggle_ctrl;  // prepare for next iteration in TOGGLE MACHINERY
-    //
-    update_aux_toggle_signal() {
-
-	// start with everything false...
-	this.aux_toggle_ctrl_just_turned_on = false;
-	this.aux_toggle_ctrl_just_turned_off = false;
-	this.aux_toggle_ctrl_just_toggled = false;
-	
-	// if there's been a change, set appropriate variables to true
-	if (this.aux_toggle_ctrl != this.aux_toggle_ctrl_prev_val) {
-	    this.aux_toggle_ctrl_just_toggled = true;
-	    if (this.aux_toggle_ctrl) {
-		this.aux_toggle_ctrl_just_turned_on = true;
-	    } else {  // this.aux_toggle_ctrl_prev_val is true
-		this.aux_toggle_ctrl_just_turned_off = true;
-	    }
-	}
-	//console.log("IIIIIIIIIOIOIOIOI", this.aux_toggle_ctrl_prev_val, this.aux_toggle_ctrl, this.aux_toggle_ctrl_just_turned_on, this.aux_toggle_ctrl_just_turned_off, this.aux_toggle_ctrl_just_toggled);///////////
     }
 
     get_bsvs() {  // bsvs = Bootstrap viewport size

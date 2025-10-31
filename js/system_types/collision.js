@@ -322,7 +322,7 @@ class CollisionPressureStats {
 
     constructor(ui) {
 
-	this.ui = ui;  // needed for aux_toggle communication
+	this.ui = ui;  // needed for aux_ctr communication, etc.
 	this.reset_accumulators();
 	this.prepare_for_time_step();
 	this.Z_x_t_avg = 0;  // not a terribly meaningful value (since no collisions have occurred yet) but makes plotting easier
@@ -382,8 +382,7 @@ class CollisionPressureStats {
 
     update_for_time_step(area, N, kT) {
 
-	if (this.ui.aux_cyclic_indicator == 2) {
-	//if (this.ui.aux_toggle_ctrl_just_turned_on) {
+	if (this.ui.pos_within_data_pt == 2) {
 	    this.reset_accumulators();
 	    console.log("INFO:   CollisionPressureStats accumulators reset...");
 	}
