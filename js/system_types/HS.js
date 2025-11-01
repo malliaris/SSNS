@@ -155,7 +155,7 @@ class Params_HS extends Params {
     static rho_greyscale_val_strs = ["#cccccc", "#888888", "#444444", "#000000"];   // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
     static num_particles_per_rho_val;
     static num_IC_creation_attempts = 1000;
-    static ds = 0.01;  // eventually use algorithm to set value?
+    static ds = 1;//0.01;  // eventually use algorithm to set value?
     static Lx_min = 0.05;  // assignment occurs in Trajectory_HS constructor
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
     static Ly = 1.0;  // assignment occurs in Trajectory_HS constructor
@@ -966,6 +966,7 @@ class Coords_HS extends Coords {
 	console.log("INFO:   checking basic machinery integrity...");
 	if ( ! ((1.0 >= Params_HS.x_RW_max) && (Params_HS.x_RW_max >= this.x_RW) && (this.x_RW >= Params_HS.x_RW_min) && (Params_HS.x_RW_min >= 0.0)) ) {
 	    alert("ERROR 119962: x_RW and/or limits out of range!...");
+	    console.log("1.0", Params_HS.x_RW_max, this.x_RW, Params_HS.x_RW_min, "0.0");  // was getting minor bugs tripping this ERROR, so currently trying to figure it out...
 	}
     }
 

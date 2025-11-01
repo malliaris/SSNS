@@ -88,10 +88,20 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	let NkT = Params_HS.N * curr_kT;
 	let VR = 1.0;
 	let p_min = 0.0;
-	let p_max = 10.0 * NkT;  // the lower T isotherm will leave the plot at V = 0.1
+	let p_max = 10.2 * NkT;  // the lower T isotherm will leave the plot at V = 0.1
 	let VL_isotherms = NkT / p_max;
 	this.set_xlim_flot(this.flot_gen_opts, 0.0, 1.0);
 	this.set_ylim_flot(this.flot_gen_opts, p_min, p_max);
+
+	this.flot_data_opts_isotherm_adiabat = {  // for PP isotherm/adiabat plot
+	    color: "rgba(0, 0, 0, 1)",
+	    points: {
+		fillColor: "rgba(0, 0, 0, 0.5)",
+		show: true,
+		radius: 3.2,
+		lineWidth: 2,
+	    },
+	};
 
 	// plot isotherm 1 "it1" -- the one at lower T
 	let isotherm_fxn_obj = V => {return NkT / V; };
@@ -100,17 +110,17 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	this.flot_data_opts_theory_it1["data"] = isotherm_data_it1;
 
 	// plot isotherm 2 "it2" -- the one at higher T
-	isotherm_fxn_obj = V => {return 2.0 * NkT / V; };
+	isotherm_fxn_obj = V => {return 2.5 * NkT / V; };
 	let isotherm_data_it2 = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, isotherm_fxn_obj);  // it2 = iso-therm 2; reusing VL_isotherms means some data will be off of plot, but no big deal...
 	this.flot_data_opts_theory_it2 = copy(PlotType.flot_data_opts_theory_curve);
-	this.flot_data_opts_theory_it2["color"] = "rgba(0, 120, 20)";
+	this.flot_data_opts_theory_it2["color"] = "rgba(255, 0, 0)";
 	this.flot_data_opts_theory_it2["data"] = isotherm_data_it2;
 
 	// plot adiabat
     	isotherm_fxn_obj = V => {return NkT / ( V*V); };
 	let isotherm_data_ab = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, isotherm_fxn_obj);  // ab = adia-bat; reusing VL_isotherms means some data will be off of plot, but no big deal...
 	this.flot_data_opts_theory_ab = copy(PlotType.flot_data_opts_theory_curve);
-	this.flot_data_opts_theory_ab["color"] = "rgba(0, 0, 220)";
+	this.flot_data_opts_theory_ab["color"] = "rgba(60, 60, 255)";
 	this.flot_data_opts_theory_ab["data"] = isotherm_data_ab;
 }
 
@@ -135,8 +145,8 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	data_series.push(this.flot_data_opts_theory_it1);
 	data_series.push(this.flot_data_opts_theory_it2);
 	data_series.push(this.flot_data_opts_theory_ab);
-	this.flot_data_opts_reg["data"] = this.get_plot_data_cond_append(t, (this.trj.sim.ui.pos_within_data_pt == 4));
-	data_series.push(this.flot_data_opts_reg);
+	this.flot_data_opts_isotherm_adiabat["data"] = this.get_plot_data_cond_append(t, (this.trj.sim.ui.pos_within_data_pt == 4));
+	data_series.push(this.flot_data_opts_isotherm_adiabat);
 	return data_series;
     }
 }
