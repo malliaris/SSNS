@@ -174,6 +174,8 @@ class Simulator {
 	    break;
 	case "CK":
 
+
+	    /* USED TO GENERATE HS p-V DIAGRAM WITH ISOTHERMS AND ADIABAT...  SAVE FOR NOW...
 	    let x_RW_lim_v_pist_arr = [[0.95, 0.9, 0.0], [0.95, 0.8, -1e100], [0.95, 0.7, -1e100], [0.95, 0.6, -1e100], [0.95, 0.5, -1e100], [0.95, 0.4, -1e100], [0.95, 0.3, -1e100], [0.95, 0.2, -1e100], [0.95, 0.1, -1e100], [0.95, 0.0, -1e100], [0.1, 0.0, 0.01], [0.2, 0.0, 0.01], [0.3, 0.0, 0.01], [0.4, 0.0, 0.01], [0.5, 0.0, 0.01], [0.6, 0.0, 0.01], [0.6, 0.5, -1e100], [0.6, 0.4, -1e100], [0.6, 0.3, -1e100], [0.6, 0.2, -1e100], [0.6, 0.1, -1e100], [0.6, 0.0, -1e100]];
 	    let num_sweep_pos = 5
 	    let data_pt_num = Math.floor(this.ui.aux_ctr / num_sweep_pos);
@@ -198,22 +200,6 @@ class Simulator {
 	    }
 	    this.ui.aux_ctr += 1;
 	    console.log("this.ui.aux_ctr,this.ui.pos_within_data_pt =", this.ui.aux_ctr, this.ui.pos_within_data_pt);///////////////
-	    
-	    /*
-	this.da = new Array();//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// REMOVE
-	this.da_ctr = 0;
-	    if (this.da_ctr < 10) {
-		let dia = new Array();//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// REMOVE
-		for (let i = 0; i < 10000000; i++) dia.push(i);
-		this.da.push(dia);
-		this.da_ctr += 1;
-	    } else {
-		this.da[5] = null;
-		this.da[6] = null;
-		this.da[7] = null;
-		console.log("this.da =", this.da);/////////
-	    }
-	    console.log("this.da_ctr =", this.da_ctr);/////////
 	    */
 
 	    break;

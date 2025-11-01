@@ -394,7 +394,7 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1 UI_CTRL_STOCH UI_CTRL_Gas_IC">
 <div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_C_RNG_RECR_TRAJ'); "><span class="input-group-text d-inline-flex justify-content-center ctrl_eff_reload"> $$ \mathrm{RNG \, seed} $$ </span></div>
-<input type="number" class="form-control" id="UI_CTRL_rng_seed" min="1" max="4294967295" step="1" value="18" onchange="ModelCalc_Stoch.rng_seed.try_update(this.value); "></div>
+<input type="number" class="form-control" id="UI_CTRL_rng_seed" min="1" max="4294967295" step="1" value="1" onchange="ModelCalc_Stoch.rng_seed.try_update(this.value); "></div>
 </div>
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1 UI_CTRL_STOCH">
@@ -859,6 +859,8 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 <li>The <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Phase_portrait">phase-portrait</a>-like <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-arrows-spin"></i></button> plot shows a $$p \hspace{0.07em} \text{-} \hspace{-0.07em} V$$ diagram with two <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Isothermal_process">isotherms</a> and one <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Adiabatic_process#Graphing_adiabats">adiabat</a>.  One thought that occurs once  <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Adiabatic_process#Adiabatic_compression_and_expansion">adiabatic compression</a> <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Isothermal_process">isothermal compression</a>   <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Maxwell%27s_demon">Maxwellian demon</a> , and slowly changing $$ T $$ to "hug" <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_equilibrium">equilibrium</a> states.  free expansion. "free compression"  adiabatic expansion</li>
 <li>We should remember that <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_limit">thermodynamics</a> applies to macroscopic systems, i.e., those having, say $$N \sim 10^{23}$$ particles.  That said, <strong>SSNS</strong>'s $$N \sim 10^3$$ demonstrates many ideas/results well.  Two that are not explored (yet?) are: <strong>(1)</strong> area fractions $$\eta \gtrsim 0.4$$ and the fluid/solid <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PHASE_TRANSITIONS'); ">phase transition</a> at <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Circle_packing">close-packed</a> $$\eta_\text{c} = 0.907$$ <strong>(2)</strong> how well $$Z_{\mathrm{SHY}}$$ describes <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_rho'); ">$$\rho$$</a>$$\text{-}$$ and/or <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_R'); ">$$R$$</a>$$\text{-}$$distributed fluids.</li>
 </ul>
+
+<p><img style="max-width: 100%; " src="/static/images/SSNS/plot_screenshots/HS_PP_isotherm_adiabat.png"></p>
 
 </div><!-- CLOSES div class="hv_view" -->
 

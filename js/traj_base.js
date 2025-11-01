@@ -241,18 +241,6 @@ class Trajectory {
 	    }
 	    this.t_edge++;
 	    this.t = this.t_edge;
-
-	    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	    //////////////////////////////// COMMENT OUT WHEN NOT IN USE!!!!!!!!!!!  USE WITH CAUTION AS THIS BREAKS MANY THINGS!!!!!!!!!!! ///////////////////////////////////////////////
-	    //if (this.t_edge > this.t_0 + 100) {  // make sure we're at least 100 steps out from start (so XT plots still work)
-		//let t_to_obliterate = this.t_edge - 101;  // now that we've created a new one, obliterate Coords_* object ~100 steps back to save memory
-		//this.segs[this.get_si(t_to_obliterate)].cv[this.get_xi(t_to_obliterate)] = null;  // dummy #...  Coords_* object with no more references should have its memory reclaimed
-		//this.segs[this.get_si(t_to_obliterate)].cv.splice(this.get_xi(t_to_obliterate), 1, null);  // dummy #...  Coords_* object with no more references should have its memory reclaimed
-		//this.segs[this.get_si(t_to_obliterate)].cv.splice(this.get_xi(t_to_obliterate), 1);  // dummy #...  Coords_* object with no more references should have its memory reclaimed
-	    //}//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	    //console.log("EEWEEWE", this.segs);  // dummy #...  Coords_* object with no more references should have its memory reclaimed
-	    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	    return true;  // successfully recorded one step forward
 	}
     }
