@@ -220,8 +220,18 @@ Class <samp>PlotTypePP_LM</samp>, the phase-portrait "PP" type plot for the Logi
 
 ### Hard Sphere Gas p-V Diagram Creation
 
-Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard Sphere gas "HS" 
-Isotherm/Adiabat
+Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard Sphere gas "HS" allows (with a bit of patience) creation of a p-V diagram with two isotherms, one adiabat, and "measured" data points that fall along them as the system state is methodically changed.  Each data point represents an equilibrium state, so the system must be allowed to equilibrate and then the measurement of pressure, etc. can commence.  To use, follow the steps below.  Optionally, open your browser's developer tools console to view info along the way.  Screenshot of example plot result below.  Steps:
+
+* "plan" the data points by adjusting the values of Params_HS.x_RW_0 and the settings within UserInterface.update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation() (e.g., x_RW_lim_v_pist_arr); stopping the piston at specific x_RW values (and, therefore, volumes) is done by setting x_RW_max/min and v_pist; the piston will auto-stop once it hits its max or min value
+* settle on reasonable values for other parameters... the example plot was made with:
+
+    N = 1000
+    kT0 = 1
+    RNG seed = 18 (happens to give sampled total energy very close to 1000)
+    IC: equilibrium
+    rho: single value
+    R: single value
+    Params_HS.target_area_frac = 0.001
 
 ## Help Viewer "Sitemap"
 
