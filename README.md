@@ -247,6 +247,7 @@ Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard
 	* HUMB (PWDP = 4), to enter data point append mode
 	* record one step to collect data point, which should show up with previously collected one in PP plot
 	* HUMB (PWDP = 5), to emerge from data point append mode
+ * take screenshot to capture plot image like below
 
 <a href="img/plot_screenshots/LM_PP_bifurcation_diagram.png"><img src="img/plot_screenshots/HS_PP_isotherm_adiabat.png"></a>
 
