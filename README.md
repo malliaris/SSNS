@@ -200,7 +200,7 @@ Browser developer tools are indispensable when doing development, but also handy
   * what about JavaScript "strict mode"?
   * handle support for very old browsers?
 
-## Miscellaneous Notes
+## Technical Notes
 
 ### Logistic Map Bifurcation Diagram Re-creation
 
@@ -218,6 +218,10 @@ Class <samp>PlotTypePP_LM</samp>, the phase-portrait "PP" type plot for the Logi
 
 <a href="img/plot_screenshots/LM_PP_bifurcation_diagram.png"><img src="img/plot_screenshots/LM_PP_bifurcation_diagram.png"></a>
 
+### Hard Sphere Gas p-V Diagram Creation
+
+Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard Sphere gas "HS" 
+Isotherm/Adiabat
 
 ## Help Viewer "Sitemap"
 
