@@ -233,6 +233,12 @@ Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard
     R: single value
     Params_HS.target_area_frac = 0.001
 
+* uncomment the line "this.ui.update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation();" in the case "CK": section of Simulator.js; this hooks things up to do incremental updates, cycling through a fixed number of tasks for each data point
+* load SSNS anew (with a hard refresh to be safe) and repeat the following steps, Hitting the UnMarked Button "HUMB" in the UI to move from step to step
+	* HUMB 
+
+
+
 ## Help Viewer "Sitemap"
 
 	    HV_HOME
