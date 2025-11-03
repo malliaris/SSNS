@@ -252,8 +252,10 @@ class UserInterface {
     }
 
     // called from within case "CK" in Simulator via repeated presses of unmarked UI button to incrementally construct HS PP p-V diagram
-    // a couple things, e.g., value of Params_HS.x_RW_0, will need to be adjusted before use; see GitHub technical notes for more
-    // 
+    // a couple things, e.g., value of Params_HS.x_RW_0, will need to be adjusted before use; see GitHub technical notes for more:
+    //
+    // https://github.com/malliaris/SSNS/blob/ST_LZ_Lorenz/README.md#hard-sphere-gas-p-v-diagram-creation
+    //
     update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation() {
 
 	let x_RW_lim_v_pist_arr = [[0.95, 0.9, 0.0], [0.95, 0.8, -1e100], [0.95, 0.7, -1e100], [0.95, 0.6, -1e100], [0.95, 0.5, -1e100], [0.95, 0.4, -1e100], [0.95, 0.3, -1e100], [0.95, 0.2, -1e100], [0.95, 0.1, -1e100], [0.95, 0.0, -1e100], [0.1, 0.0, 0.01], [0.2, 0.0, 0.01], [0.3, 0.0, 0.01], [0.4, 0.0, 0.01], [0.5, 0.0, 0.01], [0.6, 0.0, 0.01], [0.6, 0.5, -1e100], [0.6, 0.4, -1e100], [0.6, 0.3, -1e100], [0.6, 0.2, -1e100], [0.6, 0.1, -1e100], [0.6, 0.0, -1e100]];
