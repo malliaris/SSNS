@@ -85,7 +85,7 @@ class Params_IG extends Params {
 
     static R = 0.003;  // EVENTUALLY MAKE AN INPUT PARAMETER?
     static m = 10.0;  // EVENTUALLY MAKE AN INPUT PARAMETER?
-    static dt = 0.01;  // EVENTUALLY MAKE AN INPUT PARAMETER?  OR USE SMALL ALGORITHM TO SET VALUE?
+    static ds = 0.01;  // EVENTUALLY MAKE AN INPUT PARAMETER?  OR USE SMALL ALGORITHM TO SET VALUE?
     static Lx;  // assignment occurs in Trajectory_IG constructor
     static Ly;  // assignment occurs in Trajectory_IG constructor
     static m_dist_code = "c";  // dummy value; c for constant? add a sensible distribution to try?
@@ -107,7 +107,7 @@ class Params_IG extends Params {
 	console.log("V     :", Params_IG.V);
 	console.log("Lx    :", Params_IG.Lx);
 	console.log("Ly    :", Params_IG.Ly);
-	console.log("dt    :", Params_IG.dt);
+	console.log("ds    :", Params_IG.ds);
 	console.log("p_thr :", (Params_IG.N * Params_IG.kT0 / Params_IG.V));
     }
 
@@ -143,7 +143,7 @@ class Coords_IG extends Coords {
 	    this.gsh = GasSpeedHistogram.copy(this.c_prev.gsh);
 	    this.particles = copy(this.c_prev.particles);
 	    this.cps = CollisionPressureStats_IG.copy(this.c_prev.cps);
-	    this.update_state(Params_IG.dt);
+	    this.update_state(Params_IG.ds);
 	}
     }
 
