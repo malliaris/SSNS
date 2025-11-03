@@ -281,7 +281,7 @@ class UserInterface {
 	    // collect data point
 	}
 	this.aux_ctr += 1;
-	console.log("this.aux_ctr,this.pos_within_data_pt =", this.aux_ctr, this.pos_within_data_pt);///////////////
+	//console.log("this.aux_ctr,this.pos_within_data_pt =", this.aux_ctr, this.pos_within_data_pt);///////////////
     }
     
     handle_ws_update(str_val) {  // trigger replot if window size changes
