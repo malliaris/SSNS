@@ -212,7 +212,7 @@ Browser developer tools are indispensable when doing development, but also handy
 * the amount of real time for the HTML canvas to update the picture of the gas particles depends on various things, including N, area fraction eta, ds, etc.; the inverse of the real time duration is a "frame rate"
 * for reasonable frame rate and distance moved per t for a given particle, its motion will appear smooth
 * on the other hand, a longer distance moved for a given particle, especially with one or more collisions occurring within that t's frame, will make the motion hard to follow
-* https://github.com/malliaris/SSNS/blob/ST_LZ_Lorenz/README.md#hard-sphere-gas-p-v-diagram-creation
+* <a href="#hard-sphere-gas-p-v-diagram-creation">yyyo</a>
 
 ### Logistic Map Bifurcation Diagram Re-creation
 
@@ -229,7 +229,7 @@ Class <samp>PlotTypePP_LM</samp>, the phase-portrait "PP" type plot for the Logi
 * press the unmarked button again (console shows "this.ui.aux_toggle_ctrl = false") to temporarily stop data point capture
 * repeat the above steps re-creating the diagram with as much detail as desired
 
-<a href="img/plot_screenshots/LM_PP_bifurcation_diagram.png"><img src="img/plot_screenshots/LM_PP_bifurcation_diagram.png"></a>
+<a href="/img/plot_screenshots/LM_PP_bifurcation_diagram.png"><img src="img/plot_screenshots/LM_PP_bifurcation_diagram.png"></a>
 
 ### Hard Sphere Gas p-V Diagram Creation
 
@@ -262,7 +262,7 @@ Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard
 	* HUMB (PWDP = 5), to emerge from data point append mode
  * take screenshot to capture plot image like below
 
-<a href="img/plot_screenshots/LM_PP_bifurcation_diagram.png"><img src="img/plot_screenshots/HS_PP_isotherm_adiabat.png"></a>
+<a href="/img/plot_screenshots/LM_PP_bifurcation_diagram.png"><img src="img/plot_screenshots/HS_PP_isotherm_adiabat.png"></a>
 
 ## Help Viewer "Sitemap"
 
