@@ -204,16 +204,16 @@ Browser developer tools are indispensable when doing development, but also handy
 
 ### General Time/Energy/Visualization/Computation Considerations
 
-* remember to distinguish between the SSNS-wide discrete time step "t" and the ST-specific continuous time variable "s"
+* we distinguish between the SSNS-wide discrete time step "t" and the ST-specific continuous time variable "s"
 * in the below points, we use the Hard Sphere (HS) gas as an example, but most of the points are general
-* we must choose a value for Params_HS.ds to specify the amount of time that the equations of motion are moved forward in time during the recording of a new time step (i.e., t --> t + 1)
+* we must choose a value for Params_HS.ds to specify the amount of time that the equations of motion are moved forward during the recording of a new time step (i.e., t --> t + 1)
 * apart from instantaneous collisions, all movement for a given particle at a given time is constant velocity; there are generally N >> 1 particles and a distribution of velocities among them
 * in one discrete time step update, the same ds is applied to all particles, so there will be a distribution of distances moved
 * the amount of real time for the HTML canvas to update the picture of the gas particles depends on various things, including N, area fraction eta, ds, etc.; the inverse of the real time duration is a "frame rate"
 * for reasonable frame rate and distance moved per t for a given particle, its motion will appear smooth
-* on the other hand, a longer distance moved for a given particle, especially with one or more collisions occurring within that t's frame, will make the motion hard to follow
-* sometimes, we don't need smooth, easy-to-follow motion and we crank ds up; each new particle configuration will bear little, if any, resemblance to the prior, but we will save on system memory usage since we don't have to store all those intermediate configurations/data; this is the approach taken <a href="#hard-sphere-gas-p-v-diagram-creation">here</a>
-* generally, though, we aim for a smooth visual experience where individual particles can be tracked easily; we thus assume the user might reasonably explore energies over the 6 orders of magnitude from kT = 10^-3 to 10^3; the hard-coded (but editable) value of Params_HS.ds = 0.001 in HS.js means that particle motion will be barely perceptible at kT = 10^-3 (particles will almost appear stationary), while motion will proceed in large, hard-to-follow jumps at kT = 10^3
+* on the other hand, a particle that moves a longer distance, especially with one or more collisions along the way, will be harder to follow
+* sometimes, we don't need smooth, easy-to-follow motion and we increase ds substantially; each new particle configuration bears little/no resemblance to the prior, but we will save on system memory since we don't have to store all those intermediate configurations; this is the approach taken <a href="#hard-sphere-gas-p-v-diagram-creation">here</a>
+* generally, though, we aim for a smooth visual experience where individual particles can be tracked easily; we thus assume the user might explore energies over the 6 orders of magnitude from kT = 10^-3 to 10^3; the hard-coded (but editable) value of Params_HS.ds = 0.001 in HS.js means that particle motion will be barely perceptible at kT = 10^-3 (particles will almost appear stationary), while motion will proceed in large, hard-to-follow jumps at kT = 10^3
 
 ### Logistic Map Bifurcation Diagram Re-creation
 
