@@ -155,13 +155,13 @@ class Params_HS extends Params {
     static rho_greyscale_val_strs = ["#cccccc", "#888888", "#444444", "#000000"];   // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
     static num_particles_per_rho_val;
     static num_IC_creation_attempts = 1000;
-    static ds = 1;//0.01;  // eventually use algorithm to set value?
+    static ds = 0.001;  // eventually use algorithm to set value?
     static Lx_min = 0.05;  // assignment occurs in Trajectory_HS constructor
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
     static Ly = 1.0;  // assignment occurs in Trajectory_HS constructor
     static x_RW_max = Params_HS.Lx_max - Params_HS.Lx_min;  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
-    static x_RW_min = 0.9;
-    static x_RW_0 = 0.9;  // initial value of x_RW
+    static x_RW_min = 0.0;
+    static x_RW_0 = 0.0;  // initial value of x_RW
     
     static get_wi_char(i) {
 	let char_arr = ["T", "L", "B", "R"];
