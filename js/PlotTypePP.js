@@ -104,24 +104,24 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	};
 
 	// plot isotherm 1 "it1" -- the one at lower T
-	let isotherm_fxn_obj = V => {return NkT / V; };
-	let isotherm_data_it1 = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, isotherm_fxn_obj);  // it1 = iso-therm 1
+	let fxn_obj = V => {return NkT / V; };
+	let data_it1 = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, fxn_obj);  // it1 = iso-therm 1
 	this.flot_data_opts_theory_it1 = copy(PlotType.flot_data_opts_theory_curve);
-	this.flot_data_opts_theory_it1["data"] = isotherm_data_it1;
+	this.flot_data_opts_theory_it1["data"] = data_it1;
 
 	// plot isotherm 2 "it2" -- the one at higher T
-	isotherm_fxn_obj = V => {return 2.5 * NkT / V; };
-	let isotherm_data_it2 = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, isotherm_fxn_obj);  // it2 = iso-therm 2; reusing VL_isotherms means some data will be off of plot, but no big deal...
+	fxn_obj = V => {return 2.5 * NkT / V; };  // 2nd isotherm at temp 2.5 times the 1st
+	let data_it2 = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, fxn_obj);  // it2 = iso-therm 2; reusing VL_isotherms means some data will be off of plot, but no big deal...
 	this.flot_data_opts_theory_it2 = copy(PlotType.flot_data_opts_theory_curve);
 	this.flot_data_opts_theory_it2["color"] = "rgba(255, 0, 0)";
-	this.flot_data_opts_theory_it2["data"] = isotherm_data_it2;
+	this.flot_data_opts_theory_it2["data"] = data_it2;
 
 	// plot adiabat
-    	isotherm_fxn_obj = V => {return NkT / ( V*V); };
-	let isotherm_data_ab = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, isotherm_fxn_obj);  // ab = adia-bat; reusing VL_isotherms means some data will be off of plot, but no big deal...
+    	fxn_obj = V => {return NkT / ( V*V); };  // adiabat intersects 1st isotherm at V = 1; 2D monatomic => heat capacity ratio gamma = (2 + 2) / 2 = 2; pV^gamma = pV^2 = const
+	let data_ab = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, fxn_obj);  // ab = adia-bat; reusing VL_isotherms means some data will be off of plot, but no big deal...
 	this.flot_data_opts_theory_ab = copy(PlotType.flot_data_opts_theory_curve);
 	this.flot_data_opts_theory_ab["color"] = "rgba(60, 60, 255)";
-	this.flot_data_opts_theory_ab["data"] = isotherm_data_ab;
+	this.flot_data_opts_theory_ab["data"] = data_ab;
 }
 
     get_ext_x_axis_lbl_str() {
