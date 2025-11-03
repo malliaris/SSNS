@@ -232,6 +232,7 @@ Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard
     rho: single value
     R: single value
     Params_HS.target_area_frac = 0.001
+	Params_HS.ds = 1
 
 * uncomment the line "this.ui.update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation();" in the case "CK": section of Simulator.js; this hooks things up to do incremental updates, cycling through a fixed number of tasks for each data point
 * load SSNS anew (with a hard refresh to be safe) and repeat the following steps, Hitting the UnMarked Button "HUMB" in the UI to move from step to step, and noting pos_within_data_pt "PWDP" value, which cycles through 5 values
@@ -239,14 +240,15 @@ Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard
 	* HUMB (PWDP = 1), Params_HS.x_RW_max,min , vpist new values set and output in console
 	* record forward in time until piston auto-stops at new position
 	* continue recording until equilibrium is ~reached
-	* HUMB (PWDP = 2), record one step to reset CollisionPressureStats accumulators
-	* HUMB (PWDP = 3), to emerge from PWDP = 2 reset mode
-	* 
-	* HUMB (PWDP -> 0), a pause point at the beginning of cycle
-	* HUMB (PWDP -> 0), a pause point at the beginning of cycle
-	* HUMB (PWDP -> 0), a pause point at the beginning of cycle
+	* HUMB (PWDP = 2), to enter accumulator reset mode
+	* record one step to reset CollisionPressureStats accumulators
+	* HUMB (PWDP = 3), to emerge from reset mode
+	* record a good amount of trajectory to make measurement of pressure, etc. (Params_HS.ds = 1 means it could be ~10 steps -- this saves memory)
+	* HUMB (PWDP = 4), to enter data point append mode
+	* record one step to collect data point, which should show up with previously collected one in PP plot
+	* HUMB (PWDP = 5), to emerge from data point append mode
 
-
+<a href="img/plot_screenshots/LM_PP_bifurcation_diagram.png"><img src="img/plot_screenshots/HS_PP_isotherm_adiabat.png"></a>
 
 ## Help Viewer "Sitemap"
 
