@@ -212,7 +212,8 @@ Browser developer tools are indispensable when doing development, but also handy
 * the amount of real time for the HTML canvas to update the picture of the gas particles depends on various things, including N, area fraction eta, ds, etc.; the inverse of the real time duration is a "frame rate"
 * for reasonable frame rate and distance moved per t for a given particle, its motion will appear smooth
 * on the other hand, a longer distance moved for a given particle, especially with one or more collisions occurring within that t's frame, will make the motion hard to follow
-* <a href="#hard-sphere-gas-p-v-diagram-creation">yyyo</a>
+* sometimes, we don't need smooth, easy-to-follow motion and we crank ds up; each new particle configuration will bear little, if any, resemblance to the prior, but we will save on system memory usage since we don't have to store all those intermediate configurations/data; this is the approach taken <a href="#hard-sphere-gas-p-v-diagram-creation">here</a>
+* generally, though, we aim for a smooth visual experience where individual particles can be tracked easily; we thus assume the user might reasonably explore energies over the 6 orders of magnitude from kT = 10^-3 to 10^3; the hard-coded (but editable) value of Params_HS.ds = 0.001 in HS.js means that particle motion will be barely perceptible at kT = 10^-3 (particles will almost appear stationary), while motion will proceed in large, hard-to-follow jumps at kT = 10^3
 
 ### Logistic Map Bifurcation Diagram Re-creation
 
