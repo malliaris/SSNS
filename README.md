@@ -202,6 +202,18 @@ Browser developer tools are indispensable when doing development, but also handy
 
 ## Technical Notes
 
+### General Time/Energy/Visualization/Computation Considerations
+
+* remember to distinguish between the SSNS-wide discrete time step "t" and the ST-specific continuous time variable "s"
+* in the below points, we use the Hard Sphere (HS) gas as an example, but most of the points are general
+* we must choose a value for Params_HS.ds to specify the amount of time that the equations of motion are moved forward in time during the recording of a new time step (i.e., t --> t + 1)
+* apart from instantaneous collisions, all movement for a given particle at a given time is constant velocity; there are generally N >> 1 particles and a distribution of velocities among them
+* in one discrete time step update, the same ds is applied to all particles, so there will be a distribution of distances moved
+* the amount of real time for the HTML canvas to update the picture of the gas particles depends on various things, including N, area fraction eta, ds, etc.; the inverse of the real time duration is a "frame rate"
+* for reasonable frame rate and distance moved per t for a given particle, its motion will appear smooth
+* on the other hand, a longer distance moved for a given particle, especially with one or more collisions occurring within that t's frame, will make the motion hard to follow
+* 
+
 ### Logistic Map Bifurcation Diagram Re-creation
 
 Class <samp>PlotTypePP_LM</samp>, the phase-portrait "PP" type plot for the Logistic Map "LM" allows (with a bit of patience) re-creation of the well-known LM bifurcation diagram.  The main thing to realize is that the transient behavior in x(t) must be "discarded."  This is done by having <samp>PlotTypePP_LM</samp> inherit from <samp>PlotTypePP_Select</samp>, which only plots data points that have been actively added to the collection.  To use, follow the steps below.  Optionally, open your browser's developer tools console to view info along the way.  Screenshot of example plot result below.  Steps:
