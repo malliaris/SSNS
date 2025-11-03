@@ -212,7 +212,7 @@ Browser developer tools are indispensable when doing development, but also handy
 * the amount of real time for the HTML canvas to update the picture of the gas particles depends on various things, including N, area fraction eta, ds, etc.; the inverse of the real time duration is a "frame rate"
 * for reasonable frame rate and distance moved per t for a given particle, its motion will appear smooth
 * on the other hand, a longer distance moved for a given particle, especially with one or more collisions occurring within that t's frame, will make the motion hard to follow
-* 
+* https://github.com/malliaris/SSNS/blob/ST_LZ_Lorenz/README.md#hard-sphere-gas-p-v-diagram-creation
 
 ### Logistic Map Bifurcation Diagram Re-creation
 
