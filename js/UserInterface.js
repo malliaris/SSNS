@@ -75,7 +75,7 @@ class UserInterface {
 	Params_PF.UINI_N = new UINI_int(this, "UI_P_FD_PF_N", false);
 	Params_PF.UINI_Dt = new UINI_float(this, "UI_P_FD_PF_Dt", true);
 
-	// auxiliary counter, etc. used for miscellaneous, ST-dependent signaling by user, e.g., to start/stop something
+	// auxiliary counter, etc. used for miscellaneous, ST-dependent signaling by user, e.g., in update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation()
 	this.aux_ctr = 0;
 	this.pos_within_data_pt;
 
@@ -251,6 +251,37 @@ class UserInterface {
 	this.push_dd_state_to_UI();
     }
 
+    // called from within case "CK" in Simulator via repeated presses of unmarked UI button to incrementally construct HS PP p-V diagram
+    // a couple things, e.g., value of Params_HS.x_RW_0, will need to be adjusted before use; see GitHub technical notes for more
+    // 
+    update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation() {
+
+	let x_RW_lim_v_pist_arr = [[0.95, 0.9, 0.0], [0.95, 0.8, -1e100], [0.95, 0.7, -1e100], [0.95, 0.6, -1e100], [0.95, 0.5, -1e100], [0.95, 0.4, -1e100], [0.95, 0.3, -1e100], [0.95, 0.2, -1e100], [0.95, 0.1, -1e100], [0.95, 0.0, -1e100], [0.1, 0.0, 0.01], [0.2, 0.0, 0.01], [0.3, 0.0, 0.01], [0.4, 0.0, 0.01], [0.5, 0.0, 0.01], [0.6, 0.0, 0.01], [0.6, 0.5, -1e100], [0.6, 0.4, -1e100], [0.6, 0.3, -1e100], [0.6, 0.2, -1e100], [0.6, 0.1, -1e100], [0.6, 0.0, -1e100]];
+	let num_sweep_pos = 5
+	let data_pt_num = Math.floor(this.aux_ctr / num_sweep_pos);
+	this.pos_within_data_pt = this.aux_ctr % num_sweep_pos;
+	console.log("this.aux_ctr,this.pos_within_data_pt =", this.aux_ctr, this.pos_within_data_pt);///////////////
+
+	if (this.pos_within_data_pt == 0) {
+	    // open
+	} else if (this.pos_within_data_pt == 1) {
+	    console.log("Params_HS.x_RW_max,min , vpist =", Params_HS.x_RW_max, Params_HS.x_RW_min, Params_HS.UINI_v_pist.v);///////////
+	    Params_HS.x_RW_max = x_RW_lim_v_pist_arr[data_pt_num][0];
+	    Params_HS.x_RW_min = x_RW_lim_v_pist_arr[data_pt_num][1];
+	    Params_HS.UINI_v_pist.sv(x_RW_lim_v_pist_arr[data_pt_num][2]);
+	    this.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+	    console.log("Params_HS.x_RW_max,min , vpist =", Params_HS.x_RW_max, Params_HS.x_RW_min, Params_HS.UINI_v_pist.v);///////////
+	} else if (this.pos_within_data_pt == 2) {
+	    // reset_accumulators() call in CollisionPressureStats
+	} else if (this.pos_within_data_pt == 3) {
+	    // open
+	} else if (this.pos_within_data_pt == 4) {
+	    // collect data point
+	}
+	this.aux_ctr += 1;
+	console.log("this.aux_ctr,this.pos_within_data_pt =", this.aux_ctr, this.pos_within_data_pt);///////////////
+    }
+    
     handle_ws_update(str_val) {  // trigger replot if window size changes
 	let curr_ws = PlotTypeXT.window_size.v;
 	PlotTypeXT.window_size.try_update(str_val); 

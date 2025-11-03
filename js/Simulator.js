@@ -174,33 +174,7 @@ class Simulator {
 	    break;
 	case "CK":
 
-
-	    /* USED TO GENERATE HS p-V DIAGRAM WITH ISOTHERMS AND ADIABAT...  SAVE FOR NOW...
-	    let x_RW_lim_v_pist_arr = [[0.95, 0.9, 0.0], [0.95, 0.8, -1e100], [0.95, 0.7, -1e100], [0.95, 0.6, -1e100], [0.95, 0.5, -1e100], [0.95, 0.4, -1e100], [0.95, 0.3, -1e100], [0.95, 0.2, -1e100], [0.95, 0.1, -1e100], [0.95, 0.0, -1e100], [0.1, 0.0, 0.01], [0.2, 0.0, 0.01], [0.3, 0.0, 0.01], [0.4, 0.0, 0.01], [0.5, 0.0, 0.01], [0.6, 0.0, 0.01], [0.6, 0.5, -1e100], [0.6, 0.4, -1e100], [0.6, 0.3, -1e100], [0.6, 0.2, -1e100], [0.6, 0.1, -1e100], [0.6, 0.0, -1e100]];
-	    let num_sweep_pos = 5
-	    let data_pt_num = Math.floor(this.ui.aux_ctr / num_sweep_pos);
-	    this.ui.pos_within_data_pt = this.ui.aux_ctr % num_sweep_pos;
-	    console.log("this.ui.aux_ctr,this.ui.pos_within_data_pt =", this.ui.aux_ctr, this.ui.pos_within_data_pt);///////////////
-
-	    if (this.ui.pos_within_data_pt == 0) {
-		// open
-	    } else if (this.ui.pos_within_data_pt == 1) {
-		console.log("Params_HS.x_RW_max,min , vpist =", Params_HS.x_RW_max, Params_HS.x_RW_min, Params_HS.UINI_v_pist.v);///////////
-		Params_HS.x_RW_max = x_RW_lim_v_pist_arr[data_pt_num][0];
-		Params_HS.x_RW_min = x_RW_lim_v_pist_arr[data_pt_num][1];
-		Params_HS.UINI_v_pist.sv(x_RW_lim_v_pist_arr[data_pt_num][2]);
-		this.ui.indicate_new_param_vals_ready_to_pull_UI_to_traj();
-		console.log("Params_HS.x_RW_max,min , vpist =", Params_HS.x_RW_max, Params_HS.x_RW_min, Params_HS.UINI_v_pist.v);///////////
-	    } else if (this.ui.pos_within_data_pt == 2) {
-		// reset_accumulators() call in CollisionPressureStats
-	    } else if (this.ui.pos_within_data_pt == 3) {
-		// open
-	    } else if (this.ui.pos_within_data_pt == 4) {
-		// collect data point
-	    }
-	    this.ui.aux_ctr += 1;
-	    console.log("this.ui.aux_ctr,this.ui.pos_within_data_pt =", this.ui.aux_ctr, this.ui.pos_within_data_pt);///////////////
-	    */
+	    //this.ui.update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation();
 
 	    break;
 	default:
