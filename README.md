@@ -238,16 +238,14 @@ Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard
 
 * "plan" the data points by adjusting the values of Params_HS.x_RW_0 and the settings within UserInterface.update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation() (e.g., x_RW_lim_v_pist_arr); stopping the piston at specific x_RW values (and, therefore, volumes) is done by setting x_RW_max/min and v_pist; the piston will auto-stop once it hits its max or min value
 * settle on reasonable values for other parameters... the example plot was made with:
-
-    N = 1000
-    kT0 = 1
-    RNG seed = 18 (happens to give sampled total energy very close to 1000)
-    IC: equilibrium
-    rho: single value
-    R: single value
-    Params_HS.target_area_frac = 0.001
-	Params_HS.ds = 1
-
+	* N = 1000
+	* kT0 = 1
+	* RNG seed = 18 (happens to give sampled total energy very close to 1000)
+	* IC: equilibrium
+	* rho: single value
+	* R: single value
+	* Params_HS.target_area_frac = 0.001
+	* Params_HS.ds = 1
 * uncomment the line "this.ui.update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation();" in the case "CK": section of Simulator.js; this hooks things up to do incremental updates, cycling through a fixed number of tasks for each data point
 * load SSNS anew (with a hard refresh to be safe) and repeat the following steps, Hitting the UnMarked Button "HUMB" in the UI to move from step to step, and noting pos_within_data_pt "PWDP" value, which cycles through 5 values
 	* HUMB (PWDP = 0), a pause point at the beginning of cycle
