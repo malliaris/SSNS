@@ -212,8 +212,8 @@ class Coords_HS extends Coords {
 	    this.x_RW = Params_HS.x_RW_0;  // set Right Wall (RW) piston initial position
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
 	    this.cps = new CollisionPressureStats_HS(this.mc.ui);
-	    this.psh = new GasSpeedHistogram(GasSpeedHistogram.get_reasonable_v_bin_width(Params_HS.kT0, Params_HS.m_single_value, Params_HS.N));// 0.2);  // psh = particle speed histogram
-	    this.peh = new GasSpeedHistogram(GasSpeedHistogram.get_reasonable_E_bin_width(Params_HS.kT0, Params_HS.N));// 0.5);  // peh = particle energy histogram
+	    this.psh = new ParticleQuantityHistogram(ParticleQuantityHistogram.get_reasonable_v_bin_width(Params_HS.kT0, Params_HS.m_single_value, Params_HS.N));// 0.2);  // psh = particle speed histogram
+	    this.peh = new ParticleQuantityHistogram(ParticleQuantityHistogram.get_reasonable_E_bin_width(Params_HS.kT0, Params_HS.N));// 0.5);  // peh = particle energy histogram
 	    this.cet = new CollisionEventsTable();
 	    this.particles = new Array();
 	    this.initialize_particle_basics();
@@ -223,8 +223,8 @@ class Coords_HS extends Coords {
 	} else {
 
 	    this.cps = CollisionPressureStats_HS.copy(this.c_prev.cps);
-	    this.psh = GasSpeedHistogram.copy(this.c_prev.psh);
-	    this.peh = GasSpeedHistogram.copy(this.c_prev.peh);  // peh = particle energy histogram
+	    this.psh = ParticleQuantityHistogram.copy(this.c_prev.psh);
+	    this.peh = ParticleQuantityHistogram.copy(this.c_prev.peh);  // peh = particle energy histogram
 	    this.copy_particles_collision_structures_etc();
 
 	    // determine this timestep's x_RW and v_RW initial values (actual values may change during timestep's update_state() routines)

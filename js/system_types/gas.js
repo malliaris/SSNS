@@ -34,22 +34,7 @@ class GasParticle {
     }
 }
 
-// class to "wrap" the particle update code, which gets used for both the x and y directions
-//
-// * in another language, we would have a method instead of a class and pass in references, e.g., &vx or &vy, but that's not possible in js
-// * after calling set_inputs(...), the new/needed values are present in this.num_collisions, this.new_z, and this.new_vz
-// * to clarify: arguments are passed in by value, so method does not modify anything external, and so new values need to be "installed" explicitly after the call
-//
-// The following particle-update code rests on these assumptions:
-//
-// * ideal gas, i.e., no particle-particle collisions
-// * point particles, i.e., R = 0 for wall collision purposes, even if graphically R > 0
-// * walls do not move, i.e., no piston for compression/expansion work
-// * BC are periodic, reflecting, or something similarly simple
-//
-// Making these assumptions allows us to use, e.g., x += vx*dt and then wrap/reflect and count collisions after the fact, keeping things simple
-//
-class GasSpeedHistogram {
+class ParticleQuantityHistogram {
 
     constructor(bin_width) {
 
@@ -57,11 +42,11 @@ class GasSpeedHistogram {
 	this.bin_width = bin_width;
     }
 
-    static copy(gsh_to_cpy) {  // "copy constructor"
+    static copy(pqh_to_cpy) {  // "copy constructor"
 	
-	let new_gsh = new GasSpeedHistogram(gsh_to_cpy.bin_width);
-	new_gsh.hist = new OrderedMap(gsh_to_cpy.hist);  // NOTE: I think this "copy constructor" happens to work, but shouldn't be counted on generally!!
-	return new_gsh;
+	let new_pqh = new ParticleQuantityHistogram(pqh_to_cpy.bin_width);
+	new_pqh.hist = new OrderedMap(pqh_to_cpy.hist);  // NOTE: I think this "copy constructor" happens to work, but shouldn't be counted on generally!!
+	return new_pqh;
     }
 
     static get_reasonable_E_bin_width(kT, N) {  // adjustable factor (based on aesthetics) times std. dev. of distribution divided by root N

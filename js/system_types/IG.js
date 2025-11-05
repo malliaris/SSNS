@@ -132,7 +132,7 @@ class Coords_IG extends Coords {
 
 	if (this.constructing_init_cond) {
 
-	    this.gsh = new GasSpeedHistogram(0.01);
+	    this.psh = new ParticleQuantityHistogram(0.01);  // psh = particle speed histogram
 	    this.particles = new Array();
 	    this.initialize_particles_etc();
 	    console.log("INFO:   kT =", this.get_kT());
@@ -140,7 +140,7 @@ class Coords_IG extends Coords {
 
 	} else {
 
-	    this.gsh = GasSpeedHistogram.copy(this.c_prev.gsh);
+	    this.psh = ParticleQuantityHistogram.copy(this.c_prev.psh);
 	    this.particles = copy(this.c_prev.particles);
 	    this.cps = CollisionPressureStats_IG.copy(this.c_prev.cps);
 	    this.update_state(Params_IG.ds);
@@ -169,8 +169,8 @@ class Coords_IG extends Coords {
 	    let ry = this.get_rand_y();  // random y position
 	    this.mc.mbde.load_vc_MBD_v_comps(vc, Params_IG.kT0, Params_IG.m);
 	    let new_p = new GasParticle(rx, ry, Params_IG.R, Params_IG.m, vc.x, vc.y);
-	    new_p.v_hist_bi = this.gsh.get_bin_indx(new_p.get_speed());
-	    CU.incr_entry_OM(this.gsh.hist, new_p.v_hist_bi);  // increment bin count
+	    new_p.v_hist_bi = this.psh.get_bin_indx(new_p.get_speed());
+	    CU.incr_entry_OM(this.psh.hist, new_p.v_hist_bi);  // increment bin count
 	    this.particles.push(new_p);
 	}
     }
