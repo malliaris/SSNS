@@ -379,6 +379,33 @@ class CollisionPressureStats {
 	this.Z_y_t_avg = this.P_y_t_avg * area / (N * kT);
 	this.Z_t_avg = 0.5 * ( this.Z_x_t_avg + this.Z_y_t_avg );
     }
+}
+
+class CollisionPressureStats_IG extends CollisionPressureStats {
+
+    constructor() {
+	super();
+    }
+
+    update_for_time_step(area, N, kT) {
+
+	this.calc_quantities(area, N, kT);
+	this.prepare_for_time_step();
+    }
+}
+
+class CollisionPressureStats_HS extends CollisionPressureStats {
+
+    constructor(ui) {
+
+	super();
+	this.ui = ui;  // needed for aux_ctr communication, etc.
+    }
+
+    get_Z_SHY_t_avg() {
+
+	return ( (this.num_t_avg_contribs == 0) ? 0.0 : (this.Z_t_avg / ModelCalc_HS.Z_SHY) );  // 0 not terribly meaningful (since no collisions have occurred) but makes plotting easier
+    }
 
     update_for_time_step(area, N, kT) {
 
@@ -388,15 +415,5 @@ class CollisionPressureStats {
 	}
 	this.calc_quantities(area, N, kT);
 	this.prepare_for_time_step();
-    }
-}
-
-class CollisionPressureStats_IG extends CollisionPressureStats {}
-
-class CollisionPressureStats_HS extends CollisionPressureStats {
-
-    get_Z_SHY_t_avg() {
-
-	return ( (this.num_t_avg_contribs == 0) ? 0.0 : (this.Z_t_avg / ModelCalc_HS.Z_SHY) );  // 0 not terribly meaningful (since no collisions have occurred) but makes plotting easier
     }
 }

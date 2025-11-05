@@ -147,6 +147,7 @@ class PlotTypeCV_IG extends PlotTypeCV_Gas {
 	    let cp = this.trj.get_x(t).particles[i];  // cp = current particle
 	    this.draw_circle(cp.x, cp.y, cp.R, true, "black");
 	}
+	this.draw_vertical_line(Params_IG.Lx, 0.001, "black");  // WHY is line appearing grey when thickness is very small??
     }
 }
 
