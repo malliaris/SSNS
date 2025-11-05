@@ -89,6 +89,6 @@ class Trajectory_MN extends Trajectory_SP {
     }
 
     get_max_num_t_steps() {
-	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
+	return Trajectory.DEFAULT_MAX_NUM_T_STEPS;
     }
 }

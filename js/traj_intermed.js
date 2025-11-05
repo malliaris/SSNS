@@ -237,7 +237,7 @@ class Trajectory_SP extends Trajectory_Stoch {
     }
 
     get_max_num_t_steps() {
-	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
+	return Trajectory.DEFAULT_MAX_NUM_T_STEPS;
     }
 
     set_rng_states_from_edge_vals() {
