@@ -73,7 +73,7 @@ class UserInterface {
 	Params_PF.UINI_Ub = new UINI_float(this, "UI_P_FD_PF_Ub", true);
 	Params_PF.UINI_mu = new UINI_float(this, "UI_P_FD_PF_mu", true);
 	Params_PF.UINI_N = new UINI_int(this, "UI_P_FD_PF_N", false);
-	Params_PF.UINI_Dt = new UINI_float(this, "UI_P_FD_PF_Dt", true);
+	Params_PF.UINI_Ds = new UINI_float(this, "UI_P_FD_PF_Ds", true);
 
 	// auxiliary counter, etc. used for miscellaneous, ST-dependent signaling by user, e.g., in update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation()
 	this.aux_ctr = 0;

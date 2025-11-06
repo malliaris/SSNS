@@ -8,17 +8,17 @@ class ModelCalc_PF extends ModelCalc {
     constructor() {
 	super();
 
-	this.set_default_Dt();
+	this.set_default_Ds();
     }
 
     model_is_stoch() {return false; }
 
     // calculate a heuristic default Dt to set us up for likely numerical stability (see help viewer entry for Dt for more)
-    set_default_Dt() {
-	let prelim_default_Dt_val = 0.1 / (Params_PF.UINI_mu.v * Params_PF.N * Params_PF.N);  // adjust 0.1 as necessary/desired
-	let default_Dt_val = roundsd(prelim_default_Dt_val, 4);  // no point in keeping too many significant digits
-	Params_PF.UINI_Dt.sv(default_Dt_val);
-	console.log("INFO:   PF default Dt set to", default_Dt_val);
+    set_default_Ds() {
+	let prelim_default_Ds_val = 0.1 / (Params_PF.UINI_mu.v * Params_PF.N * Params_PF.N);  // adjust 0.1 as necessary/desired
+	let default_Ds_val = roundsd(prelim_default_Ds_val, 4);  // no point in keeping too many significant digits
+	Params_PF.UINI_Ds.sv(default_Ds_val);
+	console.log("INFO:   PF default Dt set to", default_Ds_val);
     }
 
     // load a_vect with values calculated from v_vect and alpha; a_vect's first and last entries are set to zero
@@ -81,7 +81,7 @@ class Params_PF extends Params {
     static UINI_Ut;  // = new UINI_float(this, "UI_P_FD_PF_Ut", true);  assignment occurs in UserInterface(); see discussion there;  Ut = U of top plate
     static UINI_Ub;  // = new UINI_float(this, "UI_P_FD_PF_Ub", true);  assignment occurs in UserInterface(); see discussion there;  Ub = U of bottom plate
     static UINI_mu;  // = new UINI_float(this, "UI_P_FD_PF_mu", true);  assignment occurs in UserInterface(); see discussion there
-    static UINI_Dt;  // = new UINI_float(this, "UI_P_FD_PF_Dt", true);  assignment occurs in UserInterface(); see discussion there
+    static UINI_Ds;  // = new UINI_float(this, "UI_P_FD_PF_Ds", true);  assignment occurs in UserInterface(); see discussion there
     static UINI_N;  // = new UINI_int(this, "UI_P_FD_PF_N", false);  assignment occurs in UserInterface(); see discussion there
     static N;
     static v_dim;  // v_dim = vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
@@ -112,7 +112,7 @@ class Params_PF extends Params {
 	Params_PF.UINI_Ut.push_to_UI(this.Ut);
 	Params_PF.UINI_Ub.push_to_UI(this.Ub);
 	Params_PF.UINI_mu.push_to_UI(this.mu);
-	Params_PF.UINI_Dt.push_to_UI(this.Dt);
+	Params_PF.UINI_Ds.push_to_UI(this.Dt);
     }
 
     get_info_str() {
@@ -234,7 +234,7 @@ class Trajectory_PF extends Trajectory {
     }
 
     gp() {  // gp = get Params object    
-	return new Params_PF(Params_PF.UINI_Dpol.v, Params_PF.UINI_Ut.v, Params_PF.UINI_Ub.v, Params_PF.UINI_mu.v, Params_PF.UINI_Dt.v);
+	return new Params_PF(Params_PF.UINI_Dpol.v, Params_PF.UINI_Ut.v, Params_PF.UINI_Ub.v, Params_PF.UINI_mu.v, Params_PF.UINI_Ds.v);
     }
 
     gc_ic(mc) {  // gc_ic = get Coords, initial condition

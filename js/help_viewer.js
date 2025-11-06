@@ -251,7 +251,7 @@ class HelpViewer {
 			    new HelpViewerNode("HV_P_FD_PF_Ut", []),
 			    new HelpViewerNode("HV_P_FD_PF_Ub", []),
 			    new HelpViewerNode("HV_P_FD_PF_mu", []),
-			    new HelpViewerNode("HV_P_FD_PF_Dt", []),
+			    new HelpViewerNode("HV_P_FD_PF_Ds", []),
 			    new HelpViewerNode("HV_P_FD_PF_N", []),
 
 			]),
