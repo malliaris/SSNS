@@ -448,7 +448,7 @@
 <label class="form-check-label w-100" for="UI_ST_SP">stochastic processes</label>
 </div>
 <div id="UI_ST_SM_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); ">
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_SM" value="SM" onchange="window.sim.ui.update_ST_area_settings(); " checked>
 <label class="form-check-label w-100" for="UI_ST_SM">statistical mechanics</label>
 </div>
 <div id="UI_ST_ND_form_check" class="form-check pl-4 py-1">
@@ -456,7 +456,7 @@
 <label class="form-check-label w-100" for="UI_ST_ND">nonlinear dynamics</label>
 </div>
 <div id="UI_ST_FD_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_FD" value="FD" onchange="window.sim.ui.update_ST_area_settings(); " checked>
+<input class="form-check-input" type="radio" name="UI_ST_area" id="UI_ST_FD" value="FD" onchange="window.sim.ui.update_ST_area_settings(); ">
 <label class="form-check-label w-100" for="UI_ST_FD">fluid dynamics</label>
 </div>
 </div>
@@ -484,7 +484,7 @@
 
 <div id="UI_ST_area_SM">
 <div id="UI_ST_SM_IG_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); ">
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); " checked>
 <label class="form-check-label w-100" for="UI_ST_SM_IG">2D ideal gas ($$ \texttt{IG} $$)</label>
 </div>
 <div id="UI_ST_SM_HS_form_check" class="form-check pl-4 py-1">
@@ -522,7 +522,7 @@
 <label class="form-check-label w-100" for="UI_ST_FD_SH">shock tube ($$ \texttt{SH} $$)</label>
 </div>
 <div id="UI_ST_FD_PF_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_FD_PF" value="PF" onchange="window.sim.process_cmd('ST'); " checked>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_FD_PF" value="PF" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_FD_PF">rigid planar flow ($$ \texttt{PF} $$)</label>
 </div>
 </div>
@@ -832,6 +832,7 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 <li>In <samp>IG</samp>, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_V'); ">$$V$$</a> is user-specified; in <samp>HS</samp>, it is controlled indirectly via piston speed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_v_pist'); ">$$v_{\mathrm{pist.}}$$</a>.</li>
 <li>For both: models are <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Kinetic_theory_of_gases">classical</a>, particles are <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Monatomic_gas">"monatomic"</a> (no internal <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Degrees_of_freedom_(mechanics)">d.o.f.</a>), and systems are 2D, so <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Equipartition_theorem">equipartition</a> gives average <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Kinetic_energy">kinetic energy</a> of $$k_B T $$ per particle and the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Heat_capacity_ratio">heat capacity ratio</a> $$\gamma = 2$$.</li>
 <li>While we keep some 3D terminology (hard <em>spheres</em>, not disks), the volume $$V$$ is really an area and pressure $$p$$ has units of force/length so $$p V$$ represents <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Work_(physics)#Work_by_a_gas">work/energy</a>.</li>
+<li><samp>IG</samp>'s particles <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Point_particle">have no extent</a>, but are drawn as small solid black circles; they are identical.  <samp>HS</samp>'s particles have finite radii and can vary in <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_R'); ">$$R$$</a>, density <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_rho'); ">$$\rho$$</a>, and mass; they are depicted as solid circles with $$R$$ <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Proportionality_(mathematics)">to scale</a> and $$\rho$$ in <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Grayscale">greyscale</a>; however, any particle with $$R$$ below a visibility threshold is drawn as a fixed size open circle.  In both models, one particle is colored <span style="color:red"><strong>red</strong></span> for easy tracking.</li>
 <li>For simplicity, we skip the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermal_reservoir">heat bath</a> and take all collisions to be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Elastic_collision">elastic</a> and instantaneous, so <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Interatomic_potential">potential energy</a> plays no role and the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Internal_energy">total energy</a> $$ U = N k_B T$$.</li>
 <li>We assume <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Adiabatic_process">adiabatic</a> conditions (i.e., well insulated walls), so, except for during piston movement in <samp>HS</samp>, $$U$$ is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Conservation_law">fixed</a>.</li>
 <li>The <samp>IG</samp> gas is initialized at <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_equilibrium">equilibrium</a> (particle positions are <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Continuous_uniform_distribution">random</a> and velocities are <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Non-uniform_random_variate_generation">sampled</a> from the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_kT0'); ">$$ k_B T_0 $$</a>-dependent <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Maxwell%E2%80%93Boltzmann_distribution">Maxwell-Boltzmann</a> distribution).  For <samp>HS</samp>, this <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_IC'); ">meta-parameter button</a> cycles through 5 <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a> &mdash; 1 equilibrium, the other 4 "artificial" in some way.</li>

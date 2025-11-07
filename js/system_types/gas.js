@@ -14,10 +14,9 @@
 //
 class GasParticle {
 
-    constructor(x, y, R, m, vx, vy) {
+    constructor(x, y, m, vx, vy) {
 	this.x = x;
 	this.y = y;
-	this.R = R;
 	this.m = m;
 	this.vx = vx;
 	this.vy = vy;

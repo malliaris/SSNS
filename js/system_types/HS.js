@@ -7,8 +7,9 @@ class GasParticle_HS extends GasParticle {
 
     constructor(x, y, R, mass, vx, vy, rho_val_i, rho) {
 
-	super(x, y, R, mass, vx, vy);
+	super(x, y, mass, vx, vy);
 
+	this.R = R;
 	this.rho_val_i = rho_val_i;  // integer index associated with density value (will, e.g., be translated into greyscale color)
 	this.rho = rho;  // particle density, which will be plotted as greyscale color
 	this.E_hist_bi;  // E_hist_bi = E histogram bin index

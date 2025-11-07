@@ -83,13 +83,11 @@ class Params_IG extends Params {
     static kT0;
     static UICI_BC;  // = new UICI_IG(this, "UI_P_SM_IG_BC", ...);  assignment occurs in UserInterface(); see discussion there
 
-    static R = 0.003;  // EVENTUALLY MAKE AN INPUT PARAMETER?
+    static visualization_R = 0.003;  // IG consists of point particles -- this is only for drawing in PlotTypeCV_IG
     static m = 10.0;  // EVENTUALLY MAKE AN INPUT PARAMETER?
-    static ds = 0.01;  // EVENTUALLY MAKE AN INPUT PARAMETER?  OR USE SMALL ALGORITHM TO SET VALUE?
+    static ds = 0.01;  // see Github technical notes
     static Lx;  // assignment occurs in Trajectory_IG constructor
     static Ly;  // assignment occurs in Trajectory_IG constructor
-    static m_dist_code = "c";  // dummy value; c for constant? add a sensible distribution to try?
-    static R_dist_code = "c";  // dummy value; c for constant? add a sensible distribution to try?
     static IC_code = "r";  // dummy value; eventually have many options here
 
 
@@ -168,7 +166,7 @@ class Coords_IG extends Coords {
 	    let rx = this.get_rand_x();  // random x position
 	    let ry = this.get_rand_y();  // random y position
 	    this.mc.mbde.load_vc_MBD_v_comps(vc, Params_IG.kT0, Params_IG.m);
-	    let new_p = new GasParticle(rx, ry, Params_IG.R, Params_IG.m, vc.x, vc.y);
+	    let new_p = new GasParticle(rx, ry, Params_IG.m, vc.x, vc.y);
 	    new_p.v_hist_bi = this.psh.get_bin_indx(new_p.get_speed());
 	    CU.incr_entry_OM(this.psh.hist, new_p.v_hist_bi);  // increment bin count
 	    this.particles.push(new_p);
