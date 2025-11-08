@@ -160,3 +160,6 @@ new HelpViewerNode("HV_HOME", [
     ]),
 
 ]);
+
+HelpViewer.hvn_lookup_mapNEW = {};
+HelpViewer.hvn_network.recurse_and_fill_data(HelpViewer.hvn_lookup_mapNEW, []);

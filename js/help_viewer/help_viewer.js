@@ -10,6 +10,7 @@ class HelpViewerNode {
 	this.id_str = id_str;
 	this.child_arr = child_arr;
 	this.breadcrumbs_html = "";  // will be filled during recursion
+	this.md_txt_html;  // "declaration"; will be filled as data in node_data.js is processed
 	this.is_param_node = (this.id_str.substr(0, 5) == "HV_P_");  // id_str for a node/view corresponding to a system parameter begins "HV_P_..."
 	this.is_ST_node = (this.id_str.substr(0, 6) == "HV_ST_");  // id_str for a node/view corresponding to a system type begins "HV_ST_..."
 	let header_txt = $("#" + this.id_str).attr('data-hvmh');  // grab stored text in custom data-hvmh attribute; hvmh = helper view modal header
@@ -80,15 +81,16 @@ class HelpViewer {
     // (2) hvmh and html contents specified in node_data.js
     // anything else?
     static hvn_network;
+    static hvn_lookup_mapNEW;
     
     constructor(sim, bsvs) {
 
 	// basic/miscellaneous settings
 	this.sim = sim;
-	this.initial_view = "HV_GAS_MODELS";// GAS_THEORY_COMPARISON GAS_MODELS CONCEPTS _P_SM_HS_v_pist";//    // default setting
+	this.initial_view = "HV_P_ND_GM_y_0";// GAS_THEORY_COMPARISON GAS_MODELS CONCEPTS _P_SM_HS_v_pist";//    // default setting
 	this.curr_view = "";
 	this.prev_view = "";
-	this.show_on_load = false;  // whether to show HelpViewer on app loading
+	this.show_on_load = true;  // whether to show HelpViewer on app loading
 	$("#md_container").on("hidden.bs.modal", function ()   { this.deployed = false;  });
 	$("#md_container").on("shown.bs.modal", function ()   { this.deployed = true;  });
 
@@ -104,7 +106,7 @@ class HelpViewer {
 	// use HelpViewer.hvn_network structure to recursively fill data fields, create map, etc.
 	this.hvn_map = {};
 	HelpViewer.hvn_network.recurse_and_fill_data(this.hvn_map, []);  // HelpViewer.hvn_network structure is assigned in network_structure.js (see note above)
-	//console.log(this.hvn_map);///////////
+	//console.log(this.hvn_map);///////////	
 	if (this.show_on_load) {  // if indicated, show HelpViewer on app loading
 	    this.show_view(this.initial_view);
 	}
@@ -141,6 +143,7 @@ class HelpViewer {
 	// show incoming view (and modal, if it's hidden)
 	let hvn = this.hvn_map[v];
 	CU.sh("md_breadcrumbs", hvn.breadcrumbs_html);
+	$("#md_txtNEW").html(hvn.md_txt_html);
 	$("#" + v).show();
 	if ( ! this.deployed) $("#md_container").modal("show");
 
