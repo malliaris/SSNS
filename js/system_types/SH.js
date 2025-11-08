@@ -287,6 +287,5 @@ class Trajectory_SH extends Trajectory {
 	let traj_max_t_val = this.mc.get_traj_max_t_val();
 	console.log("INFO:   SH t_max set to", traj_max_t_val - 1);  // is there an off-by-1 issue here???
 	return traj_max_t_val;
-	//return Trajectory.DEFAULT_MAX_NUM_T_STEPS;
     }
 }
