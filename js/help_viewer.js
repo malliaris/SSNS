@@ -89,7 +89,7 @@ class HelpViewer {
 	this.initial_view = "HV_GAS_MODELS";// GAS_THEORY_COMPARISON GAS_MODELS CONCEPTS _P_SM_HS_v_pist";//    // default setting
 	this.curr_view = "";
 	this.prev_view = "";
-	this.show_on_load = false;  // whether to show HelpViewer on app loading
+	this.show_on_load = true;  // whether to show HelpViewer on app loading
 	$("#md_container").on("hidden.bs.modal", function ()   { this.deployed = false;  });
 	$("#md_container").on("shown.bs.modal", function ()   { this.deployed = true;  });
 
