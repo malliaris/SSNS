@@ -101,7 +101,6 @@
 .hv_home_curr              {color: #000000; pointer-events: none; padding-top: 0.6rem; border: 1px solid #333333; }
 .hv_home_curr:hover        {color: #000000; }  /* needed for Android Chrome mobile (!) */
 .hv_curr_page              {padding: 0.06rem 0.2rem; color: #333333; border: 1px solid #333333; }
-.hv_curr_page_not_ready    {padding: 0.06rem 0.2rem; color: #333333; border: 1px solid orange; }  /* DELETE WHEN READY */
 .hv_emulated_btn           {color: #ffffff; background-color: #bbbbbb; }  /* match colors to .btn-ssns entries above */
 .hv_emulated_btn_td        {text-align: center; vertical-align: middle !important; }
 .hv_emulated_btn_span      {color: #ffffff; background-color: #bbbbbb; }  /* match colors to .btn-ssns entries above */

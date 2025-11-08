@@ -13,21 +13,13 @@ class HelpViewerNode {
 	this.is_param_node = (this.id_str.substr(0, 5) == "HV_P_");  // id_str for a node/view corresponding to a system parameter begins "HV_P_..."
 	this.is_ST_node = (this.id_str.substr(0, 6) == "HV_ST_");  // id_str for a node/view corresponding to a system type begins "HV_ST_..."
 	let header_txt = $("#" + this.id_str).attr('data-hvmh');  // grab stored text in custom data-hvmh attribute; hvmh = helper view modal header
-	let page_is_ready = parseInt($("#" + this.id_str).attr('data-ready'));  // TEMPORARY; REMOVE WHEN HELP PAGE WRITING IS COMPLETE
-	/////console.log("YyYyYy", id_str, (page_is_ready ? "" : "not"), "ready");///////////////////////
 	if (this.is_param_node) {  // nodes that represent system parameters are represented as LaTeX'd variables
-	    //console.log("YYYYYYYYY", id_str, header_txt);////////
 	    this.header_html = katex.renderToString(header_txt, {throwOnError: false});
 	} else {  // plain text for all others
 	    this.header_html = header_txt;
 	}
 	this.header_html_as_link = this.get_link_str(this.header_html);
-	//this.header_html_as_curr_page = '<span class="hv_curr_page">' + this.header_html + '</span>';
-	if (page_is_ready) {  // TEMPORARY; REMOVE WHEN HELP PAGE WRITING IS COMPLETE
-	    this.header_html_as_curr_page = '<span class="hv_curr_page">' + this.header_html + '</span>';  // TEMPORARY; REMOVE WHEN HELP PAGE WRITING IS COMPLETE
-	} else {  // TEMPORARY; REMOVE WHEN HELP PAGE WRITING IS COMPLETE
-	    this.header_html_as_curr_page = '<span class="hv_curr_page_not_ready">' + this.header_html + '</span>';  // TEMPORARY; REMOVE WHEN HELP PAGE WRITING IS COMPLETE
-	}  // TEMPORARY; REMOVE WHEN HELP PAGE WRITING IS COMPLETE
+	this.header_html_as_curr_page = '<span class="hv_curr_page">' + this.header_html + '</span>';
 	if (this.is_ST_node) {  // if it's a node corresponding to a system type (ST), add ability to click icon that closes viewer and loads that ST
 	    let ST_abbrev = this.id_str.substr(6, 7);  // e.g., "LM" for Logistic Map
 	    this.header_html_as_curr_page += String.raw`<a class="hv_link" onclick="window.sim.ui.close_HV_load_ST('` + ST_abbrev + String.raw`'); ">`;
