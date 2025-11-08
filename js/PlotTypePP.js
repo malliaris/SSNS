@@ -84,7 +84,7 @@ class PlotTypePP_HS extends PlotTypePP_Select {
 	super(trj);
 
 	this.flot_gen_opts = {};
-	let curr_kT = this.trj.get_x(0).get_kT();
+	let curr_kT = this.trj.get_x(this.trj.t_0).get_kT();
 	let NkT = Params_HS.N * curr_kT;
 	let VR = 1.0;
 	let p_min = 0.0;

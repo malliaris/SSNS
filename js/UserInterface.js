@@ -108,6 +108,11 @@ class UserInterface {
 	console.log("INFO:\tBootstrap viewport size =", this.bsvs);
     }
 
+    update_displayed_t_0_t_max() {
+	this.t_0.sv(this.sim.trjs[this.sim.ST].t_0);
+	this.t_max.sv(this.sim.trjs[this.sim.ST].t_max);
+    }
+
     push_dd_state_to_UI() {
 
 	for (let [dd_name, dd_bool] of Object.entries(this.dropdown_show_vals)) {
@@ -363,10 +368,13 @@ class UserInterface {
 	// plot stuff
 	this.sim.pm.plots[this.sim.ST][this.sim.PT].switch_plot_and_update_ext_axes();
 
-	// interface stuff
+	// interface stuff: updating of always-shown UI element content
+	this.update_displayed_t_0_t_max();
 	CU.sk("UI_INDCTR_ST", "\\texttt{" + this.sim.ST + "}");
 	this.update_SYS_dd_ST_background(this.sim.ST);
 	this.update_plot_type_buttons();
+
+	// interface stuff: showing/hiding of UI elements
 	this.show_ST_params(this.sim.ST);  // show/hide ST-specific parameters
 	if (this.sim.trjs[this.sim.ST].mc.model_is_stoch()) {  // show/hide stochastic system machinery
 	    $(".UI_CTRL_STOCH").show();
