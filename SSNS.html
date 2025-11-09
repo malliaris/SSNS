@@ -11,6 +11,7 @@
 <link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet">
 <link href="/static/css/SSNT.css" rel="stylesheet">
 
+<!-- NOTE: KaTeX's auto-render.min.js extension also separately loaded below since it's needed in help viewer... combine eventually? -->
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload='renderMathInElement(document.body, {delimiters:
 	[{left: "$$", right: "$$", display: false},
 	 {left: "%%", right: "%%", display: true}]
@@ -1492,10 +1493,11 @@ Liquids, for instance, can often be assumed to be <a target="_blank" class="hv_e
 
 <!-- update SSNS_dependencies_without_js-sdsl_-_NEW.js filename when ready -->
 <script src="/static/js/SSNS_dependencies_without_js-sdsl_-_NEW.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/math-base-special-atan2@umd/browser.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/random-base-exponential@umd/browser.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/random-base-beta@umd/browser.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/random-shuffle@umd/browser.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script><!-- NOTE: KaTeX's auto-render.min.js extension also separately loaded at top... combine eventually? -->
+<script src="https://cdn.jsdelivr.net/gh/stdlib-js/math-base-special-atan2@umd/browser.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/stdlib-js/random-base-exponential@umd/browser.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/stdlib-js/random-base-beta@umd/browser.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/stdlib-js/random-shuffle@umd/browser.js"></script>
 
 <script src="https://unpkg.com/js-sdsl/dist/umd/js-sdsl.min.js"></script>
 <script>

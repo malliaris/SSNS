@@ -10,12 +10,14 @@ class HelpViewerNode {
 	this.id_str = id_str;
 	this.child_arr = child_arr;
 	this.breadcrumbs_html = "";  // will be filled during recursion
-	this.md_txt_html;  // "declaration"; will be filled as data in node_data.js is processed
+	this.header_txtNEW = ``;  // "declaration"; will be filled as data in node_data.js is processed
+	this.md_txt_html = ``;  // "declaration"; will be filled as data in node_data.js is processed
 	this.is_param_node = (this.id_str.substr(0, 5) == "HV_P_");  // id_str for a node/view corresponding to a system parameter begins "HV_P_..."
 	this.is_ST_node = (this.id_str.substr(0, 6) == "HV_ST_");  // id_str for a node/view corresponding to a system type begins "HV_ST_..."
 	let header_txt = $("#" + this.id_str).attr('data-hvmh');  // grab stored text in custom data-hvmh attribute; hvmh = helper view modal header
 	if (this.is_param_node) {  // nodes that represent system parameters are represented as LaTeX'd variables
 	    this.header_html = katex.renderToString(header_txt, {throwOnError: false});
+	    /////////////console.log("NsNsNsNsNs", this.header_html);////////////
 	} else {  // plain text for all others
 	    this.header_html = header_txt;
 	}
@@ -143,7 +145,19 @@ class HelpViewer {
 	// show incoming view (and modal, if it's hidden)
 	let hvn = this.hvn_map[v];
 	CU.sh("md_breadcrumbs", hvn.breadcrumbs_html);
+
 	$("#md_txtNEW").html(hvn.md_txt_html);
+	renderMathInElement(document.getElementById("md_txtNEW"), {delimiters: [{left: "$$", right: "$$", display: false}, {left: "%%", right: "%%", display: true}]});  // similar to call in <script> tag at top of SSNS.html
+
+
+	//	console.log("RIRIRE", hvn.id_str, hvn.md_txt_html);  ////////////////
+	//<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload='renderMathInElement(document.body, {delimiters: [{left: "$$", right: "$$", display: false}, {left: "%%", right: "%%", display: true}]}); '>
+	//static sk(str_id, tex_str) {katex.render(tex_str, document.getElementById(str_id), {throwOnError: false});}
+	// renderMathInElement(document.body, {delimiters: [{left: "$$", right: "$$", display: false}, {left: "%%", right: "%%", display: true}]});
+
+
+	//CU.sk("md_txtNEW", hvn.md_txt_html);
+	//$("#md_txtNEW").html(katex.renderToString(hvn.md_txt_html, {throwOnError: false}));
 	$("#" + v).show();
 	if ( ! this.deployed) $("#md_container").modal("show");
 
