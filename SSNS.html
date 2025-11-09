@@ -584,50 +584,9 @@
 <button type="button" class="close my-0 mr-0 py-1 pl-1 pr-2" data-dismiss="modal" ><i class="fas fa-2xl fa-xmark"></i></button>
 </div>
 
-<div id="md_txtNEW" class="modal-body pt-1 pl-2 pr-1 pb-0">
-  yoyoyo
-</div>
+<div id="md_txt" class="modal-body pt-1 pl-2 pr-1 pb-0"></div><!-- this is the div that HelpViewer.show_view() places help page html content into -->
 
-<div id="md_txt" class="modal-body pt-1 pl-2 pr-1 pb-0">
-
-
-
-
-<div id="HV_C_RELOAD_CMDS" class="hv_view" data-hvmh="Reload Commands">
-<p>A trajectory can always be "rewound" and re-recorded.  A more controlled reset, however, is provided by these commands:</p>
-<img class="hv_fw_img" src="/static/images/SSNS/hv_interface_pics/reload_cmd_bar.png">
-
-<p>The <strong>SSNS</strong> code is <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_ORGANIZATION'); ">organized</a> into <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Class_(computer_programming)">classes</a>.  Recording and storage of trajectory data is handled by the $$\texttt{Trajectory}$$ class.  Since each <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system type</a> has its own version of this class, its data will still be there if the user explores another and then returns.  Certain <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">parameter changes</a> require <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Class_(computer_programming)">re-instantiation</a> of the $$\texttt{Trajectory}$$ to take effect.  The user can choose to:</p>
-
-<table class="table table-bordered table-sm">
-<tbody>
-<tr><td>reload current $$\texttt{Trajectory}$$</td>
-<td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><span style="white-space: nowrap; "><i class="fas fa-fw fa-rotate-right pr-1"></i><samp>THIS</samp></span></span></td></tr>
-<tr><td>reload all $$\texttt{Trajectory} \hspace{0.035cm} $$s</td>
-<td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><span style="white-space: nowrap; "><i class="fas fa-fw fa-rotate-right pr-1"></i><samp>ALL</samp></span></span></td></tr>
-<tr><td>reload page (<a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Web_browser">browser refresh</a>)</td>
-<td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><span style="white-space: nowrap; "><i class="fas fa-fw fa-rotate-right pr-1"></i><samp>PAGE</samp></span></span></td></tr>
-<tr><td><em>future command?</em></td>
-<td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span pl-4 pr-3 py-1"></span></td></tr>
-</tbody>
-</table>
-
-<!--  ************ SCRAPS ************
- <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_method">numerical methods</a>
-https://en.wikipedia.org/wiki/Finite_volume_method
-Liquids, for instance, can often be assumed to be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Compressibility">incompressible</a>
- <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Approximation">simplify</a>
-<a target="_blank" class="hv_ext_link" href="https://tedm.us/computational_science">Computation</a> is essential in supplementing <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Scientific_theory">theory</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Experiment">experiment</a>
--->
-
-<!--
-<button type="button" class="btn btn-ssns btn_w_txt px-0 flex-fill" onclick="window.sim.process_cmd('RT'); "><a><i class="fas fa-fw fa-lg fa-rotate-right pr-2"></i><samp>THIS</samp></a></button>
--->
-
-</div><!-- CLOSES div class="hv_view" -->
-
-
-</div></div></div></div><!-- CLOSES div id="md_txt" through div class="modal fade" -->
+</div></div></div><!-- CLOSES div class="modal-content" through div class="modal fade" -->
 
 
 
