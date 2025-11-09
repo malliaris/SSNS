@@ -3,7 +3,7 @@
 //
 
 
-
+/*
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_GM_x_0"].header_txtNEW = "x_0";
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_GM_x_0"].md_txt_html = String.raw`
 
@@ -35,13 +35,19 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_FD_SH_rho"].header_txtNEW = "\rho";
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_SH_rho"].md_txt_html = String.raw`
 
 <p>initial mass densities of the gas on the right $$\rho_R$$ and left $$\rho_L$$ sides of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_SH'); ">shock tube</a>; in general, $$ \rho > 0 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_SH_p"].header_txtNEW = "p";
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_SH_p"].md_txt_html = String.raw`
 
 <p>initial pressures of the gas on the right $$p_R$$ and left $$p_L$$ sides of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_SH'); ">shock tube</a>; in general, $$ p > 0 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_PLOT_AREA"].header_txtNEW = "Plots";
 HelpViewer.hvn_lookup_mapNEW["HV_PLOT_AREA"].md_txt_html = String.raw`
@@ -53,7 +59,11 @@ HelpViewer.hvn_lookup_mapNEW["HV_PLOT_AREA"].md_txt_html = String.raw`
 
 <p>The black circle follows the current time ($$t = 57$$, here) and matches the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">main panel</a>'s time indicator.  The grey vertical band (at $$78$$, here) indicates $$ t_{\mathrm{edge}} $$, the end of the <em>recorded</em> trajectory ($$ t_{\mathrm{edge}} \le \; $$<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_T_0_MAX_STOP'); ">$$ t_{\mathrm{max}} $$</a>).  <strong>SSNS</strong> trajectories are sequences of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_ORGANIZATION'); ">$$\texttt{TrajSeg}$$ objects</a>.  A change of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">parameter values</a> generates a new $$\texttt{TrajSeg}$$ segment and cycles the plot color.  The screenshot above shows 4 of them: red, green, blue, and red again.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
+*/
 
 
 
@@ -69,7 +79,6 @@ HelpViewer.hvn_lookup_mapNEW["HV_PLOT_AREA"].md_txt_html = String.raw`
 
 
 
-/*
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // -----  HelpViewer HIGH LEVEL PAGES  -------------------------------------------------------------
@@ -92,7 +101,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_HOME"].md_txt_html = String.raw`
 
 <p>If words like <em>stochasticity</em> and <em>nonlinearity</em> are unfamiliar to you, no problem.  This app aims to be accessible!  If, on the other hand, you are a <em>guru</em>, hopefully some interactive exploration proves enjoyable &mdash; like seeing an old friend.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_USING"].header_txtNEW = "How to use";
 HelpViewer.hvn_lookup_mapNEW["HV_USING"].md_txt_html = String.raw`
@@ -108,7 +120,10 @@ text-align: center; vertical-align: middle !important;
 -->
 
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_PLOT_AREA"].header_txtNEW = "Plots";
 HelpViewer.hvn_lookup_mapNEW["HV_PLOT_AREA"].md_txt_html = String.raw`
@@ -120,7 +135,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_PLOT_AREA"].md_txt_html = String.raw`
 
 <p>The black circle follows the current time ($$t = 57$$, here) and matches the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">main panel</a>'s time indicator.  The grey vertical band (at $$78$$, here) indicates $$ t_{\mathrm{edge}} $$, the end of the <em>recorded</em> trajectory ($$ t_{\mathrm{edge}} \le \; $$<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_T_0_MAX_STOP'); ">$$ t_{\mathrm{max}} $$</a>).  <strong>SSNS</strong> trajectories are sequences of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_ORGANIZATION'); ">$$\texttt{TrajSeg}$$ objects</a>.  A change of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">parameter values</a> generates a new $$\texttt{TrajSeg}$$ segment and cycles the plot color.  The screenshot above shows 4 of them: red, green, blue, and red again.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_MAIN_PANEL"].header_txtNEW = "Main Panel";
 HelpViewer.hvn_lookup_mapNEW["HV_MAIN_PANEL"].md_txt_html = String.raw`
@@ -135,7 +153,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_MAIN_PANEL"].md_txt_html = String.raw`
 <li>one dropdown shown at once on mobile</li>
 <li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RNG_RECR_TRAJ'); ">random number settings</a> only present if the system is stochastic</li>
 <li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_SP_ENSEMBLE'); ">ensemble settings</a> only present for <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">stochastic processes</a></li></ul>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_PRMS_DROPDOWN"].header_txtNEW = "PRMS Dropdown";
 HelpViewer.hvn_lookup_mapNEW["HV_PRMS_DROPDOWN"].md_txt_html = String.raw`
@@ -149,7 +170,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_PRMS_DROPDOWN"].md_txt_html = String.raw`
 
 <p>On load, each input field in the app has a sensible default value.  Further, JavaScript $$\texttt{onChange}$$ <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Event_(computing)#Event_handler">listeners</a> and a layer of <strong>SSNS</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_IO'); ">$$\texttt{UINI}$$ objects</a> mean <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Data_validation">out-of-range values</a> will never reach the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_ORGANIZATION'); ">$$\texttt{Trajectory}$$</a> machinery.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_SYS_DROPDOWN"].header_txtNEW = "SYS Dropdown";
 HelpViewer.hvn_lookup_mapNEW["HV_SYS_DROPDOWN"].md_txt_html = String.raw`
@@ -159,7 +183,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_SYS_DROPDOWN"].md_txt_html = String.raw`
 <p>Each yellow system type entry gives both the name (e.g., Logistic Map) and a two-letter abbreviation ($$ \texttt{LM} $$).  Since the <samp>SYS</samp> dropdown may be collapsed, its button always displays the abbreviation of the currently loaded system type for reference (<button type="button" class="btn btn-ssns-demo btn-sm" style="padding: 0 0.35rem; margin: 0 1px; ">$$ \texttt{LM} $$</i></button>).</p>
 
 <p>When a system type selection is made, the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PLOT_AREA'); ">plot area</a> updates to show the corresponding trajectory.  Previously recorded trajectory data and choice of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_PLOT_TYPES'); ">plot type</a> are "remembered" from previous exploration.  Such stored data can always be erased by <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RELOAD_CMDS'); ">reloading</a>.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_HELP_VIEWER"].header_txtNEW = "Help Viewer";
 HelpViewer.hvn_lookup_mapNEW["HV_HELP_VIEWER"].md_txt_html = String.raw`
@@ -169,7 +196,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_HELP_VIEWER"].md_txt_html = String.raw`
 <p>Navigation within the help viewer is done via <a class="hv_link" style="cursor: text; ">light blue links</a>.  They are present in page text, the breadcrumbs, and a rudimentary back button <a class="hv_link" style="cursor: text; "><i class="fas fa-fw fa-arrow-left"></i></a>.  External links (usually to Wikipedia) are in <a class="hv_ext_link">this shade of blue</a>.</p>
 
 Launching the help viewer with <button type="button" class="btn btn-sm emulated_help_btn"><img height="15" width="10" src="/static/images/SSNS/question_mark.svg"></button> shows the last displayed page.  Alternatively, clicking a colored symbol background in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> or <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> dropdown areas opens the corresponding quantity's page.  The viewer can always be closed with <i class="fas fa-xl fa-xmark hv_close_btn"></i>.  Also, if viewing the page for a system type, click the <a class="hv_link" style="cursor: text; "><i class="fa-solid fa-up-right-from-square"></i></a> next to its name to close the viewer and load it in the main interface.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_COMPUTATION"].header_txtNEW = "Computation";
 HelpViewer.hvn_lookup_mapNEW["HV_COMPUTATION"].md_txt_html = String.raw`
@@ -182,7 +212,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_COMPUTATION"].md_txt_html = String.raw`
 <li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_DEPENDENCIES'); ">external libraries</a> that <strong>SSNS</strong> relies on for things like <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/User_interface">user interface</a></li>
 <li>how the code accommodates invalid <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_IO'); ">user input</a> and tries to minimize interrupting with <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Error_message">error messages</a></li>
 <li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_FUTURE'); ">future additions/improvements</a>: system types to try, and taking full advantage of the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Graphics_processing_unit">GPU</a></li></ul>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_CODE_DESIGN"].header_txtNEW = "Code Design";
 HelpViewer.hvn_lookup_mapNEW["HV_CODE_DESIGN"].md_txt_html = String.raw`
@@ -195,7 +228,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_CODE_DESIGN"].md_txt_html = String.raw`
 <p>In the <strong>SSNS</strong> code, a $$\texttt{Trajectory}$$ <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Object_(computer_science)">object</a> contains everything needed to generate output (via <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Discrete_time_and_continuous_time">discrete-time</a> <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Time_evolution">update equations</a>) and store it for playback.  Its <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Composition_over_inheritance">composition</a> from "smaller" classes and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">specialization</a> for each system type are discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_ORGANIZATION'); ">here</a>.</p>
 
 <p>There are perks to being a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Client–server_model">client-side</a> web app like <strong>SSNS</strong>.  For one, there's nothing to install or update!  Also, for those interested learning more, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Source_code">source</a> can be viewed <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/View-source_URI_scheme">right in the browser</a>, and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Logging_(computing)">execution info</a> can be viewed in the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Web_development_tools#JavaScript_debugging">developer tools console</a>.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_CODE_ORGANIZATION"].header_txtNEW = "Code Organization";
 HelpViewer.hvn_lookup_mapNEW["HV_CODE_ORGANIZATION"].md_txt_html = String.raw`
@@ -211,7 +247,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_CODE_ORGANIZATION"].md_txt_html = String.raw`
 <a target="_blank" href="//tedm.us/static/images/SSNS/TrajSeg_composition.svg"><img class="hv_fw_img" src="/static/images/SSNS/TrajSeg_composition_-_no_section_label.svg"></a>
 
 <p>Finally, each $$\texttt{Coords}$$ object holds all <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Dependent_and_independent_variables">dependent variable</a> data for a single time step &mdash; it could be, e.g., a single scalar value, or a large 2D matrix of values.  See GitHub <i class="fa-brands fa-github" style="color: black; "></i> for more <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/tree/main/docs/class_diagrams">class diagrams</a>, <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/blob/main/README.md#abbreviations-labels-etc">abbreviation info</a>, etc.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_CODE_DEPENDENCIES"].header_txtNEW = "Code Dependencies";
 HelpViewer.hvn_lookup_mapNEW["HV_CODE_DEPENDENCIES"].md_txt_html = String.raw`
@@ -227,7 +266,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_CODE_DEPENDENCIES"].md_txt_html = String.raw`
 
 <p>See <a target="_blank" href="//github.com/malliaris/SSNS/blob/main/README.md#external-libraries-dependencies">GitHub <i class="fa-brands fa-github" style="color: black; "></i></a> for more info and related <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/CSS">CSS stylesheet</a> files.  There is also a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Minification_(programming)">minified</a> bundle of the above JavaScript dependencies.  The head of that file contains <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Software_versioning">version</a> info.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_CODE_IO"].header_txtNEW = "Input/Output";
 HelpViewer.hvn_lookup_mapNEW["HV_CODE_IO"].md_txt_html = String.raw`
@@ -243,7 +285,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_CODE_IO"].md_txt_html = String.raw`
 <li>handling of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Exception_handling">error conditions</a>; good <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_DESIGN'); ">design</a> hopefully prevents most; <samp>INFO</samp> messages are sent to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Web_development_tools#JavaScript_debugging">JavaScript console</a>; limitless recording, however, is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Out_of_memory">not possible</a>, so we <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_T_MAX_REACHED'); ">intervene</a></li></ul>
 
 <p><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Hard_disk_drive">Saving</a> of $$\texttt{Trajectory}$$ data is not implemented.  However, the project is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Open-source_software">open</a>, so someone might add it!  Screenshots are always allowed, of course &#x1F603;.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_CODE_FUTURE"].header_txtNEW = "Looking Forward";
 HelpViewer.hvn_lookup_mapNEW["HV_CODE_FUTURE"].md_txt_html = String.raw`
@@ -254,21 +299,30 @@ HelpViewer.hvn_lookup_mapNEW["HV_CODE_FUTURE"].md_txt_html = String.raw`
 <ul><li>System types that are disabled in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); "><samp>SYS</samp></a> dropdown are either under maintenance or not yet written.  Not sure when I'll have time to get to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/M/M/1_queue">M/M/1 queue</a> stochastic process implementation...</li>
 <li>The <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_ORGANIZATION'); "><samp>Coords</samp></a> <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Computer_memory">memory footprint</a> for most system types is tiny, the main exception being the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">spin systems</a>.  One easy improvement would be to adapt <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_N'); ">$$ N_{\mathrm{max}} $$</a> based on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_T_0_MAX_STOP'); ">$$ t_{\mathrm{max}} $$</a>, so that larger grids are allowed for shorter trajectories, and vice versa.  Alternatively, we could refactor to avoid storing the entire spin array at each time step. See <a target="_blank" href="//github.com/malliaris/SSNS/blob/main/README.md#to-dofixaddexplore"><samp>gh</samp> <i class="fa-brands fa-github" style="color: black; "></i></a>.</li>
 <li>When it comes to <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); "><samp>XY</samp></a> models, ours pales in comparison to <a target="_blank" class="hv_ext_link" href="//kjslag.github.io/XY/">this one</a> &#x1F92F;.  One reason is that <strong>SSNS</strong> does not use the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Graphics_processing_unit">GPU</a> for non-graphical computation.  Code must be adapted for <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units">GPGPU</a>, but the performance gains can be huge.</li></ul>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_E_T_MAX_REACHED"].header_txtNEW = "Max Duration Reached";
 HelpViewer.hvn_lookup_mapNEW["HV_E_T_MAX_REACHED"].md_txt_html = String.raw`
 
 <p style="text-align: center; "><i class="fas fa-fw fa-xl fa-triangle-exclamation gentle_warning"></i> <strong>Maximum Duration Reached</strong> <i class="fas fa-fw fa-xl fa-triangle-exclamation gentle_warning"></i></p>
 <p>The maximum trajectory duration has been reached.  Consider rewinding and re-recording.  You can also try increasing the $$ t_{\mathrm{max}} $$ parameter, but be aware that it has a system-type-dependent internal limit.  See <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_FUTURE'); ">this discussion</a> for more.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_E_NOT_IMPLEMENTED"].header_txtNEW = "Not Implemented";
 HelpViewer.hvn_lookup_mapNEW["HV_E_NOT_IMPLEMENTED"].md_txt_html = String.raw`
 
 <p style="text-align: center; "><i class="fas fa-fw fa-xl fa-person-digging gentle_warning"></i> <strong>Not Implemented</strong> <i class="fas fa-fw fa-xl fa-person-digging gentle_warning"></i></p>
 <p>This <strong>SSNS</strong> page/functionality is not yet written/implemented.  The <a target="_blank" href="//github.com/malliaris/SSNS/blob/main/README.md#to-dofixaddexplore">GitHub <i class="fa-brands fa-github" style="color: black; "></i></a> may have more information.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_CONCEPTS"].header_txtNEW = "Concepts";
 HelpViewer.hvn_lookup_mapNEW["HV_CONCEPTS"].md_txt_html = String.raw`
@@ -287,7 +341,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_CONCEPTS"].md_txt_html = String.raw`
 <li>for statistical mechanical systems, we implement, two <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">gas models</a> and two <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">spin systems</a></li>
 <li>a bit on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PHASE_TRANSITIONS'); ">phase transitions</a>, and if/how they will appear in those statistical mechanical systems</li>
 <li>a bit on the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_THEORY_COMPARISON'); ">comparison</a> between theory and computational results, as illustrated with our <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">Hard Sphere</a> implementation</li></ul>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_ENSEMBLES"].header_txtNEW = "Ensembles, Averaging";
 HelpViewer.hvn_lookup_mapNEW["HV_ENSEMBLES"].md_txt_html = String.raw`
@@ -298,7 +355,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_ENSEMBLES"].md_txt_html = String.raw`
 <ul><li><strong>SSNS</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">SP</a> machinery supports large ensembles, as described <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_SP_ENSEMBLE'); ">here</a></li>
 <li>for <strong>SSNS</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SM'); ">SM</a> systems, ensemble size is $$1$$, but averaging <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Temporal_mean">over time</a> (and/or across a lattice or gas container) is always possible</li>
 <li>as in all stochastic simulation, care must be taken with the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Random_seed">seeding of RNG's</a>, assessment of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Autocorrelation">correlations</a>, the determination of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Steady_state">steady state</a>, etc.</li></ul>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_MARKOV_ONE_STEP"].header_txtNEW = "Memorylessness, etc.";
 HelpViewer.hvn_lookup_mapNEW["HV_MARKOV_ONE_STEP"].md_txt_html = String.raw`
@@ -314,7 +374,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_MARKOV_ONE_STEP"].md_txt_html = String.raw`
 
 <p>Memorylessness also appears in the <strong>SSNS</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">spin system</a> implementations <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IS'); ">Ising</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_XY'); ">XY</a>.  Specifically, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermal_fluctuations">thermal</a> stochasticity is incorporated via the Markovian <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Metropolis–Hastings_algorithm">Metropolis algorithm</a>.  This should not be confused with <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Magnetic_hysteresis">hysteresis</a> (i.e., <em>memory</em>) seen in the system <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Magnetization">magnetization</a> as the external magnetic field <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_h'); ">$$ \vec{h} $$</a> is varied.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_SPIN_SYSTEMS"].header_txtNEW = "Spin Systems";
 HelpViewer.hvn_lookup_mapNEW["HV_SPIN_SYSTEMS"].md_txt_html = String.raw`
@@ -333,7 +396,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_SPIN_SYSTEMS"].md_txt_html = String.raw`
 <li>2D square <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Lattice_model_(physics)">lattices</a></li>
 <li><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Metropolis–Hastings_algorithm">Metropolis updates</a></li></ul>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_PHASE_TRANSITIONS"].header_txtNEW = "Phase Transitions";
 HelpViewer.hvn_lookup_mapNEW["HV_PHASE_TRANSITIONS"].md_txt_html = String.raw`
@@ -342,7 +408,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_PHASE_TRANSITIONS"].md_txt_html = String.raw`
 <p>A sample of water can be switched between frozen and liquid states by manipulating the sample's temperature.  Similarly, the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IS'); ">Ising</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_XY'); ">XY</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">spin systems</a> we have implemented exhibit temperature-induced <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Critical_phenomena">phase transitions</a>.  Roughly speaking, low-<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_T'); ">$$ T $$</a> states will be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_and_disorder">ordered</a> (areas of like-colored tiles), while high-<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_T'); ">$$ T $$</a> states will be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_and_disorder">disordered</a> (random distribution of colors).</p>
 
 <p><em>True</em> phase transitions only appear in the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_limit">thermodynamic limit</a> (e.g., number of tiles/particles <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_N'); ">$$ N $$</a> $$ \to \infty $$).  Careful simulation of such phenomena requires large systems/<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">ensembles</a>, and slowly changing $$ T $$ to "hug" <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_equilibrium">equilibrium</a> states.  While <strong>SSNS</strong>'s computational resources are limited, qualitative transition behavior is well displayed in our Ising and XY implementations.  For a higher-performance, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Graphics_processing_unit">GPU</a>-based web app, see <a target="_blank" class="hv_ext_link" href="//kjslag.github.io/XY/">this XY simulation</a>.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_GAS_MODELS"].header_txtNEW = "Gas Models";
 HelpViewer.hvn_lookup_mapNEW["HV_GAS_MODELS"].md_txt_html = String.raw`
@@ -365,7 +434,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_GAS_MODELS"].md_txt_html = String.raw`
 <li> <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Equation_of_state">Equations of state</a>, <samp>HS</samp> piston thermodynamics, plots, etc. are discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_THEORY_COMPARISON'); ">here</a>.</li>
 </ul>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_GAS_THEORY_COMPARISON"].header_txtNEW = "Gas Theory";
 HelpViewer.hvn_lookup_mapNEW["HV_GAS_THEORY_COMPARISON"].md_txt_html = String.raw`
@@ -389,7 +461,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_GAS_THEORY_COMPARISON"].md_txt_html = String.ra
 
 <p><img style="max-width: 100%; " src="/static/images/SSNS/plot_screenshots/HS_PP_isotherm_adiabat.png"></p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 
 
@@ -412,7 +487,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_SA_SP"].md_txt_html = String.raw`
 <li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); ">M/M/1 queue</a> from <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/M/M/1_queue">queueing theory</a></li></ul>
 
 <p>The future behavior of a stochastic process generally involves multiple possible <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Phase_space">trajectories</a>.  In contrast, for a fully-described, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Deterministic_system">deterministic</a> system, the single future trajectory is completely known.  For <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_ND'); ">nonlinear</a>, deterministic systems that happen to be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a>, this trajectory is extremely sensitive to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial state</a> used.  Uncertainty in that state (or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Parameter_space">parameters</a>, or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mathematical_model">modeling</a>), therefore, leads to uncertainty in the trajectory.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_SA_SM"].header_txtNEW = "Statistical Mechanics";
 HelpViewer.hvn_lookup_mapNEW["HV_SA_SM"].md_txt_html = String.raw`
@@ -427,7 +505,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_SA_SM"].md_txt_html = String.raw`
 </ul>
 
 <p>The first and second are <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">gas models</a>, and more intuitive in that one can see gas "particles" bouncing around a container.  The third and fourth are examples of spin systems, which are described more generally <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">here</a>.  Also relevant are these brief comments on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">statistical ensembles</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PHASE_TRANSITIONS'); ">phase transitions</a>.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_SA_ND"].header_txtNEW = "Nonlinear Dynamics";
 HelpViewer.hvn_lookup_mapNEW["HV_SA_ND"].md_txt_html = String.raw`
@@ -441,7 +522,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_SA_ND"].md_txt_html = String.raw`
 <li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">Gingerbread-man map (<samp>GM</samp>)</a></li></ul>
 
 <p>All three display <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a> behavior, with its trademark sensitivity to <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a>.  While their <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Phase_space">trajectories</a> can appear unpredictable, they are completely <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Deterministic_system">deterministic</a> (as opposed to <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">stochastic</a>).</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_SA_FD"].header_txtNEW = "Fluid Dynamics";
 HelpViewer.hvn_lookup_mapNEW["HV_SA_FD"].md_txt_html = String.raw`
@@ -455,7 +539,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_SA_FD"].md_txt_html = String.raw`
 
 <p><strong>SSNS</strong> was <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CODE_DESIGN'); ">designed</a> to run in your <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Web_browser">web browser</a>, and it would not be wise to bog things down with a high resolution 2D <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Karman_vortex_street">vortex street</a> simulation!  Instead, we consider a simple, 2D, low $$\mathrm{Re}$$ system where the fluid flow is incompressible, viscous, laminar, steady, unidirectional, and exactly solvable.  In the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_PF'); ">Rigid Planar Flow (<samp>PF</samp>)</a> system, we construct, analyze and simulate a purely <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Solid_mechanics">solid mechanical</a> analog that captures the behavior of the fluid system.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 
 
@@ -477,7 +564,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_ST_RW"].md_txt_html = String.raw`
 
 <p>Many theoretical extensions of random walks have been explored over the years.  Walks can be given <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_MARKOV_ONE_STEP'); ">memory</a> or told to <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Self-avoiding_walk">avoid themselves</a>.  Questions can be asked regarding <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Markov_chain#Properties">transience</a> or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/First-hitting-time_model">first passage</a>.  Random walks are especially central when viewed as the microscopic, particle-based foundation of macroscopic, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Continuum_mechanics">continuum</a>-based <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Diffusion">diffusion</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Transport_phenomena">transport phenomena</a>.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_ST_MN"].header_txtNEW = "Moran Model";
 HelpViewer.hvn_lookup_mapNEW["HV_ST_MN"].md_txt_html = String.raw`
@@ -489,7 +579,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_ST_MN"].md_txt_html = String.raw`
 The variable $$ x $$ represents the number of individuals that possess version $$ A $$.</p>
 
 <p>We also allow for a difference in fitness between $$ A $$ and $$ A^{\ast} $$, as quantified by a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Selection_coefficient">selection coefficient</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_s'); ">$$ s $$</a>.  More detail, including how these ideas relate to my past research, can be found <a target="_blank" class="hv_ext_link" href="https://tedm.us/evolution">here</a>.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_ST_IG"].header_txtNEW = "Ideal Gas";
 HelpViewer.hvn_lookup_mapNEW["HV_ST_IG"].md_txt_html = String.raw`
@@ -502,7 +595,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_ST_IG"].md_txt_html = String.raw`
 
 <p>What makes a gas ideal?  <strong>(1)</strong> The particles <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Point_particle"> take up no space</a> (even if their representation on the screen does), and <strong>(2)</strong> the particles do not "see" (or collide with) each other, i.e. there's no <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Interatomic_potential">inter-particle potential</a>.  This simplifies both analysis and simulation: constant <a target="_blank" class="hv_ext_link" href="https://en.wikipedia.org/wiki/Velocity">velocity</a> motion with occasional bounces off the walls.  The downside is that some real gas behavior, e.g., <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Condensation">condensation</a> into a liquid, is not captured.  (See <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Van_der_Waals_equation">van der Waals equation</a> for more.)</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_ST_HS"].header_txtNEW = "Hard Sphere Gas";
 HelpViewer.hvn_lookup_mapNEW["HV_ST_HS"].md_txt_html = String.raw`
@@ -516,27 +612,39 @@ HelpViewer.hvn_lookup_mapNEW["HV_ST_HS"].md_txt_html = String.raw`
 
 <p>As discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>, the hard sphere <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Equations_of_motion">equations of motion</a> are <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Deterministic_system">deterministic</a>, and we take advantage of that fact with the following efficient update algorithm.  With the radii, initial positions, and initial velocities of all <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_N'); ">$$N$$</a> particles, we calculate how far into the future each pair would collide, if at all.  These <samp>CollisionEvent</samp> objects are loaded into a main <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Data_structure">data structure</a>, ordered soonest to latest.  While a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Brute-force_search">brute-force</a> approach would involve the $$O(N^2)$$ checking of each pair for an impending collision, our algorithm processes collisions one-by-one from the top of main data structure, with a reasonable amount of updating of main and auxiliary structures in between.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_ST_IS"].header_txtNEW = "Ising Model";
 HelpViewer.hvn_lookup_mapNEW["HV_ST_IS"].md_txt_html = String.raw`
 
 <p>In the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Ising_model">Ising model</a>, each <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Spin_(physics)">spin</a> can point either directly into the plane of the screen or directly out.  Our implementation has <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_N'); ">$$ N^2 $$</a> total spins arranged in an $$ N \times N $$ square array.  As is common, we use color to indicate direction so that each tile in our <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Heat_map">heat map</a> is either yellow (pointing in) or dark orange (pointing out).</p>
 <p>We have also implemented the Ising model's slightly more complicated cousin, the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_XY'); ">XY model</a>.  Further implementation details and a short description of spin system <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Time_evolution">dynamics</a> can be found <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">here</a>.  Both models display phase-transition-like behavior, which we comment on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PHASE_TRANSITIONS'); ">here</a>.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_ST_XY"].header_txtNEW = "XY Model";
 HelpViewer.hvn_lookup_mapNEW["HV_ST_XY"].md_txt_html = String.raw`
 
 <p>In the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Classical_XY_model">XY model</a>, each <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Spin_(physics)">spin</a> rotates freely like the needle of a compass sitting on the "$$ xy $$" plane of the screen.  Our implementation has <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_N'); ">$$ N^2 $$</a> total spins arranged in an $$ N \times N $$ square array.  Unlike <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IS'); ">Ising</a> spins, whose two possible directions give a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Heat_map">heat map</a> with two colors, XY model visualization involves a heat map with a cyclic continuum of colors (like a rainbow).</p>
 <p>Further implementation details and a short description of spin system <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Time_evolution">dynamics</a> can be found <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SPIN_SYSTEMS'); ">here</a>.  Both Ising and XY models will display phase-transition-like behavior, which we comment on <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PHASE_TRANSITIONS'); ">here</a>.  A <em>static</em>, pseudo-artistic visualization of XY model <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Topological_defect#Condensed_matter">vortices</a> can be found <a target="_blank" class="hv_ext_link" href="https://tedm.us/Parameter_Spaces">here</a>.  Finally, take a look at <a target="_blank" class="hv_ext_link" href="//kjslag.github.io/XY/">this</a> higher-performance, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Graphics_processing_unit">GPU-based</a> XY implementation.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_ST_LZ"].header_txtNEW = "Lorenz System";
 HelpViewer.hvn_lookup_mapNEW["HV_ST_LZ"].md_txt_html = String.raw`
 
 <p> LZZZZZZZZZZZZZZZz originally meant to model  <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_FD'); ">fluid ATMOSPHERIC flow</a>   <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_growth">population growth</a>, is now better known as a simple example of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a> behavior.  The variable $$ x $$ represents population size as a fraction of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Carrying_capacity">carrying capacity</a> (the largest possible size given environmental conditions).   equations:</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_ST_LM"].header_txtNEW = "Logistic Map";
 HelpViewer.hvn_lookup_mapNEW["HV_ST_LM"].md_txt_html = String.raw`
@@ -551,7 +659,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_ST_LM"].md_txt_html = String.raw`
 
 <p><img style="max-width: 100%; " src="/static/images/SSNS/plot_screenshots/LM_PP_bifurcation_diagram.png"></p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_ST_GM"].header_txtNEW = "Gingerbread-man Map";
 HelpViewer.hvn_lookup_mapNEW["HV_ST_GM"].md_txt_html = String.raw`
@@ -571,7 +682,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_ST_GM"].md_txt_html = String.raw`
 
 <p>There is much to discover in this simple map.  The original paper by R. L. Devaney is <a target="_blank" class="hv_ext_link" href="https://doi.org/10.1016/0167-2789(84)90187-8">here</a> for those who are interested.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_ST_SH"].header_txtNEW = "Sod Shock Tube";
 HelpViewer.hvn_lookup_mapNEW["HV_ST_SH"].md_txt_html = String.raw`
@@ -583,7 +697,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_ST_SH"].md_txt_html = String.raw`
 
 <p>We have not yet mentioned <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_N'); ">$$N$$</a>, an input parameter related not to the fluid flow directly, but to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations">numerical solution</a> of the fluid equations.  We take <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_N'); ">$$N$$</a> points evenly spaced along the tube and, for each, calculate and update a vector $$(\rho, \rho u, \rho e)$$ each time step.  (The first, second, and third components of the update equations enforce conservation of mass, momentum, and energy, respectively).  Our implementation sticks with simple choices for the numerical details: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_of_accuracy">first-order</a>, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Upwind_scheme">upwind</a> scheme with Zha-Bilgen <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Flux">flux</a> splitting.  The shock tube also happens to have an exact analytical solution, which allows easy comparison with our approximate, numerical results.  After a quick bit of numerical root finding to solve an <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Implicit_function">implicit equation</a>, we obtain the values of the gas variables in each region, and plot those that are constant as thin black horizontal/vertical lines.</p>
   
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_ST_PF"].header_txtNEW = "Rigid Planar Flow";
 HelpViewer.hvn_lookup_mapNEW["HV_ST_PF"].md_txt_html = String.raw`
@@ -601,7 +718,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_ST_PF"].md_txt_html = String.raw`
 
 <p>The technical details can be found <a target="_blank" class="hv_link" href="/d/teaching/PF_notes.pdf">here</a>.  Of the two <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_PLOT_TYPES'); ">plot types</a> available, <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fab fa-fw fa-lg fa-buromobelexperte"></i></button> gives a simple, qualitative animation of the motion, while <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-chart-simple"></i></button> tracks the slab velocities precisely: the $$v_i(t)$$ are shown as blue bars, the $$ v_{s,i} $$ are orange circles, and the velocity profile from the true fluid problem is the orange curve.  Increasing <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_PF_N'); ">$$N$$</a> will bring the orange circles and curve together &mdash; this is the $$ N \to \infty $$ limit discussed in the notes linked above.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 
 
@@ -618,70 +738,103 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_SP_RW_l"].md_txt_html = String.raw`
 
 <p>the ell
 <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_l'); ">$$ \; \ell $$</a>, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_r'); ">$$ r $$</a> and $$ s = 1 - \ell - r$$ represent the probabilities of stepping left, stepping right, and staying put, respectively.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_RW_r"].header_txtNEW = "r";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_RW_r"].md_txt_html = String.raw`
 
 <p>the ahhhr
 <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_l'); ">$$ \; \ell $$</a>, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_r'); ">$$ r $$</a> and $$ s = 1 - \ell - r$$ represent the probabilities of stepping left, stepping right, and staying put, respectively.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_RW_N"].header_txtNEW = "N";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_RW_N"].md_txt_html = String.raw`
 
 <p>whole number "length" $$N$$ of the finite random walk interval (the <em>number</em> of sites is $$N + 1$$)</p>
 <p>$$2 \le N \le 10000$$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_RW_x_0"].header_txtNEW = "x_0";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_RW_x_0"].md_txt_html = String.raw`
 
 <p>initial position (or site #) of the random walk</p>
 <p>a whole number $$ \; 0 \le x_0 \le $$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_N'); ">$$ N $$</a></p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_MN_mu"].header_txtNEW = "\mu";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_MN_mu"].md_txt_html = String.raw`
 
 <p>the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mutation_rate">mutation rate</a> as a probability: $$ \; 0 \le \mu \le 1 $$  ADD NOTE ABOUT CASES OF ABSORPTION AT 0 OR 1???</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_MN_s"].header_txtNEW = "s";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_MN_s"].md_txt_html = String.raw`
 
 <p>the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Selection_coefficient">selection coefficient</a>, which takes values $$ \; ? \le s \le ? $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_MN_N"].header_txtNEW = "N";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_MN_N"].md_txt_html = String.raw`
 
 <p>number of individuals in the population; a whole number $$ \; 2, 3, \ldots $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_MN_x_0"].header_txtNEW = "x_0";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SP_MN_x_0"].md_txt_html = String.raw`
 
 <p>initial value of the number of individuals <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_MN'); ">$$ x $$</a>; a whole number $$ \; 0 \le x_0 \le $$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_N'); ">$$ N $$</a></p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IG_N"].header_txtNEW = "N";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IG_N"].md_txt_html = String.raw`
 
 <p>the number of gas particles $$ 1 \le N \le 10000 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IG_V"].header_txtNEW = "V";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IG_V"].md_txt_html = String.raw`
 
 <p>volume $$V$$ of the ideal gas sample; $$ 0.1 \le V \le 1 $$; units are discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>; $$V$$ for the ideal gas is fixed for the entire trajectory (unlike the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">hard sphere gas</a>, where it is indirectly controlled on-the-fly via a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_v_pist'); ">piston</a>)</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IG_kT0"].header_txtNEW = "k_B T_0";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IG_kT0"].md_txt_html = String.raw`
 
 <p><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_temperature">absolute temperature</a> $$T_0$$ multiplied by the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a> $$k_B$$ so that it has units of energy ($$\mathrm{J}$$); the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Expected_value">expected</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_kT0'); ">total energy</a> of the gas is $$N k_B T_0$$ (details <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>); while the technically allowed temperature range is $$ {0 \le k_B T_0 \le 10^9} $$, a more reasonable working range is $$ {10^{-3} \le k_B T_0 \le 10^3} $$; the hard-coded (but editable) value of the continuous time increment $$\text{d}s = 0.001$$ was picked so that particles at $$k_B T_0 = 10^{-3}$$ are just barely moving, while the movements of particles at $$k_B T_0 = 10^3$$ are fast but just barely trackable frame-to-frame; more <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/tree/main/README.md#general-timeenergyvisualizationcomputation-considerations">here</a></p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IG_BC"].header_txtNEW = "\mathrm{BC}";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IG_BC"].md_txt_html = String.raw`
@@ -699,13 +852,19 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IG_BC"].md_txt_html = String.raw`
 
 <p>As mentioned <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>, we "measure" gas <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Pressure">pressure</a> by tracking particle-wall collisions.  Thus, for <span class="lrg_bg_areas">$$\mathrm{periodic \; in} \; \hat{x} \; | \; \mathrm{periodic \; in} \; \hat{y}$$</span>, the ideal gas will display $$p = 0$$!  For simplicity, the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">hard sphere gas</a> only implements reflecting boundary conditions.  It does, however, offer an <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_IC'); ">initial condition</a> called "confinement" for which $$p = 0$$ for most of the trajectory.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_N"].header_txtNEW = "N";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_N"].md_txt_html = String.raw`
 
 <p>the number of gas particles $$ 1 \le N \le 1000 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_IC"].header_txtNEW = "\mathrm{IC}";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_IC"].md_txt_html = String.raw`
@@ -721,7 +880,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_IC"].md_txt_html = String.raw`
 
 <p>Any aspect of the $$\mathrm{IC}$$ that is random may be varied by changing the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RNG_RECR_TRAJ'); ">seed</a> value.  And, of course, any quantitative description (of, say, the length of time required for the last $$\mathrm{IC}$$'s inner gas to break its confinement) would need to be made in terms of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">ensembles</a>.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_rho"].header_txtNEW = "\rho";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_rho"].md_txt_html = String.raw`
@@ -736,7 +898,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_rho"].md_txt_html = String.raw`
 <p>The values used for the distribution setting typically span many <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_of_magnitude">orders of magnitude</a>, as if some particles were made of foam, and others, of rock.  Each density value is assigned a shade of grey that is then used when drawing the gas, with lighter shades indicating lower densities.</p>
 
 <p>Since the radius $$R$$ of the particles can also be chosen from a distribution (via <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_R'); ">this</a> meta-parameter), our hard sphere gas masses can <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Probability_distribution">vary</a> widely.  A small, light grey particle might be a ping pong ball, while a large, dark grey particle might be a bowling ball.  $$R$$ and $$\rho$$ values are sampled <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Independence_(probability_theory)">independently</a>, so we will also have large, light grey particles (which might be beach balls).  Since we are operating in 2D, we calculate particle mass as $$m = A \rho = \pi R^2 \rho$$.</p>  
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_R"].header_txtNEW = "R";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_R"].md_txt_html = String.raw`
@@ -751,13 +916,19 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_R"].md_txt_html = String.raw`
 <p>Collisions in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IG'); ">ideal gas</a> only occur between a particle and a wall, and &mdash; for stationary and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Rectilinear_polygon">rectilinear</a> walls &mdash; only involve flipping one velocity <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Euclidean_vector#Decomposition">component</a>.  The hard sphere gas is more complicated, since there are many moving things that can potentially collide.  Our overall update algorithm is discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">here</a>; the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Elastic_collision#Two-dimensional">2D collisions</a> involve two circular particles in contact at a single point, separating into tangential and normal components, etc.</p>
 
 <p>A similar meta-parameter for <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_rho'); ">density</a>, means our hard sphere gas can have many possible <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Probability_distribution">distributions</a> of particle mass, and, therefore, energies and speeds.</p>  
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_kT0"].header_txtNEW = "k_B T_0";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_kT0"].md_txt_html = String.raw`
 
 <p>initial value of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_temperature">absolute temperature</a> $$T_0$$ multiplied by the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a> $$k_B$$ so that it has units of energy ($$\mathrm{J}$$); for all <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_IC'); ">initial conditions</a>, the total energy of the hard sphere gas will be $$\cong N k_B T_0$$ (details <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>); while the technically allowed temperature range is $$ {0 \le k_B T_0 \le 10^9} $$, a more reasonable working range is $$ {10^{-3} \le k_B T_0 \le 10^3} $$; the hard-coded (but editable) value of the continuous time increment $$\text{d}s = 0.001$$ was picked so that particles at $$k_B T_0 = 10^{-3}$$ are just barely moving, while the movements of particles at $$k_B T_0 = 10^3$$ are fast but just barely trackable frame-to-frame (more <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/tree/main/README.md#general-timeenergyvisualizationcomputation-considerations">here</a>); of course, anticipated <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_v_pist'); ">piston movement</a> should also be taken into account</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_v_pist"].header_txtNEW = "v_{\mathrm{pist.}}";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_v_pist"].md_txt_html = String.raw`
@@ -766,43 +937,64 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_SM_HS_v_pist"].md_txt_html = String.raw`
 
 <p>While volume $$V$$ in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IG'); ">ideal gas</a> implementation is specified directly, volume in the hard sphere gas is controlled indirectly via $$v_{\mathrm{pist.}}$$.  The two gas models are discussed and compared <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>.</p>
   
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IS_T"].header_txtNEW = "T";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IS_T"].md_txt_html = String.raw`
 
 <p>the temperature in <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Kelvin">absolute units</a>, so that $$ \; T \ge 0 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IS_h"].header_txtNEW = "h";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IS_h"].md_txt_html = String.raw`
 
 <p>the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Magnetic_field">external field</a>; $$ \; - \infty < h < + \infty $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IS_N"].header_txtNEW = "N";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_IS_N"].md_txt_html = String.raw`
 
 <p>the number of spins along any side of the square <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Lattice_model_(physics)">lattice</a>, so that the total number is $$ N^2 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_XY_T"].header_txtNEW = "T";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_XY_T"].md_txt_html = String.raw`
 
 <p>the temperature in <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Kelvin">absolute units</a>, so that $$ \; T \ge 0 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_XY_h"].header_txtNEW = "h";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_XY_h"].md_txt_html = String.raw`
 
 <p>the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Magnetic_field">external field</a>; $$ \; - \infty < h < + \infty $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_XY_N"].header_txtNEW = "N";
 HelpViewer.hvn_lookup_mapNEW["HV_P_SM_XY_N"].md_txt_html = String.raw`
 
 <p>the number of spins along any side of the square <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Lattice_model_(physics)">lattice</a>, so that the total number is $$ N^2 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_LM_IC"].header_txtNEW = "\mathrm{IC}";
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_LM_IC"].md_txt_html = String.raw`
@@ -820,7 +1012,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_ND_LM_IC"].md_txt_html = String.raw`
 <li> <span class="lrg_bg_areas">$$(0.999, 0.5)$$</span>: the trajectory steadily approaches the stable <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Fixed_point_(mathematics)">fixed point</a> at $$x = 0$$; be aware that &mdash; without a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Logarithmic_scale">logarithmic scale</a> &mdash; small but finite $$x$$ values will be indistinguishable from zero, and that, eventually, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Arithmetic_underflow">underflow</a> will cause $$x$$ to <em>actually reach zero</em></li>
 <!-- 3.44 0.999999999132462 -->
 </ul>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_LM_r"].header_txtNEW = "r";
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_LM_r"].md_txt_html = String.raw`
@@ -830,7 +1025,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_ND_LM_r"].md_txt_html = String.raw`
 <ul><li>$$r = 0$$ and any $$x_0$$</li>
 <li>$$x_0 = 0$$ and any $$r$$</li>
 <li>$$r = 4$$ and $$x_0 = 1/2$$</li></ul>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_LM_x_0"].header_txtNEW = "x_0";
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_LM_x_0"].md_txt_html = String.raw`
@@ -841,7 +1039,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_ND_LM_x_0"].md_txt_html = String.raw`
 <li>$$x_0 = 0$$ and any $$r$$</li>
 <li>$$r = 4$$ and $$x_0 = 1/2$$</li>
 <li>if $$ 0 < r < 1 $$ for so many time steps that the value of $$x$$ experiences <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Arithmetic_underflow">underflow</a></li></ul>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_GM_IC"].header_txtNEW = "\mathrm{IC}";
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_GM_IC"].md_txt_html = String.raw`
@@ -853,61 +1054,91 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_ND_GM_IC"].md_txt_html = String.raw`
 <li> <span class="lrg_bg_areas">$$(0.8, 0.4)$$</span>: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Periodic_sequence">period</a>-6 cycle within the gingerbread-man's "heart"</li>
 <li> <span class="lrg_bg_areas">$$(5, -0.8)$$</span>: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Periodic_sequence">period</a>-114 cycle within the gingerbread-man's "coat"</li>
 <li> <span class="lrg_bg_areas">$$(5.73, -2)$$</span>: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a> trajectory that draws the gingerbread-man's "coat"</li></ul>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_GM_x_0"].header_txtNEW = "x_0";
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_GM_x_0"].md_txt_html = String.raw`
 
 <p>initial value of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">$$ x $$</a>; $$ \; -2.5 \le x_0 \le 5 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_GM_y_0"].header_txtNEW = "y_0";
 HelpViewer.hvn_lookup_mapNEW["HV_P_ND_GM_y_0"].md_txt_html = String.raw`
 
 <p>initial value of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">$$ y $$</a>; $$ \; -2.5 \le y_0 \le 5 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_SH_N"].header_txtNEW = "N";
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_SH_N"].md_txt_html = String.raw`
 
 <p>number of grid points used in the numerical solution of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_SH'); ">shock tube</a> fluid equations; higher $$N$$ requires more computational expense &mdash; you will see the calculation "run" slower; on the flip side, the features of the compressible flow, e.g., <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Shock_wave">shock waves</a>, will be better resolved and look "crisper"; we require $$N$$ to be an even number $$\ge 4$$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_SH_rho"].header_txtNEW = "\rho";
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_SH_rho"].md_txt_html = String.raw`
 
 <p>initial mass densities of the gas on the right $$\rho_R$$ and left $$\rho_L$$ sides of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_SH'); ">shock tube</a>; in general, $$ \rho > 0 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_SH_p"].header_txtNEW = "p";
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_SH_p"].md_txt_html = String.raw`
 
 <p>initial pressures of the gas on the right $$p_R$$ and left $$p_L$$ sides of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_SH'); ">shock tube</a>; in general, $$ p > 0 $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_Dpol"].header_txtNEW = "\Delta p / \ell";
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_Dpol"].md_txt_html = String.raw`
 
 <p>an external pressure difference per unit length $$\Delta p / \ell$$ is applied across the system's upstream and downstream faces; allowed values are $$ -100 \le \Delta p / \ell \le 100 $$ and negative values correspond to force on the slabs in the $$+\hat{x}$$ direction; it has units of $$\mathrm{Pa/m}$$ and is akin to the pressure gradient $$\text{d}p/\text{d}x$$ in the true fluid system; more on this can be found <a target="_blank" class="hv_link" href="/d/teaching/PF_notes.pdf">here</a></p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_Ut"].header_txtNEW = "U_{\mathrm{top}}";
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_Ut"].md_txt_html = String.raw`
 
 <p>velocity in $$\mathrm{m/s}$$ of the top boundary: $$ { -100 \le U_{\mathrm{top}} \le 100 } $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_Ub"].header_txtNEW = "U_{\mathrm{bot.}}";
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_Ub"].md_txt_html = String.raw`
 
 <p>velocity in $$\mathrm{m/s}$$ of the bottom boundary: $$ { -100 \le U_{\mathrm{bot.}} \le 100 } $$</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_mu"].header_txtNEW = "\mu";
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_mu"].md_txt_html = String.raw`
 
 <p>the parameter $$ 0.01 \le \mu \le 1 $$ quantifies how effectively momentum is transferred from one slab to its neighbors; it is specific to the <samp>PF</samp> mini-app and akin to a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Friction#Coefficient_of_friction">frictional coefficient</a> or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Drag_coefficient">drag coefficient</a>; it is meant to emulate (and has units of) the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity#Dynamic_viscosity">dynamic viscosity</a> in a true fluid; more on this can be found <a target="_blank" class="hv_link" href="/d/teaching/PF_notes.pdf">here</a></p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_Ds"].header_txtNEW = "\Delta s";
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_Ds"].md_txt_html = String.raw`
@@ -921,13 +1152,19 @@ HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_Ds"].md_txt_html = String.raw`
 
 <p>Velocity values will typically grow very rapidly and eventually <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Floating-point_arithmetic">overflow</a>.  Not to worry, exploration can continue after a quick <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RELOAD_CMDS'); ">reset</a>!</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_N"].header_txtNEW = "N";
 HelpViewer.hvn_lookup_mapNEW["HV_P_FD_PF_N"].md_txt_html = String.raw`
 
 <p>number of slabs $$ 1 \le N \le 100 $$; this number does not include the top and bottom boundaries</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 
 
@@ -953,7 +1190,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_CTRL_DROPDOWN"].md_txt_html = String.raw`
 <li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_SP_ENSEMBLE'); ">ensemble settings</a> (only visible/applicable for <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">SP</a> system types)</li>
 <li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RELOAD_CMDS'); ">reload commands</a> button bar</li></ul>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_C_CONTINUOUS_CMDS"].header_txtNEW = "Continuous Action Commands";
 HelpViewer.hvn_lookup_mapNEW["HV_C_CONTINUOUS_CMDS"].md_txt_html = String.raw`
@@ -978,7 +1218,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_C_CONTINUOUS_CMDS"].md_txt_html = String.raw`
 </table>
 
 <p>These <em>continuous</em> commands should not be confused with their <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_ONE_STEP_CMDS'); ">one step counterparts</a>.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_C_ONE_STEP_CMDS"].header_txtNEW = "One Step Commands";
 HelpViewer.hvn_lookup_mapNEW["HV_C_ONE_STEP_CMDS"].md_txt_html = String.raw`
@@ -1002,7 +1245,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_C_ONE_STEP_CMDS"].md_txt_html = String.raw`
 </tbody>
 </table>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 
 HelpViewer.hvn_lookup_mapNEW["HV_C_PLOT_TYPES"].header_txtNEW = "Plot Type Bar";
@@ -1025,7 +1271,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_C_PLOT_TYPES"].md_txt_html = String.raw`
 </table>
 
 <p>The currently selected plot type is shown darkened (<button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0" style="margin-left: 1px; "><i class="fas fa-fw fa-lg fa-arrows-spin"></i></button> above), while those not supported by the current system type are disabled (<button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0" style="margin-left: 1px; "><i class="fas fa-fw fa-lg fa-chart-simple"></i></button> and <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fab fa-fw fa-lg fa-buromobelexperte"></i></button> above).  Switching among available plot types can be done <em>even during recording/playback</em>.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_C_T_DT_JUMP"].header_txtNEW = "Trajectory Jumps";
 HelpViewer.hvn_lookup_mapNEW["HV_C_T_DT_JUMP"].md_txt_html = String.raw`
@@ -1037,7 +1286,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_C_T_DT_JUMP"].md_txt_html = String.raw`
 
 <p>These controls are unique in that they have two steps: value entry, then application with <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-turn-down" data-fa-transform="rotate--90"></i></button>.  (The <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">blue background color</a> refers to the latter.)  This separation can be convenient if looking for <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Periodic_sequence">periodicity</a> in a trajectory: set $$ \Delta t $$ to the period and make repeated jumps.  If $$t$$ changes, but the plot does not, then the periodicity is exact!  Try this with <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); "><samp>GM</samp></a>.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_C_DELAY_WINDOW"].header_txtNEW = "Delay/Window";
 HelpViewer.hvn_lookup_mapNEW["HV_C_DELAY_WINDOW"].md_txt_html = String.raw`
@@ -1051,7 +1303,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_C_DELAY_WINDOW"].md_txt_html = String.raw`
 
 </p><span class="ctrl_eff_immed p-1">$$ \mathrm{window} $$</span> sets the maximum width of trajectory viewable at one time.  It is only visible/applicable for the <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-arrow-trend-up"></i></button> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_PLOT_TYPES'); ">plot type</a>.  At the start of recording, the width grows along with the trajectory.  When it reaches its max value, it "slides" to keep the current $$t$$ centered.  <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PLOT_AREA'); ">This screenshot</a> shows a window size of $$30$$.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_C_T_0_MAX_STOP"].header_txtNEW = "Trajectory Start/Stop";
 HelpViewer.hvn_lookup_mapNEW["HV_C_T_0_MAX_STOP"].md_txt_html = String.raw`
@@ -1061,7 +1316,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_C_T_0_MAX_STOP"].md_txt_html = String.raw`
 <p>Trajectory recording starts at $$ t_0 $$ and <em>cannot exceed</em> $$ t_{\mathrm{max}} $$.  Both $$ t_0 $$ and $$ t_{\mathrm{max}} $$ can have any <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Sign_(mathematics)">sign</a>, as long as $$ t_0 < t_{\mathrm{max}} $$.  $$ \; t_0 $$ defaults to $$ 0 $$ and its value <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_T_MAX_REACHED'); ">affects</a> $$ t_{\mathrm{max}} $$'s possible values.  $$ \; t_{\mathrm{max}} $$ should not to be confused with <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PLOT_AREA'); ">$$ t_{\mathrm{edge}} $$</a>.</p>
 
 <p>If $$ t_{\mathrm{stop}} $$ is enabled with its checkbox, the app will exit <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">continuous play/recording mode</a> when $$ t = t_{\mathrm{stop}} $$.  When coordinated with <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">parameter values</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_RNG_RECR_TRAJ'); ">random seed</a>, this feature can be used to, say, revisit a particular feature in a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">stochastic trajectory</a>.</p>
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_C_RNG_RECR_TRAJ"].header_txtNEW = "RNG/Trajectory";
 HelpViewer.hvn_lookup_mapNEW["HV_C_RNG_RECR_TRAJ"].md_txt_html = String.raw`
@@ -1076,7 +1334,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_C_RNG_RECR_TRAJ"].md_txt_html = String.raw`
 
 <p>What's happening?  The <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Pseudorandom_number_generator">generator's</a> <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/State_(computer_science)">state</a> at $$t = 10$$ in the middle does not match its state at $$t = 10$$ in the top &mdash; it changed in producing the top's $$ t = 11 \ldots 22 $$.  If nothing is done to correct this, the bottom trace will differ.  In <strong>SSNS</strong>, generator state is saved at each time step, to give the option of restoring it before re-recording.</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_C_SP_ENSEMBLE"].header_txtNEW = "Ensemble Members";
 HelpViewer.hvn_lookup_mapNEW["HV_C_SP_ENSEMBLE"].md_txt_html = String.raw`
@@ -1089,7 +1350,10 @@ HelpViewer.hvn_lookup_mapNEW["HV_C_SP_ENSEMBLE"].md_txt_html = String.raw`
 
 <p>The value of $$N_i$$ is capped since storing individual trajectories is generally more <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Computer_memory">memory-intensive</a>.  The $$N_g$$ machinery saves space by storing only the <em>number</em> of ensemble members at each coordinate $$x$$.  (The $$g$$roup members lose their <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Indistinguishable_particles">identities</a>!)</p>
 
-</div><!-- CLOSES div class="hv_view" -->
+
+`;
+
+
 
 HelpViewer.hvn_lookup_mapNEW["HV_C_RELOAD_CMDS"].header_txtNEW = "Reload Commands";
 HelpViewer.hvn_lookup_mapNEW["HV_C_RELOAD_CMDS"].md_txt_html = String.raw`
@@ -1112,6 +1376,6 @@ HelpViewer.hvn_lookup_mapNEW["HV_C_RELOAD_CMDS"].md_txt_html = String.raw`
 </tbody>
 </table>
 
-</div><!-- CLOSES div class="hv_view" -->
 
-*/
+`;
+

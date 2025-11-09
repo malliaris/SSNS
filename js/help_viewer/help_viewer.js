@@ -14,12 +14,12 @@ class HelpViewerNode {
 	this.md_txt_html = ``;  // "declaration"; will be filled as data in node_data.js is processed
 	this.is_param_node = (this.id_str.substr(0, 5) == "HV_P_");  // id_str for a node/view corresponding to a system parameter begins "HV_P_..."
 	this.is_ST_node = (this.id_str.substr(0, 6) == "HV_ST_");  // id_str for a node/view corresponding to a system type begins "HV_ST_..."
-	let header_txt = $("#" + this.id_str).attr('data-hvmh');  // grab stored text in custom data-hvmh attribute; hvmh = helper view modal header
+	//let header_txt = $("#" + this.id_str).attr('data-hvmh');  // grab stored text in custom data-hvmh attribute; hvmh = helper view modal header
 	if (this.is_param_node) {  // nodes that represent system parameters are represented as LaTeX'd variables
-	    this.header_html = katex.renderToString(header_txt, {throwOnError: false});
+	    this.header_html = katex.renderToString(this.header_txtNEW, {throwOnError: false});
 	    /////////////console.log("NsNsNsNsNs", this.header_html);////////////
 	} else {  // plain text for all others
-	    this.header_html = header_txt;
+	    this.header_html = this.header_txtNEW;
 	}
 	this.header_html_as_link = this.get_link_str(this.header_html);
 	this.header_html_as_curr_page = '<span class="hv_curr_page">' + this.header_html + '</span>';
@@ -158,7 +158,7 @@ class HelpViewer {
 
 	//CU.sk("md_txtNEW", hvn.md_txt_html);
 	//$("#md_txtNEW").html(katex.renderToString(hvn.md_txt_html, {throwOnError: false}));
-	$("#" + v).show();
+	//$("#" + v).show();
 	if ( ! this.deployed) $("#md_container").modal("show");
 
 	// if we're about to gain our one step of "history," enable back button (a one-time transition)
