@@ -84,7 +84,7 @@ class Params_IG extends Params {
     static UICI_BC;  // = new UICI_IG(this, "UI_P_SM_IG_BC", ...);  assignment occurs in UserInterface(); see discussion there
 
     static visualization_R = 0.003;  // IG consists of point particles -- this is only for drawing in PlotTypeCV_IG
-    static m = 10.0;  // EVENTUALLY MAKE AN INPUT PARAMETER?
+    static m = 10.0;  // IG tends to run a bit faster than HS... 10 instead of 1 "slows things down" a bit...; see Github technical notes
     static ds = 0.01;  // see Github technical notes
     static Lx;  // assignment occurs in Trajectory_IG constructor
     static Ly;  // assignment occurs in Trajectory_IG constructor
