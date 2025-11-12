@@ -94,6 +94,7 @@ Many of the code's JavaScript variable names use two-letter abbreviations to ind
 <tr><th colspan="2">general</th></tr>
 <tr><td>Simple Stochastic and Nonlinear Simulator</td><td><samp>SSNS</samp></td></tr>
 <tr><td>User Interface Numerical Input</td><td><samp>UINI</samp></td></tr>
+<tr><td>User Interface Cyclic Input</td><td><samp>UICI</samp></td></tr>
 <tr><td>System Type</td><td><samp>ST</samp></td></tr>
 <tr><td>Plot Type</td><td><samp>PT</samp></td></tr>
 <tr><td>User Interface</td><td><samp>UI</samp></td></tr>
@@ -106,19 +107,21 @@ Many of the code's JavaScript variable names use two-letter abbreviations to ind
 <tr><th colspan="2">system types</th></tr>
 <tr><td>Random Walk</td><td><samp>RW</samp></td></tr>
 <tr><td>Moran Model</td><td><samp>MN</samp></td></tr>
-<tr><td>M/M/1 Queue</td><td><samp>QU</samp></td></tr>
 <tr><td>Chemical System</td><td><samp>CH</samp></td></tr>
+<tr><td>M/M/1 Queue</td><td><samp>QU</samp></td></tr>
 <tr><td>2D Ideal Gas</td><td><samp>IG</samp></td></tr>
+<tr><td>2D Hard Sphere Gas</td><td><samp>HS</samp></td></tr>
 <tr><td>2D Ising Model</td><td><samp>IS</samp></td></tr>
 <tr><td>XY Model</td><td><samp>XY</samp></td></tr>
 <tr><td>Logistic Map</td><td><samp>LM</samp></td></tr>
 <tr><td>Gingerbread-man Map</td><td><samp>GM</samp></td></tr>
-<tr><td>1D Euler Shock Tube</td><td><samp>EU</samp></td></tr>
+<tr><td>Lorenz System</td><td><samp>LZ</samp></td></tr>
+<tr><td>Sod Shock Tube</td><td><samp>SH</samp></td></tr>
 <tr><td>Rigid Planar Flow</td><td><samp>PF</samp></td></tr>
 <tr><th colspan="2">plot types</th></tr>
 <tr><td>trajectory x(t)</td><td><samp>XT</samp></td></tr>
 <tr><td>histogram H(x)</td><td><samp>HX</samp></td></tr>
-<tr><td>Heat Map</td><td><samp>HM</samp></td></tr>
+<tr><td>HTML Canvas</td><td><samp>CV</samp></td></tr>
 <tr><td>Phase Plane</td><td><samp>PP</samp></td></tr>
 </tbody>
 </table>
