@@ -266,6 +266,6 @@ Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard
 ## Help Viewer "Sitemap"
 ```
 HV_HOME
-	HV_USING
-		HV_PLOT_AREA
+    HV_USING
+        HV_PLOT_AREA
 ```
