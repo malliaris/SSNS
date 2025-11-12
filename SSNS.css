@@ -54,7 +54,6 @@
 }
 .emulated_help_btn {
     background-color: #999999;
-    pointer-events: none;
     padding: 0 4px 1px 4px;
     margin-bottom: 4px;
 }

@@ -503,7 +503,7 @@ HelpViewer.hvn_lookup_map["HV_ST_MN"].md_txt_html = String.raw`
 
 The variable $$ x $$ represents the number of individuals that possess version $$ A $$.</p>
 
-<p>We also allow for a difference in fitness between $$ A $$ and $$ A^{\ast} $$, as quantified by a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Selection_coefficient">selection coefficient</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_s'); ">$$ s $$</a>.  More detail, including how these ideas relate to my past research, can be found <a target="_blank" class="hv_ext_link" href="https://tedm.us/evolution">here</a>.</p>
+<p>We also allow for a difference in fitness between $$ A $$ and $$ A^{\ast} $$, as quantified by a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Selection_coefficient">selection coefficient</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_s'); ">$$ s $$</a>.  More on evolution generally can be found <a target="_blank" class="hv_ext_link" href="https://tedm.us/evolution">here</a>.</p>
 
 `;
 
