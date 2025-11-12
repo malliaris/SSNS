@@ -265,7 +265,7 @@ Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard
 
 ## Help Viewer "Sitemap"
 
-This is basically the information contained in [<samp>js/help_viewer/network_structure.js</samp>](js/help_viewer/network_structure.js) with all charcters except node names and indentation removed, so that the hierarchical strucuture is clear.  (This is done by hand, so content may be a bit out of date!)
+This is basically the information contained in [<samp>js/help_viewer/network_structure.js</samp>](js/help_viewer/network_structure.js) with all charcters except node names and indentation removed, so that the hierarchical structure is clear.  (This is done by hand, so content may be a bit out of date!)
 
 ```
 HV_HOME
