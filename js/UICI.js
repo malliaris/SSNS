@@ -1,5 +1,5 @@
 
-// UICI: User Interface Cycle Input
+// UICI: User Interface Cyclic Input
 // helper class that connects a button in the UI with an internal parameter (in Params classes, etc.);
 // each press of the button cycles the parameter to the next of a fixed sequence of values;
 // e.g., a 2 value cycle UICI would just be a toggle button
