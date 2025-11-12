@@ -1,6 +1,29 @@
 //
-// FILL IN
+// Help Viewer (HV) System
 //
+// files: help_viewer.js, network_structure.js, node_data.js
+//
+// * help_viewer.js contains HelpViewerNode and HelpViewer classes and all non-trivial code
+// * network_structure.js contains individual nodes (HelpViewerNode constructors with corresponding id_str names) and HV network hierarchical structure
+// * node_data.js contains HelpViewerNode data (header_txt and md_txt_html)
+//
+// this file: node_data.js
+//
+// * this file is basically a large chunk of html removed from SSNS.html since it is logically separate from the bulk of the UI html
+// * each HV node gets two assignments: one for header_txt and the other for md_txt_html
+// * HelpViewer.hvn_lookup_map["NODE_NAME"].header_txt is the "title" of the HV node found at the far right of the breadcrumbs
+// * HelpViewer.hvn_lookup_map["NODE_NAME"].md_txt_html is the main html content of the HV node that appears in the body of the modal window
+// * note that HelpViewer.hvn_lookup_map["NODE_NAME"].md_txt_html uses javascript String.raw``
+// * the individual node entries are grouped by category and are listed in the same order as in network_structure.js; the categories are:
+// -----  HelpViewer HIGH LEVEL PAGES  -------------------------------------------------------------
+// -----  HelpViewer SA = SYSTEM AREA PAGES  -------------------------------------------------------
+// -----  HelpViewer ST = SYSTEM TYPE PAGES  -------------------------------------------------------
+// -----  HelpViewer P = PARAMETER PAGES  ----------------------------------------------------------
+// -----  HelpViewer C = CONTROLS PAGES  -----------------------------------------------------------
+//
+
+
+
 
 
 

@@ -1,3 +1,19 @@
+//
+// Help Viewer (HV) System
+//
+// files: help_viewer.js, network_structure.js, node_data.js
+//
+// * help_viewer.js contains HelpViewerNode and HelpViewer classes and all non-trivial code
+// * network_structure.js contains individual nodes (HelpViewerNode constructors with corresponding id_str names) and HV network hierarchical structure
+// * node_data.js contains HelpViewerNode data (header_txt and md_txt_html)
+//
+// this file: help_viewer.js
+//
+// * a HelpViewerNode has an id_str name; this used to correspond to the id attribute of a div in SSNS.html, but now is just a unique identifier
+// * a HelpViewerNode has a child_arr array of children HelpViewerNode's; several routines rely on recursion
+// * static members HelpViewer.hvn_network and HelpViewer.hvn_lookup_map "declared" here but defined in network_structure.js; they must be static
+//   since the (single instance) HelpViewer object will not even exist when the assignments and populating in the other two files take place
+//
 
 // helper class that represents a single node in the hierarchy of help pages
 class HelpViewerNode {
@@ -86,12 +102,8 @@ class HelpViewerNode {
 //   note that this means two consecutive presses, and you're already "bouncing" between the same two pages!
 class HelpViewer {
 
-    // this is "declared" here, but defined in network_structure.js; each new help viewer entry requires
-    // (1) id_str and position in network specified in network_structure.js
-    // (2) hvmh and html contents specified in node_data.js
-    // anything else?
-    static hvn_network;
-    static hvn_lookup_map;
+    static hvn_network;  // see notes at top of this file
+    static hvn_lookup_map;  // see notes at top of this file
     
     constructor(sim, bsvs) {
 

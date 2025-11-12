@@ -1,10 +1,17 @@
 //
-// HelpViewerNode class and HelpViewer class (with static member HelpViewer.hvn_network) defined in help_viewer.js; individual nodes along with
-// network hierarchical structure and id_str's defined in this file
+// Help Viewer (HV) System
 //
-// HelpViewerNode data (header_txt and md_txt_html) is in node_data.js
+// files: help_viewer.js, network_structure.js, node_data.js
 //
-// NOTE 2 important lines at bottom of the file that create HelpViewer.hvn_lookup_map!
+// * help_viewer.js contains HelpViewerNode and HelpViewer classes and all non-trivial code
+// * network_structure.js contains individual nodes (HelpViewerNode constructors with corresponding id_str names) and HV network hierarchical structure
+// * node_data.js contains HelpViewerNode data (header_txt and md_txt_html)
+//
+// this file: network_structure.js
+//
+// * static members HelpViewer.hvn_network and HelpViewer.hvn_lookup_map "declared" in help_viewer.js but defined here
+// * HelpViewer.hvn_network defined here as the root node of the HV network
+// * HelpViewer.hvn_lookup_map defined and populated in 2 lines at bottom of the file
 //
 
 HelpViewer.hvn_network =
