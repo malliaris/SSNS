@@ -23,9 +23,7 @@ The central class of the **SSNS** app is the <samp>Trajectory</samp>.  An implem
 
 A <samp>Trajectory</samp> object contains everything needed to generate output &mdash; and store it for "playback" &mdash; via iterative update equations.  Each <samp>Trajectory</samp> is <a href="/docs/class_diagrams/Trajectory_composition_-_no_section_label.svg">composed</a> of a <samp>ModelCalc</samp> object (to perform all model-specific calculations), and one or more <samp>TrajSeg</samp> objects to hold the trajectory data.  A <samp>TrajSeg</samp> represents a portion ("segment") of a trajectory evolved with a particular set of parameter values.  It is thus <a href="/docs/class_diagrams/TrajSeg_composition_-_no_section_label.svg">composed</a> of one <samp>Params</samp> object and one or more <samp>Coords</samp> objects.  Each <samp>Coords</samp> holds all dependent variable data for a single time step &mdash; it could be a single scalar value, or a large 2D matrix of values, integer or floating point, etc.
 
-There are system-type-dependent class hierarchies for <a href="/docs/class_diagrams/Coords_inheritance.svg"><samp>Coords</samp></a> objects, <a href="/docs/class_diagrams/Params_inheritance.svg"><samp>Params</samp></a> objects, and <a href="/docs/class_diagrams/ModelCalc_inheritance.svg"><samp>ModelCalc</samp></a> objects.  At the cost of some flexibility, it was possible to keep the <samp>TrajSeg</samp> class system-type-independent, so it <em>does not</em> have a hierarchy.  On the data visualization side of things, there is an inheritance hierarchy for the <samp>PlotType</samp> class (but no diagram yet).  Referring to the section on [abbreviations](#abbreviations-labels-etc) can be helpful when viewing these hierarchies.
-
-All other classes are not part of the <samp>Trajectory</samp> "ecosystem" &mdash; they do not have large class hierarchies and are mainly used as single instances.  Of note is the <samp>Simulator</samp> class that encompasses all **SSNS** app logic.  It is instantiated between a pair of <samp>script</samp> tags at end of [<samp>SSNS.html</samp>](SSNS.html).  The **SSNS** JavaScript code is separated into several source files, all located in/below the [<samp>/js/</samp>](/js/).  The following table demonstrates the pattern of naming/inheritance/location for the <samp>Trajectory</samp>-related code, which forms the majority of all *SSNS* code.
+There are system-type-dependent class hierarchies for <a href="/docs/class_diagrams/Coords_inheritance.svg"><samp>Coords</samp></a> objects, <a href="/docs/class_diagrams/Params_inheritance.svg"><samp>Params</samp></a> objects, and <a href="/docs/class_diagrams/ModelCalc_inheritance.svg"><samp>ModelCalc</samp></a> objects.  The following table demonstrates the pattern of naming/inheritance/location for the <samp>Trajectory</samp>-related code:
 
 <table>
 <tbody>
@@ -37,6 +35,9 @@ All other classes are not part of the <samp>Trajectory</samp> "ecosystem" &mdash
 <tr><td>...</td><td>...</td><td>...</td></tr>
 </tbody>
 </table>
+
+At the cost of some flexibility, it was possible to keep the <samp>TrajSeg</samp> class system-type-independent, so it <em>does not</em> have a hierarchy.  On the data visualization side of things, there is an inheritance hierarchy for the <samp>PlotType</samp> class (but no diagram yet).  Referring to the section on [abbreviations](#abbreviations-labels-etc) can be helpful when viewing these hierarchies.  All other classes are not part of the <samp>Trajectory</samp> or plotting "ecosystems" &mdash; they do not have large class hierarchies and are mainly used as single instances.  Of note is the <samp>Simulator</samp> class that encompasses all **SSNS** app logic.  It is instantiated between a pair of <samp>script</samp> tags at end of [<samp>SSNS.html</samp>](SSNS.html).
+
 
 ## External Libraries, Dependencies
 
