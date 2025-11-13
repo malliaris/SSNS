@@ -322,6 +322,15 @@ class UserInterface {
 	}
     }
 
+    handle_t_max_checkbox_change() {
+	if (CU.gcb("UI_CTRL_use_t_max")) {
+	    $("#UI_CTRL_t_max").removeAttr("disabled");
+	} else {
+	    $("#UI_CTRL_t_max").attr("disabled", "true");
+	    this.t_max.sv(this.sim.trjs[this.sim.ST].t_max);
+	}
+    }
+    
     handle_RW_l_update(str_val) {  // enforce 0 <= l <= 1 and 0 <= l + r = 1 - s <= 1
 	if (Params_RW.l.yields_valid_value(str_val)) {
 	    let req_l = Params_RW.l.parse_from_str(str_val);

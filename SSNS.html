@@ -216,7 +216,7 @@
 
 <div class="row" id="UI_P_SM_HS">
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_N'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ N $$ </span></div><input id="UI_P_SM_HS_N" class="form-control" type="number" min="1" max="2000" step="1" value="10" onchange="Params_HS.UINI_N.try_update(this.value); "></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_N'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ N $$ </span></div><input id="UI_P_SM_HS_N" class="form-control" type="number" min="1" max="2000" step="1" value="100" onchange="Params_HS.UINI_N.try_update(this.value); "></div></div>
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_IC'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ \mathrm{IC} \atop \mathbf{r}, \mathbf{v} $$ </span></div><span class="form-control d-flex justify-content-between UICI_btn" onclick="Params_HS.UICI_IC.cycle(); "><span id="UI_P_SM_HS_IC_UICI_val"></span><span><img id="UI_P_SM_HS_IC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
 
@@ -384,7 +384,8 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1">
 <div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_C_T_0_MAX_STOP'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ t_{ \mathrm{max} } $$ </span></div>
-<input type="number" class="form-control" id="UI_CTRL_t_max" min="-Infinity" max="Infinity" step="1" value="10000" onchange="window.sim.ui.handle_t_max_update(this.value); "></div>
+<input type="number" class="form-control" id="UI_CTRL_t_max" min="-Infinity" max="Infinity" step="1" value="10000" onchange="window.sim.ui.handle_t_max_update(this.value); ">
+<div class="input-group-append"><div class="input-group-text lrg_bg_areas"><input type="checkbox" id="UI_CTRL_use_t_max" onchange="window.sim.ui.handle_t_max_checkbox_change(); "></div></div></div>
 </div>
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1">
@@ -485,11 +486,11 @@
 
 <div id="UI_ST_area_SM">
 <div id="UI_ST_SM_IG_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); " checked>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_IG" value="IG" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_SM_IG">2D ideal gas ($$ \texttt{IG} $$)</label>
 </div>
 <div id="UI_ST_SM_HS_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_HS" value="HS" onchange="window.sim.process_cmd('ST'); ">
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_SM_HS" value="HS" onchange="window.sim.process_cmd('ST'); " checked>
 <label class="form-check-label w-100" for="UI_ST_SM_HS">2D hard sphere gas ($$ \texttt{HS} $$)</label>
 </div>
 <div id="UI_ST_SM_IS_form_check" class="form-check pl-4 py-1">

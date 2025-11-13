@@ -23,12 +23,12 @@ class Simulator {
 	this.instantiate_all_Trajectories();
 	this.pm = new PlottingMachinery(this, this.ui.bsvs);
 
-	this.ST_area = undefined;  // "declaration" only; default is indicated in HTML and loaded in update_ST() call below
-	this.ST = undefined;  // "declaration" only; default is indicated in HTML and loaded in update_ST() call below
-	this.PT = undefined;  // "declaration" only; value is set in update_ST() call below
+	this.ST_area;  // "declaration" only; default is indicated in HTML and loaded in update_ST() call below
+	this.ST;  // "declaration" only; default is indicated in HTML and loaded in update_ST() call below
+	this.PT;  // "declaration" only; value is set in update_ST() call below
 	this.ui.update_ST_area_settings();
 	this.update_ST();  // contains initial call to this.update_plot_and_UI()
-	this.timeout_id = undefined;  // "declaration" only; used with setTimeout() and clearTimeout()
+	this.timeout_id;  // "declaration" only; used with setTimeout() and clearTimeout()
 
 
 	////////////////////////////  TESTING AREA -- EMPTY WHEN DONE TESTING!  ///////////////////////////////
@@ -165,12 +165,12 @@ class Simulator {
 	case "RT":  // RT == Reload This ST's Trajectory Object only
 	    this.instantiate_Trajectory_ST(this.ST);
 	    this.pm.instantiate_PlotTypes_ST(this.ST);
-	    this.update_plot_and_UI();
+	    this.update_ST();
 	    break;
 	case "RA":  // RA == Reload All ST's Trajectory Objects
 	    this.instantiate_all_Trajectories();
 	    this.pm.instantiate_all_PlotTypes();
-	    this.update_plot_and_UI();
+	    this.update_ST();
 	    break;
 	case "CK":
 
@@ -252,7 +252,7 @@ class Simulator {
 	}
     }
 
-    update_plot_and_UI() {
+    update_plot_and_UI() {  // leave this with as little in it as possible since it gets called every time step
 
 	let current_t = this.trjs[this.ST].t;
 	CU.sk("UI_INDCTR_t", "t = " + current_t);

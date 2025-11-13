@@ -77,6 +77,11 @@ class ModelCalc_HS extends ModelCalc_Gas {
 	return 0.0;  // dummy value
     }
 
+    get_max_num_t_steps() {
+	let raw_val = 1000000.0 / Params_HS.N;  // rough assumption that memory usage is linear in N
+	return parseInt(Math.floor(raw_val) + 1);  // + 1 makes negligible difference in memory usage, but leads to "rounder" numbers if we always deal with powers of 10
+    }
+
     static get_m_from_rho_and_R(rho, R) {
 	return Math.PI * R * R * rho;  // we're interpreting rho as mass/area and multiplying by area of circular cross-section of sphere (or disc)
     }
@@ -1144,6 +1149,8 @@ class Trajectory_HS extends Trajectory {
     }
 
     get_max_num_t_steps() {
-	return Trajectory.DEFAULT_MAX_NUM_T_STEPS;
+	let max_num_t_steps = this.mc.get_max_num_t_steps();
+	console.log("INFO:   HS max_num_t_steps calculated as ", max_num_t_steps);
+	return max_num_t_steps;
     }
 }
