@@ -185,12 +185,7 @@ Browser developer tools are indispensable when doing development, but also handy
 
 * If you happen to spot a bug, please [report it](https://github.com/malliaris/SSNS/issues).  Comments, suggestions, and reports of confusing bug-like features also welcome!
 
-* short-term small/easy items
-  * mention of CoordTransition_Spin, etc. ?
-  * write HV_ST_CH help page
-  * make sure HV_P_* help pages are complete/consistent
-  * debug PlotTypeXT.update_window()
-  * add minimum width/xlim of ~10 to PlotTypeHX
+* debug PlotTypeXT.update_window()
 
 * Most of the SSNS system types track one (or maybe a handful) of dependent variables over time, and so the derived <samp>Coords</samp> object for these systems has a very small memory footprint.  Exceptions are the <samp>SM</samp> gas and spin systems &mdash; for them, the <samp>Coords</samp> object can be orders of magnitude larger.  We use a required <samp>Trajectory</samp> method <samp>get_max_num_t_steps()</samp> to allow for customized calculation of max duration.
 
