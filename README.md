@@ -9,13 +9,11 @@ Being a web app, **SSNS** makes heavy use of HTML/CSS.  All computation and logi
 **SSNS** can always be found "live" at [tedm.us/SSNS](https://tedm.us/SSNS).  If you're interested in knowing more about the app's design and code, here are some places to look:
 
 * the app's integrated help viewer; visit [tedm.us/SSNS](https://tedm.us/SSNS) and click the big yellow "?"
-* the JavaScript source ([<samp>/js/</samp>](/js/) and [<samp>/js/system_types/</samp>](/js/system_types/)), and the HTML source in [<samp>SSNS.html</samp>](SSNS.html)
+* the JavaScript source ([<samp>/js/</samp>](/js/) and subdirectories), and the HTML source in [<samp>SSNS.html</samp>](SSNS.html)
 * this README document
-* the [<samp>/docs/class_diagrams/</samp>](/docs/class_diagrams/), which summarize the structure of the code; individual diagrams (example below) in both <samp>svg</samp> and <samp>pdf</samp>, and [<samp>all.pdf</samp>](/docs/class_diagrams/all.pdf), which contains all diagrams
+* the [<samp>/docs/class_diagrams/</samp>](/docs/class_diagrams/), which summarize the structure of the code; individual diagrams (example below) are available in both <samp>svg</samp> and <samp>pdf</samp>, and [<samp>all.pdf</samp>](/docs/class_diagrams/all.pdf) contains all diagrams
 
 <a href="/docs/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><img src="/docs/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"></a>
-
-The source code is well structured and commented, but not the fastest way to get the gist of things.  The app itself aims to be simple, intuitive, and accessible &mdash; diving right in and relying on the integrated help viewer is a great way to get started.  There is plenty of overlap between the content of the help viewer pages and this README.  However, the former is organized as a linked network of small chunks of info, while the latter is more verbose, more focused on the code/computation, and doesn't discuss the conceptual side of things.
 
 ## Classes, Hierarchies, etc.
 
