@@ -25,17 +25,7 @@ A <samp>Trajectory</samp> object contains everything needed to generate output &
 
 There are system-type-dependent class hierarchies for <a href="/docs/class_diagrams/Coords_inheritance.svg"><samp>Coords</samp></a> objects, <a href="/docs/class_diagrams/Params_inheritance.svg"><samp>Params</samp></a> objects, and <a href="/docs/class_diagrams/ModelCalc_inheritance.svg"><samp>ModelCalc</samp></a> objects.  At the cost of some flexibility, it was possible to keep the <samp>TrajSeg</samp> class system-type-independent, so it <em>does not</em> have a hierarchy.  On the data visualization side of things, there is an inheritance hierarchy for the <samp>PlotType</samp> class (but no diagram yet).  Referring to the section on [abbreviations](#abbreviations-labels-etc) can be helpful when viewing these hierarchies.
 
-The following classes, which are listed roughly from "largest" (i.e., "outermost") to "smallest," are not part of the <samp>Trajectory</samp> "ecosystem."  They do not have large class hierarchies, and are mainly used as single instances:
-
-* <samp>Simulator</samp><br/>Class that encompasses all **SSNS** app logic.  Instantiated between a pair of <samp>script</samp> tags at end of [<samp>SSNS.html</samp>](SSNS.html).
-* <samp>UserInterface</samp>
-* <samp>PlottingMachinery</samp>
-* <samp>RunState</samp><br/>Trajectory creation/navigation can be done either in a continuous-action mode (e.g., hit "Record" and let it run), or in one-off step/jumps.  This class keeps track of what mode the app is in, what direction it is "running," etc.
-* <samp>UINI</samp> = **U**ser **I**nterface **N**umerical **I**nput<br/>See [Input/Output](#inputoutput) section.
-* <samp>HelpViewerNode</samp>
-* <samp>HelpViewer</samp><br/>A modal-lightbox-based network of help pages, always accessible by clicking the big yellow "?".  Each help page is represented by a <samp>HelpViewerNode</samp>, and identified by an <samp>id</samp> like <samp>HV_ST_XY</samp> (the **H**elp **V**iewer page for **S**ystem **T**ype <samp>XY</samp>).  See [abbreviations](#abbreviations-labels-etc) and [Help Viewer "Sitemap"](#help-viewer-sitemap) for more.
-
-The **SSNS** JavaScript code is separated into several source files, all located in the [<samp>/js/</samp>](/js/) and [<samp>/js/system_types/</samp>](/js/system_types/) directories.  The following table indicates which of the above-described classes each source file contains.
+All other classes are not part of the <samp>Trajectory</samp> "ecosystem" &mdash; they do not have large class hierarchies and are mainly used as single instances.  Of note is the <samp>Simulator</samp> class that encompasses all **SSNS** app logic.  It is instantiated between a pair of <samp>script</samp> tags at end of [<samp>SSNS.html</samp>](SSNS.html).  The **SSNS** JavaScript code is separated into several source files, all located in/below the [<samp>/js/</samp>](/js/).  The following table demonstrates the pattern of naming/inheritance/location for the <samp>Trajectory</samp>-related code, which forms the majority of all *SSNS* code.
 
 <table>
 <tbody>
@@ -44,6 +34,7 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <tr><td><samp>traj_intermed.js</samp></td><td><samp>ModelCalc_Stoch</samp>, <samp>Trajectory_Stoch</samp>, <samp>CoordTransition_Spin</samp>, <samp>ModelCalc_SP</samp>, <samp>Coords_SP</samp>, <samp>Coords_SP_finite</samp>, <samp>Coords_SP_semiinf</samp>, <samp>Trajectory_SP</samp>, <samp>ModelCalc_Spin</samp>, <samp>Params_Spin</samp>, <samp>Coords_Spin</samp></td><td>trajectory intermediate classes</td></tr>
 <tr><td><samp>system_types/RW.js</samp></td><td><samp>ModelCalc_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_RW</samp></td><td><samp>RW</samp>&nbsp;&nbsp;&nbsp;(random walk)</td></tr>
 <tr><td><samp>system_types/MN.js</samp></td><td><samp>ModelCalc_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_MN</samp></td><td><samp>MN</samp>&nbsp;&nbsp;&nbsp;(Moran model)</td></tr>
+<tr><td>...</td><td>...</td><td>...</td></tr>
 </tbody>
 </table>
 

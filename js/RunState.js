@@ -1,5 +1,10 @@
-
+//
 // helper class for Simulator
+//
+// Trajectory creation/navigation can be done either in a continuous-action mode (e.g., hit "Record" and let it run), or in one-off step/jumps.
+// This class keeps track of what mode the app is in, what direction it is "running," etc.
+//
+
 class RunState {
 
     constructor(sim) {
