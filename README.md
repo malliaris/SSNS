@@ -130,7 +130,7 @@ While some HTML UI entities like buttons and checkboxes can be used "as is", oth
 * the entry field's HTML <samp>&lt;input&gt;</samp> element has <samp>type="number"</samp> and <samp>id</samp> attribute associating it with the corresponding internal <samp>UINI</samp> variable
 * JavaScript has only a single multipurpose <samp>Number</samp> type, so <samp>UINI</samp> includes the two direct subclasses <samp>UINI_int</samp> and <samp>UINI_float</samp> to compensate
 * the <samp>&lt;input&gt;</samp> element's <samp>value</samp> attribute is used to store the quantity's default value (read on app load by <samp>UINI</samp> constructor)
-* use of the <samp>&lt;input&gt;</samp> element's <samp>min</samp> and <samp>max</samp> attributes to store the quantity's range; if user input is received that **is** a decipherable number, but is out of range, it is immediately "auto-corrected" to the nearest in-range value
+* the <samp>&lt;input&gt;</samp> element's <samp>min</samp> and <samp>max</samp> attributes store the quantity's range; if user input is received that **is** a decipherable number, but is out of range, it is immediately "auto-corrected" to the nearest in-range value
 * when crossing <samp>TrajSeg</samp> boundaries during "playback"   the pushing of previously entered valid values back to the UI; this occurs for system parameters 
 
 Outputting trajectory data is not implemented, nor planned, but would be very doable, e.g., by saving to disk or opening a new tab with text data.  Screenshots are always possible, of course 😀.  Reading saved trajectory data from disk also not implemented, nor planned, but doable.
