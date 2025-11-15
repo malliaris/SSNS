@@ -202,7 +202,7 @@ Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard
 
 ### General Time/Energy/Visualization/Computation Considerations
 
-* in the below points, we use the Hard Sphere (HS) gas as an example, but most of the points are general; we distinguish between the SSNS-wide discrete time step "t" and the continuous time variable "s" present in any ST with continuous equations of motion 
+* in the points below, we use the Hard Sphere (HS) gas as an example, but most of the points are general; we distinguish between the SSNS-wide discrete time step "t" and the continuous time variable "s" present in any ST with continuous equations of motion 
 * we must choose a value for Params_HS.ds to specify the amount of time that the equations of motion are moved forward during the recording of a new time step (i.e., t --> t + 1)
 * apart from instantaneous collisions, all movement for a given particle at a given time is constant velocity; there are generally N >> 1 particles and a distribution of velocities among them
 * in one discrete time step update, the same ds is applied to all particles, so there will be a distribution of distances moved
@@ -215,10 +215,11 @@ Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard
 
 ### General CPU/Memory/Computation Considerations
 
-Most of the SSNS system types track one (or maybe a handful) of dependent variables over time, and so the derived <samp>Coords</samp> object for these systems has a very small memory footprint.  The big exceptions are the [statistical mechanical](https://en.wikipedia.org/wiki/Statistical_mechanics) systems &mdash; gas: <samp>IG</samp> and <samp>HS</samp>, and spin: <samp>IS</samp> and <samp>XY</samp>.  For them, the <samp>Coords</samp> object can be orders of magnitude larger as **N** (# particles, spins, resp.) increases.  Furthermore, it is this large **N** limit that is the most relevant/interesting.
+Most of the SSNS system types track one (or maybe a handful) of dependent variables over time, and so the derived <samp>Coords</samp> object for these systems has a very small memory footprint.  The big exceptions are the [statistical mechanical](https://en.wikipedia.org/wiki/Statistical_mechanics) systems &mdash; gas: <samp>IG</samp> and <samp>HS</samp>, and spin: <samp>IS</samp> and <samp>XY</samp>.  For them, the <samp>Coords</samp> object can be orders of magnitude larger as **N** (# particles, spins, resp.) increases.  Furthermore, it is this large **N** limit that is the most relevant/interesting.  A few thoughts on this tension:
 
+* **SSNS** is set up to <em>save</em> the system trajectory as it is generated ("recording"), and, in general, memory usage will increase linearly with time.  While the opposite approach (save the minimum needed to generate the next configuration) appears promising, it is complicated by the fact that memory management in JavaScript is fairly opaque and is handled by the browser, not the programmer.
 
-* We use a required <samp>Trajectory</samp> method <samp>get_max_num_t_steps()</samp> to allow for customized calculation of max duration.
+* For our <samp>SM</samp> systems, **N** is fixed for a given <samp>Trajectory</samp> instance.  Since we certainly don't want to negatively impact device/browser performance, we find it easiest to both place an upper bound on **N**, and use the required <samp>Trajectory</samp> method <samp>get_max_num_t_steps()</samp> to enforce an **N**-dependent max duration.
 
 * Another angle is to reconsider exactly what is stored in the spin <samp>Coords</samp> object.  Currently, the Metropolis algorithm by which these system types are updated modifies 0 or 1 spins each time step.  <samp>CoordTransition_Spin</samp> is a lightweight auxiliary class that stores **only the change** between consecutive spin array configurations.  An entire trajectory can be stored as, say, the initial array configuration, and one <samp>CoordTransition_Spin</samp> for each subsequent time step.<br/><br/>This potential approach is complicated by the fact that we currently use the HTML <samp>&lt;canvas&gt;</samp> element for spin system plotting, and also by the fact that it's always good to allow for Metropolis "candidate moves" that change multiple spins.  See the code comments around <samp>CoordTransition_Spin</samp> in [js/traj_intermed.js](js/traj_intermed.js) and <samp>PlotTypeHM</samp> in [js/PlotTypeHM.js](js/PlotTypeHM.js).  Also see next bullet point, which is related.
 
