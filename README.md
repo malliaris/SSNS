@@ -109,13 +109,13 @@ While JavaScript is not naturally suited to scientific computation, there were b
 
 * JavaScript's native <samp>Math.random()</samp> does not allow seeding or accessing the pseudorandom number generator's state, and there are not a lot of JavaScript library options for this sort of thing.  Happily, we settled on [stdlib.js](https://stdlib.io/), which has been solid.
 
-* As of its 2015 revised standard, JavaScript added true classes.  ("Objects" had long been part of the language, but the term refers to a key-value-pair container.)  Certain OOP features like multiple constructors are still not possible, but JavaScript's new OOP capabilities served the needs of **SSNS** well, especially in the area of [classes hierarchies](#classes-hierarchies-etc).
+* As of its 2015 revised standard, JavaScript added true classes.  ("Objects" had long been part of the language, but the term refers to a key-value-pair container.)  Certain OOP features like multiple constructors are still not possible, but JavaScript's new OOP capabilities served the needs of **SSNS** well, especially in the area of [class hierarchies](#classes-hierarchies-etc).
 
 * There doesn't seem to be a JavaScript equivalent of the Python plotting library [matplotlib](https://matplotlib.org/).  Many web plotting packages focus on data exploration and novel visualization techniques, while we just needed something straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library proved to be a good option.
 
-* The main downside is that of course memory usage has to be handled carefully.  LINK TO General Memory/Computation
+* The main downside of having **SSNS** run in the user's web browser is that we must be preemptively careful not to overuse device/browser resources.  More on that [here](#general-cpumemorycomputation-considerations).
 
-* All major browsers now have [developer tools](https://en.wikipedia.org/wiki/Web_development_tools) designed to assist app developers with debugging, etc.  But a tool such as the JavaScript Console can also provide useful information to the user &mdash; lots of **SSNS** informational-level messages are output there by default.
+* All major browsers now have [developer tools](https://en.wikipedia.org/wiki/Web_development_tools) designed to assist web developers with debugging, etc.  But a tool such as the JavaScript Console can also provide useful information to the user &mdash; lots of **SSNS** informational-level messages are output there by default.
 
 * Not only is the app source code available on GitHub under the very liberal MIT license, it is also always viewable "under the hood" by [viewing source](https://en.wikipedia.org/wiki/View-source_URI_scheme) in the browser.
 
