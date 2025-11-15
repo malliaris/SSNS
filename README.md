@@ -227,7 +227,10 @@ Most of the SSNS system types track one (or maybe a handful) of dependent variab
 
 * We could also consider various system-type-specific opportunities to improve computational efficiency.  The current single-spin-flip implementation of the spin systems utilizes an auxiliary class called <samp>CoordTransition_Spin</samp> that records only the 0 or 1 spin change between consecutive spin configurations, rather than the (possibly large) configurations themselves.  It was implemented to make the HTML-<samp>&lt;canvas&gt;</samp>-based plotting of the spin array more efficient, but it could conceivably be used to record long trajectories without storing the entire spin array at each time step.
 
-* When it comes to web implementations of the <samp>XY</samp> model, ours pales in comparison to the one found <a href="//kjslag.github.io/XY/">here</a>, and for many reasons &#x1F642;.  One is that, despite always running on a device with a GPU, **SSNS** does not use the GPU for non-graphical computation!  With all the attention on machine learning, general purpose GPU ("GPGPU") computing is really progressing.  WebGL (which <samp>kjslag</samp>'s implementation uses) is about a decade old, and its successor, WebGPU, is coming out now.  This development comes on top of all the GPU technology progress spurred by HTML 5 <samp>&lt;video&gt;</samp>, streaming, etc.  It's not trivial to write code to execute on a GPU, but the potential performance jump alone is enough to keep this on the "to explore" list!
+* And, of course, we might consider changing the type of hardware on which we perform the computation.
+If you're willing to accept additional difficulties and constraints, running on a [GPU](https://en.wikipedia.org/wiki/Graphics_processing_unit) rather than a CPU can offer an increase in speed of many orders of magnitude.
+
+* When it comes to web implementations of the <samp>XY</samp> model, ours pales in comparison to the one found <a href="//kjslag.github.io/XY/">here</a>,   [WebGL](https://en.wikipedia.org/wiki/WebGL)/[WebGPU](https://en.wikipedia.org/wiki/WebGPU)
 
 
 ## Help Viewer "Sitemap"
