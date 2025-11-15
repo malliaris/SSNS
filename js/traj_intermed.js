@@ -304,6 +304,11 @@ class ModelCalc_Spin extends ModelCalc_Stoch {
 	    return (this.unif01_rng() < P_accept);
 	}
     }
+
+    get_max_num_t_steps(N) {
+	let raw_val = 1000000000.0 / (N*N);  // rough assumption that memory usage is linear in # spins (quadratic in N)
+	return parseInt(Math.floor(raw_val) + 1);  // + 1 makes negligible difference in memory usage, but leads to "rounder" numbers if we always deal with powers of 10
+    }
 }
 
 class Params_Spin extends Params {
