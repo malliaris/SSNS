@@ -128,10 +128,10 @@ All input to the app is done via the user interface.  Please refer to the integr
 While some HTML UI entities like buttons and checkboxes can be used "as is", other app inputs are more involved.  Each of these more complicated input fields is implemented as an instance of one of two subclassable JavaScript classes: <samp>UINI</samp> (**U**ser **I**nterface **N**umerical **I**nput) or <samp>UICI</samp> (**U**ser **I**nterface **C**yclical **I**nput).  More details are available in the help viewer and the source code, but here some highlights of the <samp>UINI</samp> class:
   
 * the entry field's HTML <samp>&lt;input&gt;</samp> element has <samp>type="number"</samp> and <samp>id</samp> attribute associating it with the corresponding internal <samp>UINI</samp> variable
-* subclasses <samp>UINI_int</samp> and <samp>UINI_float</samp>, with appropriate treatment of leading zeros, etc.  (JavaScript has only a single multipurpose <samp>Number</samp> type, so we rely on <samp>Number.isInteger()</samp>)
-* use of the <samp>&lt;input&gt;</samp> element's <samp>value</samp> attribute to store the quantity's default value (read on app load by <samp>UINI</samp> constructor) and subsequent user-entered values
+* it includes subclasses <samp>UINI_int</samp> and <samp>UINI_float</samp>, each with appropriate treatment of leading zeros, etc.  (JavaScript has only a single multipurpose <samp>Number</samp> type, so we rely on <samp>Number.isInteger()</samp>)
+* the <samp>&lt;input&gt;</samp> element's <samp>value</samp> attribute is used to store the quantity's default value (read on app load by <samp>UINI</samp> constructor) and subsequent user-entered values
 * use of the <samp>&lt;input&gt;</samp> element's <samp>min</samp> and <samp>max</samp> attributes to store the quantity's range; if user input is received that **is** a decipherable number, but is out of range, it is immediately "auto-corrected" to the nearest in-range value
-* the pushing of previously entered valid values back to the UI; this occurs for system parameters when crossing <samp>TrajSeg</samp> boundaries during "playback"
+* when crossing <samp>TrajSeg</samp> boundaries during "playback"   the pushing of previously entered valid values back to the UI; this occurs for system parameters 
 
 Outputting trajectory data is not implemented, nor planned, but would be very doable, e.g., by saving to disk or opening a new tab with text data.  Screenshots are always possible, of course 😀.  Reading saved trajectory data from disk also not implemented, nor planned, but doable.
 
