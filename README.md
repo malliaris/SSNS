@@ -105,7 +105,7 @@ These abbreviations are also used in HTML element <samp>id</samp> attributes.  F
 * language/library setup should offer basic scientific computing tools, including pseudorandom numbers; raw computational power is not as important 
 * language/library setup should offer standard object-oriented programming capabilities
 
-While JavaScript is not naturally suited to scientific computation, there were basically no language alternatives to consider.  (Maybe, if it were 2005, Java in the form of an applet https://en.wikipedia.org/wiki/Java_applet, but not any longer.)  The further narrowing to <em>client-side, non-dynamic JavaScript</em> freed both developers and users from complicating factors: no extended server-client communication ([Ajax](https://en.wikipedia.org/wiki/Ajax_(programming)), etc.), no transmission of data/graphics, no need for sustained network connectivity.  Rather, a simple web request loads the entire app in ~1 sec, and then it sits there &mdash; used or dormant &mdash; until the browser tab/window is closed.  Here are the pros/cons/takeaways of the **SSNS** JavaScript journey thus far:
+While JavaScript is not naturally suited to scientific computation, there were basically no language alternatives to consider.  (Maybe, if it were 2005, Java in the form of an [applet](https://en.wikipedia.org/wiki/Java_applet), but not any longer.)  The further narrowing to <em>client-side, non-dynamic JavaScript</em> freed both developers and users from complicating factors: no extended server-client communication ([Ajax](https://en.wikipedia.org/wiki/Ajax_(programming)), etc.), no transmission of data/graphics, no need for sustained network connectivity.  Rather, a simple web request loads the entire app in ~1 sec, and then it sits there &mdash; used or dormant &mdash; until the browser tab/window is closed.  Here are the pros/cons/takeaways of the **SSNS** JavaScript journey thus far:
 
 * JavaScript's native <samp>Math.random()</samp> does not allow seeding or accessing the generator's state, and there are not a lot of JavaScript library options for pseudorandom number generation.  Happily, we settled on [stdlib.js](https://stdlib.io/), which has been solid.
 
@@ -117,7 +117,7 @@ While JavaScript is not naturally suited to scientific computation, there were b
 
 * All major browsers now have [developer tools](https://en.wikipedia.org/wiki/Web_development_tools) designed to assist app developers with debugging, etc.  But a tool such as the JavaScript Console can also provide useful information to the **SSNS** user as well &mdash; lots of informational-level messages are output by default.
 
-* Not only is the app source code available under the very liberal MIT license, it is also always viewable ["under the hood"](https://en.wikipedia.org/wiki/View-source_URI_scheme).  And, of course, it's available on GitHub.
+* Not only is the app source code available under the very liberal MIT license, it is also always viewable "under the hood" by [viewing source](https://en.wikipedia.org/wiki/View-source_URI_scheme) in the browser.  And, of course, it's available on GitHub.
 
 ## Input/Output
 
