@@ -133,7 +133,7 @@ While some HTML UI entities like buttons and checkboxes can be used "as is", oth
 * the <samp>&lt;input&gt;</samp> element's <samp>min</samp> and <samp>max</samp> attributes store the quantity's range; out-of-range user input is immediately "auto-corrected" to the nearest in-range value
 * when crossing <samp>TrajSeg</samp> boundaries during "playback", a <samp>UINI</samp> method facilitates the pushing of the corresponding stored parameter values back to the UI 
 
-Reading/writing trajectory data is not implemented, nor planned, but would be very doable.  Screenshots are always possible, of course.  Finally, for those who favor keyboard over mouse and desktop over mobile:
+Reading/writing trajectory data is not implemented, nor planned, but would be very doable.  Screenshots are always possible, of course.  Finally, for those who favor keyboard navigation on a laptop/desktop:
 
 * hit <samp>TAB</samp> to cycle through input buttons/fields; <samp>SHIFT-TAB</samp> to reverse
 * if a button is currently selected, hit or hold <samp>ENTER</samp> to repeatedly "press" it
