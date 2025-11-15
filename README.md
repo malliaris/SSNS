@@ -97,29 +97,27 @@ Many of the code's JavaScript variable names use two-letter abbreviations to ind
 
 These abbreviations are also used in HTML element <samp>id</samp> attributes.  For instance <samp>UI_P_SP_MN_mu</samp> stands for "User Interface &mdash; Parameters &mdash; Stochastic Processes &mdash; Moran Model &mdash; parameter mu."  Every two-letter abbreviation above is unique ***across all categories***.
 
-## Code Design
+## Why JavaScript?
 
-The decision to write the **SSNS** code in JavaScript was not a hard one.  The requirements were, roughly:
+**SSNS** was originally envisioned with the following requirements:
 
-* app should be accessible by web browser, quick to load, and not require installation of anything
-* app should have a well-designed, easy-to-use, responsive UI
+* app should be accessible by web browser, quick to load, and not require installation/updating of anything
 * language/library setup should offer basic scientific computing tools, including pseudorandom numbers; raw computational power is not as important 
 * language/library setup should offer standard object-oriented programming capabilities
-* app should have good graphical plot output
 
-Pure, client-side JavaScript was really the only option that met all these requirements.  Also, in particular, pure Javascript offered the best chance of maintaining a rapid feedback loop between (1) user action, (2) computation, and (3) plot output.  It was also the simplest choice, free from complicating factors such as: repeated web requests, Ajax, transmission of data/graphics, dependence on sustained network connectivity.  Years ago, <em>Java</em> code in the form of an applet might have been considered, but not anymore 😀.
+While, JavaScript is not naturally suited to scientific computation, there were basically no language alternatives to consider.  (Maybe, if it were 2005, Java in the form of an applet https://en.wikipedia.org/wiki/Java_applet, but not any longer.)  So it was really just a question of how rocky the JavaScript experience would be.  Happily, it was not too bad.  Here are the pros/cons/takeaways:
 
-While the first two requirements above were easily met, the last three required some trying and testing.  Briefly commenting on those three, in order:
+* The refinement from <em>JavaScript</em> to <em>client-side, non-dynamic JavaScript</em> freed both developers and user from complicating factors: no extended server-client communication ([Ajax](https://en.wikipedia.org/wiki/Ajax_(programming)), etc.) , transmission of data/graphics, sustained network connectivity Controlling execution is easy: the app can be loaded, used, and then left dormant in a browser tab &mdash; any generated data just sits there.  Closing the tab/window at any time will close the app, even if it is running.
 
-* Of all the scientific computing needs, pseudorandom number generation proved to be the trickiest to satisfy.  JavaScript's <samp>Math.random()</samp> does not allow seeding or accessing the generator's state.  The closest thing to a JavaScript stand-in for NumPy/SciPy appears to be [stdlib.js](https://stdlib.io/), which fortunately proved sufficient for our purposes.
+* Pseudorandom number generation proved to be a trick requirement to satisfy.  JavaScript's <samp>Math.random()</samp> does not allow seeding or accessing the generator's state.  We settled on [stdlib.js](https://stdlib.io/), which has been solid
 
-* It was great to see that, as part of its 2015 revised standard, JavaScript added "true" classes.  ("Objects" had long been part of the language, but the term refers to a key-value-pair container, not a class instance.)  Certain OOP features like multiple constructors are still not possible, but, overall, JavaScript met the code's [structural](#classes-hierarchies-etc) needs just fine.
+* As of its 2015 revised standard, JavaScript added "true" classes.  ("Objects" had long been part of the language, but the term refers to a key-value-pair container.)  Certain OOP features like multiple constructors are not possible, JavaScript's OOP capabilities served the needs of **SSNS** well, especially in the area of [classes hierarchies](#classes-hierarchies-etc).
 
-* There doesn't seem to be a JavaScript equivalent of the Python plotting library [matplotlib](https://matplotlib.org/).  Many web plotting packages focus on data exploration and novel visualization techniques, while we just needed something straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library proved to be a good option.  It has very nice auto-scaling functionality.  Its capabilities were supplemented by the HTML <samp>&lt;canvas&gt;</samp> element for heat maps.
+* There doesn't seem to be a JavaScript equivalent of the Python plotting library [matplotlib](https://matplotlib.org/).  Many web plotting packages focus on data exploration and novel visualization techniques, while we just needed something straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library proved to be a good option.
 
-The current (finalized?) list of dependencies is [here](#external-libraries-dependencies).  With the more difficult requirements met, it was easy to focus on the areas where HTML/CSS/js excels, namely: UI, icons, fonts, etc.  Also, having the **SSNS** code reside and run purely on the client-side has some advantages for user experience:
+The list of dependencies is [here](#external-libraries-dependencies).  UI, icons, fonts, etc.  Also, having the **SSNS** code reside and run purely on the client-side has some advantages for user experience:
 
-* Controlling execution is easy: the app can be loaded, used, and then left dormant in a browser tab &mdash; any generated data just sits there.  Closing the tab/window at any time will close the app, even if it is running.
+
 
 * Browser developer tools are designed to assist app developers, but they can provide useful information to app users as well.  Specifically, the JavaScript console will log an informational message, e.g., when switching system type.
 
