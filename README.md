@@ -133,15 +133,11 @@ While some HTML UI entities like buttons and checkboxes can be used "as is", oth
 * the <samp>&lt;input&gt;</samp> element's <samp>min</samp> and <samp>max</samp> attributes store the quantity's range; out-of-range user input is immediately "auto-corrected" to the nearest in-range value
 * when crossing <samp>TrajSeg</samp> boundaries during "playback", a <samp>UINI</samp> method facilitates the pushing of the corresponding stored parameter values back to the UI 
 
-Outputting trajectory data is not implemented, nor planned, but would be very doable, e.g., by saving to disk or opening a new tab with text data.  Screenshots are always possible, of course 😀.  Reading saved trajectory data from disk also not implemented, nor planned, but doable.
-
-For those who favor keyboard over mouse and desktop over mobile:
+Reading/writing trajectory data is not implemented, nor planned, but would be very doable.  Screenshots are always possible, of course.  Finally, for those who favor keyboard over mouse and desktop over mobile:
 
 * hit <samp>TAB</samp> to cycle through input buttons/fields; <samp>SHIFT-TAB</samp> to reverse
 * if a button is currently selected, hit or hold <samp>ENTER</samp> to repeatedly "press" it
 * if a numerical input is currently selected, hit or hold up/down arrows to change the value
-
-Browser developer tools are indispensable when doing development, but also handy when running the code.  A number of <samp>console.log()</samp> statements are embedded in the JavaScript to print informational messages for convenience.
 
 ## To Do/Fix/Add/Explore
 
