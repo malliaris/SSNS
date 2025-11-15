@@ -28,6 +28,7 @@ class Simulator {
 	this.PT;  // "declaration" only; value is set in update_ST() call below
 	this.ui.update_ST_area_settings();
 	this.update_ST();  // contains initial call to this.update_plot_and_UI()
+	this.ui.handle_t_max_checkbox_change();  // here (rather than in ui constructor) since system-dependent max_num_t_steps vals, etc. have to be in place)
 	this.timeout_id;  // "declaration" only; used with setTimeout() and clearTimeout()
 
 
