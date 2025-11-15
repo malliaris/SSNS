@@ -115,9 +115,9 @@ While JavaScript is not naturally suited to scientific computation, there were b
 
 * The main downside is that of course memory usage has to be handled carefully.  LINK TO General Memory/Computation
 
-* All major browsers now have [developer tools](https://en.wikipedia.org/wiki/Web_development_tools) designed to assist app developers with debugging, etc.  But a tool such as the JavaScript Console can also provide useful information to the **SSNS** user as well &mdash; lots of informational-level messages are output by default.
+* All major browsers now have [developer tools](https://en.wikipedia.org/wiki/Web_development_tools) designed to assist app developers with debugging, etc.  But a tool such as the JavaScript Console can also provide useful information to the user &mdash; lots of **SSNS** informational-level messages are output there by default.
 
-* Not only is the app source code available under the very liberal MIT license, it is also always viewable "under the hood" by [viewing source](https://en.wikipedia.org/wiki/View-source_URI_scheme) in the browser.  And, of course, it's available on GitHub.
+* Not only is the app source code available on GitHub under the very liberal MIT license, it is also always viewable "under the hood" by [viewing source](https://en.wikipedia.org/wiki/View-source_URI_scheme) in the browser.
 
 ## Input/Output
 
