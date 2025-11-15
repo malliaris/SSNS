@@ -227,11 +227,7 @@ Most of the SSNS system types track one (or maybe a handful) of dependent variab
 
 * We could also consider various system-type-specific opportunities to improve computational efficiency.  The current single-spin-flip implementation of the spin systems utilizes an auxiliary class called <samp>CoordTransition_Spin</samp> that records only the 0 or 1 spin change between consecutive spin configurations, rather than the (possibly large) configurations themselves.  It was implemented to make the HTML-<samp>&lt;canvas&gt;</samp>-based plotting of the spin array more efficient, but it could conceivably be used to record long trajectories without storing the entire spin array at each time step.
 
-* And, of course, we might consider changing the type of hardware on which we perform the computation.
-If you're willing to accept additional difficulties and constraints, running on a [GPU](https://en.wikipedia.org/wiki/Graphics_processing_unit) rather than a CPU can offer an increase in speed of many orders of magnitude.
-
-* When it comes to web implementations of the <samp>XY</samp> model, ours pales in comparison to the one found <a href="//kjslag.github.io/XY/">here</a>,   [WebGL](https://en.wikipedia.org/wiki/WebGL)/[WebGPU](https://en.wikipedia.org/wiki/WebGPU)
-
+* And, of course, we might consider changing the type of hardware on which we perform the computation.  If one is willing to accept additional difficulties and constraints, running on a [GPU](https://en.wikipedia.org/wiki/Graphics_processing_unit) rather than a CPU can offer an increase in speed of many orders of magnitude.  We have chosen to hold off on any **SSNS** exploration of [WebGL](https://en.wikipedia.org/wiki/WebGL)/[WebGPU](https://en.wikipedia.org/wiki/WebGPU) for now.  In the meantime, check out <a href="//kjslag.github.io/XY/">this</a> amazingly fast WebGL implementation of the <samp>XY</samp> model.
 
 ## Help Viewer "Sitemap"
 
