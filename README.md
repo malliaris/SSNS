@@ -148,15 +148,9 @@ Browser developer tools are indispensable when doing development, but also handy
 
 * If you happen to spot a bug, please [report it](https://github.com/malliaris/SSNS/issues).  Comments, suggestions, and reports of confusing bug-like features also welcome!
 
-* debug PlotTypeXT.update_window()
+* If you are technically inclined and interested in adding a new system type to **SSNS**, please [let us know](https://github.com/malliaris/SSNS/issues).  It could be as simple as picking a discrete map from [this list](https://en.wikipedia.org/wiki/List_of_chaotic_maps) and writing the necessary few small chunks of code.
 
-* Most of the SSNS system types track one (or maybe a handful) of dependent variables over time, and so the derived <samp>Coords</samp> object for these systems has a very small memory footprint.  Exceptions are the <samp>SM</samp> gas and spin systems &mdash; for them, the <samp>Coords</samp> object can be orders of magnitude larger.  We use a required <samp>Trajectory</samp> method <samp>get_max_num_t_steps()</samp> to allow for customized calculation of max duration.
-
-* Another angle is to reconsider exactly what is stored in the spin <samp>Coords</samp> object.  Currently, the Metropolis algorithm by which these system types are updated modifies 0 or 1 spins each time step.  <samp>CoordTransition_Spin</samp> is a lightweight auxiliary class that stores ***only the change*** between consecutive spin array configurations.  An entire trajectory can be stored as, say, the initial array configuration, and one <samp>CoordTransition_Spin</samp> for each subsequent time step.<br/><br/>This potential approach is complicated by the fact that we currently use the HTML <samp>&lt;canvas&gt;</samp> element for spin system plotting, and also by the fact that it's always good to allow for Metropolis "candidate moves" that change multiple spins.  See the code comments around <samp>CoordTransition_Spin</samp> in [js/traj_intermed.js](js/traj_intermed.js) and <samp>PlotTypeHM</samp> in [js/PlotTypeHM.js](js/PlotTypeHM.js).  Also see next bullet point, which is related.
-
-* When it comes to web implementations of the <samp>XY</samp> model, ours pales in comparison to the one found <a href="//kjslag.github.io/XY/">here</a>, and for many reasons &#x1F642;.  One is that, despite always running on a device with a GPU, **SSNS** does not use the GPU for non-graphical computation!  With all the attention on machine learning, general purpose GPU ("GPGPU") computing is really progressing.  WebGL (which <samp>kjslag</samp>'s implementation uses) is about a decade old, and its successor, WebGPU, is coming out now.  This development comes on top of all the GPU technology progress spurred by HTML 5 <samp>&lt;video&gt;</samp>, streaming, etc.  It's not trivial to write code to execute on a GPU, but the potential performance jump alone is enough to keep this on the "to explore" list!
-
-* lower priority items
+* low priority items
   * not too familiar with how <samp>const</samp>ness works in JavaScript, but change <samp>let</samp> to <samp>const</samp> wherever possible
   * what about JavaScript "strict mode"?
   * handle support for very old browsers?
@@ -224,7 +218,16 @@ Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard
 * generally, though, we aim for a smooth visual experience where individual particles can be tracked easily; we thus assume the user might explore energies over the 4 orders of magnitude from kT = 10^-2 to 10^2; the hard-coded (but editable) value of Params_HS.ds = 0.01 in HS.js means that particle motion will be barely perceptible at kT = 10^-2 (particles will almost appear stationary), while motion will proceed in large, hard-to-follow jumps at kT = 10^2
 * for Ideal gas (IG), especially at low N, the computation is relatively light, so the frames can fly by making particles hard to track, even if they take reasonable sized steps; in this case, ds could be adjusted, but it might be a better idea to use the single-step navigation buttons and/or add a delay of a certain number of milliseconds using the UI's delay field
 
-### General Memory/Computation Considerations
+### General CPU/Memory/Computation Considerations
+
+Most of the SSNS system types track one (or maybe a handful) of dependent variables over time, and so the derived <samp>Coords</samp> object for these systems has a very small memory footprint.  The big exceptions are the [statistical mechanical](https://en.wikipedia.org/wiki/Statistical_mechanics) systems &mdash; gas: <samp>IG</samp> and <samp>HS</samp>, and spin: <samp>IS</samp> and <samp>XY</samp>.  For them, the <samp>Coords</samp> object can be orders of magnitude larger as **N** (# particles, spins, resp.) increases.  Furthermore, it is this large **N** limit that is the most relevant/interesting.
+
+
+* We use a required <samp>Trajectory</samp> method <samp>get_max_num_t_steps()</samp> to allow for customized calculation of max duration.
+
+* Another angle is to reconsider exactly what is stored in the spin <samp>Coords</samp> object.  Currently, the Metropolis algorithm by which these system types are updated modifies 0 or 1 spins each time step.  <samp>CoordTransition_Spin</samp> is a lightweight auxiliary class that stores **only the change** between consecutive spin array configurations.  An entire trajectory can be stored as, say, the initial array configuration, and one <samp>CoordTransition_Spin</samp> for each subsequent time step.<br/><br/>This potential approach is complicated by the fact that we currently use the HTML <samp>&lt;canvas&gt;</samp> element for spin system plotting, and also by the fact that it's always good to allow for Metropolis "candidate moves" that change multiple spins.  See the code comments around <samp>CoordTransition_Spin</samp> in [js/traj_intermed.js](js/traj_intermed.js) and <samp>PlotTypeHM</samp> in [js/PlotTypeHM.js](js/PlotTypeHM.js).  Also see next bullet point, which is related.
+
+* When it comes to web implementations of the <samp>XY</samp> model, ours pales in comparison to the one found <a href="//kjslag.github.io/XY/">here</a>, and for many reasons &#x1F642;.  One is that, despite always running on a device with a GPU, **SSNS** does not use the GPU for non-graphical computation!  With all the attention on machine learning, general purpose GPU ("GPGPU") computing is really progressing.  WebGL (which <samp>kjslag</samp>'s implementation uses) is about a decade old, and its successor, WebGPU, is coming out now.  This development comes on top of all the GPU technology progress spurred by HTML 5 <samp>&lt;video&gt;</samp>, streaming, etc.  It's not trivial to write code to execute on a GPU, but the potential performance jump alone is enough to keep this on the "to explore" list!
 
 * MC vs. MD
 
