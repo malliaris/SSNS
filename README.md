@@ -125,14 +125,11 @@ On load, the app plots the default initial condition of the default system type.
 
 All input to the app is done via the user interface.  Please refer to the integrated help viewer's section on "How To Use" for details.  Note that many numeric input features, e.g., small increment/decrement arrows or popup numeric keyboards, will depend on choice of OS, browser, screen width, etc.
 
-While some HTML UI entities like buttons and checkboxes can be used "as is", other app input fields are more involved.  Two subclassable JavaScript classes are used to streamline these more complicated input situations: <samp>UINI</samp> (**U**ser **I**nterface **N**umerical **I**nput) and <samp>UICI</samp> (**U**ser **I**nterface **C**yclical **I**nput).  More details are available in the help viewer and the source code, but here, for reference, is a brief description of  an HTML <samp>&lt;input&gt;</samp> element with <samp>type="number"</samp>. 
-
-In the "layer" just below the HTML input fields, each input is managed by an instance of the  class.  This way, we can take advantage of existing web functionality, e.g., <samp>js</samp> event listeners, while still inserting customized handling where necessary.  The <samp>UINI</samp> class involves:
-
-* a first round of input cleaning as <samp>&lt;input type="number"&gt;</samp> removes white space and most non-numeric characters
+While some HTML UI entities like buttons and checkboxes can be used "as is", other app inputs are more involved.  Each of these more complicated input fields is implemented as an instance of one of two subclassable JavaScript classes: <samp>UINI</samp> (**U**ser **I**nterface **N**umerical **I**nput) or <samp>UICI</samp> (**U**ser **I**nterface **C**yclical **I**nput).  More details are available in the help viewer and the source code, but here some highlights of the <samp>UINI</samp> class:
+  
+* the text entry field is associated with an HTML <samp>&lt;input&gt;</samp> element with <samp>type="number"</samp> and <samp>id</samp> associating it with the internal <samp>UINI</samp> variable
 * subclasses <samp>UINI_int</samp> and <samp>UINI_float</samp>, with appropriate treatment of leading zeros, etc.  (JavaScript has only a single multipurpose <samp>Number</samp> type, so we rely on <samp>Number.isInteger()</samp>)
 * use of the <samp>&lt;input&gt;</samp> element's <samp>value</samp> attribute to store the quantity's default value (read on app load by <samp>UINI</samp> constructor) and subsequent user-entered values
-* an internal, "official," validated value for the quantity; it sits between the UI and <samp>Trajectory</samp> "insertion points"; if user input is received that is **not** a decipherable number, this internal value is immediately pushed back to the UI
 * use of the <samp>&lt;input&gt;</samp> element's <samp>min</samp> and <samp>max</samp> attributes to store the quantity's range; if user input is received that **is** a decipherable number, but is out of range, it is immediately "auto-corrected" to the nearest in-range value
 * the pushing of previously entered valid values back to the UI; this occurs for system parameters when crossing <samp>TrajSeg</samp> boundaries during "playback"
 
