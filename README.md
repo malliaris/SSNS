@@ -143,7 +143,7 @@ Reading/writing trajectory data is not implemented, nor planned, but would be ve
 
 * If you happen to spot a bug, please [report it](https://github.com/malliaris/SSNS/issues).  Comments, suggestions, and reports of confusing bug-like features also welcome!
 
-* If you are technically inclined and interested in adding a new system type to **SSNS**, please [let us know](https://github.com/malliaris/SSNS/issues).  It could be as simple as picking a discrete map from [this list](https://en.wikipedia.org/wiki/List_of_chaotic_maps) and writing the necessary few small chunks of code.
+* If you are technically inclined and interested in adding a new system type to **SSNS**, please [get in touch](https://github.com/malliaris/SSNS/issues).  It could be as simple as picking a discrete map from [this list](https://en.wikipedia.org/wiki/List_of_chaotic_maps) and writing the necessary few small chunks of code.  The [M/M/1 queue](https://en.wikipedia.org/wiki/M/M/1_queue) stochastic process already has a slot in the UI and is ready to be worked on!
 
 * low priority items
   * not too familiar with how <samp>const</samp>ness works in JavaScript, but change <samp>let</samp> to <samp>const</samp> wherever possible
