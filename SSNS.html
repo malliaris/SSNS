@@ -11,12 +11,15 @@
 <link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet">
 <link href="/static/css/SSNT.css" rel="stylesheet">
 
-<!-- NOTE: KaTeX's auto-render.min.js extension also separately loaded below since it's needed in help viewer... combine eventually? -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload='renderMathInElement(document.body, {delimiters:
-	[{left: "$$", right: "$$", display: false},
-	 {left: "%%", right: "%%", display: true}]
-	}); '>
+<!-- KaTeX js stuff (LaTeX typesetting for the web) -->
+<script>
+  class KatexSetup {
+      // the following static member KatexSetup.delim_obj is used both here and in help_viewer/help_viewer.js
+      static delim_obj = {delimiters: [{left: "$$", right: "$$", display: false}, {left: "%%", right: "%%", display: true}]}
+  }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload='renderMathInElement(document.body, KatexSetup.delim_obj); '></script>
 
 </head>
 
@@ -237,7 +240,7 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_h'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ h $$ </span></div><input id="UI_P_SM_IS_h" class="form-control" type="number" disabled></div></div>
 
-<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_N'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ N $$ </span></div><input id="UI_P_SM_IS_N" class="form-control" type="number" min="2" max="1000" step="1" value="4" onchange="Coords_IS.N.try_update(this.value); "></div></div>
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_N'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_reload px-2 py-1"> $$ N $$ </span></div><input id="UI_P_SM_IS_N" class="form-control" type="number" min="2" max="1000" step="1" value="100" onchange="Coords_IS.N.try_update(this.value); "></div></div>
 
 </div><!-- CLOSES div class="row" -->
 
@@ -595,12 +598,11 @@
 
 <!------------------------------------------------------------------------------------------------->
 <!------------------------------------------------------------------------------------------------->
-<!-----  JAVASCRIPT LIBRARIES  -------------------------------------------------------------------->
+<!-----  JAVASCRIPT LIBRARIES  (except KaTeX, which is loaded in <head>  -------------------------->
 <!------------------------------------------------------------------------------------------------->
 <!------------------------------------------------------------------------------------------------->
 
 <script src="/static/js/SSNS_dependencies_without_js-sdsl.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script><!-- NOTE: KaTeX's auto-render.min.js extension also separately loaded at top... combine eventually? -->
 
 <script src="https://unpkg.com/js-sdsl/dist/umd/js-sdsl.min.js"></script>
 <script>

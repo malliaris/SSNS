@@ -163,7 +163,7 @@ class HelpViewer {
 	let hvn = HelpViewer.hvn_lookup_map[v];
 	CU.sh("md_breadcrumbs", hvn.breadcrumbs_html);
 	$("#md_txt").html(hvn.md_txt_html);
-	renderMathInElement(document.getElementById("md_txt"), {delimiters: [{left: "$$", right: "$$", display: false}, {left: "%%", right: "%%", display: true}]});  // similar to call in <script> tag at top of SSNS.html
+	renderMathInElement(document.getElementById("md_txt"), KatexSetup.delim_obj);  // KatexSetup.delim_obj defined in <head> at top of SSNS.html	
 	$(".hv_fw_img").css("width", this.fw_width);  // set width of any image in inserted modal html
 	$("#hv_ssns_screenshot").css("width", this.hv_ssns_screenshot_width);  // set width of any image in inserted modal html
 	if ( ! this.deployed) $("#md_container").modal("show");

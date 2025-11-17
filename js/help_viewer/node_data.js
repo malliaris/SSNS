@@ -34,7 +34,7 @@
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-HelpViewer.hvn_lookup_map["HV_HOME"].header_txt = "";  // empty since root node is represented by an icon outside the breadcrumbs_html
+HelpViewer.hvn_lookup_map["HV_HOME"].header_txt = String.raw``;  // empty since root node is represented by an icon outside the breadcrumbs_html
 HelpViewer.hvn_lookup_map["HV_HOME"].md_txt_html = String.raw`
 
 <p><strong>SSNS</strong>, which stands for <strong>S</strong>imple, <strong>S</strong>tochastic and <strong>N</strong>onlinear <strong>S</strong>imulator, is a web app that offers interactive exploration of examples from various <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics">STEM</a> fields.  Welcome!</p>
@@ -54,7 +54,7 @@ HelpViewer.hvn_lookup_map["HV_HOME"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_USING"].header_txt = "How to use";
+HelpViewer.hvn_lookup_map["HV_USING"].header_txt = String.raw`How to use`;
 HelpViewer.hvn_lookup_map["HV_USING"].md_txt_html = String.raw`
 
 <img id="hv_ssns_screenshot" src="/static/images/SSNS/hv_interface_pics/using_-_LM_example.png">
@@ -73,7 +73,7 @@ text-align: center; vertical-align: middle !important;
 
 
 
-HelpViewer.hvn_lookup_map["HV_PLOT_AREA"].header_txt = "Plots";
+HelpViewer.hvn_lookup_map["HV_PLOT_AREA"].header_txt = String.raw`Plots`;
 HelpViewer.hvn_lookup_map["HV_PLOT_AREA"].md_txt_html = String.raw`
 
 
@@ -88,7 +88,7 @@ HelpViewer.hvn_lookup_map["HV_PLOT_AREA"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_MAIN_PANEL"].header_txt = "Main Panel";
+HelpViewer.hvn_lookup_map["HV_MAIN_PANEL"].header_txt = String.raw`Main Panel`;
 HelpViewer.hvn_lookup_map["HV_MAIN_PANEL"].md_txt_html = String.raw`
 
 <p>The <strong>SSNS</strong> main panel contains two button bars.  The first contains the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">continuous-action commands</a> with the (non-clickable) time-step indicator on the right.  The second bar's buttons are, from left to right: <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-calculator"></i></button> for general inputs, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-sliders"></i></button> for system-type-specific inputs, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); "><samp>SYS</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm" style="padding: 0 0.35rem; ">$$ \texttt{AB} $$</i></button> for choosing the system type, and <button type="button" class="btn btn-sm emulated_help_btn"><img height="15" width="10" src="/static/images/SSNS/question_mark.svg"></button> for this <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_HELP_VIEWER'); ">help viewer</a>.</p>
@@ -106,7 +106,7 @@ HelpViewer.hvn_lookup_map["HV_MAIN_PANEL"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_PRMS_DROPDOWN"].header_txt = "PRMS Dropdown";
+HelpViewer.hvn_lookup_map["HV_PRMS_DROPDOWN"].header_txt = String.raw`PRMS Dropdown`;
 HelpViewer.hvn_lookup_map["HV_PRMS_DROPDOWN"].md_txt_html = String.raw`
 
 <p>When a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system type</a> is selected, its <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Parameter_space">parameters</a> populate the <samp>PRMS</samp> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-sliders"></i></button> dropdown area.  A parameter could be, say, a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_mu'); ">mutation rate</a> in a biological model, or <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_T'); ">temperature</a> in a physical model, like so:</p>
@@ -123,7 +123,7 @@ HelpViewer.hvn_lookup_map["HV_PRMS_DROPDOWN"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_SYS_DROPDOWN"].header_txt = "SYS Dropdown";
+HelpViewer.hvn_lookup_map["HV_SYS_DROPDOWN"].header_txt = String.raw`SYS Dropdown`;
 HelpViewer.hvn_lookup_map["HV_SYS_DROPDOWN"].md_txt_html = String.raw`
 
 <p>Use the <samp>SYS</samp> dropdown area to select an <strong>SSNS</strong> system type.  There are two sets of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Radio_button">radio buttons</a>: one orange, one yellow.  Upon selecting a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics">STEM</a> category in the orange one, the yellow one updates to show the system types from that category.  The four categories are described <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CONCEPTS'); ">here</a>.</p>
@@ -136,7 +136,7 @@ HelpViewer.hvn_lookup_map["HV_SYS_DROPDOWN"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_HELP_VIEWER"].header_txt = "Help Viewer";
+HelpViewer.hvn_lookup_map["HV_HELP_VIEWER"].header_txt = String.raw`Help Viewer`;
 HelpViewer.hvn_lookup_map["HV_HELP_VIEWER"].md_txt_html = String.raw`
 
 <p>This help viewer is a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Tree_structure">hierarchical</a> network of pages that "floats" above the <strong>SSNS</strong> interface.  The top of the hierarchy is represented by <a class="hv_link" style="cursor: text; "><i class="fas fa-fw fa-house"></i></a> ("home").  All other pages have names, e.g., <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_COMPUTATION'); ">Computation</a>.  The current page's name is <span class="hv_curr_page">boxed</span> in the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Breadcrumb_navigation">breadcrumbs</a> above to show its place in the hierarchy.</p>
@@ -149,7 +149,7 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 
 
 
-HelpViewer.hvn_lookup_map["HV_COMPUTATION"].header_txt = "Computation";
+HelpViewer.hvn_lookup_map["HV_COMPUTATION"].header_txt = String.raw`Computation`;
 HelpViewer.hvn_lookup_map["HV_COMPUTATION"].md_txt_html = String.raw`
 
 <p>
@@ -165,7 +165,7 @@ HelpViewer.hvn_lookup_map["HV_COMPUTATION"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_CODE_DESIGN"].header_txt = "Code Design";
+HelpViewer.hvn_lookup_map["HV_CODE_DESIGN"].header_txt = String.raw`Code Design`;
 HelpViewer.hvn_lookup_map["HV_CODE_DESIGN"].md_txt_html = String.raw`
 
 
@@ -181,7 +181,7 @@ HelpViewer.hvn_lookup_map["HV_CODE_DESIGN"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_CODE_ORGANIZATION"].header_txt = "Code Organization";
+HelpViewer.hvn_lookup_map["HV_CODE_ORGANIZATION"].header_txt = String.raw`Code Organization`;
 HelpViewer.hvn_lookup_map["HV_CODE_ORGANIZATION"].md_txt_html = String.raw`
 
 <p>The collection of all <strong>SSNS</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system types</a> can be grouped in many different ways &mdash; think of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Venn_diagram">Venn diagrams</a>.  This suggests the use of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Object-oriented_programming">classes</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">inheritance</a> in structuring the <strong>SSNS</strong> code.  Here is the inheritance <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Tree_structure">hierarchy</a> for the $$\texttt{Trajectory}$$ class:</p>
@@ -200,7 +200,7 @@ HelpViewer.hvn_lookup_map["HV_CODE_ORGANIZATION"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_CODE_DEPENDENCIES"].header_txt = "Code Dependencies";
+HelpViewer.hvn_lookup_map["HV_CODE_DEPENDENCIES"].header_txt = String.raw`Code Dependencies`;
 HelpViewer.hvn_lookup_map["HV_CODE_DEPENDENCIES"].md_txt_html = String.raw`
 
 <p><strong>SSNS</strong> <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Library_(computing)">library dependencies</a> include:</p>
@@ -219,7 +219,7 @@ HelpViewer.hvn_lookup_map["HV_CODE_DEPENDENCIES"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_CODE_IO"].header_txt = "Input/Output";
+HelpViewer.hvn_lookup_map["HV_CODE_IO"].header_txt = String.raw`Input/Output`;
 HelpViewer.hvn_lookup_map["HV_CODE_IO"].md_txt_html = String.raw`
 
 
@@ -238,7 +238,7 @@ HelpViewer.hvn_lookup_map["HV_CODE_IO"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_CODE_FUTURE"].header_txt = "Looking Forward";
+HelpViewer.hvn_lookup_map["HV_CODE_FUTURE"].header_txt = String.raw`Looking Forward`;
 HelpViewer.hvn_lookup_map["HV_CODE_FUTURE"].md_txt_html = String.raw`
 
 
@@ -254,7 +254,7 @@ HelpViewer.hvn_lookup_map["HV_CODE_FUTURE"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_E_T_MAX_REACHED"].header_txt = "Max Duration Reached";
+HelpViewer.hvn_lookup_map["HV_E_T_MAX_REACHED"].header_txt = String.raw`Max Duration Reached`;
 HelpViewer.hvn_lookup_map["HV_E_T_MAX_REACHED"].md_txt_html = String.raw`
 
 <p style="text-align: center; "><i class="fas fa-fw fa-xl fa-triangle-exclamation gentle_warning"></i> <strong>Maximum Duration Reached</strong> <i class="fas fa-fw fa-xl fa-triangle-exclamation gentle_warning"></i></p>
@@ -264,7 +264,7 @@ HelpViewer.hvn_lookup_map["HV_E_T_MAX_REACHED"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_E_NOT_IMPLEMENTED"].header_txt = "Not Implemented";
+HelpViewer.hvn_lookup_map["HV_E_NOT_IMPLEMENTED"].header_txt = String.raw`Not Implemented`;
 HelpViewer.hvn_lookup_map["HV_E_NOT_IMPLEMENTED"].md_txt_html = String.raw`
 
 <p style="text-align: center; "><i class="fas fa-fw fa-xl fa-person-digging gentle_warning"></i> <strong>Not Implemented</strong> <i class="fas fa-fw fa-xl fa-person-digging gentle_warning"></i></p>
@@ -274,7 +274,7 @@ HelpViewer.hvn_lookup_map["HV_E_NOT_IMPLEMENTED"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_CONCEPTS"].header_txt = "Concepts";
+HelpViewer.hvn_lookup_map["HV_CONCEPTS"].header_txt = String.raw`Concepts`;
 HelpViewer.hvn_lookup_map["HV_CONCEPTS"].md_txt_html = String.raw`
 
 
@@ -296,7 +296,7 @@ HelpViewer.hvn_lookup_map["HV_CONCEPTS"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_ENSEMBLES"].header_txt = "Ensembles, Averaging";
+HelpViewer.hvn_lookup_map["HV_ENSEMBLES"].header_txt = String.raw`Ensembles, Averaging`;
 HelpViewer.hvn_lookup_map["HV_ENSEMBLES"].md_txt_html = String.raw`
 
 
@@ -310,7 +310,7 @@ HelpViewer.hvn_lookup_map["HV_ENSEMBLES"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_MARKOV_ONE_STEP"].header_txt = "Memorylessness, etc.";
+HelpViewer.hvn_lookup_map["HV_MARKOV_ONE_STEP"].header_txt = String.raw`Memorylessness, etc.`;
 HelpViewer.hvn_lookup_map["HV_MARKOV_ONE_STEP"].md_txt_html = String.raw`
 
 
@@ -329,7 +329,7 @@ HelpViewer.hvn_lookup_map["HV_MARKOV_ONE_STEP"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_SPIN_SYSTEMS"].header_txt = "Spin Systems";
+HelpViewer.hvn_lookup_map["HV_SPIN_SYSTEMS"].header_txt = String.raw`Spin Systems`;
 HelpViewer.hvn_lookup_map["HV_SPIN_SYSTEMS"].md_txt_html = String.raw`
 
 
@@ -351,7 +351,7 @@ HelpViewer.hvn_lookup_map["HV_SPIN_SYSTEMS"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_PHASE_TRANSITIONS"].header_txt = "Phase Transitions";
+HelpViewer.hvn_lookup_map["HV_PHASE_TRANSITIONS"].header_txt = String.raw`Phase Transitions`;
 HelpViewer.hvn_lookup_map["HV_PHASE_TRANSITIONS"].md_txt_html = String.raw`
 
 
@@ -363,7 +363,7 @@ HelpViewer.hvn_lookup_map["HV_PHASE_TRANSITIONS"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_GAS_MODELS"].header_txt = "Gas Models";
+HelpViewer.hvn_lookup_map["HV_GAS_MODELS"].header_txt = String.raw`Gas Models`;
 HelpViewer.hvn_lookup_map["HV_GAS_MODELS"].md_txt_html = String.raw`
 
 
@@ -389,7 +389,7 @@ HelpViewer.hvn_lookup_map["HV_GAS_MODELS"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_GAS_THEORY_COMPARISON"].header_txt = "Gas Theory";
+HelpViewer.hvn_lookup_map["HV_GAS_THEORY_COMPARISON"].header_txt = String.raw`Gas Theory`;
 HelpViewer.hvn_lookup_map["HV_GAS_THEORY_COMPARISON"].md_txt_html = String.raw`
 
 
@@ -426,7 +426,7 @@ HelpViewer.hvn_lookup_map["HV_GAS_THEORY_COMPARISON"].md_txt_html = String.raw`
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-HelpViewer.hvn_lookup_map["HV_SA_SP"].header_txt = "Stochastic Processes";
+HelpViewer.hvn_lookup_map["HV_SA_SP"].header_txt = String.raw`Stochastic Processes`;
 HelpViewer.hvn_lookup_map["HV_SA_SP"].md_txt_html = String.raw`
 
 <p>Stochastic processes have some sort of inherent randomness and therefore require <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Probability_distribution">probability distributions</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">ensembles</a> for their quantitative description.  The relevant categories of stochastic processes are briefly discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_MARKOV_ONE_STEP'); ">here</a>.  The example processes that <strong>SSNS</strong> implements include:</p>
@@ -442,7 +442,7 @@ HelpViewer.hvn_lookup_map["HV_SA_SP"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_SA_SM"].header_txt = "Statistical Mechanics";
+HelpViewer.hvn_lookup_map["HV_SA_SM"].header_txt = String.raw`Statistical Mechanics`;
 HelpViewer.hvn_lookup_map["HV_SA_SM"].md_txt_html = String.raw`
 
 <p>Statistical mechanics is the branch of physics that forms the connection between <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Microstate_(statistical_mechanics)">microstates</a> and macrostates for systems with very many (<a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Avogadro_constant">$$ \sim \negthickspace 10^{23} $$</a>) particles.  The field provides theoretical underpinnings for (its older cousin) <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamics">thermodynamics</a>, and has produced many surprising observations such as <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Universality_(dynamical_systems)">universality</a>.  <strong>SSNS</strong> implements the following statistical mechanical system types:</p>
@@ -460,7 +460,7 @@ HelpViewer.hvn_lookup_map["HV_SA_SM"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_SA_ND"].header_txt = "Nonlinear Dynamics";
+HelpViewer.hvn_lookup_map["HV_SA_ND"].header_txt = String.raw`Nonlinear Dynamics`;
 HelpViewer.hvn_lookup_map["HV_SA_ND"].md_txt_html = String.raw`
 
 <p>A <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Linear_differential_equation">linear equation</a> like the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Wave_equation">wave equation</a> has the wonderful property that sums of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Equation_solving">solutions</a> are also solutions &mdash; think of two oppositely directed water waves "passing through" each other.  <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Nonlinear_system">Nonlinear equations</a> don't have this property.  The field of nonlinear dynamics, happily, provides tools like <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Phase_portrait">phase portraits</a> for studying nonlinear systems without focusing on <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Closed-form_expression">closed form solutions</a>.</p>
@@ -477,7 +477,7 @@ HelpViewer.hvn_lookup_map["HV_SA_ND"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_SA_FD"].header_txt = "Fluid Dynamics";
+HelpViewer.hvn_lookup_map["HV_SA_FD"].header_txt = String.raw`Fluid Dynamics`;
 HelpViewer.hvn_lookup_map["HV_SA_FD"].md_txt_html = String.raw`
 
 
@@ -504,7 +504,7 @@ HelpViewer.hvn_lookup_map["HV_SA_FD"].md_txt_html = String.raw`
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-HelpViewer.hvn_lookup_map["HV_ST_RW"].header_txt = "Random Walk";
+HelpViewer.hvn_lookup_map["HV_ST_RW"].header_txt = String.raw`Random Walk`;
 HelpViewer.hvn_lookup_map["HV_ST_RW"].md_txt_html = String.raw`
 
 
@@ -519,7 +519,7 @@ HelpViewer.hvn_lookup_map["HV_ST_RW"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_ST_MN"].header_txt = "Moran Model";
+HelpViewer.hvn_lookup_map["HV_ST_MN"].header_txt = String.raw`Moran Model`;
 HelpViewer.hvn_lookup_map["HV_ST_MN"].md_txt_html = String.raw`
 
 <p>The Moran model from <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_genetics">population genetics</a>, while highly simplified, nevertheless captures three major evolutionary "forces": <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mutation">mutation</a>, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Natural_selection">selection</a>, and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Genetic_drift">genetic drift</a>.  In it, a fixed-size population of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_N'); ">$$ N $$</a> individuals changes its composition over successive <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Discrete_time_and_continuous_time">discrete time steps</a>.  We track a particular gene that has both an "original" <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Allele">version</a> &mdash; call it $$ A $$ &mdash; and a mutated one $$ A^{\ast} $$.  When "reproducing," an $$ A $$ individual can become $$ A^{\ast} $$ &mdash; or vice versa &mdash; with probability <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_mu'); ">$$ \mu $$</a>:
@@ -534,7 +534,7 @@ The variable $$ x $$ represents the number of individuals that possess version $
 
 
 
-HelpViewer.hvn_lookup_map["HV_ST_IG"].header_txt = "Ideal Gas";
+HelpViewer.hvn_lookup_map["HV_ST_IG"].header_txt = String.raw`Ideal Gas`;
 HelpViewer.hvn_lookup_map["HV_ST_IG"].md_txt_html = String.raw`
 
 <p>I believe surveys show the single best remembered equation from introductory science is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Ideal_gas">ideal gas</a> law, $$P V = n R T$$.  For our <strong>SSNS</strong> implementations, we'll use $$p$$ for pressure and substitute $$n R \to N R / N_A \to N k_B$$ since it would be odd to specify <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IG_N'); ">$$N$$</a> $$ = 1000$$ particles in <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mole_(unit)">moles</a>.  Thus, we'll use:</p>
@@ -550,7 +550,7 @@ HelpViewer.hvn_lookup_map["HV_ST_IG"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_ST_HS"].header_txt = "Hard Sphere Gas";
+HelpViewer.hvn_lookup_map["HV_ST_HS"].header_txt = String.raw`Hard Sphere Gas`;
 HelpViewer.hvn_lookup_map["HV_ST_HS"].md_txt_html = String.raw`
 
 
@@ -567,7 +567,7 @@ HelpViewer.hvn_lookup_map["HV_ST_HS"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_ST_IS"].header_txt = "Ising Model";
+HelpViewer.hvn_lookup_map["HV_ST_IS"].header_txt = String.raw`Ising Model`;
 HelpViewer.hvn_lookup_map["HV_ST_IS"].md_txt_html = String.raw`
 
 <p>In the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Ising_model">Ising model</a>, each <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Spin_(physics)">spin</a> can point either directly into the plane of the screen or directly out.  Our implementation has <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_IS_N'); ">$$ N^2 $$</a> total spins arranged in an $$ N \times N $$ square array.  As is common, we use color to indicate direction so that each tile in our <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Heat_map">heat map</a> is either yellow (pointing in) or dark orange (pointing out).</p>
@@ -577,7 +577,7 @@ HelpViewer.hvn_lookup_map["HV_ST_IS"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_ST_XY"].header_txt = "XY Model";
+HelpViewer.hvn_lookup_map["HV_ST_XY"].header_txt = String.raw`XY Model`;
 HelpViewer.hvn_lookup_map["HV_ST_XY"].md_txt_html = String.raw`
 
 <p>In the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Classical_XY_model">XY model</a>, each <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Spin_(physics)">spin</a> rotates freely like the needle of a compass sitting on the "$$ xy $$" plane of the screen.  Our implementation has <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_XY_N'); ">$$ N^2 $$</a> total spins arranged in an $$ N \times N $$ square array.  Unlike <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IS'); ">Ising</a> spins, whose two possible directions give a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Heat_map">heat map</a> with two colors, XY model visualization involves a heat map with a cyclic continuum of colors (like a rainbow).</p>
@@ -587,7 +587,7 @@ HelpViewer.hvn_lookup_map["HV_ST_XY"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_ST_LZ"].header_txt = "Lorenz System";
+HelpViewer.hvn_lookup_map["HV_ST_LZ"].header_txt = String.raw`Lorenz System`;
 HelpViewer.hvn_lookup_map["HV_ST_LZ"].md_txt_html = String.raw`
 
 <p> LZZZZZZZZZZZZZZZz originally meant to model  <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_FD'); ">fluid ATMOSPHERIC flow</a>   <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_growth">population growth</a>, is now better known as a simple example of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a> behavior.  The variable $$ x $$ represents population size as a fraction of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Carrying_capacity">carrying capacity</a> (the largest possible size given environmental conditions).   equations:</p>
@@ -596,7 +596,7 @@ HelpViewer.hvn_lookup_map["HV_ST_LZ"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_ST_LM"].header_txt = "Logistic Map";
+HelpViewer.hvn_lookup_map["HV_ST_LM"].header_txt = String.raw`Logistic Map`;
 HelpViewer.hvn_lookup_map["HV_ST_LM"].md_txt_html = String.raw`
 
 <p>The <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Logistic_map">logistic map</a>, originally meant to model <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_growth">population growth</a>, is now better known as a simple example of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a> behavior.  The variable $$ x $$ represents population size as a fraction of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Carrying_capacity">carrying capacity</a> (the largest possible size given environmental conditions).  The model's <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Recurrence_relation">update equation</a> is:</p>
@@ -614,7 +614,7 @@ HelpViewer.hvn_lookup_map["HV_ST_LM"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_ST_GM"].header_txt = "Gingerbread-man Map";
+HelpViewer.hvn_lookup_map["HV_ST_GM"].header_txt = String.raw`Gingerbread-man Map`;
 HelpViewer.hvn_lookup_map["HV_ST_GM"].md_txt_html = String.raw`
 
 
@@ -637,7 +637,7 @@ HelpViewer.hvn_lookup_map["HV_ST_GM"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_ST_SH"].header_txt = "Sod Shock Tube";
+HelpViewer.hvn_lookup_map["HV_ST_SH"].header_txt = String.raw`Sod Shock Tube`;
 HelpViewer.hvn_lookup_map["HV_ST_SH"].md_txt_html = String.raw`
 
 
@@ -645,14 +645,14 @@ HelpViewer.hvn_lookup_map["HV_ST_SH"].md_txt_html = String.raw`
 
 <p>In the initial setup, there is no bulk flow on either side ($$u_L = u_R = 0$$), but the pressures and densities are imbalanced, e.g., <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_p'); ">$$p_L$$</a> $$>$$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_p'); ">$$p_R$$</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_rho'); ">$$\rho_L$$</a> $$>$$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_rho'); ">$$\rho_R$$</a>.  At $$t = 0$$, the diaphragm is instantaneously removed and the gases are released &mdash; like a dam breaking.  Three waves emerge from the spot where the diaphragm was located: a rightward moving <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Shock_wave">shock wave</a>, a leftward moving rarefaction fan, and a rightward moving contact discontinuity in between them.  The shock and contact waves correspond to <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Classification_of_discontinuities">sudden jumps</a> in gas conditions, so neither has significant width.  The rarefaction fan, on the other hand, grows steadily wider with time.  The gas on the far right and far left of the domain is undisturbed, having not "found out" about the changes yet.  In summary, the domain now consists of regions where &mdash; apart from the rarefaction fan &mdash; the within-region gas conditions stay fixed in time, and all region boundaries move apart from each other with fixed speed.</p>
 
-<p>We have not yet mentioned <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_N'); ">$$N$$</a>, an input parameter related not to the fluid flow directly, but to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations">numerical solution</a> of the fluid equations.  We take <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_N'); ">$$N$$</a> points evenly spaced along the tube and, for each, calculate and update a vector $$(\rho, \rho u, \rho e)$$ each time step.  (The first, second, and third components of the update equations enforce conservation of mass, momentum, and energy, respectively).  Our implementation sticks with simple choices for the numerical details: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_of_accuracy">first-order</a>, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Upwind_scheme">upwind</a> scheme with Zha-Bilgen <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Flux">flux</a> splitting.  The shock tube also happens to have an exact analytical solution, which allows easy comparison with our approximate, numerical results.  After a quick bit of numerical root finding to solve an <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Implicit_function">implicit equation</a>, we obtain the values of the gas variables in each region, and plot those that are constant as thin black horizontal/vertical lines.</p>
+<p>We have not yet mentioned <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_N'); ">$$N$$</a>, an input parameter related not to the fluid flow directly, but to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations">numerical solution</a> of the fluid equations.  We take <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_FD_SH_N'); ">$$N$$</a> points evenly spaced along the tube and, for each, calculate and update a vector $$(\rho, \rho u, \rho e)$$ each time step.  (The first, second, and third components of the update equations enforce conservation of mass, momentum, and energy, respectively).  Our implementation sticks with simple choices for the numerical details: a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Order_of_accuracy">first-order</a>, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Upwind_scheme">upwind</a> scheme with Zha-Bilgen <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Flux">flux</a> splitting.  The shock tube also happens to have an exact analytical solution, to which we compare our approximate, numerical results.  After a quick bit of numerical root finding to solve an <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Implicit_function">implicit equation</a>, we obtain the values of the gas variables in each region, and plot those that are constant as thin black horizontal/vertical lines.</p>
   
 
 `;
 
 
 
-HelpViewer.hvn_lookup_map["HV_ST_PF"].header_txt = "Rigid Planar Flow";
+HelpViewer.hvn_lookup_map["HV_ST_PF"].header_txt = String.raw`Rigid Planar Flow`;
 HelpViewer.hvn_lookup_map["HV_ST_PF"].md_txt_html = String.raw`
 
 
@@ -683,7 +683,7 @@ HelpViewer.hvn_lookup_map["HV_ST_PF"].md_txt_html = String.raw`
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-HelpViewer.hvn_lookup_map["HV_P_SP_RW_l"].header_txt = "\ell";
+HelpViewer.hvn_lookup_map["HV_P_SP_RW_l"].header_txt = String.raw`\ell`;
 HelpViewer.hvn_lookup_map["HV_P_SP_RW_l"].md_txt_html = String.raw`
 
 <p>the ell
@@ -693,7 +693,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_RW_l"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SP_RW_r"].header_txt = "r";
+HelpViewer.hvn_lookup_map["HV_P_SP_RW_r"].header_txt = String.raw`r`;
 HelpViewer.hvn_lookup_map["HV_P_SP_RW_r"].md_txt_html = String.raw`
 
 <p>the ahhhr
@@ -703,7 +703,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_RW_r"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SP_RW_N"].header_txt = "N";
+HelpViewer.hvn_lookup_map["HV_P_SP_RW_N"].header_txt = String.raw`N`;
 HelpViewer.hvn_lookup_map["HV_P_SP_RW_N"].md_txt_html = String.raw`
 
 <p>whole number "length" $$N$$ of the finite random walk interval (the <em>number</em> of sites is $$N + 1$$)</p>
@@ -713,7 +713,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_RW_N"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SP_RW_x_0"].header_txt = "x_0";
+HelpViewer.hvn_lookup_map["HV_P_SP_RW_x_0"].header_txt = String.raw`x_0`;
 HelpViewer.hvn_lookup_map["HV_P_SP_RW_x_0"].md_txt_html = String.raw`
 
 <p>initial position (or site #) of the random walk</p>
@@ -723,7 +723,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_RW_x_0"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SP_MN_mu"].header_txt = "\mu";
+HelpViewer.hvn_lookup_map["HV_P_SP_MN_mu"].header_txt = String.raw`\mu`;
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_mu"].md_txt_html = String.raw`
 
 <p>the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mutation_rate">mutation rate</a> as a probability: $$ \; 0 \le \mu \le 1 $$  ADD NOTE ABOUT CASES OF ABSORPTION AT 0 OR 1???</p>
@@ -732,7 +732,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_MN_mu"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SP_MN_s"].header_txt = "s";
+HelpViewer.hvn_lookup_map["HV_P_SP_MN_s"].header_txt = String.raw`s`;
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_s"].md_txt_html = String.raw`
 
 <p>the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Selection_coefficient">selection coefficient</a>, which takes values $$ \; ? \le s \le ? $$</p>
@@ -741,7 +741,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_MN_s"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SP_MN_N"].header_txt = "N";
+HelpViewer.hvn_lookup_map["HV_P_SP_MN_N"].header_txt = String.raw`N`;
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_N"].md_txt_html = String.raw`
 
 <p>number of individuals in the population; a whole number $$ \; 2, 3, \ldots $$</p>
@@ -750,7 +750,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_MN_N"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SP_MN_x_0"].header_txt = "x_0";
+HelpViewer.hvn_lookup_map["HV_P_SP_MN_x_0"].header_txt = String.raw`x_0`;
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_x_0"].md_txt_html = String.raw`
 
 <p>initial value of the number of individuals <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_MN'); ">$$ x $$</a>; a whole number $$ \; 0 \le x_0 \le $$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_N'); ">$$ N $$</a></p>
@@ -759,7 +759,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_MN_x_0"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_IG_N"].header_txt = "N";
+HelpViewer.hvn_lookup_map["HV_P_SM_IG_N"].header_txt = String.raw`N`;
 HelpViewer.hvn_lookup_map["HV_P_SM_IG_N"].md_txt_html = String.raw`
 
 <p>the number of gas particles $$ 1 \le N \le 10000 $$</p>
@@ -768,7 +768,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_IG_N"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_IG_V"].header_txt = "V";
+HelpViewer.hvn_lookup_map["HV_P_SM_IG_V"].header_txt = String.raw`V`;
 HelpViewer.hvn_lookup_map["HV_P_SM_IG_V"].md_txt_html = String.raw`
 
 <p>volume $$V$$ of the ideal gas sample; $$ 0.1 \le V \le 1 $$; units are discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>; $$V$$ for the ideal gas is fixed for the entire trajectory (unlike the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">hard sphere gas</a>, where it is indirectly controlled on-the-fly via a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_v_pist'); ">piston</a>)</p>
@@ -777,7 +777,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_IG_V"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_IG_kT0"].header_txt = "k_B T_0";
+HelpViewer.hvn_lookup_map["HV_P_SM_IG_kT0"].header_txt = String.raw`k_B T_0`;
 HelpViewer.hvn_lookup_map["HV_P_SM_IG_kT0"].md_txt_html = String.raw`
 
 <p><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_temperature">absolute temperature</a> $$T_0$$ multiplied by the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a> $$k_B$$ so that it has units of energy ($$\mathrm{J}$$); the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Expected_value">expected</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_kT0'); ">total energy</a> of the gas is $$N k_B T_0$$ (details <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>); while the technically allowed temperature range is $$ {0 \le k_B T_0 \le 10^9} $$, a more reasonable working range is $$ {10^{-3} \le k_B T_0 \le 10^3} $$; the hard-coded (but editable) value of the continuous time increment $$\text{d}s = 0.001$$ was picked so that particles at $$k_B T_0 = 10^{-3}$$ are just barely moving, while the movements of particles at $$k_B T_0 = 10^3$$ are fast but just barely trackable frame-to-frame; more <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/tree/main/README.md#general-timeenergyvisualizationcomputation-considerations">here</a></p>
@@ -786,7 +786,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_IG_kT0"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_IG_BC"].header_txt = "\mathrm{BC}";
+HelpViewer.hvn_lookup_map["HV_P_SM_IG_BC"].header_txt = String.raw`\mathrm{BC}`;
 HelpViewer.hvn_lookup_map["HV_P_SM_IG_BC"].md_txt_html = String.raw`
 
 <p>This <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter</a> button cycles through various <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boundary_value_problem">boundary conditions</a> ($$\mathrm{BC}$$s) for the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IG'); ">ideal gas</a>.  Each of the two coordinates, $$x$$ and $$y$$, can have boundaries that are either <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Specular_reflection">reflecting</a> or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Periodic_boundary_conditions">periodic</a>, yielding four possible $$x|y$$ combinations:</p>
@@ -807,7 +807,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_IG_BC"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_HS_N"].header_txt = "N";
+HelpViewer.hvn_lookup_map["HV_P_SM_HS_N"].header_txt = String.raw`N`;
 HelpViewer.hvn_lookup_map["HV_P_SM_HS_N"].md_txt_html = String.raw`
 
 <p>the number of gas particles $$ 1 \le N \le 1000 $$</p>
@@ -816,7 +816,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_HS_N"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_HS_IC"].header_txt = "\mathrm{IC}";
+HelpViewer.hvn_lookup_map["HV_P_SM_HS_IC"].header_txt = String.raw`\mathrm{IC}`;
 HelpViewer.hvn_lookup_map["HV_P_SM_HS_IC"].md_txt_html = String.raw`
 
 
@@ -835,7 +835,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_HS_IC"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_HS_rho"].header_txt = "\rho";
+HelpViewer.hvn_lookup_map["HV_P_SM_HS_rho"].header_txt = String.raw`\rho`;
 HelpViewer.hvn_lookup_map["HV_P_SM_HS_rho"].md_txt_html = String.raw`
 
 <p>The gas particle density <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter</a> toggles between two settings:</p>
@@ -853,7 +853,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_HS_rho"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_HS_R"].header_txt = "R";
+HelpViewer.hvn_lookup_map["HV_P_SM_HS_R"].header_txt = String.raw`R`;
 HelpViewer.hvn_lookup_map["HV_P_SM_HS_R"].md_txt_html = String.raw`
 
 <p>This is the gas particle radius &mdash; not to be confused with the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Gas_constant">gas constant</a> (also $$R$$) present in the best known form of the ideal gas law (see discussion <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_IG'); ">here</a>).  The <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter</a> button toggles between two settings:</p>
@@ -871,7 +871,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_HS_R"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_HS_kT0"].header_txt = "k_B T_0";
+HelpViewer.hvn_lookup_map["HV_P_SM_HS_kT0"].header_txt = String.raw`k_B T_0`;
 HelpViewer.hvn_lookup_map["HV_P_SM_HS_kT0"].md_txt_html = String.raw`
 
 <p>initial value of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Thermodynamic_temperature">absolute temperature</a> $$T_0$$ multiplied by the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boltzmann_constant">Boltzmann constant</a> $$k_B$$ so that it has units of energy ($$\mathrm{J}$$); for all <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_IC'); ">initial conditions</a>, the total energy of the hard sphere gas will be $$\cong N k_B T_0$$ (details <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_MODELS'); ">here</a>); while the technically allowed temperature range is $$ {0 \le k_B T_0 \le 10^9} $$, a more reasonable working range is $$ {10^{-3} \le k_B T_0 \le 10^3} $$; the hard-coded (but editable) value of the continuous time increment $$\text{d}s = 0.001$$ was picked so that particles at $$k_B T_0 = 10^{-3}$$ are just barely moving, while the movements of particles at $$k_B T_0 = 10^3$$ are fast but just barely trackable frame-to-frame (more <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/tree/main/README.md#general-timeenergyvisualizationcomputation-considerations">here</a>); of course, anticipated <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SM_HS_v_pist'); ">piston movement</a> should also be taken into account</p>
@@ -880,7 +880,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_HS_kT0"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_HS_v_pist"].header_txt = "v_{\mathrm{pist.}}";
+HelpViewer.hvn_lookup_map["HV_P_SM_HS_v_pist"].header_txt = String.raw`v_{\mathrm{pist.}}`;
 HelpViewer.hvn_lookup_map["HV_P_SM_HS_v_pist"].md_txt_html = String.raw`
 
 <p>This is the velocity of the piston, the inner surface of which forms the right wall of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_HS'); ">hard sphere</a> gas container.  We specify velocity (rather than position) since change in the latter is calculated from the former, and both are involved in <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Elastic_collision">collision</a> calculations.  Positive $$v_{\mathrm{pist.}}$$ is taken to be in the $$-\hat{x}$$ direction, i.e., <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Compression_(physics)">compression</a>.  The piston is assumed infinitely massive, which means a colliding particle will get a $$\Delta v$$ contribution of $$2 v_{\mathrm{pist.}}$$.  We thus limit compression speeds to reasonable values so as not to impart unnecessarily large amounts of energy.  Expansion speeds, however, are allowed to be enormous for reasons discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_GAS_THEORY_COMPARISON'); ">here</a>.  The allowed range is $$ {- 10^{101} \le v_{\mathrm{pist.}} \le 10} $$.</p>
@@ -892,7 +892,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_HS_v_pist"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_IS_T"].header_txt = "T";
+HelpViewer.hvn_lookup_map["HV_P_SM_IS_T"].header_txt = String.raw`T`;
 HelpViewer.hvn_lookup_map["HV_P_SM_IS_T"].md_txt_html = String.raw`
 
 <p>the temperature in <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Kelvin">absolute units</a>, so that $$ \; T \ge 0 $$</p>
@@ -901,7 +901,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_IS_T"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_IS_h"].header_txt = "h";
+HelpViewer.hvn_lookup_map["HV_P_SM_IS_h"].header_txt = String.raw`h`;
 HelpViewer.hvn_lookup_map["HV_P_SM_IS_h"].md_txt_html = String.raw`
 
 <p>the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Magnetic_field">external field</a>; $$ \; - \infty < h < + \infty $$</p>
@@ -910,7 +910,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_IS_h"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_IS_N"].header_txt = "N";
+HelpViewer.hvn_lookup_map["HV_P_SM_IS_N"].header_txt = String.raw`N`;
 HelpViewer.hvn_lookup_map["HV_P_SM_IS_N"].md_txt_html = String.raw`
 
 <p>the number of spins along any side of the square <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Lattice_model_(physics)">lattice</a>, so that the total number is $$ N^2 $$</p>
@@ -919,7 +919,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_IS_N"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_XY_T"].header_txt = "T";
+HelpViewer.hvn_lookup_map["HV_P_SM_XY_T"].header_txt = String.raw`T`;
 HelpViewer.hvn_lookup_map["HV_P_SM_XY_T"].md_txt_html = String.raw`
 
 <p>the temperature in <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Kelvin">absolute units</a>, so that $$ \; T \ge 0 $$</p>
@@ -928,7 +928,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_XY_T"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_XY_h"].header_txt = "h";
+HelpViewer.hvn_lookup_map["HV_P_SM_XY_h"].header_txt = String.raw`h`;
 HelpViewer.hvn_lookup_map["HV_P_SM_XY_h"].md_txt_html = String.raw`
 
 <p>the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Magnetic_field">external field</a>; $$ \; - \infty < h < + \infty $$</p>
@@ -937,7 +937,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_XY_h"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SM_XY_N"].header_txt = "N";
+HelpViewer.hvn_lookup_map["HV_P_SM_XY_N"].header_txt = String.raw`N`;
 HelpViewer.hvn_lookup_map["HV_P_SM_XY_N"].md_txt_html = String.raw`
 
 <p>the number of spins along any side of the square <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Lattice_model_(physics)">lattice</a>, so that the total number is $$ N^2 $$</p>
@@ -946,7 +946,7 @@ HelpViewer.hvn_lookup_map["HV_P_SM_XY_N"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_ND_LM_IC"].header_txt = "\mathrm{IC}";
+HelpViewer.hvn_lookup_map["HV_P_ND_LM_IC"].header_txt = String.raw`\mathrm{IC}`;
 HelpViewer.hvn_lookup_map["HV_P_ND_LM_IC"].md_txt_html = String.raw`
 
 <p>This <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter</a> button cycles through various <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a> ($$\mathrm{IC}$$s), which, for the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_LM'); ">logistic map</a>, each include an inital value <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_x_0'); ">$$ x_0 $$</a> and a parameter value <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_r'); ">$$ r $$</a>.  The 5 $$(r, x_0)$$ pair options and their respective resulting dynamics are:</p>
@@ -967,7 +967,7 @@ HelpViewer.hvn_lookup_map["HV_P_ND_LM_IC"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_ND_LM_r"].header_txt = "r";
+HelpViewer.hvn_lookup_map["HV_P_ND_LM_r"].header_txt = String.raw`r`;
 HelpViewer.hvn_lookup_map["HV_P_ND_LM_r"].md_txt_html = String.raw`
 
 <p><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_growth#Population_growth_rate">growth rate</a> for the population, taking values $$ \; 0 \le r \le 4 $$; be aware that the trajectory will get "stuck" at $$0$$ for any of the following parameter combinations:</p>
@@ -979,7 +979,7 @@ HelpViewer.hvn_lookup_map["HV_P_ND_LM_r"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_ND_LM_x_0"].header_txt = "x_0";
+HelpViewer.hvn_lookup_map["HV_P_ND_LM_x_0"].header_txt = String.raw`x_0`;
 HelpViewer.hvn_lookup_map["HV_P_ND_LM_x_0"].md_txt_html = String.raw`
 
 <p>initial value of the population fraction <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_LM'); ">$$ x $$</a>; $$ \; 0 \le x_0 \le 1 $$</p>
@@ -993,7 +993,7 @@ HelpViewer.hvn_lookup_map["HV_P_ND_LM_x_0"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_ND_GM_IC"].header_txt = "\mathrm{IC}";
+HelpViewer.hvn_lookup_map["HV_P_ND_GM_IC"].header_txt = String.raw`\mathrm{IC}`;
 HelpViewer.hvn_lookup_map["HV_P_ND_GM_IC"].md_txt_html = String.raw`
 
 <p>This <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">meta-parameter</a> button cycles through various <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial conditions</a> ($$\mathrm{IC}$$s), which, for the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">gingerbread-man map</a>, are inital value pairs $$($$<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_x_0'); ">$$x_0$$</a>$$,$$<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_ND_GM_y_0'); ">$$y_0$$</a>$$)$$.  The 5 options &mdash; and the behavior each leads to &mdash; are:</p>
@@ -1008,7 +1008,7 @@ HelpViewer.hvn_lookup_map["HV_P_ND_GM_IC"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_ND_GM_x_0"].header_txt = "x_0";
+HelpViewer.hvn_lookup_map["HV_P_ND_GM_x_0"].header_txt = String.raw`x_0`;
 HelpViewer.hvn_lookup_map["HV_P_ND_GM_x_0"].md_txt_html = String.raw`
 
 <p>initial value of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">$$ x $$</a>; $$ \; -2.5 \le x_0 \le 5 $$</p>
@@ -1017,7 +1017,7 @@ HelpViewer.hvn_lookup_map["HV_P_ND_GM_x_0"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_ND_GM_y_0"].header_txt = "y_0";
+HelpViewer.hvn_lookup_map["HV_P_ND_GM_y_0"].header_txt = String.raw`y_0`;
 HelpViewer.hvn_lookup_map["HV_P_ND_GM_y_0"].md_txt_html = String.raw`
 
 <p>initial value of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_GM'); ">$$ y $$</a>; $$ \; -2.5 \le y_0 \le 5 $$</p>
@@ -1026,7 +1026,7 @@ HelpViewer.hvn_lookup_map["HV_P_ND_GM_y_0"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_FD_SH_N"].header_txt = "N";
+HelpViewer.hvn_lookup_map["HV_P_FD_SH_N"].header_txt = String.raw`N`;
 HelpViewer.hvn_lookup_map["HV_P_FD_SH_N"].md_txt_html = String.raw`
 
 <p>number of grid points used in the numerical solution of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_SH'); ">shock tube</a> fluid equations; higher $$N$$ requires more computational expense &mdash; you will see the calculation "run" slower; on the flip side, the features of the compressible flow, e.g., <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Shock_wave">shock waves</a>, will be better resolved and look "crisper"; we require $$N$$ to be an even number $$\ge 4$$</p>
@@ -1035,7 +1035,7 @@ HelpViewer.hvn_lookup_map["HV_P_FD_SH_N"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_FD_SH_rho"].header_txt = "\rho";
+HelpViewer.hvn_lookup_map["HV_P_FD_SH_rho"].header_txt = String.raw`\rho`;
 HelpViewer.hvn_lookup_map["HV_P_FD_SH_rho"].md_txt_html = String.raw`
 
 <p>initial mass densities of the gas on the right $$\rho_R$$ and left $$\rho_L$$ sides of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_SH'); ">shock tube</a>; in general, $$ \rho > 0 $$</p>
@@ -1044,7 +1044,7 @@ HelpViewer.hvn_lookup_map["HV_P_FD_SH_rho"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_FD_SH_p"].header_txt = "p";
+HelpViewer.hvn_lookup_map["HV_P_FD_SH_p"].header_txt = String.raw`p`;
 HelpViewer.hvn_lookup_map["HV_P_FD_SH_p"].md_txt_html = String.raw`
 
 <p>initial pressures of the gas on the right $$p_R$$ and left $$p_L$$ sides of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_SH'); ">shock tube</a>; in general, $$ p > 0 $$</p>
@@ -1053,7 +1053,7 @@ HelpViewer.hvn_lookup_map["HV_P_FD_SH_p"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_FD_PF_Dpol"].header_txt = "\Delta p / \ell";
+HelpViewer.hvn_lookup_map["HV_P_FD_PF_Dpol"].header_txt = String.raw`\Delta p / \ell`;
 HelpViewer.hvn_lookup_map["HV_P_FD_PF_Dpol"].md_txt_html = String.raw`
 
 <p>an external pressure difference per unit length $$\Delta p / \ell$$ is applied across the system's upstream and downstream faces; allowed values are $$ -100 \le \Delta p / \ell \le 100 $$ and negative values correspond to force on the slabs in the $$+\hat{x}$$ direction; it has units of $$\mathrm{Pa/m}$$ and is akin to the pressure gradient $$\text{d}p/\text{d}x$$ in the true fluid system; more on this can be found <a target="_blank" class="hv_link" href="/d/teaching/PF_notes.pdf">here</a></p>
@@ -1062,7 +1062,7 @@ HelpViewer.hvn_lookup_map["HV_P_FD_PF_Dpol"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ut"].header_txt = "U_{\mathrm{top}}";
+HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ut"].header_txt = String.raw`U_{\mathrm{top}}`;
 HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ut"].md_txt_html = String.raw`
 
 <p>velocity in $$\mathrm{m/s}$$ of the top boundary: $$ { -100 \le U_{\mathrm{top}} \le 100 } $$</p>
@@ -1071,7 +1071,7 @@ HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ut"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ub"].header_txt = "U_{\mathrm{bot.}}";
+HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ub"].header_txt = String.raw`U_{\mathrm{bot.}}`;
 HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ub"].md_txt_html = String.raw`
 
 <p>velocity in $$\mathrm{m/s}$$ of the bottom boundary: $$ { -100 \le U_{\mathrm{bot.}} \le 100 } $$</p>
@@ -1080,7 +1080,7 @@ HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ub"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_FD_PF_mu"].header_txt = "\mu";
+HelpViewer.hvn_lookup_map["HV_P_FD_PF_mu"].header_txt = String.raw`\mu`;
 HelpViewer.hvn_lookup_map["HV_P_FD_PF_mu"].md_txt_html = String.raw`
 
 <p>the parameter $$ 0.01 \le \mu \le 1 $$ quantifies how effectively momentum is transferred from one slab to its neighbors; it is specific to the <samp>PF</samp> mini-app and akin to a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Friction#Coefficient_of_friction">frictional coefficient</a> or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Drag_coefficient">drag coefficient</a>; it is meant to emulate (and has units of) the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Viscosity#Dynamic_viscosity">dynamic viscosity</a> in a true fluid; more on this can be found <a target="_blank" class="hv_link" href="/d/teaching/PF_notes.pdf">here</a></p>
@@ -1089,7 +1089,7 @@ HelpViewer.hvn_lookup_map["HV_P_FD_PF_mu"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ds"].header_txt = "\Delta s";
+HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ds"].header_txt = String.raw`\Delta s`;
 HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ds"].md_txt_html = String.raw`
 
 
@@ -1106,7 +1106,7 @@ HelpViewer.hvn_lookup_map["HV_P_FD_PF_Ds"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_FD_PF_N"].header_txt = "N";
+HelpViewer.hvn_lookup_map["HV_P_FD_PF_N"].header_txt = String.raw`N`;
 HelpViewer.hvn_lookup_map["HV_P_FD_PF_N"].md_txt_html = String.raw`
 
 <p>number of slabs $$ 1 \le N \le 100 $$; this number does not include the top and bottom boundaries</p>
@@ -1125,7 +1125,7 @@ HelpViewer.hvn_lookup_map["HV_P_FD_PF_N"].md_txt_html = String.raw`
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-HelpViewer.hvn_lookup_map["HV_CTRL_DROPDOWN"].header_txt = "CTRL Dropdown";
+HelpViewer.hvn_lookup_map["HV_CTRL_DROPDOWN"].header_txt = String.raw`CTRL Dropdown`;
 HelpViewer.hvn_lookup_map["HV_CTRL_DROPDOWN"].md_txt_html = String.raw`
 
 <p>Unlike the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-sliders"></i></button> dropdown area (which contains <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system-type</a>-specific quantities), the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-calculator"></i></button> dropdown area contains inputs that apply to all (or most) system types.  They relate to trajectory navigation, plotting, etc. and are, from top to bottom:</p>
@@ -1144,7 +1144,7 @@ HelpViewer.hvn_lookup_map["HV_CTRL_DROPDOWN"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_C_CONTINUOUS_CMDS"].header_txt = "Continuous Action Commands";
+HelpViewer.hvn_lookup_map["HV_C_CONTINUOUS_CMDS"].header_txt = String.raw`Continuous Action Commands`;
 HelpViewer.hvn_lookup_map["HV_C_CONTINUOUS_CMDS"].md_txt_html = String.raw`
 
 <p>At the top of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_MAIN_PANEL'); ">main panel</a>, always in view, is this button bar:</p>
@@ -1172,7 +1172,7 @@ HelpViewer.hvn_lookup_map["HV_C_CONTINUOUS_CMDS"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_C_ONE_STEP_CMDS"].header_txt = "One Step Commands";
+HelpViewer.hvn_lookup_map["HV_C_ONE_STEP_CMDS"].header_txt = String.raw`One Step Commands`;
 HelpViewer.hvn_lookup_map["HV_C_ONE_STEP_CMDS"].md_txt_html = String.raw`
 
 <p>Unlike their <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">continuous-action counterparts</a> (which put <strong>SSNS</strong> in "run mode"), these one-step commands:</p>
@@ -1200,7 +1200,7 @@ HelpViewer.hvn_lookup_map["HV_C_ONE_STEP_CMDS"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_C_PLOT_TYPES"].header_txt = "Plot Type Bar";
+HelpViewer.hvn_lookup_map["HV_C_PLOT_TYPES"].header_txt = String.raw`Plot Type Bar`;
 HelpViewer.hvn_lookup_map["HV_C_PLOT_TYPES"].md_txt_html = String.raw`
 
 <p>For each <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system type</a>, output is visualized with one or more plot types, selectable via this bar in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp> dropdown area</a>:</p>
@@ -1225,7 +1225,7 @@ HelpViewer.hvn_lookup_map["HV_C_PLOT_TYPES"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_C_T_DT_JUMP"].header_txt = "Trajectory Jumps";
+HelpViewer.hvn_lookup_map["HV_C_T_DT_JUMP"].header_txt = String.raw`Trajectory Jumps`;
 HelpViewer.hvn_lookup_map["HV_C_T_DT_JUMP"].md_txt_html = String.raw`
 
 <p>The following two controls allow the user to make jumps in a recorded trajectory.</p>
@@ -1240,7 +1240,7 @@ HelpViewer.hvn_lookup_map["HV_C_T_DT_JUMP"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_C_DELAY_WINDOW"].header_txt = "Delay/Window";
+HelpViewer.hvn_lookup_map["HV_C_DELAY_WINDOW"].header_txt = String.raw`Delay/Window`;
 HelpViewer.hvn_lookup_map["HV_C_DELAY_WINDOW"].md_txt_html = String.raw`
 
 
@@ -1257,7 +1257,7 @@ HelpViewer.hvn_lookup_map["HV_C_DELAY_WINDOW"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_C_T_0_MAX_STOP"].header_txt = "Trajectory Start/Stop";
+HelpViewer.hvn_lookup_map["HV_C_T_0_MAX_STOP"].header_txt = String.raw`Trajectory Start/Stop`;
 HelpViewer.hvn_lookup_map["HV_C_T_0_MAX_STOP"].md_txt_html = String.raw`
 
 <p>The following three controls have to do with trajectory start/stop times.  The symbol background colors are discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">here</a>.</p>
@@ -1270,7 +1270,7 @@ HelpViewer.hvn_lookup_map["HV_C_T_0_MAX_STOP"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_C_RNG_RECR_TRAJ"].header_txt = "RNG/Trajectory";
+HelpViewer.hvn_lookup_map["HV_C_RNG_RECR_TRAJ"].header_txt = String.raw`RNG/Trajectory`;
 HelpViewer.hvn_lookup_map["HV_C_RNG_RECR_TRAJ"].md_txt_html = String.raw`
 
 <p>The following two controls affect the handling of random numbers and are only visible/applicable for <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">stochastic</a> system types.  The control name background colors are discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); ">here</a>.</p>
@@ -1288,7 +1288,7 @@ HelpViewer.hvn_lookup_map["HV_C_RNG_RECR_TRAJ"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_C_SP_ENSEMBLE"].header_txt = "Ensemble Members";
+HelpViewer.hvn_lookup_map["HV_C_SP_ENSEMBLE"].header_txt = String.raw`Ensemble Members`;
 HelpViewer.hvn_lookup_map["HV_C_SP_ENSEMBLE"].md_txt_html = String.raw`
 
 
@@ -1304,7 +1304,7 @@ HelpViewer.hvn_lookup_map["HV_C_SP_ENSEMBLE"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_C_RELOAD_CMDS"].header_txt = "Reload Commands";
+HelpViewer.hvn_lookup_map["HV_C_RELOAD_CMDS"].header_txt = String.raw`Reload Commands`;
 HelpViewer.hvn_lookup_map["HV_C_RELOAD_CMDS"].md_txt_html = String.raw`
 
 <p>A trajectory can always be "rewound" and re-recorded.  A more controlled reset, however, is provided by these commands:</p>
@@ -1327,4 +1327,3 @@ HelpViewer.hvn_lookup_map["HV_C_RELOAD_CMDS"].md_txt_html = String.raw`
 
 
 `;
-
