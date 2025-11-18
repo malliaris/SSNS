@@ -320,7 +320,7 @@ class PlotTypeXT_MN extends PlotTypeXT_SP {
     }
 
     get_ext_y_axis_lbl_str() {
-	return "\\mathrm{ \\# \\; of \\; individuals}";
+	return "\\mathrm{ \\# \\; individuals} \\; \\; x(t)";
     }
 }
 
