@@ -201,10 +201,6 @@ class PlotTypeHX_SP extends PlotTypeHX {
 	this.flot_data_opts = copy(PlotTypeHX.flot_data_opts_histogram);
     }
 
-    get_ext_y_axis_lbl_str() {
-	return "\\mathrm{ \\# \\; ensemble \\; members}";
-    }
-
     get_flot_data_series(t) {
 
 	let data_series = [];
@@ -238,6 +234,10 @@ class PlotTypeHX_SP_finite extends PlotTypeHX_SP {
 	let hist_data = this.get_hist_data_flot(data);
 	return hist_data;
     }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\mathrm{ \\ln \\; \\# \\; ensemble \\; members}";
+    }
 }
 
 class PlotTypeHX_SP_semiinf extends PlotTypeHX_SP {
@@ -252,6 +252,10 @@ class PlotTypeHX_SP_semiinf extends PlotTypeHX_SP {
 	});
 	let hist_data = this.get_hist_data_flot(data);
 	return hist_data;
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\mathrm{ \\# \\; ensemble \\; members}";
     }
 }
 

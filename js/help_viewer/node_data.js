@@ -521,7 +521,7 @@ HelpViewer.hvn_lookup_map["HV_ST_RW"].md_txt_html = String.raw`
 HelpViewer.hvn_lookup_map["HV_ST_MN"].header_txt = String.raw`Moran Model`;
 HelpViewer.hvn_lookup_map["HV_ST_MN"].md_txt_html = String.raw`
 
-<p>The Moran model from <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_genetics">population genetics</a>, while highly simplified, nevertheless captures three major evolutionary "forces": <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mutation">mutation</a>, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Natural_selection">selection</a>, and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Genetic_drift">genetic drift</a>.  In it, a fixed-size population of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_N'); ">$$ N $$</a> individuals changes its composition over successive <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Discrete_time_and_continuous_time">discrete time steps</a>.  We track a particular gene that has both an "original" <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Allele">version</a> &mdash; call it $$ A $$ &mdash; and a mutated one $$ A^{\ast} $$.  When "reproducing," an $$ A $$ individual can become $$ A^{\ast} $$ &mdash; or vice versa &mdash; with probability <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_mu'); ">$$ \mu $$</a>:
+<p>The Moran model from <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_genetics">population genetics</a>, while highly simplified, nevertheless captures three major evolutionary "forces": <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mutation">mutation</a>, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Natural_selection">selection</a>, and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Genetic_drift">genetic drift</a>.  In it, a fixed-size population of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_N'); ">$$ N $$</a> individuals changes its composition over successive <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Discrete_time_and_continuous_time">discrete time steps</a>.  We track a particular gene that has both an "original" or "wild type" <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Allele">version</a> &mdash; call it $$ A $$ &mdash; and a mutated one $$ A^{\ast} $$.  When "reproducing," an $$ A $$ individual can become $$ A^{\ast} $$ &mdash; or vice versa &mdash; with probability <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_mu'); ">$$ \mu $$</a>:
 
 %% A \xrightleftharpoons[\mu]{\mu} A^{\ast}. %%
 
@@ -712,7 +712,9 @@ HelpViewer.hvn_lookup_map["HV_P_SP_RW_x_0"].md_txt_html = String.raw`
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_mu"].header_txt = String.raw`\mu`;
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_mu"].md_txt_html = String.raw`
 
-<p>the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mutation_rate">mutation rate</a> as a probability: $$ \; 0 \le \mu \le 1 $$  ADD NOTE ABOUT CASES OF ABSORPTION AT 0 OR 1???</p>
+<p>This is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mutation_rate">mutation rate</a> as a probability $$ \; 0 \le \mu \le 1 $$ per individual per generation.</p>
+
+<p>Be aware that setting $$\mu$$ very low (as compared to $$s$$ and $$1/N$$) will cause one allele to sweep out all copies of the other for many <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_SP_ENSEMBLE'); ">ensemble</a> members &mdash; the <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-chart-simple"></i></button> plot will show peaks at $$0$$ and/or $$N$$.  The extreme case of setting $$\mu = 0$$ makes both boundaries <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/First-hitting-time_model">absorbing</a>, so that all ensemble members will eventually get "stuck" at $$0$$ or $$N$$.</p>
 
 `;
 
@@ -721,7 +723,13 @@ HelpViewer.hvn_lookup_map["HV_P_SP_MN_mu"].md_txt_html = String.raw`
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_s"].header_txt = String.raw`s`;
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_s"].md_txt_html = String.raw`
 
-<p>the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Selection_coefficient">selection coefficient</a>, which takes values $$ \; ? \le s \le ? $$</p>
+<p>This is the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Selection_coefficient">selection coefficient</a>, which takes values $$ \; - \infty < s \le 1 $$.</p>
+
+<p>This odd-looking range is best understood in light of how the model is implemented.  Each generation, one individual will be added to the population and another removed (thus keeping $$N$$ fixed).  The choice for removal is unweighted, so only <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Genetic_drift">genetic drift</a> plays a role there.  The choice for addition, however, is weighted by <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Fitness_(biology)">fitness</a>.  In a population with both <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Allele">alleles</a> present ($$ 0 < x < N $$), one of the $$x$$ <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Wild_type">wild type</a> members is selected as "parent" with probability</p>
+
+%% P_{\mathrm{parent}} = \frac{x - s x}{N - s x}. %%
+
+<p>So, for $$s = 1$$, $$P_{\mathrm{parent}} = 0$$ and the mutant is favored; for $$s = 0$$, $$P_{\mathrm{parent}} = x / N$$ and neither allele is favored; for $$s \to - \infty$$, $$P_{\mathrm{parent}} \to 1$$ and the wild type is favored.  The chosen individual is then mutated with probability $$\mu$$ before joining the next generation.</p>
 
 `;
 
@@ -730,7 +738,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_MN_s"].md_txt_html = String.raw`
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_N"].header_txt = String.raw`N`;
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_N"].md_txt_html = String.raw`
 
-<p>number of individuals in the population; a whole number $$ \; 2, 3, \ldots $$</p>
+<p>number of individuals in the population $$ \; 2 \le N \le 10000 $$</p>
 
 `;
 
@@ -739,7 +747,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_MN_N"].md_txt_html = String.raw`
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_x_0"].header_txt = String.raw`x_0`;
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_x_0"].md_txt_html = String.raw`
 
-<p>initial value of the number of individuals <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_MN'); ">$$ x $$</a>; a whole number $$ \; 0 \le x_0 \le $$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_N'); ">$$ N $$</a></p>
+<p>initial value of the number of individuals <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_MN'); ">$$ x $$</a>; allowed range is $$ \; 0 \le x_0 \le $$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_N'); ">$$ N $$</a></p>
 
 `;
 
