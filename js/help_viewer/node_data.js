@@ -431,7 +431,7 @@ HelpViewer.hvn_lookup_map["HV_SA_SP"].md_txt_html = String.raw`
 
 <p>Stochastic processes have some sort of inherent randomness and therefore require <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Probability_distribution">probability distributions</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ENSEMBLES'); ">ensembles</a> for their quantitative description.  The relevant categories of stochastic processes are briefly discussed <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_MARKOV_ONE_STEP'); ">here</a>.  The example processes that <strong>SSNS</strong> implements include:</p>
 
-<ul><li>the (old standby) <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_RW'); ">random walk</a></li>
+<ul><li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_RW'); ">random walk</a></li>
 <li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_MN'); ">Moran model</a> from <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_genetics">population genetics</a></li>
 <li>a simple <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); ">chemical system</a></li>
 <li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); ">M/M/1 queue</a> from <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/M/M/1_queue">queueing theory</a></li></ul>
@@ -510,7 +510,7 @@ HelpViewer.hvn_lookup_map["HV_ST_RW"].md_txt_html = String.raw`
 
 <p><a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Random_walk">Random walks</a> are central to the study of <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_SP'); ">stochastic processes</a>.  They come in many variations, but all on a central theme: a sequence of random jumps.  They can be 1D or higher-D, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Discrete_time_and_continuous_time">continuous or discrete</a>, symmetric or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Biased_random_walk_on_a_graph">biased</a>.  And they can be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Random_walk#Applications">applied</a> in diverse areas, from finance to <a target="_blank" class="hv_ext_link" href="https://tedm.us/quantitative_biology">biology</a>.</p>
 
-<p><strong>SSNS</strong> implements a very straightforward walk: 1D, discrete, and on a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boundary_value_problem">finite interval</a>, with <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_l'); ">$$ \ell $$</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_r'); ">$$ r $$</a> representing the probabilities of stepping left and right, respectively.  If $$ \ell \neq r$$, the walk is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Biased_random_walk_on_a_graph">biased</a>.</p>
+<p><strong>SSNS</strong> implements a very straightforward walk: 1D, discrete in both space and time, and on a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Boundary_value_problem">finite interval</a>.  <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_l_r'); ">$$ \; \ell $$</a> and <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_l_r'); ">$$ r $$</a> representing the probabilities of stepping left and right, respectively.  If $$ \ell \neq r$$, the walk is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Biased_random_walk_on_a_graph">biased</a>.</p>
 
 <p>Many theoretical extensions of random walks have been explored over the years.  Walks can be given <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_MARKOV_ONE_STEP'); ">memory</a> or told to <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Self-avoiding_walk">avoid themselves</a>.  Questions can be asked regarding <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Markov_chain#Properties">transience</a> or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/First-hitting-time_model">first passage</a>.  Random walks are especially central when viewed as the microscopic, particle-based foundation of macroscopic, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Continuum_mechanics">continuum</a>-based <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Diffusion">diffusion</a> and <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Transport_phenomena">transport phenomena</a>.</p>
 
@@ -683,21 +683,10 @@ HelpViewer.hvn_lookup_map["HV_ST_PF"].md_txt_html = String.raw`
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-HelpViewer.hvn_lookup_map["HV_P_SP_RW_l"].header_txt = String.raw`\ell`;
-HelpViewer.hvn_lookup_map["HV_P_SP_RW_l"].md_txt_html = String.raw`
+HelpViewer.hvn_lookup_map["HV_P_SP_RW_l_r"].header_txt = String.raw`\ell, r`;
+HelpViewer.hvn_lookup_map["HV_P_SP_RW_l_r"].md_txt_html = String.raw`
 
-<p>the ell
-<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_l'); ">$$ \; \ell $$</a>, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_r'); ">$$ r $$</a> and $$ s = 1 - \ell - r$$ represent the probabilities of stepping left, stepping right, and staying put, respectively.</p>
-
-`;
-
-
-
-HelpViewer.hvn_lookup_map["HV_P_SP_RW_r"].header_txt = String.raw`r`;
-HelpViewer.hvn_lookup_map["HV_P_SP_RW_r"].md_txt_html = String.raw`
-
-<p>the ahhhr
-<a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_l'); ">$$ \; \ell $$</a>, <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_r'); ">$$ r $$</a> and $$ s = 1 - \ell - r$$ represent the probabilities of stepping left, stepping right, and staying put, respectively.</p>
+<p>$$ \; \ell $$, $$ r $$ and $$ s = 1 - \ell - r$$ represent the probabilities of stepping left, stepping right, and staying put, respectively.  If $$ \ell \neq r$$, the walk is <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Biased_random_walk_on_a_graph">biased</a>.</p>
 
 `;
 
@@ -707,7 +696,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_RW_N"].header_txt = String.raw`N`;
 HelpViewer.hvn_lookup_map["HV_P_SP_RW_N"].md_txt_html = String.raw`
 
 <p>whole number "length" $$N$$ of the finite random walk interval (the <em>number</em> of sites is $$N + 1$$)</p>
-<p>$$2 \le N \le 10000$$</p>
+<p>allowed values are $$2 \le N \le 10000$$</p>
 
 `;
 

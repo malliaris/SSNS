@@ -331,6 +331,7 @@ class UserInterface {
 	}
     }
     
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
     handle_RW_l_update(str_val) {  // enforce 0 <= l <= 1 and 0 <= l + r = 1 - s <= 1
 	if (Params_RW.l.yields_valid_value(str_val)) {
 	    let req_l = Params_RW.l.parse_from_str(str_val);
@@ -346,6 +347,7 @@ class UserInterface {
 	}
     }
 
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
     handle_RW_r_update(str_val) {  // enforce 0 <= r <= 1 and 0 <= r + l = 1 - s <= 1
 	if (Params_RW.r.yields_valid_value(str_val)) {
 	    let req_r = Params_RW.r.parse_from_str(str_val);
@@ -358,6 +360,40 @@ class UserInterface {
 	} else {
 	    console.log("INFO:\thandle_RW_r_update() failed to parse a valid number... restoring previous valid value to UI...");
 	    Params_RW.r.sv(Params_RW.r.v);  // if proposed new value is invalid, push current valid value back to UI
+	}
+    }
+
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
+    handle_RW_N_update(str_val) {  // enforce x_0 <= N
+	if (Coords_RW.N.yields_valid_value(str_val)) {
+	    let proposed_new_N = Coords_RW.N.parse_from_str(str_val);
+	    Coords_RW.N.set_min_max_or_val(proposed_new_N);
+	    if (Coords_RW.x_0.v > Coords_RW.N.v) {
+		Coords_RW.x_0.sv(Coords_RW.N.v);
+	    }
+	    if (Coords_RW.N.indicate_params_changed) {
+		this.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+	    }
+	} else {
+	    console.log("INFO:\thandle_RW_N_update() failed to parse a valid number... restoring previous valid value to UI...");
+	    Coords_RW.N.sv(Coords_RW.N.v);  // if proposed new value is invalid, push current valid value back to UI
+	}
+    }
+
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
+    handle_RW_x_0_update(str_val) {  // enforce x_0 <= N
+	if (Coords_RW.x_0.yields_valid_value(str_val)) {
+	    let proposed_new_x_0 = Coords_RW.x_0.parse_from_str(str_val);
+	    Coords_RW.x_0.set_min_max_or_val(proposed_new_x_0);
+	    if (Coords_RW.N.v < Coords_RW.x_0.v) {
+		Coords_RW.N.sv(Coords_RW.x_0.v);
+	    }
+	    if (Coords_RW.x_0.indicate_params_changed) {
+		this.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+	    }
+	} else {
+	    console.log("INFO:\thandle_RW_x_0_update() failed to parse a valid number... restoring previous valid value to UI...");
+	    Coords_RW.x_0.sv(Coords_RW.x_0.v);  // if proposed new value is invalid, push current valid value back to UI
 	}
     }
 

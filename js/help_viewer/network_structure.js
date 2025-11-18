@@ -67,8 +67,7 @@ new HelpViewerNode("HV_HOME", [
 
 	    new HelpViewerNode("HV_ST_RW", [
 
-		new HelpViewerNode("HV_P_SP_RW_l", []),
-		new HelpViewerNode("HV_P_SP_RW_r", []),
+		new HelpViewerNode("HV_P_SP_RW_l_r", []),
 		new HelpViewerNode("HV_P_SP_RW_N", []),
 		new HelpViewerNode("HV_P_SP_RW_x_0", []),
 
