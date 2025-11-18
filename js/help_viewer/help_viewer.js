@@ -136,6 +136,7 @@ class HelpViewer {
 	if (this.curr_view == "") {
 	    this.show_view('HV_HOME');
 	} else {
+	    this.sim.rs.set_NR();  // exit from any running mode while using help viewer
 	    $("#md_container").modal("show");
 	}
     }

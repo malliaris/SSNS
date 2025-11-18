@@ -70,6 +70,11 @@ class ModelCalc_IG extends ModelCalc_Gas {
     constructor() {
 	super();
     }
+
+    get_max_num_t_steps() {
+	let raw_val = 1000000.0 / Params_IG.N;  // rough assumption that memory usage is linear in N
+	return parseInt(Math.floor(raw_val) + 1);  // + 1 makes negligible difference in memory usage, but leads to "rounder" numbers if we always deal with powers of 10
+    }
 }
 
 // NOTE: T is measured in energy units, i.e., it could be called tau = k_B T
@@ -238,6 +243,8 @@ class Trajectory_IG extends Trajectory {
     }
 
     get_max_num_t_steps() {
-	return Trajectory.DEFAULT_MAX_NUM_T_STEPS;
+	let max_num_t_steps = this.mc.get_max_num_t_steps();
+	console.log("INFO:   IG max_num_t_steps calculated as ", max_num_t_steps);
+	return max_num_t_steps;
     }
 }
