@@ -695,8 +695,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_RW_l_r"].md_txt_html = String.raw`
 HelpViewer.hvn_lookup_map["HV_P_SP_RW_N"].header_txt = String.raw`N`;
 HelpViewer.hvn_lookup_map["HV_P_SP_RW_N"].md_txt_html = String.raw`
 
-<p>whole number "length" $$N$$ of the finite random walk interval (the <em>number</em> of sites is $$N + 1$$)</p>
-<p>allowed values are $$2 \le N \le 10000$$</p>
+<p>whole number "length" $$N$$ of the finite random walk interval (the <em>number</em> of sites is $$N + 1$$); allowed values are $$2 \le N \le 10000$$</p>
 
 `;
 
@@ -705,8 +704,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_RW_N"].md_txt_html = String.raw`
 HelpViewer.hvn_lookup_map["HV_P_SP_RW_x_0"].header_txt = String.raw`x_0`;
 HelpViewer.hvn_lookup_map["HV_P_SP_RW_x_0"].md_txt_html = String.raw`
 
-<p>initial position (or site #) of the random walk</p>
-<p>a whole number $$ \; 0 \le x_0 \le $$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_N'); ">$$ N $$</a></p>
+<p>initial position (or site #) of the random walk; a whole number $$ \; 0 \le x_0 \le $$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_RW_N'); ">$$ N $$</a></p>
 
 `;
 
@@ -1237,7 +1235,7 @@ HelpViewer.hvn_lookup_map["HV_C_DELAY_WINDOW"].md_txt_html = String.raw`
 
 <img class="hv_fw_img" src="/static/images/SSNS/hv_interface_pics/delay_window.png">
 
-<p><span class="ctrl_eff_immed p-1">$$ \mathrm{delay} $$</span> sets the number of milliseconds between steps during <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">continuous recording/playback</a>.  Its value roughly determines the speed of trajectory motion (with $$ 0 \, \mathrm{ms} $$ of delay being the fastest).</p>
+<p><span class="ctrl_eff_immed p-1">$$ \mathrm{delay} $$</span> sets the number of milliseconds to pause between steps during <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_CONTINUOUS_CMDS'); ">continuous recording/playback</a>.  Its value roughly determines the speed of trajectory motion (with $$ 0 \, \mathrm{ms} $$ of delay being the fastest).</p>
 
 </p><span class="ctrl_eff_immed p-1">$$ \mathrm{window} $$</span> sets the maximum width of trajectory viewable at one time.  It is only visible/applicable for the <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-arrow-trend-up"></i></button> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_PLOT_TYPES'); ">plot type</a>.  At the start of recording, the width grows along with the trajectory.  When it reaches its max value, it "slides" to keep the current $$t$$ centered.  <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PLOT_AREA'); ">This screenshot</a> shows a window size of $$30$$.</p>
 
@@ -1309,7 +1307,7 @@ HelpViewer.hvn_lookup_map["HV_C_RELOAD_CMDS"].md_txt_html = String.raw`
 <td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><span style="white-space: nowrap; "><i class="fas fa-fw fa-rotate-right pr-1"></i><samp>ALL</samp></span></span></td></tr>
 <tr><td>reload page (<a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Web_browser">browser refresh</a>)</td>
 <td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span px-2 py-1"><span style="white-space: nowrap; "><i class="fas fa-fw fa-rotate-right pr-1"></i><samp>PAGE</samp></span></span></td></tr>
-<tr><td><em>future command?</em></td>
+<tr><td><strong>RESERVED</strong>; e.g., for <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/tree/main/README.md#hard-sphere-gas-p-v-diagram-creation">this</a></td>
 <td class="hv_emulated_btn_td"><span class="hv_emulated_btn_span pl-4 pr-3 py-1"></span></td></tr>
 </tbody>
 </table>
