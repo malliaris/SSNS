@@ -434,7 +434,7 @@ HelpViewer.hvn_lookup_map["HV_SA_SP"].md_txt_html = String.raw`
 
 <ul><li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_RW'); ">random walk</a></li>
 <li>the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_MN'); ">Moran model</a> from <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Population_genetics">population genetics</a></li>
-<li>a simple <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); ">chemical system</a></li>
+<li>a simple <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_CH'); ">chemical system</a></li>
 <li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); ">M/M/1 queue</a> from <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/M/M/1_queue">queueing theory</a></li></ul>
 
 <p>The future behavior of a stochastic process generally involves multiple possible <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Phase_space">trajectories</a>.  In contrast, for a fully-described, <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Deterministic_system">deterministic</a> system, the single future trajectory is completely known.  For <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SA_ND'); ">nonlinear</a>, deterministic systems that happen to be <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chaos_theory">chaotic</a>, this trajectory is extremely sensitive to the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Initial_condition">initial state</a> used.  Uncertainty in that state (or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Parameter_space">parameters</a>, or <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Mathematical_model">modeling</a>), therefore, leads to uncertainty in the trajectory.</p>
@@ -532,6 +532,20 @@ The variable $$ x(t) $$ represents the number of individuals that possess versio
 <p>We also allow for a difference in fitness between $$ A $$ and $$ A^{\ast} $$, as quantified by a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Selection_coefficient">selection coefficient</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_s'); ">$$ s $$</a>.  More on evolution generally can be found <a target="_blank" class="hv_ext_link" href="https://tedm.us/evolution">here</a>.</p>
 
 `;
+
+
+
+HelpViewer.hvn_lookup_map["HV_ST_CH"].header_txt = String.raw`Chemical System`;
+HelpViewer.hvn_lookup_map["HV_ST_CH"].md_txt_html = String.raw`
+
+<p>We consider the simple chemical system <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_alpha'); ">$$ \alpha $$</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_beta'); ">$$ \beta $$</a>  <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Reaction_rate_constant">Reaction rate constant</a>.  :
+
+%% A \xrightleftharpoons[k_2]{k_1} X %%
+
+Here X is the chemical species whose particle number distribution we are considering.  A is a chemical species whose concentration is held fixed (e.g., via a large external reservoir).  If $x$ and $a$ are the numbers of particles of $X$ and $A$, respectively, the transition probabilities are</p>
+
+`;
+// W_x^+ & = k_1 a \\W_x^- & = k_2 x , where we have absorbed any common multiplicative constant into the kinetic coefficients $k_i$.  The $h$ ratios are
 
 
 
@@ -750,6 +764,33 @@ HelpViewer.hvn_lookup_map["HV_P_SP_MN_x_0"].header_txt = String.raw`x_0`;
 HelpViewer.hvn_lookup_map["HV_P_SP_MN_x_0"].md_txt_html = String.raw`
 
 <p>initial value of the number of individuals <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_MN'); ">$$ x $$</a>; allowed range is $$ \; 0 \le x_0 \le $$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_MN_N'); ">$$ N $$</a></p>
+
+`;
+
+
+
+HelpViewer.hvn_lookup_map["HV_P_SP_CH_alpha"].header_txt = String.raw`\alpha`;
+HelpViewer.hvn_lookup_map["HV_P_SP_CH_alpha"].md_txt_html = String.raw`
+
+<p>initial value of the number of individuals <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_CH'); ">$$ x $$</a>; allowed range is $$ \; 0 \le \alpha \le $$ ?</p>
+
+`;
+
+
+
+HelpViewer.hvn_lookup_map["HV_P_SP_CH_beta"].header_txt = String.raw`\beta`;
+HelpViewer.hvn_lookup_map["HV_P_SP_CH_beta"].md_txt_html = String.raw`
+
+<p>initial value of the number of individuals <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_CH'); ">$$ x $$</a>; allowed range is $$ \; 0 \le \beta \le $$ ?</p>
+
+`;
+
+
+
+HelpViewer.hvn_lookup_map["HV_P_SP_CH_x_0"].header_txt = String.raw`x_0`;
+HelpViewer.hvn_lookup_map["HV_P_SP_CH_x_0"].md_txt_html = String.raw`
+
+<p>initial value of the number of individuals <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_CH'); ">$$ x $$</a>; allowed range is $$ \; 0 \le x_0 \le $$ ?</p>
 
 `;
 

@@ -82,6 +82,14 @@ new HelpViewerNode("HV_HOME", [
 
 	    ]),
 
+	    new HelpViewerNode("HV_ST_CH", [
+
+		new HelpViewerNode("HV_P_SP_CH_alpha", []),
+		new HelpViewerNode("HV_P_SP_CH_beta", []),
+		new HelpViewerNode("HV_P_SP_CH_x_0", []),
+
+	    ]),
+
 	]),
 
 	new HelpViewerNode("HV_SA_SM", [
