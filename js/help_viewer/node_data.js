@@ -538,11 +538,11 @@ The variable $$ x(t) $$ represents the number of individuals that possess versio
 HelpViewer.hvn_lookup_map["HV_ST_CH"].header_txt = String.raw`Chemical System`;
 HelpViewer.hvn_lookup_map["HV_ST_CH"].md_txt_html = String.raw`
 
-<p>We consider the simple chemical system <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_alpha'); ">$$ \alpha $$</a> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_beta'); ">$$ \beta $$</a>  <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Reaction_rate_constant">Reaction rate constant</a>.  :
+<p>We consider the simple <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Chemical_equation">chemical system</a>:
 
-%% A \xrightleftharpoons[k_2]{k_1} X %%
+%% A \xrightleftharpoons[k_2]{k_1} X . %%
 
-Here X is the chemical species whose particle number distribution we are considering.  A is a chemical species whose concentration is held fixed (e.g., via a large external reservoir).  If $x$ and $a$ are the numbers of particles of $X$ and $A$, respectively, the transition probabilities are</p>
+The species $$A$$ and $$X$$ have numbers of particles $$a$$ and $$x$$, respectively, and the forward and reverse reactions have <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Reaction_rate_constant">rate constants</a> $$k_1$$ and $$k_2$$, respectively.  The number $$a$$ is held fixed (e.g., via a large external reservoir), while the number $$x(t)$$ is our <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Birth–death_process">one-step</a> stochastic variable.  By <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Law_of_mass_action">mass action kinetics</a>, the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Markov_chain#Transitions">transition probabilities</a> given the current value of $$x$$ are $$P(x \to x + 1) = k_1 a \equiv$$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_alpha'); ">$$ \alpha $$</a> and $$P(x \to x - 1) = k_2 x \equiv$$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_beta'); ">$$ \beta $$</a> $$x$$. </p>
 
 `;
 // W_x^+ & = k_1 a \\W_x^- & = k_2 x , where we have absorbed any common multiplicative constant into the kinetic coefficients $k_i$.  The $h$ ratios are
