@@ -397,6 +397,40 @@ class UserInterface {
 	}
     }
 
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
+    handle_MN_N_update(str_val) {  // enforce x_0 <= N
+	if (Coords_MN.N.yields_valid_value(str_val)) {
+	    let proposed_new_N = Coords_MN.N.parse_from_str(str_val);
+	    Coords_MN.N.set_min_max_or_val(proposed_new_N);
+	    if (Coords_MN.x_0.v > Coords_MN.N.v) {
+		Coords_MN.x_0.sv(Coords_MN.N.v);
+	    }
+	    if (Coords_MN.N.indicate_params_changed) {
+		this.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+	    }
+	} else {
+	    console.log("INFO:\thandle_MN_N_update() failed to parse a valid number... restoring previous valid value to UI...");
+	    Coords_MN.N.sv(Coords_MN.N.v);  // if proposed new value is invalid, push current valid value back to UI
+	}
+    }
+
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
+    handle_MN_x_0_update(str_val) {  // enforce x_0 <= N
+	if (Coords_MN.x_0.yields_valid_value(str_val)) {
+	    let proposed_new_x_0 = Coords_MN.x_0.parse_from_str(str_val);
+	    Coords_MN.x_0.set_min_max_or_val(proposed_new_x_0);
+	    if (Coords_MN.N.v < Coords_MN.x_0.v) {
+		Coords_MN.N.sv(Coords_MN.x_0.v);
+	    }
+	    if (Coords_MN.x_0.indicate_params_changed) {
+		this.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+	    }
+	} else {
+	    console.log("INFO:\thandle_MN_x_0_update() failed to parse a valid number... restoring previous valid value to UI...");
+	    Coords_MN.x_0.sv(Coords_MN.x_0.v);  // if proposed new value is invalid, push current valid value back to UI
+	}
+    }
+
     // general and helper methods
     indicate_new_param_vals_ready_to_pull_UI_to_traj() {
 	this.sim.rs.params_changed = true;  // and signal the internal machinery via RunState
