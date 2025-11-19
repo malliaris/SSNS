@@ -198,31 +198,17 @@ class PlotTypeHX_SP extends PlotTypeHX {
 
     constructor() {
 	super();
-	this.flot_data_opts = copy(PlotTypeHX.flot_data_opts_histogram);
-    }
-
-    get_flot_data_series(t) {
-
-	let data_series = [];
-	this.flot_data_opts["data"] = this.get_plot_data(t);
-	data_series.push(this.flot_data_opts);
-	/*
-	let pd = new poisson.Poisson(100);
-	let temp_data = [];
-	for (let x = 50; x < 151; x++) {
-	    temp_data.push( [ x, 10000*pd.pmf(x) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	}
-	let temp_obj = {};
-	temp_obj["data"] = temp_data;
-	data_series.push(temp_obj);
-	*/
-	return data_series;
+	this.flot_data_opts_hist = copy(PlotTypeHX.flot_data_opts_histogram);
     }
 
     get_flot_gen_opts(t) { return {}; }
 }
 
 class PlotTypeHX_SP_finite extends PlotTypeHX_SP {
+
+    constructor() {
+	super();
+    }
 
     get_plot_data(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
 
@@ -235,6 +221,14 @@ class PlotTypeHX_SP_finite extends PlotTypeHX_SP {
 	return hist_data;
     }
 
+    get_flot_data_series(t) {
+
+	let data_series = [];
+	this.flot_data_opts_hist["data"] = this.get_plot_data(t);
+	data_series.push(this.flot_data_opts_hist);
+	return data_series;
+    }
+
     get_ext_y_axis_lbl_str() {
 	return "\\mathrm{ \\ln \\; \\# \\; ensemble \\; members}";
     }
@@ -242,16 +236,8 @@ class PlotTypeHX_SP_finite extends PlotTypeHX_SP {
 
 class PlotTypeHX_SP_semiinf extends PlotTypeHX_SP {
 
-    get_plot_data(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
-
-	let data = [];
-	this.trj.get_x(t).H_x_group.forEach((element, index) => {
-	    let x = element[0];
-	    let H_x = element[1];
-	    data.push( [ x, H_x ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	});
-	let hist_data = this.get_hist_data_flot(data);
-	return hist_data;
+    constructor() {
+	super();
     }
 
     get_ext_y_axis_lbl_str() {
@@ -288,10 +274,54 @@ class PlotTypeHX_CH extends PlotTypeHX_SP_semiinf {
     constructor(trj) {
 	super();
 	this.trj = trj;
+
+	this.flot_data_opts_analyt_ss = {
+	    color: "rgb(240, 120, 20)",
+	    lines: {
+		show: true,
+		lineWidth: 1,
+		steps: false,
+		fill: false,
+		fillColor: "rgb(240, 120, 20)"
+	    },
+	    points: {
+		show: true,
+		radius: 1,
+		fill: 0.8,
+		fillColor: null,
+	    }
+	};
     }
 
     get_ext_x_axis_lbl_str() {
 	return "\\mathrm{ \\# \\; of \\; particles}";
+    }
+
+    get_flot_data_series(t) {
+
+	let data_series = [];
+
+	let data = [];
+	this.trj.get_x(t).H_x_group.forEach((element, index) => {  // NOTE: H_x_group here is an OrderedMap, unlike in finite SP above
+	    let x = element[0];
+	    let H_x = element[1];
+	    data.push( [ x, H_x ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	});
+	this.flot_data_opts_hist["data"] = this.get_hist_data_flot(data);
+	data_series.push(this.flot_data_opts_hist);
+
+	data = [];
+	let curr_params = this.trj.segs[this.trj.get_si(t)].p;
+	let lambda = curr_params.alpha / curr_params.beta;
+	let x_max = Math.ceil(lambda + 4.0*Math.sqrt(lambda));  // stop plotting theory points at 4 std. dev. above the mean
+	for (let x = 0; x < x_max; x++) {
+	    let yv = poisson.pmf(x, lambda) * Coords_SP.num_GEM.v;
+	    data.push( [ x, yv ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	}
+	this.flot_data_opts_analyt_ss["data"] = data;
+	data_series.push(this.flot_data_opts_analyt_ss);
+	
+	return data_series;
     }
 }
 

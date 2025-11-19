@@ -176,7 +176,7 @@ class Simulator {
 	case "CK":
 
 	    //this.ui.update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation();
-
+	    
 	    break;
 	default:
 	    console.log("ERROR 912352: bad code");
