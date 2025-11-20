@@ -305,8 +305,10 @@ class PlotTypeHX_CH extends PlotTypeHX_SP_semiinf {
 	this.trj.get_x(t).H_x_group.forEach((element, index) => {  // NOTE: H_x_group here is an OrderedMap, unlike in finite SP above
 	    let x = element[0];
 	    let H_x = element[1];
+	    //console.log("CCCCCCCCCCCCsss", x, H_x);////////////
 	    data.push( [ x, H_x ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	});
+	//console.log("DDDDDDData", data);////////////
 	this.flot_data_opts_hist["data"] = this.get_hist_data_flot(data);
 	data_series.push(this.flot_data_opts_hist);
 

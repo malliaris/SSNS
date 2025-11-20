@@ -36,20 +36,14 @@ class CU {
     static gs(str_id) {  // gs = get string
 	return $("#" + str_id).val();
     }
-    static gi(str_id) {  // gi = get int
-	return parseInt($("#" + str_id).val());
-    }
-    static gf(str_id) {  // gf = get float
-	return parseFloat($("#" + str_id).val());
-    }
     static sv(str_id, new_val) {  // s = set value (int or float input, but stored as a string I think)
 	$("#" + str_id).val(new_val);
     }
     static gmn(str_id) {  // gmn = get min
-	return $("#" + str_id).attr("min");
+	return Number($("#" + str_id).attr("min"));
     }
     static gmx(str_id) {  // gmx = get max
-	return $("#" + str_id).attr("max");
+	return Number($("#" + str_id).attr("max"));
     }
     static smn(str_id, new_min_val) {  // smn = set min
 	$("#" + str_id).attr("min", new_min_val);

@@ -206,7 +206,7 @@ class Coords_SP_semiinf extends Coords_SP {
 		    let num_at_x = element[1];
 		    let P_step_R = this.mc.get_P_step_R(this.p, x);
 		    let P_step_L = this.mc.get_P_step_L(this.p, x);
-		    let P_step_L_given_non_step_R = P_step_L / (1.0 - P_step_R);  // need this conditional probability since we're doing 2 binomial draws
+		    let P_step_L_given_non_step_R = Math.min(1.0, P_step_L / (1.0 - P_step_R));  // need this cond. prob. for 2nd binomial draw; min() protects against numerical error, e.g., 1.0000000000000002
 		    let num_step_R = this.mc.binom_rng_0(num_at_x, P_step_R);  // one binomial draw to determine # moving R...
 		    let num_stay_put_or_step_L = num_at_x - num_step_R;
 		    let num_step_L = this.mc.binom_rng_0(num_stay_put_or_step_L, P_step_L_given_non_step_R);  // another to determine # moving L...
