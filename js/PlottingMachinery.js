@@ -32,15 +32,17 @@ class PlottingMachinery {
 
 	case "RW":
 	    this.plots["RW"] = {};
+	    this.plots["RW"]["XT"] = new PlotTypeXT_RW(this.sim.trjs["RW"]);
 	    this.plots["RW"]["HX"] = new PlotTypeHX_RW(this.sim.trjs["RW"]);
 	    break;
 	case "MN":
 	    this.plots["MN"] = {};
-	    this.plots["MN"]["XT"] = new PlotTypeXT_MN(this.sim.trjs["MN"]);
 	    this.plots["MN"]["HX"] = new PlotTypeHX_MN(this.sim.trjs["MN"]);
+	    this.plots["MN"]["XT"] = new PlotTypeXT_MN(this.sim.trjs["MN"]);
 	    break;
 	case "CH":
 	    this.plots["CH"] = {};
+	    this.plots["CH"]["XT"] = new PlotTypeXT_CH(this.sim.trjs["CH"]);
 	    this.plots["CH"]["HX"] = new PlotTypeHX_CH(this.sim.trjs["CH"]);
 	    break;
 	case "IG":

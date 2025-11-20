@@ -303,9 +303,7 @@ class PlotTypeXT_SP extends PlotTypeXT_rect {
     }
 }
 
-//this.set_flot_ylim(this.flot_gen_opts, -1, Coords_RW.N + 1);
-
-class PlotTypeXT_MN extends PlotTypeXT_SP {
+class PlotTypeXT_SP_finite extends PlotTypeXT_SP {
 
     constructor(trj) {
 
@@ -318,9 +316,50 @@ class PlotTypeXT_MN extends PlotTypeXT_SP {
 	//this.set_yticks_intgr_flot(this.flot_gen_opts, y_min, y_max);  // COMMENT OUT except for small N
 	this.flot_gen_opts["yaxis"]["tickDecimals"] = 0;  // NOTE: yaxis only exists from previous commands
     }
+}
+
+class PlotTypeXT_SP_semiinf extends PlotTypeXT_SP {
+
+    constructor(trj) {
+
+	super();
+	this.trj = trj;
+	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
+	this.flot_gen_opts["yaxis"] = {};
+	this.flot_gen_opts["yaxis"]["tickDecimals"] = 0;  // NOTE: the tick labeling may be a bit funky for the first few steps before there is spread/travel in ensemble
+    }
+}
+
+class PlotTypeXT_RW extends PlotTypeXT_SP_finite {
+
+    constructor(trj) {
+	super(trj);
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\mathrm{position} \\; \\; x(t)";
+    }
+}
+
+class PlotTypeXT_MN extends PlotTypeXT_SP_finite {
+
+    constructor(trj) {
+	super(trj);
+    }
 
     get_ext_y_axis_lbl_str() {
 	return "\\mathrm{ \\# \\; individuals} \\; \\; x(t)";
+    }
+}
+
+class PlotTypeXT_CH extends PlotTypeXT_SP_semiinf {
+
+    constructor(trj) {
+	super(trj);
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\mathrm{ \\# \\; particles} \\; \\; x(t)";
     }
 }
 
