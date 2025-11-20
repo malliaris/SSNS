@@ -133,7 +133,7 @@ class Coords_SP_finite extends Coords_SP {
 	if (this.constructing_init_cond) {
 
 	    let x_0 = this.extra_args[1];
-	    if (x_0 > N) {
+	    if (x_0 > N) {  // SHOULD NEVER BE REACHED SINCE js AUTOCORRECTS INPUT FIELD VALUES
 		throw new Error("ERROR 970132: invalid x_0 value in Coords_SP().  Exiting...");
 	    }
 	    if (Coords_SP.num_IEM.v > 0) {
@@ -183,8 +183,11 @@ class Coords_SP_semiinf extends Coords_SP {
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
 	super(...args);
-
+	
 	// data structure allocation
+	if (Coords_SP.num_IEM.v > 0) {
+	    this.x_indiv = zeros('int32', [ Coords_SP.num_IEM.v ]);  // don't need an OrderedMap here since position x is stored as **value**, not index in structure
+	}
 	if (Coords_SP.num_GEM.v > 0) {
 	    this.H_x_group = new OrderedMap();
 	}
@@ -192,12 +195,23 @@ class Coords_SP_semiinf extends Coords_SP {
 	if (this.constructing_init_cond) {
 
 	    let x_0 = this.extra_args[0];
+	    if (Coords_SP.num_IEM.v > 0) {
+		for (let i = 0; i < Coords_SP.num_IEM.v; i++) {
+		    this.x_indiv.set(i, x_0);
+		}
+	    }
 	    if (Coords_SP.num_GEM.v > 0) {
 		this.H_x_group.setElement(x_0, Coords_SP.num_GEM.v);
 	    }
 
 	} else {
 
+	    if (Coords_SP.num_IEM.v > 0) {
+		for (let i = 0; i < Coords_SP.num_IEM.v; i++) {
+		    let x_prev = this.c_prev.x_indiv.get(i);
+		    this.x_indiv.set(i, this.mc.get_x_new(this.p, x_prev));
+		}
+	    }
 	    if (Coords_SP.num_GEM.v > 0) {
 
 		this.c_prev.H_x_group.forEach((element, index) => {
