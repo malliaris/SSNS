@@ -215,10 +215,10 @@ class Coords_SP_semiinf extends Coords_SP {
 	    if (Coords_SP.num_GEM.v > 0) {
 
 		this.c_prev.H_x_group.forEach((element, index) => {
-
+	    
 		    let x = element[0];
 		    let num_at_x = element[1];
-		    let P_step_R = this.mc.get_P_step_R(this.p, x);
+		    let P_step_R = this.mc.get_P_step_R(this.p, x);  // see note at ModelCalc_CH.get_P_gt_1_protective_fctr()
 		    let P_step_L = this.mc.get_P_step_L(this.p, x);
 		    let P_step_L_given_non_step_R = Math.min(1.0, P_step_L / (1.0 - P_step_R));  // need this cond. prob. for 2nd binomial draw; min() protects against numerical error, e.g., 1.0000000000000002
 		    let num_step_R = this.mc.binom_rng_0(num_at_x, P_step_R);  // one binomial draw to determine # moving R...

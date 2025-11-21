@@ -542,7 +542,7 @@ HelpViewer.hvn_lookup_map["HV_ST_CH"].md_txt_html = String.raw`
 
 %% A \xrightleftharpoons[k_2]{k_1} X . %%
 
-The species $$A$$ and $$X$$ have numbers of particles $$a$$ and $$x$$, respectively, and the forward and reverse reactions have <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Reaction_rate_constant">rate constants</a> $$k_1$$ and $$k_2$$, respectively.  The number $$a$$ is held fixed (e.g., via a large external reservoir), while the number $$x(t)$$ is our <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Birth–death_process">one-step</a> stochastic variable.  By <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Law_of_mass_action">mass action kinetics</a>, the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Markov_chain#Transitions">transition probabilities</a> are $$ \mathbb{P}(x \to x + 1) = k_1 a \equiv$$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_alpha'); ">$$ \alpha $$</a> and $$ \mathbb{P}(x \to x - 1) = k_2 x \equiv $$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_beta'); ">$$ \beta $$</a> $$x$$.  It can be shown through standard methods that the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Steady_state">steady-state</a> $$ P_{\text{s.s.}}(x) $$ is a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Poisson_distribution">Poisson distribution</a> with parameter $$ \lambda = \alpha / \beta $$.  The <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-chart-simple"></i></button> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_PLOT_TYPES'); ">plot type</a> shows the $$x$$ histogram which starts as a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Kronecker_delta">delta function</a> at <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_x_0'); ">$$ x_0 $$</a> and approaches $$ P_{\text{s.s.}}(x) $$, which is over-plotted in orange.</p>
+The species $$A$$ and $$X$$ have numbers of particles $$a$$ and $$x$$, respectively, and the forward and reverse reactions have <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Reaction_rate_constant">rate constants</a> $$k_1$$ and $$k_2$$, respectively.  The number $$a$$ is held fixed (e.g., via a large external reservoir), while the number $$x(t)$$ is our <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Birth–death_process">one-step</a> random variable.  By <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Law_of_mass_action">mass action kinetics</a>, the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Markov_chain#Transitions">transition probabilities</a> are $$ \mathbb{P}(x \to x + 1) = k_1 a \equiv$$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_alpha_beta'); ">$$ \alpha $$</a> and $$ \mathbb{P}(x \to x - 1) = k_2 x \equiv $$ <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_alpha_beta'); ">$$ \beta $$</a> $$x$$.  It can be shown through standard methods that the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Steady_state">steady-state</a> $$ P_{\text{s.s.}}(x) $$ is a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Poisson_distribution">Poisson distribution</a> with parameter $$ \lambda = \alpha / \beta $$.  The <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-chart-simple"></i></button> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_PLOT_TYPES'); ">plot type</a> shows the $$x$$ histogram which starts as a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Kronecker_delta">delta function</a> at <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_P_SP_CH_x_0'); ">$$ x_0 $$</a> and approaches $$ P_{\text{s.s.}}(x) $$, which is over-plotted in orange.</p>
 
 `;
 
@@ -768,19 +768,16 @@ HelpViewer.hvn_lookup_map["HV_P_SP_MN_x_0"].md_txt_html = String.raw`
 
 
 
-HelpViewer.hvn_lookup_map["HV_P_SP_CH_alpha"].header_txt = String.raw`\alpha`;
-HelpViewer.hvn_lookup_map["HV_P_SP_CH_alpha"].md_txt_html = String.raw`
+HelpViewer.hvn_lookup_map["HV_P_SP_CH_alpha_beta"].header_txt = String.raw`\alpha, \beta`;
+HelpViewer.hvn_lookup_map["HV_P_SP_CH_alpha_beta"].md_txt_html = String.raw`
 
-<p>initial value of the number of individuals <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_CH'); ">$$ x $$</a>; allowed range is $$ \; 0 \le \alpha \le $$ ?</p>
+<p>These two parameters dictate the speed of our <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_CH'); ">simple chemical reaction</a>
 
-`;
+%% A \xrightleftharpoons[k_2]{k_1} X, %%
 
+with an increase in $$\alpha$$ "pushing" the reaction (and the location $$ \lambda = \alpha / \beta $$ of the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Steady_state">steady-state</a> peak) rightward, and an increase in $$\beta$$ "pushing" them leftward.</p>
 
-
-HelpViewer.hvn_lookup_map["HV_P_SP_CH_beta"].header_txt = String.raw`\beta`;
-HelpViewer.hvn_lookup_map["HV_P_SP_CH_beta"].md_txt_html = String.raw`
-
-<p>initial value of the number of individuals <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_CH'); ">$$ x $$</a>; allowed range is $$ \; 0 \le \beta \le $$ ?</p>
+<p><em>Details:</em> Reaction systems are most naturally treated with a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Discrete_time_and_continuous_time">continuous</a> time variable in terms of <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Survival_analysis#Hazard_function_and_cumulative_hazard_function">hazard functions</a> and, e.g., the <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Gillespie_algorithm">Gillespie algorithm</a>.  Since <strong>SSNS</strong> uses equi-spaced discrete time steps, we must instead form <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Markov_chain#Transitions">transition probabilities</a> $$ \alpha \Delta t $$ and $$ \beta x \Delta t $$, but are then forced to choose $$ \Delta t $$ and enforce limits on the other quantities so that the probabilities never exceed $$1$$.  We choose to <strong>(1)</strong> cap both $$ \alpha $$ and $$ \beta $$ at $$1$$, <strong>(2)</strong> tentatively set $$\Delta t = 1$$, and finally <strong>(3)</strong> check at each time step, scaling both parameters if needed.  We scale by $$\frac{1}{ \alpha + \beta x_{\text{larg.}} }$$ where $$x_{\text{larg.}}$$ is the largest $$x$$ value currently present in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_SP_ENSEMBLE'); ">ensemble</a>.</p>
 
 `;
 
@@ -789,7 +786,7 @@ HelpViewer.hvn_lookup_map["HV_P_SP_CH_beta"].md_txt_html = String.raw`
 HelpViewer.hvn_lookup_map["HV_P_SP_CH_x_0"].header_txt = String.raw`x_0`;
 HelpViewer.hvn_lookup_map["HV_P_SP_CH_x_0"].md_txt_html = String.raw`
 
-<p>initial value of the number of individuals <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_CH'); ">$$ x $$</a>; allowed range is $$ \; 0 \le x_0 \le $$ ?</p>
+<p>This is the initial value of the number of particles $$ x $$.  Allowed range is $$ \; 0 \le x_0 \le 10000 $$.  Because this is applied to every member of our <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_C_SP_ENSEMBLE'); ">ensemble</a>, the initial <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-fw fa-lg fa-chart-simple"></i></button> histogram will show a <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Kronecker_delta">delta function</a> spike at $$x_0$$.</p>
 
 `;
 
