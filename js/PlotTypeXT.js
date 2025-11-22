@@ -16,7 +16,7 @@ class PlotTypeXT extends PlotType {
     static flot_partial_seg_opts = { lines: {show: true}, points: {show: true, fillColor: "purple"}, color: "purple" }; // purple just a placeholder
     static flot_seg_connector_opts = { lines: {show: true}, color: "purple" };  // purple just a placeholder... will be overwritten
     static flot_initial_gen_opts_XT = { xaxis: {tickDecimals: 0} };
-    static window_size = undefined;  // = new UINI_int(this, "UI_CTRL_window_size", false);  assignment occurs in UserInterface(); see discussion there
+    static window_size;  // = new UINI_int(this, "UI_CTRL_window_size", false);  assignment occurs in UserInterface(); see discussion there
     
     constructor() {
 

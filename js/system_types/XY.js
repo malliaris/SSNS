@@ -18,7 +18,7 @@ class ModelCalc_XY extends ModelCalc_Spin {
 
 class Params_XY extends Params_Spin {
 
-    static T = undefined;  // = new UINI_float(this, "UI_P_SM_XY_T", true);  assignment occurs in UserInterface(); see discussion there
+    static T;  // = new UINI_float(this, "UI_P_SM_XY_T", true);  assignment occurs in UserInterface(); see discussion there
 
     push_vals_to_UI() {
 	Params_XY.T.push_to_UI(this.T);
@@ -27,7 +27,7 @@ class Params_XY extends Params_Spin {
 
 class Coords_XY extends Coords_Spin {
 
-    static N = undefined;  // = new UINI_int(this, "UI_P_SM_XY_N", false);  assignment occurs in UserInterface(); see discussion there    
+    static N;  // = new UINI_int(this, "UI_P_SM_XY_N", false);  assignment occurs in UserInterface(); see discussion there    
 
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 

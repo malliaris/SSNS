@@ -13,7 +13,7 @@
 
 class ModelCalc_Stoch extends ModelCalc {
 
-    static rng_seed = undefined;  // = new UINI_int(this, "UI_CTRL_rng_seed", false);  assignment occurs in UserInterface(); see discussion there
+    static rng_seed;  // = new UINI_int(this, "UI_CTRL_rng_seed", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor() {
 
@@ -104,8 +104,8 @@ class ModelCalc_SP extends ModelCalc_Stoch {
 
 class Coords_SP extends Coords {
 
-    static num_IEM = undefined;  // = new UINI_int(this, "UI_CTRL_SP_NI", false);  assignment occurs in UserInterface(); see discussion there
-    static num_GEM = undefined;  // = new UINI_int(this, "UI_CTRL_SP_NG", false);  assignment occurs in UserInterface(); see discussion there
+    static num_IEM;  // = new UINI_int(this, "UI_CTRL_SP_NI", false);  assignment occurs in UserInterface(); see discussion there
+    static num_GEM;  // = new UINI_int(this, "UI_CTRL_SP_NG", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 

@@ -11,7 +11,7 @@ class PlotTypeCV extends PlotType {
 
 	super();
 
-	this.canv_dim = undefined;  // "declaration" (set within)
+	this.canv_dim;  // "declaration" (set within)
     }
 
     get_plot_width() {
@@ -205,7 +205,7 @@ class PlotTypeCV_Spin extends PlotTypeCV {
 
 	this.trj = trj;
 	if (!this.get_color_from_spin_val) throw new Error("Derived PlotTypeCV must define get_color_from_spin_val()");
-	this.tile_dim = undefined;  // "declaration" (set within)
+	this.tile_dim;  // "declaration" (set within)
 	this.determine_tile_canv_dims(this.trj.mc.N);
     }
 

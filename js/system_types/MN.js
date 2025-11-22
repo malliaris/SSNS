@@ -36,8 +36,8 @@ class Params_MN extends Params {
     // NOTE: N in 2-allele Moran model serves a dual role: it's not only the size of the domain, but also a parameter (as 1/N, the strength of
     //       genetic drift); either way, it is fixed for the Trajectory, and thus not included here (see Trajectory_SP constructor)
 
-    static mu = undefined;  // = new UINI_float(this, "UI_P_SP_MN_mu", true);  assignment occurs in UserInterface(); see discussion there
-    static s = undefined;  // = new UINI_float(this, "UI_P_SP_MN_s", true);  assignment occurs in UserInterface(); see discussion there
+    static mu;  // = new UINI_float(this, "UI_P_SP_MN_mu", true);  assignment occurs in UserInterface(); see discussion there
+    static s;  // = new UINI_float(this, "UI_P_SP_MN_s", true);  assignment occurs in UserInterface(); see discussion there
 
     constructor(mu_val, s_val) {
 	super();
@@ -57,8 +57,8 @@ class Params_MN extends Params {
 
 class Coords_MN extends Coords_SP_finite {
 
-    static N = undefined;  // = new UINI_int(this, "UI_P_SP_MN_N", false);  assignment occurs in UserInterface(); see discussion there
-    static x_0 = undefined;  // = new UINI_int(this, "UI_P_SP_MN_x_0", false);  assignment occurs in UserInterface(); see discussion there
+    static N;  // = new UINI_int(this, "UI_P_SP_MN_N", false);  assignment occurs in UserInterface(); see discussion there
+    static x_0;  // = new UINI_int(this, "UI_P_SP_MN_x_0", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);

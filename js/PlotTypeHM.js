@@ -11,8 +11,8 @@ class PlotTypeHM extends PlotType {
 	super();
 
 	if (!this.get_color_from_spin_val) throw new Error("Derived PlotTypeHM must define get_color_from_spin_val()");
-	this.tile_dim = undefined;  // set in determine_tile_canv_dims()
-	this.canv_dim = undefined;  // set in determine_tile_canv_dims()
+	this.tile_dim;  // set in determine_tile_canv_dims()
+	this.canv_dim;  // set in determine_tile_canv_dims()
     }
 
     get_plot_width() {

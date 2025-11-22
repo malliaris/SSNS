@@ -31,8 +31,8 @@ class ModelCalc_CH extends ModelCalc_SP {
 
 class Params_CH extends Params {
 
-    static alpha = undefined;  // = new UINI_float(this, "UI_P_SP_CH_alpha", true);  assignment occurs in UserInterface(); see discussion there
-    static beta = undefined;  // = new UINI_float(this, "UI_P_SP_CH_beta", true);  assignment occurs in UserInterface(); see discussion there
+    static alpha;  // = new UINI_float(this, "UI_P_SP_CH_alpha", true);  assignment occurs in UserInterface(); see discussion there
+    static beta;  // = new UINI_float(this, "UI_P_SP_CH_beta", true);  assignment occurs in UserInterface(); see discussion there
 
     constructor(alpha_val, beta_val) {
 	super();
@@ -52,7 +52,7 @@ class Params_CH extends Params {
 }
 class Coords_CH extends Coords_SP_semiinf {
 
-    static x_0 = undefined;  // = new UINI_int(this, "UI_P_SP_CH_x_0", false);  assignment occurs in UserInterface(); see discussion there
+    static x_0;  // = new UINI_int(this, "UI_P_SP_CH_x_0", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor(...args) {  // "..." is Javascript spread operator
 
