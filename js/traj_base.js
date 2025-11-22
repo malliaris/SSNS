@@ -134,10 +134,13 @@ class Trajectory {
 	
 	// store/determine time boundaries of trajectory
 	this.t_0 = this.sim.ui.t_0.v;
-	let requested_t_max = this.sim.ui.t_max.v;  // Javascript ensures in "real time" that t_max >= t_0 + 1, so no need to check for that
 	let largest_t_max = this.t_0 + this.get_max_num_t_steps() - 1;  // largest ("max") t_max based on sensible memory limits, or other criteria (see, e.g., SH)
-	this.t_max = Math.min(requested_t_max, largest_t_max);
-	//this.sim.ui.t_max.sv(this.t_max);  // FOR NOW, DON'T DISPLAY SINCE WE HAVEN'T ADDED CODE FOR UPDATING UI WHEN ST IS CHANGED
+	if (CU.gcb("UI_CTRL_use_t_max")) {
+	    let requested_t_max = this.sim.ui.t_max.v;  // Javascript ensures in "real time" that t_max >= t_0 + 1, so no need to check for that
+	    this.t_max = Math.min(requested_t_max, largest_t_max);
+	} else {
+	    this.t_max = largest_t_max;
+	}
 
 	// nascent Trajectory includes a single TrajSeg which includes a single time step
 	this.segs = new Array();
@@ -218,10 +221,14 @@ class Trajectory {
     }
     
     step_forward_and_record() {  // add a step to the trajectory (only possible in the forward direction)
+
 	if (this.at_t_max()) {  // if there's no "room", i.e., t_edge == t_max, alert the user
+
 	    sim.ui.hv.show_view('HV_E_T_MAX_REACHED');
 	    return false;  // no step/recording/changes made
+
 	} else {  // otherwise, we can add a step, and figure out the details...
+
 	    if (this.t < this.t_edge) {  // if we're back from the edge of the recorded trajectory...
 		this.truncate_traj();  // ... truncate it in preparation for new segment
 		if ((this.mc.model_is_stoch()) && CU.gcb("UI_CTRL_rng_recreate_traj")) {

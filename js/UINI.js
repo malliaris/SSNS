@@ -1,6 +1,6 @@
 
-// UINI: User Interface Numeric Input
-// helper class for connecting UI controls to internal parameters (in Params classes, etc.)
+// UINI: User Interface Numerical Input
+// helper class for connecting UI controls to internal numerical parameters (in Params classes, etc.)
 class UINI {
 
     static yields_valid_int(str_val) {
@@ -43,7 +43,7 @@ class UINI {
 	this.ui = ui;
 	this.id_str = id_str;
 	this.indicate_params_changed = indicate_params_changed;
-	this.v = undefined;  // holds the "official" (validated) value of the quantity
+	this.v;  // holds the "official" (validated) value of the quantity
 
 	// initial loading and validation of value
 	let raw_default_str_val = CU.gs(this.id_str);

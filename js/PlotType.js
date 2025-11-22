@@ -18,6 +18,13 @@ class PlotType {
 	PlotType.non_square_plot_width = nspw;
 	PlotType.non_square_plot_height = nsph;
     }
+    static flot_data_opts_theory_curve = {
+	color: "rgba(240, 120, 20)",
+	lines: {
+	    show: true,
+	    lineWidth: 2,
+	}
+    };
 
     constructor() {
 

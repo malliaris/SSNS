@@ -8,17 +8,17 @@ class ModelCalc_PF extends ModelCalc {
     constructor() {
 	super();
 
-	this.set_default_Dt();
+	this.set_default_Ds();
     }
 
     model_is_stoch() {return false; }
 
     // calculate a heuristic default Dt to set us up for likely numerical stability (see help viewer entry for Dt for more)
-    set_default_Dt() {
-	let prelim_default_Dt_val = 0.1 / (Params_PF.UINI_mu.v * Params_PF.N * Params_PF.N);  // adjust 0.1 as necessary/desired
-	let default_Dt_val = roundsd(prelim_default_Dt_val, 4);  // no point in keeping too many significant digits
-	Params_PF.UINI_Dt.sv(default_Dt_val);
-	console.log("INFO:   PF default Dt set to", default_Dt_val);
+    set_default_Ds() {
+	let prelim_default_Ds_val = 0.1 / (Params_PF.UINI_mu.v * Params_PF.N * Params_PF.N);  // adjust 0.1 as necessary/desired
+	let default_Ds_val = roundsd(prelim_default_Ds_val, 4);  // no point in keeping too many significant digits
+	Params_PF.UINI_Ds.sv(default_Ds_val);
+	console.log("INFO:   PF default Dt set to", default_Ds_val);
     }
 
     // load a_vect with values calculated from v_vect and alpha; a_vect's first and last entries are set to zero
@@ -81,7 +81,7 @@ class Params_PF extends Params {
     static UINI_Ut;  // = new UINI_float(this, "UI_P_FD_PF_Ut", true);  assignment occurs in UserInterface(); see discussion there;  Ut = U of top plate
     static UINI_Ub;  // = new UINI_float(this, "UI_P_FD_PF_Ub", true);  assignment occurs in UserInterface(); see discussion there;  Ub = U of bottom plate
     static UINI_mu;  // = new UINI_float(this, "UI_P_FD_PF_mu", true);  assignment occurs in UserInterface(); see discussion there
-    static UINI_Dt;  // = new UINI_float(this, "UI_P_FD_PF_Dt", true);  assignment occurs in UserInterface(); see discussion there
+    static UINI_Ds;  // = new UINI_float(this, "UI_P_FD_PF_Ds", true);  assignment occurs in UserInterface(); see discussion there
     static UINI_N;  // = new UINI_int(this, "UI_P_FD_PF_N", false);  assignment occurs in UserInterface(); see discussion there
     static N;
     static v_dim;  // v_dim = vector dimension (first/last indices correspond to top/bottom boundary plates, so dim is N + 2)
@@ -112,7 +112,7 @@ class Params_PF extends Params {
 	Params_PF.UINI_Ut.push_to_UI(this.Ut);
 	Params_PF.UINI_Ub.push_to_UI(this.Ub);
 	Params_PF.UINI_mu.push_to_UI(this.mu);
-	Params_PF.UINI_Dt.push_to_UI(this.Dt);
+	Params_PF.UINI_Ds.push_to_UI(this.Dt);
     }
 
     get_info_str() {
@@ -134,10 +134,10 @@ class Coords_PF extends Coords {
 
 	if (this.constructing_init_cond) {  // NOTE: Params_PF.UINI_Ut/b.v passed in extra_args since they are simultaneously parameters and part of coordinate vector
 
-	    this.vs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
+	    this.vs = zeros('float64', [ Params_PF.v_dim ]);
 	    this.vs.set(0, this.extra_args[0]);  // this is ***Ut***
 	    this.vs.set(Params_PF.v_dim - 1, this.extra_args[1]);  // this is ***Ub***
-	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});  // vector of slab positions tracked for visualization in PlotTypeCV_PF
+	    this.xs = zeros('float64', [ Params_PF.v_dim ]);  // vector of slab positions tracked for visualization in PlotTypeCV_PF
 
 	} else {
 
@@ -146,7 +146,7 @@ class Coords_PF extends Coords {
 	    Coords_PF.temp_vs = copy(this.c_prev.vs);
 	    Coords_PF.temp_vs.set(0, this.p.Ut);
 	    Coords_PF.temp_vs.set(Params_PF.v_dim - 1, this.p.Ub);
-	    this.vs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});  // "v's", as in v values (not versus)
+	    this.vs = zeros('float64', [ Params_PF.v_dim ]);  // "v's", as in v values (not versus)
 
 	    if (Params_PF.use_RK4_not_Euler) {  // use Runge Kutta (RK4) method
 
@@ -199,7 +199,7 @@ class Coords_PF extends Coords {
 	    
 
 	    // update slab positions (tracked for visualization in PlotTypeCV_PF) using **newly-calculated** velocities
-	    this.xs = zeros([ Params_PF.v_dim ], {'dtype': 'float64'});
+	    this.xs = zeros('float64', [ Params_PF.v_dim ]);
 	    for (let i = 0; i < Params_PF.v_dim; i++) {
 		let new_x_val = this.c_prev.xs.get(i) + this.vs.get(i) * 0.01;  // use a fixed, reasonably-sized Dt ~= 0.01 to always see good relative movement
 		this.xs.set(i, new_x_val);
@@ -234,7 +234,7 @@ class Trajectory_PF extends Trajectory {
     }
 
     gp() {  // gp = get Params object    
-	return new Params_PF(Params_PF.UINI_Dpol.v, Params_PF.UINI_Ut.v, Params_PF.UINI_Ub.v, Params_PF.UINI_mu.v, Params_PF.UINI_Dt.v);
+	return new Params_PF(Params_PF.UINI_Dpol.v, Params_PF.UINI_Ut.v, Params_PF.UINI_Ub.v, Params_PF.UINI_mu.v, Params_PF.UINI_Ds.v);
     }
 
     gc_ic(mc) {  // gc_ic = get Coords, initial condition
@@ -246,6 +246,6 @@ class Trajectory_PF extends Trajectory {
     }
 
     get_max_num_t_steps() {
-	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
+	return Trajectory.DEFAULT_MAX_NUM_T_STEPS;
     }
 }

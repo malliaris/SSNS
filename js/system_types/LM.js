@@ -18,7 +18,9 @@ class ModelCalc_LM extends ModelCalc {
 
 class Params_LM extends Params {
 
-    static r = undefined;  // = new UINI_float(this, "UI_P_ND_LM_r", true);  assignment occurs in UserInterface(); see discussion there
+    static UINI_r;  // = new UINI_float(this, "UI_P_ND_LM_r", true);  assignment occurs in UserInterface(); see discussion there
+    static UINI_x_0;  // = new UINI_float(this, "UI_P_ND_LM_x_0", false);  assignment occurs in UserInterface(); see discussion there
+    static UICI_IC;  // = new UICI_LM(this, "UI_P_ND_LM_IC", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor(r_val) {
 	super();
@@ -26,7 +28,7 @@ class Params_LM extends Params {
     }
 
     push_vals_to_UI() {
-	Params_LM.r.push_to_UI(this.r);
+	Params_LM.UINI_r.push_to_UI(this.r);
     }
 
     get_info_str() {
@@ -35,8 +37,6 @@ class Params_LM extends Params {
 }
 
 class Coords_LM extends Coords {
-
-    static x_0 = undefined;  // = new UINI_float(this, "UI_P_ND_LM_x_0", true);  assignment occurs in UserInterface(); see discussion there
 
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
@@ -68,11 +68,11 @@ class Trajectory_LM extends Trajectory {
     }
 
     gp() {  // gp = get Params object
-	return new Params_LM(Params_LM.r.v);
+	return new Params_LM(Params_LM.UINI_r.v);
     }
 
     gc_ic(mc) {  // gc_ic = get Coords, initial condition
-	return new Coords_LM(mc, [ Coords_LM.x_0.v ]);
+	return new Coords_LM(mc, [ Params_LM.UINI_x_0.v ]);
     }
 
     gc_nv(mc, p, c_prev) {  // gc_nv = get Coords, new value
@@ -80,6 +80,6 @@ class Trajectory_LM extends Trajectory {
     }
 
     get_max_num_t_steps() {
-	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
+	return Trajectory.DEFAULT_MAX_NUM_T_STEPS;
     }
 }

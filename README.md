@@ -9,35 +9,21 @@ Being a web app, **SSNS** makes heavy use of HTML/CSS.  All computation and logi
 **SSNS** can always be found "live" at [tedm.us/SSNS](https://tedm.us/SSNS).  If you're interested in knowing more about the app's design and code, here are some places to look:
 
 * the app's integrated help viewer; visit [tedm.us/SSNS](https://tedm.us/SSNS) and click the big yellow "?"
-* the JavaScript source ([<samp>/js/</samp>](/js/) and [<samp>/js/system_types/</samp>](/js/system_types/)), and the HTML source in [<samp>SSNS.html</samp>](SSNS.html)
+* the JavaScript source ([<samp>/js/</samp>](/js/) and subdirectories), and the HTML source in [<samp>SSNS.html</samp>](SSNS.html)
 * this README document
-* the [<samp>/class_diagrams/</samp>](/class_diagrams/), which summarize the structure of the code; individual diagrams (example below) in both <samp>svg</samp> and <samp>pdf</samp>, and [<samp>all.pdf</samp>](/class_diagrams/all.pdf), which contains all diagrams
+* the [<samp>/docs/class_diagrams/</samp>](/docs/class_diagrams/), which summarize the structure of the code; individual diagrams (example below) are available in both <samp>svg</samp> and <samp>pdf</samp>, and [<samp>all.pdf</samp>](/docs/class_diagrams/all.pdf) contains all diagrams
 
-<a href="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><img src="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"></a>
-
-The source code is well structured and commented, but not the fastest way to get the gist of things.  The app itself aims to be simple, intuitive, and accessible &mdash; diving right in and relying on the integrated help viewer is a great way to get started.  There is plenty of overlap between the content of the help viewer pages and this README.  However, the former is organized as a linked network of small chunks of info, while the latter is more verbose, more focused on the code/computation, and doesn't discuss the conceptual side of things.
+<a href="/docs/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><img src="/docs/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"></a>
 
 ## Classes, Hierarchies, etc.
 
-The example class diagram pictured above and its companions in the [<samp>/class_diagrams/</samp>](/class_diagrams/) directory capture the structure of the **SSNS** code.  Individual diagrams will be linked to in this section as they come up.
+The example class diagram pictured above and its companions in the [<samp>/docs/class_diagrams/</samp>](/docs/class_diagrams/) directory capture the structure of the **SSNS** code.  Individual diagrams will be linked to in this section as they come up.
 
-The central class of the **SSNS** app is the <samp>Trajectory</samp>.  An implemented model/map/equation/process is referred to as a "system type" (for lack of a better term).  Each system type has its own <samp>Trajectory</samp> subclass &mdash; a leaf node on the <a href="/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><samp>Trajectory</samp> inheritance</a> tree.  Its two-letter [abbreviation](#abbreviations-labels-etc) gives the subclass its name, e.g., <samp>Trajectory_XY</samp>.  There are also intermediate-level subclasses, e.g., <samp>Trajectory_Stoch</samp>.  The XY model uses stochastic machinery, so <samp>Trajectory_XY</samp> inherits from <samp>Trajectory_Stoch</samp>, which inherits from <samp>Trajectory</samp>.
+The central class of the **SSNS** app is the <samp>Trajectory</samp>.  An implemented model/map/equation/process is referred to as a "system type" (for lack of a better term).  Each system type has its own <samp>Trajectory</samp> subclass &mdash; a leaf node on the <a href="/docs/class_diagrams/Trajectory_inheritance_-_no_section_label.svg"><samp>Trajectory</samp> inheritance</a> tree.  Its two-letter [abbreviation](#abbreviations-labels-etc) gives the subclass its name, e.g., <samp>Trajectory_XY</samp>.  There are also intermediate-level subclasses, e.g., <samp>Trajectory_Stoch</samp>.  The XY model uses stochastic machinery, so <samp>Trajectory_XY</samp> inherits from <samp>Trajectory_Stoch</samp>, which inherits from <samp>Trajectory</samp>.
 
-A <samp>Trajectory</samp> object contains everything needed to generate output &mdash; and store it for "playback" &mdash; via discrete-time update equations.  Each <samp>Trajectory</samp> is <a href="/class_diagrams/Trajectory_composition_-_no_section_label.svg">composed</a> of a <samp>ModelCalc</samp> object (to perform all model-specific calculations), and one or more <samp>TrajSeg</samp> objects to hold the trajectory data.  A <samp>TrajSeg</samp> represents a portion ("segment") of a trajectory evolved with a particular set of parameter values.  It is thus <a href="/class_diagrams/TrajSeg_composition_-_no_section_label.svg">composed</a> of one <samp>Params</samp> object and one or more <samp>Coords</samp> objects.  Each <samp>Coords</samp> holds all dependent variable data for a single time step &mdash; it could be a single scalar value, or a large 2D matrix of values, integer or floating point, etc.
+A <samp>Trajectory</samp> object contains everything needed to generate output &mdash; and store it for "playback" &mdash; via iterative update equations.  Each <samp>Trajectory</samp> is <a href="/docs/class_diagrams/Trajectory_composition_-_no_section_label.svg">composed</a> of a <samp>ModelCalc</samp> object (to perform all model-specific calculations), and one or more <samp>TrajSeg</samp> objects to hold the trajectory data.  A <samp>TrajSeg</samp> represents a portion ("segment") of a trajectory evolved with a particular set of parameter values.  It is thus <a href="/docs/class_diagrams/TrajSeg_composition_-_no_section_label.svg">composed</a> of one <samp>Params</samp> object and one or more <samp>Coords</samp> objects.  Each <samp>Coords</samp> holds all dependent variable data for a single time step &mdash; it could be a single scalar value, or a large 2D matrix of values, integer or floating point, etc.
 
-There are system-type-dependent class hierarchies for <a href="/class_diagrams/Coords_inheritance.svg"><samp>Coords</samp></a> objects, <a href="/class_diagrams/Params_inheritance.svg"><samp>Params</samp></a> objects, and <a href="/class_diagrams/ModelCalc_inheritance.svg"><samp>ModelCalc</samp></a> objects.  At the cost of some flexibility, it was possible to keep the <samp>TrajSeg</samp> class system-type-independent, so it <em>does not</em> have a hierarchy.  On the data visualization side of things, there is an inheritance hierarchy for the <samp>PlotType</samp> class.  Its diagram will be available shortly.  Referring to the section on [abbreviations](#abbreviations-labels-etc) can be helpful when viewing these hierarchies.
-
-The following classes, which are listed roughly from "largest" (i.e., "outermost") to "smallest," are not part of the <samp>Trajectory</samp> "ecosystem."  They do not have large class hierarchies, and are mainly used as single instances:
-
-* <samp>Simulator</samp><br/>Class that encompasses all **SSNS** app logic.  Instantiated between a pair of <samp>script</samp> tags at end of [<samp>SSNS.html</samp>](SSNS.html).
-* <samp>UserInterface</samp>
-* <samp>PlottingMachinery</samp>
-* <samp>RunState</samp><br/>Trajectory creation/navigation can be done either in a continuous-action mode (e.g., hit "Record" and let it run), or in one-off step/jumps.  This class keeps track of what mode the app is in, what direction it is "running," etc.
-* <samp>UINI</samp> = **U**ser **I**nterface **N**umerical **I**nput<br/>See [Input/Output](#inputoutput) section.
-* <samp>HelpViewerNode</samp>
-* <samp>HelpViewer</samp><br/>A modal-lightbox-based network of help pages, always accessible by clicking the big yellow "?".  Each help page is represented by a <samp>HelpViewerNode</samp>, and identified by an <samp>id</samp> like <samp>HV_ST_XY</samp> (the **H**elp **V**iewer page for **S**ystem **T**ype <samp>XY</samp>).  See [abbreviations](#abbreviations-labels-etc) and [Help Viewer "Sitemap"](#help-viewer-sitemap) for more.
-
-The **SSNS** JavaScript code is separated into several source files, all located in the [<samp>/js/</samp>](/js/) and [<samp>/js/system_types/</samp>](/js/system_types/) directories.  The following table indicates which of the above-described classes each source file contains.
+There are system-type-dependent class hierarchies for <a href="/docs/class_diagrams/Coords_inheritance.svg"><samp>Coords</samp></a> objects, <a href="/docs/class_diagrams/Params_inheritance.svg"><samp>Params</samp></a> objects, and <a href="/docs/class_diagrams/ModelCalc_inheritance.svg"><samp>ModelCalc</samp></a> objects.  The following table demonstrates the pattern of naming/inheritance/location for the <samp>Trajectory</samp>-related code:
 
 <table>
 <tbody>
@@ -46,29 +32,12 @@ The **SSNS** JavaScript code is separated into several source files, all located
 <tr><td><samp>traj_intermed.js</samp></td><td><samp>ModelCalc_Stoch</samp>, <samp>Trajectory_Stoch</samp>, <samp>CoordTransition_Spin</samp>, <samp>ModelCalc_SP</samp>, <samp>Coords_SP</samp>, <samp>Coords_SP_finite</samp>, <samp>Coords_SP_semiinf</samp>, <samp>Trajectory_SP</samp>, <samp>ModelCalc_Spin</samp>, <samp>Params_Spin</samp>, <samp>Coords_Spin</samp></td><td>trajectory intermediate classes</td></tr>
 <tr><td><samp>system_types/RW.js</samp></td><td><samp>ModelCalc_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_RW</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_RW</samp></td><td><samp>RW</samp>&nbsp;&nbsp;&nbsp;(random walk)</td></tr>
 <tr><td><samp>system_types/MN.js</samp></td><td><samp>ModelCalc_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_MN</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_MN</samp></td><td><samp>MN</samp>&nbsp;&nbsp;&nbsp;(Moran model)</td></tr>
-<tr><td><samp>system_types/CH.js</samp></td><td><samp>ModelCalc_CH</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_CH</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_CH</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_CH</samp></td><td><samp>CH</samp>&nbsp;&nbsp;&nbsp;(chemical system)</td></tr>
-<tr><td><samp>system_types/QU.js</samp></td><td><samp>ModelCalc_QU</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_QU</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_QU</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_QU</samp></td><td><samp>QU</samp>&nbsp;&nbsp;&nbsp;(M/M/1 queue)</td></tr>
-<tr><td><samp>system_types/IG.js</samp></td><td><samp>ModelCalc_IG</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_IG</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_IG</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_IG</samp></td><td><samp>IG</samp>&nbsp;&nbsp;&nbsp;(2D ideal gas)</td></tr>
-<tr><td><samp>system_types/IS.js</samp></td><td><samp>ModelCalc_IS</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_IS</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_IS</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_IS</samp></td><td><samp>IS</samp>&nbsp;&nbsp;&nbsp;(2D Ising model)</td></tr>
-<tr><td><samp>system_types/XY.js</samp></td><td><samp>ModelCalc_XY</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_XY</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_XY</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_XY</samp></td><td><samp>XY</samp>&nbsp;&nbsp;&nbsp;(XY model)</td></tr>
-<tr><td><samp>system_types/LM.js</samp></td><td><samp>ModelCalc_LM</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_LM</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_LM</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_LM</samp></td><td><samp>LM</samp>&nbsp;&nbsp;&nbsp;(logistic map)</td></tr>
-<tr><td><samp>system_types/GM.js</samp></td><td><samp>ModelCalc_GM</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_GM</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_GM</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_GM</samp></td><td><samp>GM</samp>&nbsp;&nbsp;&nbsp;(gingerbread-man map)</td></tr>
-<tr><td><samp>system_types/EU.js</samp></td><td><samp>ModelCalc_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_EU</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_EU</samp></td><td><samp>EU</samp>&nbsp;&nbsp;&nbsp;(1D Euler shock tube)</td></tr>
-<tr><td><samp>system_types/PF.js</samp></td><td><samp>ModelCalc_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Params_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Coords_PF</samp>,&nbsp;&nbsp;&nbsp;<samp>Trajectory_PF</samp></td><td><samp>PF</samp>&nbsp;&nbsp;&nbsp;(rigid planar flow)</td></tr>
-<tr><td><samp>CU.js</samp></td><td><samp>CU</samp></td><td>convenience utility methods</td></tr>
-<tr><td><samp>UINI.js</samp></td><td><samp>UINI</samp>, <samp>UINI_int</samp>, <samp>UINI_float</samp></td><td><strong>U</strong>ser <strong>I</strong>nterface <strong>N</strong>umerical <strong>I</strong>nput classes</td></tr>
-<tr><td><samp>PlotType.js</samp></td><td><samp>PlotType</samp></td><td><samp>PlotType</samp> base class</td></tr>
-<tr><td><samp>PlotTypeXT.js</samp></td><td><samp>PlotTypeXT_*</samp></td><td>all <samp>XT</samp> plot type classes</td></tr>
-<tr><td><samp>PlotTypeHX.js</samp></td><td><samp>PlotTypeHX_*</samp></td><td>all <samp>HX</samp> plot type classes</td></tr>
-<tr><td><samp>PlotTypeHM.js</samp></td><td><samp>PlotTypeHM_*</samp></td><td>all <samp>HM</samp> plot type classes</td></tr>
-<tr><td><samp>PlotTypePP.js</samp></td><td><samp>PlotTypePP_*</samp></td><td>all <samp>PP</samp> plot type classes</td></tr>
-<tr><td><samp>PlottingMachinery.js</samp></td><td><samp>PlottingMachinery</samp></td><td>general plotting infrastructure</td></tr>
-<tr><td><samp>help_viewer.js</samp></td><td><samp>HelpViewerNode</samp>, <samp>HelpViewer</samp></td><td>help viewer classes</td></tr>
-<tr><td><samp>RunState.js</samp></td><td><samp>RunState</samp></td><td>Simulator helper class</td></tr>
-<tr><td><samp>UserInterface.js</samp></td><td><samp>UserInterface</samp></td><td>main <strong>SSNS</strong> user interface class</td></tr>
-<tr><td><samp>Simulator.js</samp></td><td><samp>Simulator</samp></td><td>outermost <strong>SSNS</strong> container class</td></tr>
+<tr><td>...</td><td>...</td><td>...</td></tr>
 </tbody>
 </table>
+
+At the cost of some flexibility, it was possible to keep the <samp>TrajSeg</samp> class system-type-independent, so it <em>does not</em> have a hierarchy.  On the data visualization side of things, there is an inheritance hierarchy for the <samp>PlotType</samp> class (but no diagram yet).  Referring to the section on [abbreviations](#abbreviations-labels-etc) can be helpful when viewing these hierarchies.  All other classes are not part of the <samp>Trajectory</samp> or plotting "ecosystems" &mdash; they do not have large class hierarchies and are mainly used as single instances.  Of note is the <samp>Simulator</samp> class that encompasses all **SSNS** app logic.  It is instantiated between a pair of <samp>script</samp> tags at end of [<samp>SSNS.html</samp>](SSNS.html).
+
 
 ## External Libraries, Dependencies
 
@@ -94,6 +63,7 @@ Many of the code's JavaScript variable names use two-letter abbreviations to ind
 <tr><th colspan="2">general</th></tr>
 <tr><td>Simple Stochastic and Nonlinear Simulator</td><td><samp>SSNS</samp></td></tr>
 <tr><td>User Interface Numerical Input</td><td><samp>UINI</samp></td></tr>
+<tr><td>User Interface Cyclic Input</td><td><samp>UICI</samp></td></tr>
 <tr><td>System Type</td><td><samp>ST</samp></td></tr>
 <tr><td>Plot Type</td><td><samp>PT</samp></td></tr>
 <tr><td>User Interface</td><td><samp>UI</samp></td></tr>
@@ -106,154 +76,248 @@ Many of the code's JavaScript variable names use two-letter abbreviations to ind
 <tr><th colspan="2">system types</th></tr>
 <tr><td>Random Walk</td><td><samp>RW</samp></td></tr>
 <tr><td>Moran Model</td><td><samp>MN</samp></td></tr>
-<tr><td>M/M/1 Queue</td><td><samp>QU</samp></td></tr>
 <tr><td>Chemical System</td><td><samp>CH</samp></td></tr>
+<tr><td>M/M/1 Queue</td><td><samp>QU</samp></td></tr>
 <tr><td>2D Ideal Gas</td><td><samp>IG</samp></td></tr>
+<tr><td>2D Hard Sphere Gas</td><td><samp>HS</samp></td></tr>
 <tr><td>2D Ising Model</td><td><samp>IS</samp></td></tr>
 <tr><td>XY Model</td><td><samp>XY</samp></td></tr>
 <tr><td>Logistic Map</td><td><samp>LM</samp></td></tr>
 <tr><td>Gingerbread-man Map</td><td><samp>GM</samp></td></tr>
-<tr><td>1D Euler Shock Tube</td><td><samp>EU</samp></td></tr>
+<tr><td>Lorenz System</td><td><samp>LZ</samp></td></tr>
+<tr><td>Sod Shock Tube</td><td><samp>SH</samp></td></tr>
 <tr><td>Rigid Planar Flow</td><td><samp>PF</samp></td></tr>
 <tr><th colspan="2">plot types</th></tr>
 <tr><td>trajectory x(t)</td><td><samp>XT</samp></td></tr>
 <tr><td>histogram H(x)</td><td><samp>HX</samp></td></tr>
-<tr><td>Heat Map</td><td><samp>HM</samp></td></tr>
+<tr><td>HTML Canvas</td><td><samp>CV</samp></td></tr>
 <tr><td>Phase Plane</td><td><samp>PP</samp></td></tr>
 </tbody>
 </table>
 
 These abbreviations are also used in HTML element <samp>id</samp> attributes.  For instance <samp>UI_P_SP_MN_mu</samp> stands for "User Interface &mdash; Parameters &mdash; Stochastic Processes &mdash; Moran Model &mdash; parameter mu."  Every two-letter abbreviation above is unique ***across all categories***.
 
-## Code Design
+## Why JavaScript?
 
-The decision to write the **SSNS** code in JavaScript was not a hard one.  The requirements were, roughly:
+**SSNS** was originally envisioned with the following requirements:
 
-* app should be accessible by web browser, quick to load, and not require installation of anything
-* app should have a well-designed, easy-to-use, responsive UI
+* app should be accessible by web browser, quick to load, and not require installation/updating of anything
 * language/library setup should offer basic scientific computing tools, including pseudorandom numbers; raw computational power is not as important 
 * language/library setup should offer standard object-oriented programming capabilities
-* app should have good graphical plot output
 
-Pure, client-side JavaScript was really the only option that met all these requirements.  Also, in particular, pure Javascript offered the best chance of maintaining a rapid feedback loop between (1) user action, (2) computation, and (3) plot output.  It was also the simplest choice, free from complicating factors such as: repeated web requests, Ajax, transmission of data/graphics, dependence on sustained network connectivity.  Years ago, <em>Java</em> code in the form of an applet might have been considered, but not anymore 😀.
+While JavaScript is not naturally suited to scientific computation, there were basically no language alternatives to consider.  (Maybe, if it were 2005, Java in the form of an [applet](https://en.wikipedia.org/wiki/Java_applet), but not any longer.)  The further narrowing to <em>client-side, non-dynamic JavaScript</em> freed us from complicating factors: no extended server-client communication ([Ajax](https://en.wikipedia.org/wiki/Ajax_(programming)), etc.), no transmission of data/graphics, no need for sustained network connectivity.  Rather, a simple web request loads the entire app in ~1 sec, and then it sits there &mdash; used or dormant &mdash; until the browser tab/window is closed.  Here are the pros/cons/takeaways of the **SSNS** JavaScript journey thus far:
 
-While the first two requirements above were easily met, the last three required some trying and testing.  Briefly commenting on those three, in order:
+* JavaScript's native <samp>Math.random()</samp> does not allow seeding or accessing the pseudorandom number generator's state, and there are not a lot of JavaScript library options for this sort of thing.  Happily, we settled on [stdlib.js](https://stdlib.io/), which has been solid.
 
-* Of all the scientific computing needs, pseudorandom number generation proved to be the trickiest to satisfy.  JavaScript's <samp>Math.random()</samp> does not allow seeding or accessing the generator's state.  The closest thing to a JavaScript stand-in for NumPy/SciPy appears to be [stdlib.js](https://stdlib.io/), which fortunately proved sufficient for our purposes.
+* As of its 2015 revised standard, JavaScript added true classes.  ("Objects" had long been part of the language, but the term refers to a key-value-pair container.)  Certain OOP features like multiple constructors are still not possible, but JavaScript's new OOP capabilities served the needs of **SSNS** well, especially in the area of [class hierarchies](#classes-hierarchies-etc).
 
-* It was great to see that, as part of its 2015 revised standard, JavaScript added "true" classes.  ("Objects" had long been part of the language, but the term refers to a key-value-pair container, not a class instance.)  Certain OOP features like multiple constructors are still not possible, but, overall, JavaScript met the code's [structural](#classes-hierarchies-etc) needs just fine.
+* There doesn't seem to be a JavaScript equivalent of the Python plotting library [matplotlib](https://matplotlib.org/).  Many web plotting packages focus on data exploration and novel visualization techniques, while we just needed something straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library proved to be a good option.
 
-* There doesn't seem to be a JavaScript equivalent of the Python plotting library [matplotlib](https://matplotlib.org/).  Many web plotting packages focus on data exploration and novel visualization techniques, while we just needed something straightforward and lightweight.  The [flot](https://www.flotcharts.org/) library proved to be a good option.  It has very nice auto-scaling functionality.  Its capabilities were supplemented by the HTML <samp>&lt;canvas&gt;</samp> element for heat maps.
+* The main downside of having **SSNS** run in the user's web browser is that we must be preemptively careful not to overuse device/browser resources.  More on that [here](#general-cpumemorycomputation-considerations).
 
-The current (finalized?) list of dependencies is [here](#external-libraries-dependencies).  With the more difficult requirements met, it was easy to focus on the areas where HTML/CSS/js excels, namely: UI, icons, fonts, etc.  Also, having the **SSNS** code reside and run purely on the client-side has some advantages for user experience:
+* All major browsers now have [developer tools](https://en.wikipedia.org/wiki/Web_development_tools) designed to assist web developers with debugging, etc.  But a tool such as the JavaScript Console can also provide useful information to the user &mdash; lots of **SSNS** informational-level messages are output there by default.
 
-* Controlling execution is easy: the app can be loaded, used, and then left dormant in a browser tab &mdash; any generated data just sits there.  Closing the tab/window at any time will close the app, even if it is running.
-
-* Browser developer tools are designed to assist app developers, but they can provide useful information to app users as well.  Specifically, the JavaScript console will log an informational message, e.g., when switching system type.
-
-* The app source code is of course available on GitHub, but also viewable "under the hood" by selecting "View Source" in the browser.
+* Not only is the app source code available on GitHub under the very liberal MIT license, it is also always viewable "under the hood" by [viewing source](https://en.wikipedia.org/wiki/View-source_URI_scheme) in the browser.
 
 ## Input/Output
 
-All input to the app is done via the user interface.  On load, the app plots the trajectory of the default system type.  At that point, there is only one time point &mdash; the default initial condition &mdash; so pressing "play" does nothing!  More trajectory must be generated by pressing "record."  With two or more time steps, all trajectory navigation commands become available.  (Some users might expect something like a music player, but the app is more like an audio recorder.)
+On load, the app plots the default initial condition of the default system type.  Pressing "play" at that point does nothing since no further trajectory has been recorded.  Once the trajectory consists of two or more time steps, all  navigation commands become available.
 
-In addition to buttons and checkboxes, the app has many text input fields for passing in numbers.  Each is presented in a "block," with a symbol/word label on a blue or green background on the left.  Some blocks also have related controls on the right.  Under the hood, each input field uses an HTML <samp>&lt;input&gt;</samp> element with <samp>type="number"</samp>.  Note that many numeric input features, e.g., small increment/decrement arrows or popup numeric keyboards, will depend on choice of browser and screen width.
+All input to the app is done via the user interface.  Please refer to the integrated help viewer's section on "How To Use" for details.  Note that many numeric input features, e.g., small increment/decrement arrows or popup numeric keyboards, will depend on choice of OS, browser, screen width, etc.
 
-In the "layer" just below the HTML input fields, each input is managed by an instance of the <samp>UINI</samp> (**U**ser **I**nterface **N**umerical **I**nput) class.  This way, we can take advantage of existing web functionality, e.g., <samp>js</samp> event listeners, while still inserting customized handling where necessary.  The <samp>UINI</samp> class involves:
+While some HTML UI entities like buttons and checkboxes can be used "as is", other app inputs are more involved.  Each of these more complicated input fields is implemented as an instance of one of two subclassable JavaScript classes: <samp>UINI</samp> (**U**ser **I**nterface **N**umerical **I**nput) or <samp>UICI</samp> (**U**ser **I**nterface **C**yclical **I**nput).  More details are available in the help viewer and the source code, but here some highlights of the <samp>UINI</samp> class:
+  
+* the entry field's HTML <samp>&lt;input&gt;</samp> element has <samp>type="number"</samp> and <samp>id</samp> attribute associating it with the corresponding internal <samp>UINI</samp> variable
+* JavaScript has only a single multipurpose <samp>Number</samp> type, so <samp>UINI</samp> includes the two direct subclasses <samp>UINI_int</samp> and <samp>UINI_float</samp> to compensate
+* the <samp>&lt;input&gt;</samp> element's <samp>value</samp> attribute is used to store the quantity's default value (read on app load by <samp>UINI</samp> constructor)
+* the <samp>&lt;input&gt;</samp> element's <samp>min</samp> and <samp>max</samp> attributes store the quantity's range; out-of-range user input is immediately "auto-corrected" to the nearest in-range value
+* when crossing <samp>TrajSeg</samp> boundaries during "playback", a <samp>UINI</samp> method facilitates the pushing of the corresponding stored parameter values back to the UI 
 
-* a first round of input cleaning as <samp>&lt;input type="number"&gt;</samp> removes white space and most non-numeric characters
-* subclasses <samp>UINI_int</samp> and <samp>UINI_float</samp>, with appropriate treatment of leading zeros, etc.  (JavaScript has only a single multipurpose <samp>Number</samp> type, so we rely on <samp>Number.isInteger()</samp>)
-* use of the <samp>&lt;input&gt;</samp> element's <samp>value</samp> attribute to store the quantity's default value (read on app load by <samp>UINI</samp> constructor) and subsequent user-entered values
-* an internal, "official," validated value for the quantity; it sits between the UI and <samp>Trajectory</samp> "insertion points"; if user input is received that is ***not*** a decipherable number, this internal value is immediately pushed back to the UI
-* use of the <samp>&lt;input&gt;</samp> element's <samp>min</samp> and <samp>max</samp> attributes to store the quantity's range; if user input is received that ***is*** a decipherable number, but is out of range, it is immediately "auto-corrected" to the nearest in-range value
-* the pushing of previously entered valid values back to the UI; this occurs for system parameters when crossing <samp>TrajSeg</samp> boundaries during "playback"
-
-Outputting trajectory data is not implemented, nor planned, but would be very doable, e.g., by saving to disk or opening a new tab with text data.  Screenshots are always possible, of course 😀.  Reading saved trajectory data from disk also not implemented, nor planned, but doable.
-
-For those who favor keyboard over mouse and desktop over mobile:
+Reading/writing trajectory data is not implemented, nor planned, but would be very doable.  Screenshots are always possible, of course.  Finally, for those who favor keyboard navigation on a laptop/desktop:
 
 * hit <samp>TAB</samp> to cycle through input buttons/fields; <samp>SHIFT-TAB</samp> to reverse
 * if a button is currently selected, hit or hold <samp>ENTER</samp> to repeatedly "press" it
 * if a numerical input is currently selected, hit or hold up/down arrows to change the value
 
-Browser developer tools are indispensable when doing development, but also handy when running the code.  A number of <samp>console.log()</samp> statements are embedded in the JavaScript to print informational messages for convenience.
-
 ## To Do/Fix/Add/Explore
 
 * If you happen to spot a bug, please [report it](https://github.com/malliaris/SSNS/issues).  Comments, suggestions, and reports of confusing bug-like features also welcome!
 
-* short-term small/easy items
-  * mention of CoordTransition_Spin, etc. ?
-  * write HV_ST_CH help page
-  * make sure HV_P_* help pages are complete/consistent
-  * debug PlotTypeXT.update_window()
-  * add minimum width/xlim of ~10 to PlotTypeHX
+* If you are technically inclined and interested in adding a new system type to **SSNS**, please [get in touch](https://github.com/malliaris/SSNS/issues).  It could be as simple as picking a discrete map from [this list](https://en.wikipedia.org/wiki/List_of_chaotic_maps) and writing the necessary few small chunks of code.  The [M/M/1 queue](https://en.wikipedia.org/wiki/M/M/1_queue) stochastic process already has a slot in the UI and is ready to be worked on!
 
-* A handful of system types listed in the [abbreviations](#abbreviations-labels-etc) section are only at the concept stage, i.e., not yet implemented.  The strategy in the early period of **SSNS** development was to keep a small but diverse collection of systems implemented so that the machinery of <samp>Trajectory</samp>, <samp>PlotType</samp>, etc. classes evolved in a well directed but agile way.  This means that addition of new system types should generally not require app-wide refactoring.<br/><br/>Some system types are incredibly quick to implement &mdash; take a look at the Gingerbread-man Map <samp>*_GM</samp> classes in [js/system_types/GM.js](js/system_types/GM.js).  Others are more complicated, like those planned for the fluids <samp>FD</samp> category.  The current idea for <samp>PF</samp> involves a highly simplified system where Newton's laws yield a trajectory in closed form (it would just need to be evaluated at discrete time points).  For <samp>EU</samp>, the 1D shock tube, we'll need some numerical integration, so we'll implement a straightforward algorithm with a fixed-size time step.  Whether 2D flow systems are even feasible depends on (1) availability of libraries to handle the integration (2) computational expense of integration (see last bullet point) (3) adequacy of visualization options (4) availability of free time &#x1F642;.
-
-* Most of the SSNS system types track one (or maybe a handful) of dependent variables over time, and so the derived <samp>Coords</samp> object for these systems has a very small memory footprint.  Exceptions are the <samp>SM</samp> spin systems <samp>IS</samp> and <samp>XY</samp> &mdash; for them, the <samp>Coords</samp> object holds a 2D field of spin values, and can be orders of magnitude larger.  Since we don't want to put the task of **SSNS** memory management on the browser, our options for capping the spin system <samp>Trajectory</samp> footprint are: (1) statically cap both grid size <samp>N</samp> and max duration <samp>t_max</samp> (2) adaptive caps so that larger grids are allowed for shorter trajectories, and vice versa (3) something more clever.<br/><br/>We already have in place a required <samp>Trajectory</samp> method <samp>get_max_num_t_steps()</samp> to allow for customized calculation of max duration.  Another angle is to reconsider exactly what is stored in the spin <samp>Coords</samp> object.  Currently, the Metropolis algorithm by which these system types are updated modifies 0 or 1 spins each time step.  <samp>CoordTransition_Spin</samp> is a lightweight auxiliary class that stores ***only the change*** between consecutive spin array configurations.  An entire trajectory can be stored as, say, the initial array configuration, and one <samp>CoordTransition_Spin</samp> for each subsequent time step.<br/><br/>This potential approach is complicated by the fact that we currently use the HTML <samp>&lt;canvas&gt;</samp> element for spin system plotting, and also by the fact that it's always good to allow for Metropolis "candidate moves" that change multiple spins.  See the code comments around <samp>CoordTransition_Spin</samp> in [js/traj_intermed.js](js/traj_intermed.js) and <samp>PlotTypeHM</samp> in [js/PlotTypeHM.js](js/PlotTypeHM.js).  Also see next bullet point, which is related.
-
-* When it comes to web implementations of the <samp>XY</samp> model, ours pales in comparison to the one found <a href="//kjslag.github.io/XY/">here</a>, and for many reasons &#x1F642;.  One is that, despite always running on a device with a GPU, **SSNS** does not use the GPU for non-graphical computation!  With all the attention on machine learning, general purpose GPU ("GPGPU") computing is really progressing.  WebGL (which <samp>kjslag</samp>'s implementation uses) is about a decade old, and its successor, WebGPU, is coming out now.  This development comes on top of all the GPU technology progress spurred by HTML 5 <samp>&lt;video&gt;</samp>, streaming, etc.  It's not trivial to write code to execute on a GPU, but the potential performance jump alone is enough to keep this on the "to explore" list!
-
-* lower priority items
+* low priority items
   * not too familiar with how <samp>const</samp>ness works in JavaScript, but change <samp>let</samp> to <samp>const</samp> wherever possible
   * what about JavaScript "strict mode"?
   * handle support for very old browsers?
 
+## Technical Notes
+
+### Logistic Map Bifurcation Diagram Re-creation
+
+Class <samp>PlotTypePP_LM</samp>, the phase-portrait "PP" type plot for the Logistic Map "LM" allows (with a bit of patience) re-creation of the well-known LM bifurcation diagram.  The main thing to realize is that the transient behavior in x(t) must be "discarded."  This is done by having <samp>PlotTypePP_LM</samp> inherit from <samp>PlotTypePP_Select</samp>, which only plots data points that have been actively added to the collection.  To use, follow the steps below.  Optionally, open your browser's developer tools console to view info along the way.  Screenshot of example plot result below.  Steps:
+
+* THESE STEPS NEED TO BE UPDATED TO REFER TO THE NEW MACHINERY (aux_ctr instead of aux_toggle, etc.) BUT BASIC IDEA AND PROCEDURE IS THE SAME
+* start by viewing the XT plot type (the default)
+* select an r value
+* record until x(t) settles in to its single steady value (or oscillations among a small number of values)
+* pause the recording
+* switch to PP plot type
+* press the unmarked button next to the "Reload Page" button (console shows "this.ui.aux_toggle_ctrl = true", which means the PP setup is ready to record a data point)
+* record a single step (console shows "data point (r, x) collected and appended")
+* press the unmarked button again (console shows "this.ui.aux_toggle_ctrl = false") to temporarily stop data point capture
+* repeat the above steps re-creating the diagram with as much detail as desired
+
+<a href="/img/plot_screenshots/LM_PP_bifurcation_diagram.png"><img src="img/plot_screenshots/LM_PP_bifurcation_diagram.png"></a>
+
+### Hard Sphere Gas p-V Diagram Creation
+
+Class <samp>PlotTypePP_HS</samp>, the phase-portrait "PP" type plot for the Hard Sphere gas "HS" allows (with a bit of patience) creation of a p-V diagram with two isotherms, one adiabat, and "measured" data points that fall along them as the system state is methodically changed.  Each data point represents an equilibrium state, so the system must be allowed to equilibrate and then the measurement of pressure, etc. can commence.  To use, follow the steps below.  Optionally, open your browser's developer tools console to view info along the way.  Screenshot of example plot result below.  Steps:
+
+* "plan" the data points by adjusting the values of Params_HS.x_RW_0 and the settings within UserInterface.update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation() (e.g., x_RW_lim_v_pist_arr); stopping the piston at specific x_RW values (and, therefore, volumes) is done by setting x_RW_max/min and v_pist; the piston will auto-stop once it hits its max or min value
+* settle on reasonable values for other parameters... the example plot was made with:
+	* N = 1000
+	* kT0 = 1
+	* RNG seed = 18 (happens to give sampled total energy very close to 1000)
+	* IC: equilibrium
+	* rho: single value
+	* R: single value
+	* Params_HS.target_area_frac = 0.001
+	* Params_HS.ds = 1
+* uncomment the line "this.ui.update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation();" in the case "CK": section of Simulator.js; this hooks things up to do incremental updates, cycling through a fixed number of tasks for each data point
+* load SSNS anew (with a hard refresh to be safe) and repeat the following steps, Hitting the UnMarked Button "HUMB" in the UI to move from step to step, and noting pos_within_data_pt "PWDP" value, which cycles through 5 values
+	* HUMB (PWDP = 0), a pause point at the beginning of cycle
+	* HUMB (PWDP = 1), Params_HS.x_RW_max,min , vpist new values set and output in console
+	* record forward in time until piston auto-stops at new position
+	* continue recording until equilibrium is ~reached
+	* HUMB (PWDP = 2), to enter accumulator reset mode
+	* record one step to reset CollisionPressureStats accumulators
+	* HUMB (PWDP = 3), to emerge from reset mode
+	* record a good amount of trajectory to make measurement of pressure, etc. (Params_HS.ds = 1 means it could be ~10 steps -- this saves memory)
+	* HUMB (PWDP = 4), to enter data point append mode
+	* record one step to collect data point, which should show up with previously collected one in PP plot
+	* HUMB (PWDP = 0), to emerge from data point append mode
+ * take screenshot to capture plot image like below
+
+<a href="/img/plot_screenshots/LM_PP_bifurcation_diagram.png"><img src="img/plot_screenshots/HS_PP_isotherm_adiabat.png"></a>
+
+### General Time/Energy/Visualization/Computation Considerations
+
+* in the points below, we use the Hard Sphere (HS) gas as an example, but most of the points are general; we distinguish between the SSNS-wide discrete time step "t" and the continuous time variable "s" present in any ST with continuous equations of motion 
+* we must choose a value for Params_HS.ds to specify the amount of time that the equations of motion are moved forward during the recording of a new time step (i.e., t --> t + 1)
+* apart from instantaneous collisions, all movement for a given particle at a given time is constant velocity; there are generally N >> 1 particles and a distribution of velocities among them
+* in one discrete time step update, the same ds is applied to all particles, so there will be a distribution of distances moved
+* the amount of real time for the HTML canvas to update the picture of the gas particles depends on various things, including N, area fraction eta, ds, etc.; the inverse of the real time duration is a "frame rate"
+* for reasonable frame rate and distance moved per t for a given particle, its motion will appear smooth
+* on the other hand, a particle that moves a longer distance, especially with one or more collisions along the way, will be harder to follow
+* sometimes, we don't need smooth, easy-to-follow motion and we increase ds substantially; each new particle configuration bears little/no resemblance to the prior, but we will save on system memory since we don't have to store all those intermediate configurations; this is the approach taken <a href="#hard-sphere-gas-p-v-diagram-creation">here</a>
+* generally, though, we aim for a smooth visual experience where individual particles can be tracked easily; we thus assume the user might explore energies over the 4 orders of magnitude from kT = 10^-2 to 10^2; the hard-coded (but editable) value of Params_HS.ds = 0.01 in HS.js means that particle motion will be barely perceptible at kT = 10^-2 (particles will almost appear stationary), while motion will proceed in large, hard-to-follow jumps at kT = 10^2
+* for Ideal gas (IG), especially at low N, the computation is relatively light, so the frames can fly by making particles hard to track, even if they take reasonable sized steps; in this case, ds could be adjusted, but it might be a better idea to use the single-step navigation buttons and/or add a delay of a certain number of milliseconds using the UI's delay field
+
+### General CPU/Memory/Computation Considerations
+
+Most of the SSNS system types track one (or maybe a handful) of dependent variables over time, and so the derived <samp>Coords</samp> object for these systems has a very small memory footprint.  The big exceptions are the [statistical mechanical](https://en.wikipedia.org/wiki/Statistical_mechanics) systems &mdash; gas: <samp>IG</samp> and <samp>HS</samp>, and spin: <samp>IS</samp> and <samp>XY</samp>.  For them, the <samp>Coords</samp> object can be orders of magnitude larger as **N** (# of particles/spins, respectively) increases.  Furthermore, it is this large **N** limit that is the most relevant/interesting.  A few thoughts on this tension:
+
+* **SSNS** is set up to <em>save</em> the system trajectory as it is generated ("recording"), and, in general, memory usage will increase linearly with time.  While the opposite approach (save the minimum needed to generate the next configuration) appears promising, it is complicated by the fact that memory management in JavaScript is fairly opaque and is handled by the browser, not the programmer.
+
+* For our <samp>SM</samp> systems, **N** is fixed for a given <samp>Trajectory</samp> instance.  Since we certainly don't want to negatively impact device/browser performance, we find it easiest to both place an upper bound on **N**, and use the <samp>Trajectory</samp> method <samp>get_max_num_t_steps()</samp> to enforce an **N**-dependent max duration.  Even with such protections in place, it is important for the user to realize that real computation is being carried out on his or her device!
+
+* Once we believe the user is adequately protected from overuse of resources, we ask whether anything interesting can be done with the amount computation that is available, and whether it's worth pursuing various measures to improve our computational reach and/or efficiency.
+
+* We might consider a different type of molecular simulation altogether.  We have chosen to implement our <samp>SM</samp> gas systems with a standard [molecular dynamics](https://en.wikipedia.org/wiki/Molecular_dynamics) (MD) approach, but [Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method) (MC) methods might be better, say, for examining the fluid-solid phase transition.  The  <samp>SM</samp> spin systems lack equations of motion, so an MD approach is not possible, but an MC move set expanded beyond our current single-spin-flips might be worth considering.
+
+* We could also consider various system-type-specific opportunities to improve computational efficiency.  The current single-spin-flip implementation of the spin systems utilizes an auxiliary class called <samp>CoordTransition_Spin</samp> that records only the 0 or 1 spin change between consecutive spin configurations, rather than the (possibly large) configurations themselves.  It was implemented to make the HTML-<samp>&lt;canvas&gt;</samp>-based plotting of the spin array more efficient, but it could conceivably be used to record long trajectories without storing the entire spin array at each time step.
+
+* And, of course, we might consider changing the type of hardware on which we perform the computation.  If one is willing to accept additional difficulties and constraints, running on a [GPU](https://en.wikipedia.org/wiki/Graphics_processing_unit) rather than a CPU can offer an increase in speed of many orders of magnitude.  We have chosen to hold off on any **SSNS** exploration of [WebGL](https://en.wikipedia.org/wiki/WebGL)/[WebGPU](https://en.wikipedia.org/wiki/WebGPU) for now.  In the meantime, check out <a href="//kjslag.github.io/XY/">this</a> amazingly fast WebGL implementation of the <samp>XY</samp> model.
+
 ## Help Viewer "Sitemap"
 
-	    HV_HOME
-		HV_USING
-		    HV_PLOT_AREA
-		    HV_MAIN_PANEL
-		    HV_C_CONTINUOUS_CMDS
-		    HV_PRMS_DROPDOWN
-		    HV_CTRL_DROPDOWN
-			HV_C_ONE_STEP_CMDS
-			HV_C_PLOT_TYPES
-			HV_C_T_DT_JUMP
-			HV_C_DELAY_WINDOW
-			HV_C_T_0_MAX_STOP
-			HV_C_RNG_RECR_TRAJ
-			HV_C_SP_ENSEMBLE
-			HV_C_RELOAD_CMDS
-		    HV_SYS_DROPDOWN
-		    HV_HELP_VIEWER
-		HV_COMPUTATION
-		    HV_CODE_ORGANIZATION
-		    HV_CODE_DEPENDENCIES
-		    HV_CODE_LIMITATIONS
-		    HV_CODE_IO
-		    HV_ERRORS
-			HV_E_T_MAX_REACHED
-		HV_CONCEPTS
-		    HV_ENSEMBLES
-		    HV_MARKOV_ONE_STEP
-		    HV_SPIN_SYSTEMS
-		    HV_PHASE_TRANSITIONS
-		    HV_SA_SP
-			HV_ST_MN
-			    HV_P_SP_MN_mu
-			    HV_P_SP_MN_s
-			    HV_P_SP_MN_N
-			    HV_P_SP_MN_x_0
-		    HV_SA_SM
-			HV_ST_IS
-			    HV_P_SM_IS_T
-			    HV_P_SM_IS_h
-			    HV_P_SM_IS_N
-			HV_ST_XY
-			    HV_P_SM_XY_T
-			    HV_P_SM_XY_h
-			    HV_P_SM_XY_N
-		    HV_SA_ND
-			HV_ST_LM
-			    HV_P_ND_LM_r
-			    HV_P_ND_LM_x_0
-			HV_ST_GM
-			    HV_P_ND_GM_x_0
-			    HV_P_ND_GM_y_0
-		    HV_SA_FD
-			HV_ST_EU
-			HV_ST_PF
-		    HV_MINI_SCENARIOS
+This is basically the information contained in [<samp>js/help_viewer/network_structure.js</samp>](js/help_viewer/network_structure.js) with all charcters except node names and indentation removed, so that the hierarchical structure is clear.  (This is done by hand, so content may be a bit out of date!)
+
+```
+HV_HOME
+    HV_USING
+        HV_PLOT_AREA
+        HV_MAIN_PANEL
+        HV_C_CONTINUOUS_CMDS
+        HV_PRMS_DROPDOWN
+        HV_CTRL_DROPDOWN
+            HV_C_ONE_STEP_CMDS
+            HV_C_PLOT_TYPES
+            HV_C_T_DT_JUMP
+            HV_C_DELAY_WINDOW
+            HV_C_T_0_MAX_STOP
+            HV_C_RNG_RECR_TRAJ
+            HV_C_SP_ENSEMBLE
+            HV_C_RELOAD_CMDS
+        HV_SYS_DROPDOWN
+        HV_HELP_VIEWER
+    HV_COMPUTATION
+        HV_CODE_DESIGN
+        HV_CODE_ORGANIZATION
+        HV_CODE_DEPENDENCIES
+        HV_CODE_IO
+        HV_CODE_FUTURE
+        HV_E_T_MAX_REACHED
+        HV_E_NOT_IMPLEMENTED
+    HV_CONCEPTS
+        HV_ENSEMBLES
+        HV_MARKOV_ONE_STEP
+        HV_SPIN_SYSTEMS
+        HV_PHASE_TRANSITIONS
+        HV_GAS_MODELS
+        HV_GAS_THEORY_COMPARISON
+        HV_SA_SP
+            HV_ST_RW
+                HV_P_SP_RW_l
+                HV_P_SP_RW_r
+                HV_P_SP_RW_N
+                HV_P_SP_RW_x_0
+            HV_ST_MN
+                HV_P_SP_MN_mu
+                HV_P_SP_MN_s
+                HV_P_SP_MN_N
+                HV_P_SP_MN_x_0
+        HV_SA_SM
+            HV_ST_IG
+                HV_P_SM_IG_N
+                HV_P_SM_IG_V
+                HV_P_SM_IG_kT0
+                HV_P_SM_IG_BC
+            HV_ST_HS
+                HV_P_SM_HS_N
+                HV_P_SM_HS_IC
+                HV_P_SM_HS_rho
+                HV_P_SM_HS_R
+                HV_P_SM_HS_kT0
+                HV_P_SM_HS_v_pist
+            HV_ST_IS
+                HV_P_SM_IS_T
+                HV_P_SM_IS_h
+                HV_P_SM_IS_N
+            HV_ST_XY
+                HV_P_SM_XY_T
+                HV_P_SM_XY_h
+                HV_P_SM_XY_N
+        HV_SA_ND
+            HV_ST_LZ
+            HV_ST_LM
+                HV_P_ND_LM_IC
+                HV_P_ND_LM_r
+                HV_P_ND_LM_x_0
+            HV_ST_GM
+                HV_P_ND_GM_IC
+                HV_P_ND_GM_x_0
+                HV_P_ND_GM_y_0
+        HV_SA_FD
+            HV_ST_SH
+                HV_P_FD_SH_N
+                HV_P_FD_SH_rho
+                HV_P_FD_SH_p
+            HV_ST_PF
+                HV_P_FD_PF_Dpol
+                HV_P_FD_PF_Ut
+                HV_P_FD_PF_Ub
+                HV_P_FD_PF_mu
+                HV_P_FD_PF_Ds
+                HV_P_FD_PF_N
+```

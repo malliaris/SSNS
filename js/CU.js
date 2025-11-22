@@ -36,20 +36,14 @@ class CU {
     static gs(str_id) {  // gs = get string
 	return $("#" + str_id).val();
     }
-    static gi(str_id) {  // gi = get int
-	return parseInt($("#" + str_id).val());
-    }
-    static gf(str_id) {  // gf = get float
-	return parseFloat($("#" + str_id).val());
-    }
     static sv(str_id, new_val) {  // s = set value (int or float input, but stored as a string I think)
 	$("#" + str_id).val(new_val);
     }
     static gmn(str_id) {  // gmn = get min
-	return $("#" + str_id).attr("min");
+	return Number($("#" + str_id).attr("min"));
     }
     static gmx(str_id) {  // gmx = get max
-	return $("#" + str_id).attr("max");
+	return Number($("#" + str_id).attr("max"));
     }
     static smn(str_id, new_min_val) {  // smn = set min
 	$("#" + str_id).attr("min", new_min_val);
@@ -84,6 +78,14 @@ class CU {
     	let arr_to_sort = [ va, vb, vc ];  // assemble array of all three
 	return arr_to_sort.sort( (U,V) => U - V )[1];  // after sorting numerically, the middle value (index [1]) is the one we want...
     }
+    static round_up_above_fluctuations(xmax) {
+	let xmax_1sd = roundsd(xmax, 1);
+	let xmax_1frac = xmax / xmax_1sd;
+	let xmax_1frac_ceil = Math.ceil(xmax_1frac);
+	let xmax_1frac_ceil_mult = xmax_1frac_ceil * xmax_1sd;
+	//console.log("xmax_1sd, xmax_1frac, xmax_1frac_ceil, xmax_1frac_ceil_mult =", xmax_1sd, xmax_1frac, xmax_1frac_ceil, xmax_1frac_ceil_mult);
+	return xmax_1frac_ceil_mult;
+    }
     static scal_mult_vect(vprod, s, v) {  // multiply each element of the passed-in ndarray v by the scalar s, placing the result in vprod
 	if (vprod.length != v.length) {
 	    console.log("ERROR in scal_mult_vect(): vectors have unequal lengths!");
@@ -117,6 +119,18 @@ class CU {
 	    om.setElement(k, 1);
 	} else {
 	    om.setElement(k, orig_v + 1);
+	}
+    }
+    static decr_entry_OM(om, k) {  // ***value interpreted as a count***, i.e., element should only be present if value v >= 1; for OrderedMap om (from js-sdsl library), decrement entry
+	let orig_v = om.getElementByKey(k);
+	if ((orig_v != undefined) && (orig_v >= 1)) {  // if om[k] doesn't exist or om[k] < 1, print an error (below)
+	    if (orig_v > 1) {
+		om.setElement(k, orig_v - 1);  // decrement with element remaining in OM
+	    } else {
+		om.eraseElementByKey(k);  // decrementing 1 --> 0 means element should just be removed from OM
+	    }
+	} else {
+	    console.log("ERROR in decr_entry_OM(): either OM entry doesn't exist or value is < 1!");
 	}
     }
     static add_to_entry_OM(om, k, v) {  // for OrderedMap om (from js-sdsl library), if om[k] exists, do om[k] += v, else insert om[k] = v

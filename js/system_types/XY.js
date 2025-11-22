@@ -18,7 +18,7 @@ class ModelCalc_XY extends ModelCalc_Spin {
 
 class Params_XY extends Params_Spin {
 
-    static T = undefined;  // = new UINI_float(this, "UI_P_SM_XY_T", true);  assignment occurs in UserInterface(); see discussion there
+    static T;  // = new UINI_float(this, "UI_P_SM_XY_T", true);  assignment occurs in UserInterface(); see discussion there
 
     push_vals_to_UI() {
 	Params_XY.T.push_to_UI(this.T);
@@ -27,7 +27,7 @@ class Params_XY extends Params_Spin {
 
 class Coords_XY extends Coords_Spin {
 
-    static N = undefined;  // = new UINI_int(this, "UI_P_SM_XY_N", false);  assignment occurs in UserInterface(); see discussion there    
+    static N;  // = new UINI_int(this, "UI_P_SM_XY_N", false);  assignment occurs in UserInterface(); see discussion there    
 
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
@@ -44,7 +44,7 @@ class Coords_XY extends Coords_Spin {
 
 	if (this.constructing_init_cond) {
 
-	    this.spins = zeros([ N, N ], {'dtype': 'float64'});
+	    this.spins = zeros('float64', [ N, N ]);
 	    Coords_Spin.randomize_spins_arr(this.spins, this.get_rand_spin_val.bind(this));
 	    this.prev_trans = null;  // since IC was not arrived at via a transition
 
@@ -114,6 +114,6 @@ class Trajectory_XY extends Trajectory_Stoch {
     }	
 
     get_max_num_t_steps() {
-	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
+	return this.mc.get_max_num_t_steps(Coords_XY.N.v);
     }
 }

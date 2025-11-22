@@ -3,15 +3,16 @@
 ////////  HS = Hard Sphere Gas (from SM = Statistical Mechanics)  /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
 class GasParticle_HS extends GasParticle {
 
-    constructor(...args) {
+    constructor(x, y, R, mass, vx, vy, rho_val_i, rho) {
 
-	super(...args);
+	super(x, y, mass, vx, vy);
 
+	this.R = R;
+	this.rho_val_i = rho_val_i;  // integer index associated with density value (will, e.g., be translated into greyscale color)
+	this.rho = rho;  // particle density, which will be plotted as greyscale color
+	this.E_hist_bi;  // E_hist_bi = E histogram bin index
 	this.cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);
     }
 
@@ -21,308 +22,13 @@ class GasParticle_HS extends GasParticle {
 	for (const cei = gptc.cet_entries.begin(); !cei.equals(gptc.cet_entries.end()); cei.next()) {
 	    ngp.cet_entries.insert(copy(cei.pointer));
 	}
+	ngp.rho_val_i = gptc.rho_val_i;
+	ngp.rho = gptc.rho;
+	ngp.v_hist_bi = gptc.v_hist_bi;
+	ngp.E_hist_bi = gptc.E_hist_bi;
 	return ngp;
     }
 }
-
-class CollisionEvent {
-
-    static compare_CEs(x, y) {
-
-	// primary sort is by event time; applies to all types of collisions (PP, PW and WC)
-	if (x.s !== y.s) {
-	    return (x.s - y.s);
-	}
-
-	// if times are equal...;  start by putting WC collisions out in front
-	// NOTE: there can only be one WC collision in the table at any given time, but WE NEED TO HANDLE COMPARISON OF EQUAL KEYS, e.g., for ...find()
-	let x_is_WC = (!x.is_PP() && !x.is_PW());
-	let y_is_WC = (!y.is_PP() && !y.is_PW());
-	if (x_is_WC && y_is_WC) return 0;
-	if (x_is_WC && ! y_is_WC) return -1;
-	if ( ! x_is_WC && y_is_WC) return 1;
-
-	// if times are equal and we have only PP and/or PW collision, compare "primary" particle indices (pai for PP's and pi for PW's)
-	let x_pi = x.is_PP() ? x.pai : x.pi;
-	let y_pi = y.is_PP() ? y.pai : y.pi;
-	if (x_pi !== y_pi) {
-	    return (x_pi - y_pi);
-	}
-
-	// if we still haven't "broken the tie"...
-	if (x.is_PP() && y.is_PP()) {
-	    return (x.pbi - y.pbi);  // for PP-PP, compare pbi's
-	} else if (!x.is_PP() && !y.is_PP()) {
-	    return (x.wi - y.wi);  // for PW-PW, compare wi's
-	} else {
-	    return (x.is_PP() ? 1 : -1);  // otherwise, it's mixed PP-PW or PW-PP and we sort PW first
-	}	    
-    }
-
-    constructor(s) {
-
-	if (!this.is_PP) throw new Error("Derived CollisionEvent must define is_PP()");
-	this.s = s;
-    }
-}
-
-// PP = Particle-Particle, i.e., a CollisionEvent between two particles (no wall involved)
-class CollisionEvent_PP extends CollisionEvent {
-
-    static get_Ds_closest_approach(pa, pb) {
-
-	let Dx = pb.x - pa.x;
-	let Dy = pb.y - pa.y;
-	let Dvx = pb.vx - pa.vx;
-	let Dvy = pb.vy - pa.vy;
-	return -1.0 * ( Dx*Dvx + Dy*Dvy ) / (Dvx*Dvx + Dvy*Dvy);
-    }
-
-    static get_dist_at_Ds(pa, pb, Ds) {
-
-	let xa = pa.x + Ds*pa.vx;
-	let xb = pb.x + Ds*pb.vx;
-	let Dx = xb - xa;
-	let ya = pa.y + Ds*pa.vy;
-	let yb = pb.y + Ds*pb.vy;
-	let Dy = yb - ya;
-	return Math.sqrt( Dx*Dx + Dy*Dy );
-    }
-
-    static will_collide(pa, pb) {
-
-	let Ds = CollisionEvent_PP.get_Ds_closest_approach(pa, pb);
-	if (Ds > 0.0) {
-	    return ( CollisionEvent_PP.get_dist_at_Ds(pa, pb, Ds) < (pa.R + pb.R) );
-	} else {
-	    return false;
-	}
-    }
-
-    static get_Ds_collision(pa, pb) {
-
-	let Dx = pb.x - pa.x;
-	let Dy = pb.y - pa.y;
-	let Dvx = pb.vx - pa.vx;
-	let Dvy = pb.vy - pa.vy;
-	let sum_radii = pb.R + pa.R;
-	let A = Dvx*Dvx + Dvy*Dvy;  // NOTE: A >= 0
-	let B = 2.0 * ( Dx*Dvx + Dy*Dvy );
-	let C = Dx*Dx + Dy*Dy - sum_radii*sum_radii;
-	// NOTE: below, expression in sqrt must be positive for real solution, so entire second term T > 0 and we take negative sign for smaller root for first "impact"
-	return ( -1.0*B - Math.sqrt( B*B - 4.0*A*C ) ) / (2.0*A);
-    }
-
-    static process_collision(pa, pb) {
-
-	let Dx = pb.x - pa.x;
-	let Dy = pb.y - pa.y;
-	let Dvx = pb.vx - pa.vx;
-	let Dvy = pb.vy - pa.vy;
-	let fctr = (2.0 / (pa.m + pb.m)) * ( Dx*Dvx + Dy*Dvy ) / (Dx*Dx + Dy*Dy);
-
-	pa.vx += pb.m * fctr * Dx;
-	pa.vy += pb.m * fctr * Dy;
-	pb.vx -= pa.m * fctr * Dx;
-	pb.vy -= pa.m * fctr * Dy;
-    }
-
-    // get a string that will be used as a key in the CollisionEventsTable
-    static get_cet_key_str(pai, pbi) {  // pai = particle a index (in the particles array)
-	return ("a" + pai.toString() + "b" + pbi.toString());  //e.g., "a11b25" indicates a future collision between particles 11 and 25; we always have a < b
-    }
-
-    //  using s for time rather than t so as not to confuse with SSNS discrete time step t
-    constructor(pai, pbi, s) {  // pai = particle a index (in the particles array)
-
-	super(s);
-
-	this.pai = (pai < pbi) ? pai : pbi;  // to maintain convention that pai < pbi
-	this.pbi = (pai < pbi) ? pbi : pai;  // to maintain convention that pai < pbi
-    }
-
-    is_PP() {
-	return true;
-    }
-}
-
-// PW = Particle-Wall, i.e., a CollisionEvent between a particle and a wall
-class CollisionEvent_Wall extends CollisionEvent {
-
-    constructor(s) {
-
-	super(s);
-
-	if (!this.is_PW) throw new Error("Derived CollisionEvent must define is_PW()");
-    }
-
-    is_PP() {
-	return false;  // collisions involving a Wall are definitely not Particle-Particle (PP)
-    }
-}
-
-class CollisionEvent_PW extends CollisionEvent_Wall {
-
-    // x,v_RW are position,velocity of Right Wall; s_to_add will be added to Ds_coll to give absolute time s_coll for collision event
-    static get_wall_collision_event_array(p, pi, x_RW, v_RW, s_to_add) {
-
-	let ce_array = [ null, null, null, null ];  // array of 4 values to be returned, when each will be either null or a CollisionEvent_PW 
-
-	// check for Top Wall collision
-	if (p.vy > 0.0) {  // particle moving upward...
-
-	    let ds_intersect = (Params_HS.Ly - p.y - p.R) / p.vy;  // ...might collide with Top Wall, so locate intersection with y = Ly...
-	    let x_intersect = p.x + p.vx*ds_intersect;
-	    if ((x_intersect >= 0.0) && (x_intersect <= Params_HS.Lx_max)) {  // POSSIBLY CHANGE HERE TO Params_HS.Lx???
-		ce_array[Params_HS.T_W] = new CollisionEvent_PW(pi, Params_HS.T_W, s_to_add + ds_intersect);
-	    }
-	}
-
-	// check for Bottom Wall collision
-	if (p.vy < 0.0) {  // particle moving downward...
-
-	    let ds_intersect = -1.0 * (p.y - p.R) / p.vy;  // ...might collide with Bottom Wall, so locate intersection with y = 0...
-	    let x_intersect = p.x + p.vx*ds_intersect;
-	    if ((x_intersect >= 0.0) && (x_intersect <= Params_HS.Lx_max)) {  // POSSIBLY CHANGE HERE TO Params_HS.Lx???
-		ce_array[Params_HS.B_W] = new CollisionEvent_PW(pi, Params_HS.B_W, s_to_add + ds_intersect);
-	    }
-	}
-
-	// check for Left (stationary vertical) Wall collision
-	if (p.vx < 0.0) {  // particle moving leftward...
-
-	    let ds_intersect = -1.0 * (p.x - p.R) / p.vx;  // ...might collide with Left Wall, so locate intersection with x = 0...
-	    let y_intersect = p.y + p.vy*ds_intersect;
-	    if ((y_intersect >= 0.0) && (y_intersect <= Params_HS.Ly)) {
-		ce_array[Params_HS.L_W] = new CollisionEvent_PW(pi, Params_HS.L_W, s_to_add + ds_intersect);
-	    }
-	}
-
-	// check for Right (movable vertical) Wall collision
-	let rel_vx = -1.0*v_RW - p.vx;  // relative velocity of particle and Right Wall; we flip sign of v_RW since positive for its velocity is inward
-
-	if (rel_vx < 0.0) {  // if particle and Right Wall are approaching...
-
-	    let rel_x = Params_HS.Lx_max - x_RW - p.x - p.R;  // get distance between them; we subtract because positive coordinate directions are aligned for the two
-	    let ds_intersect = -1.0 * rel_x / rel_vx;  // locate intersection of particle path with future Right Wall location
-	    let y_intersect = p.y + p.vy*ds_intersect;
-	    let x_intersect = p.x + p.vx*ds_intersect;
-	    ///////////console.log("rel_vx, rel_x, ds_intersect, y_intersect, x_intersect =", rel_vx, rel_x, ds_intersect, y_intersect, x_intersect);///////////
-	    if ((y_intersect >= 0.0) && (y_intersect <= Params_HS.Ly) && (x_intersect >= 0.0)) {
-		ce_array[Params_HS.R_W] = new CollisionEvent_PW(pi, Params_HS.R_W, s_to_add + ds_intersect);
-	    }
-	}
-
-	return ce_array;
-    }
-
-    static process_collision(p, wi, v_RW) {  // v_RW is velocity of Right Wall
-
-	switch(wi) {
-
-	case Params_HS.T_W:
-	    p.vy *= -1.0;
-	    break;
-
-	case Params_HS.L_W:
-	    p.vx *= -1.0;
-	    break;
-
-	case Params_HS.B_W:
-	    p.vy *= -1.0;
-	    break;
-
-	case Params_HS.R_W:
-	    p.vx = -1.0*p.vx - 2.0*v_RW;  // easily derived by taking 1D elastic collision equations with M >> m; NOTE: sign of v_RW is flipped!!
-	    break;
-	}
-    }
-
-    //  using s for time rather than t so as not to confuse with SSNS discrete time step t
-    constructor(pi, wi, s) {  // pi = particle index (in the particles array); wi = wall index
-
-	super(s);
-
-	this.pi = pi;
-	this.wi = wi;
-    }
-
-    is_PW() {
-	return true;  // PW = Particle-Wall
-    }
-}
-
-// this handles the event of the Right Wall (RW), which is the only movable one, colliding/stopping at max/min compression
-class CollisionEvent_WC extends CollisionEvent_Wall {
-
-    static piston_is_moving(v_RW) {
-
-	return (v_RW != 0.0);
-    }
-
-    //  using s for time rather than t so as not to confuse with SSNS discrete time step t
-    constructor(x_RW, v_RW, s_to_add) {
-
-	let ds_coll;
-	if (v_RW > 0.0) {  // NOTE: v_RW positive is compression
-	    ds_coll = (Params_HS.x_RW_max - x_RW) / v_RW;
-	} else {  // v_RW < 0.0; NOTE: v_RW negative is expansion --- negative sign makes expression below positive
-	    ds_coll = -1.0 * x_RW / v_RW;
-	}
-	let s_coll = s_to_add + ds_coll;
-
-	super(s_coll);
-    }
-
-    is_PW() {
-	return false;  // this Wall-Container (WC) CollisionEvent is definitely not of the Particle-Wall (PW) type
-    }
-}
-
-class CollisionEventsTable {
-
-    constructor() {
-
-	this.table = new OrderedSet([], CollisionEvent.compare_CEs);
-    }
-
-    output_info() {
-
-	let total_entries = 0;
-	let PP_entries = 0;
-	let PW_entries = 0;
-	let WC_entries = 0;
-	
-	for (const cei = this.table.begin(); !cei.equals(this.table.end()); cei.next()) {
-	    if (cei.pointer.is_PP()) {  // is PP
-		console.log("**", cei.pointer.pai, cei.pointer.pbi, cei.pointer.s);
-		PP_entries += 1;
-	    } else if (cei.pointer.is_PW()) {  // else, if is PW
-		console.log("*|", cei.pointer.pi, Params_HS.get_wi_char(cei.pointer.wi), cei.pointer.s);
-		PW_entries += 1;
-	    } else {  // else, is WC
-		console.log("[]", Params_HS.get_wi_char(Params_HS.R_W), "C", cei.pointer.s);
-		WC_entries += 1;
-	    }
-	    total_entries += 1;
-	}
-	console.log("table size = ", this.table.size());
-	console.log("PP_entries    = ", PP_entries);
-	console.log("PW_entries    = ", PW_entries);
-	console.log("WC_entries    = ", WC_entries);
-	console.log("total_entries = ", total_entries);
-    }
-}
-
-
-class Cumul_Stats {
-
-    constructor() {
-
-
-    }
-}
-
 
 // class to "wrap" the particle update code, which gets used for both the x and y directions
 //
@@ -342,11 +48,76 @@ class Cumul_Stats {
 // NOTE: T is measured in energy units, i.e., it could be called tau = k_B T
 class ModelCalc_HS extends ModelCalc_Gas {
 
-    constructor(rs) {
+    static Z_Solana;  // set in do_post_particle_creation_tasks() and used in CollisionPressureStats.calc_quantities()
+    static Z_SHY;  // set in do_post_particle_creation_tasks() and used in CollisionPressureStats.calc_quantities()
+    
+    constructor(ui, rs) {
 
 	super();
 
+	this.ui = ui;  // this is reference to UserInterface object this.sim.ui to access aux_ctr, etc. in CollisionPressureStats...
 	this.rs = rs;  // this is reference to RunState object this.sim.rs to access params_changed in CoordsHS constructor...
+    }
+
+    get_rand_sign() {
+	return ((this.discunif_rng(0, 1) == 0) ? -1.0 : 1.0);
+    }
+
+    get_rand_R_val(R_min, R_max, R_cutoff) {
+
+	for (let i = 0; i < Params_HS.num_IC_creation_attempts; i++) {  // stop trying after a certain # failed attempts
+
+	    let beta_dist_val = this.beta_rng(Params_HS.R_dist_a, Params_HS.R_dist_b);
+	    let candidate_R = R_min + (R_max - R_min)*beta_dist_val;
+	    if (candidate_R < R_cutoff) {
+		return candidate_R;
+	    }
+	}
+	console.log("ERROR:   Failed to draw a small enough Beta-distributed radius even after", Params_HS.num_IC_creation_attempts, "attempts.  Check parameter values and/or try reloading SSNS.");
+	return 0.0;  // dummy value
+    }
+
+    get_max_num_t_steps() {
+	let raw_val = 1000000.0 / Params_HS.N;  // rough assumption that memory usage is linear in N
+	return parseInt(Math.floor(raw_val) + 1);  // + 1 makes negligible difference in memory usage, but leads to "rounder" numbers if we always deal with powers of 10
+    }
+
+    static get_m_from_rho_and_R(rho, R) {
+	return Math.PI * R * R * rho;  // we're interpreting rho as mass/area and multiplying by area of circular cross-section of sphere (or disc)
+    }
+
+    static get_mean_area_frac(N, R_mean, A) {
+	return N * Math.PI * R_mean * R_mean / A;
+    }
+
+    // solve quadratic to find R_max that will produce desired mean area fraction, given R_min, N, etc.;
+    // calculation involved E[X] and E[X^2] (via the variance) for X ~ Beta(a, b)
+    // basic Beta dist stats printed out since it's convenient
+    static get_R_max_from_mean_area_frac(N, R_min, a, b, A, frac) {  // "R_dist_*" removed for brevity
+
+	let mean = a / (a + b);  // mean of Beta dist
+	let vrnce = a*b / ((a + b)*(a + b)*(a + b + 1.0));  // variance of Beta dist
+	let stddev = Math.sqrt(vrnce);
+	let EX2 = vrnce + mean*mean;  // for convenience; this is E[X^2]
+	let EXoEX2 = mean / EX2;  // for convenience; this is E[X] / E[X^2]
+	let B = 2.0 * R_min * (EXoEX2 - 1.0);  // coefficient of linear term; quadratic coefficient A = 1
+	let C = R_min*R_min*(1.0 - 2.0*EXoEX2 + 1.0/EX2) - frac*A / (N*Math.PI*EX2);  // constant term
+	let R_max = -0.5*B + 0.5*Math.sqrt( B*B - 4.0*C );  // take positive root in quadratic formula
+	console.log("INFO:   Beta dist stats (mean, variance, std. dev.) =", mean, ",", vrnce, ",", stddev, R_min, (B*B - 4.0*C));
+	console.log("INFO:   ... cont'd ... (mean - stddev, mean + stddev, R_max)", (mean - stddev), (mean + stddev), R_max);
+	return R_max;
+    }
+
+    static get_Z_Solana(eta) {  // see Mulero - Theory and Simulation of Hard-Sphere Fluids and Related Systems: equation 3.42 (due to Solana)
+
+	return (1.0 + 5.0*eta*eta/64.0) / ( (1.0 - eta)*(1.0 - eta) );
+    }
+
+    static get_Z_SHY(eta) {  // see Mulero - Theory and Simulation of Hard-Sphere Fluids and Related Systems: equation 3.35
+
+	let eta_c = Math.PI * Math.sqrt(3.0) / 6.0;
+	let eta_c_fctr = (2.0*eta_c - 1.0) / (eta_c*eta_c);
+	return 1.0 / ( 1.0 - 2.0*eta + eta_c_fctr*eta*eta);
     }
 }
 
@@ -366,21 +137,38 @@ class Params_HS extends Params {
 
     static UINI_N;  // = new UINI_int(this, "UI_P_SM_HS_N", false);  assignment occurs in UserInterface(); see discussion there    
     static N;
-    static UINI_T;  // = new UINI_float(this, "UI_P_SM_HS_T", false);  assignment occurs in UserInterface(); see discussion there
-    static T;
+    static UINI_kT0;  // = new UINI_float(this, "UI_P_SM_HS_kT0", false);  assignment occurs in UserInterface(); see discussion there
+    static kT0;
     static UINI_v_pist;  // = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  assignment occurs in UserInterface(); see discussion there
+    static UICI_rho;  // = new UICI_HS_rho(this, "UI_P_SM_HS_rho", false);  assignment occurs in UserInterface(); see discussion there
+    static UICI_R;  // = new UICI_HS_R(this, "UI_P_SM_HS_R", false);  assignment occurs in UserInterface(); see discussion there
+    static UICI_IC;  // = new UICI_HS_IC(this, "UI_P_SM_HS_IC", false);  assignment occurs in UserInterface(); see discussion there
 
-    static R = 0.02;  // EVENTUALLY MAKE AN INPUT PARAMETER?
-    static m = 1.0;  // EVENTUALLY MAKE AN INPUT PARAMETER?
-    static ds = 0.01;  // EVENTUALLY MAKE AN INPUT PARAMETER?  OR USE SMALL ALGORITHM TO SET VALUE?
-    static Lx_min = 0.4;  // assignment occurs in Trajectory_HS constructor
+    static R_min = 1e-10;  // see initialize_particle_basics(); coordinate value with Beta distribution; Beta dist mean, mode are a/(a + b) and (a - 1)/(a + b - 2), resp.
+    static R_max;  // now auto-calculated in get_R_max_from_mean_area_frac() based on other parameter values
+    static R_dist_a = 1.000001;
+    static R_dist_b = 100;
+    static R_single_value;  // now auto-calculated in create_particles_w_random_R_x_y() based on other parameter values
+    static target_area_frac = 0.2;//0.001;
+    static total_particle_area;  // calculated once (in do_post_particle_creation_tasks()) after particles are created
+    static R_tiny_particle_cutoff = 0.005;
+    static R_tiny_particle_drawn_as = 0.01;
+    static draw_tiny_particles_artificially_large = true;
+    static color_tracker_particle = true;  // whether to paint the i == 0 particle red for easy visual tracking
+    static m_single_value = 1.0;  // not a big loss of flexibility setting m to unity since other parameters, e.g., T can always be tweaked
+    static num_rho_vals = 4;                                                        // VALUE MUST MATCH NUMBER OF ENTRIES IN ARRAYS BELOW!
+    static rho_vals = [1e4, 1e5, 1e6, 1e7];                                         // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
+    static rho_greyscale_val_strs = ["#cccccc", "#888888", "#444444", "#000000"];   // ARRAY LENGTH MUST MATCH NUMBER STORED IN num_rho_vals!
+    static num_particles_per_rho_val;
+    static num_IC_creation_attempts = 1000;
+    static ds = 0.01;  // eventually use algorithm to set value?
+    static Lx_min = 0.05;  // assignment occurs in Trajectory_HS constructor
     static Lx_max = 1.0;  // assignment occurs in Trajectory_HS constructor
     static Ly = 1.0;  // assignment occurs in Trajectory_HS constructor
     static x_RW_max = Params_HS.Lx_max - Params_HS.Lx_min;  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
-    static m_dist_code = "c";  // dummy value; c for constant? add a sensible distribution to try?
-    static R_dist_code = "c";  // dummy value; c for constant? add a sensible distribution to try?
-    static IC_code = "r";  // dummy value; eventually have many options here
-
+    static x_RW_min = 0.0;
+    static x_RW_0 = 0.0;  // initial value of x_RW
+    
     static get_wi_char(i) {
 	let char_arr = ["T", "L", "B", "R"];
 	return char_arr[i];
@@ -394,13 +182,15 @@ class Params_HS extends Params {
 
 	// summarize physical parameter values
 	console.log("physical parameter value summary:");
-	console.log("N     :", Params_HS.N);
-	console.log("kT    :", Params_HS.T);
-	console.log("Ly    :", Params_HS.Ly);
-	console.log("Lx_min:", Params_HS.Lx_min);
-	console.log("Lx_max:", Params_HS.Lx_max);
-	console.log("x_RW_max:", Params_HS.x_RW_max);
-	console.log("ds    :", Params_HS.ds);
+	console.log("N        :", Params_HS.N);
+	console.log("kT       :", Params_HS.kT0);
+	console.log("Ly       :", Params_HS.Ly);
+	console.log("Lx_min   :", Params_HS.Lx_min);
+	console.log("Lx_max   :", Params_HS.Lx_max);
+	console.log("x_RW_min :", Params_HS.x_RW_min);
+	console.log("x_RW_max :", Params_HS.x_RW_max);
+	console.log("x_RW_0   :", Params_HS.x_RW_max);
+	console.log("ds       :", Params_HS.ds);
     }
 
     push_vals_to_UI() {
@@ -416,6 +206,8 @@ class Coords_HS extends Coords {
 
     static s;  // the official "clock" for our continuous time gas system; using s rather than t so as not to confuse with SSNS discrete time step t
     static WC_just_occurred;  // indicates whether a Wall-Container (WC) collision just occurred; set in update_collision_structures_WC()
+    static dummy_particle = new GasParticle_HS(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0);  // used in creating particles, checking positions for overlap, etc.
+    static EPSILON = 1e-10;  // used, e.g., as a little cushion when positioning particles
 
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
@@ -423,26 +215,27 @@ class Coords_HS extends Coords {
 
 	if (this.constructing_init_cond) {
 
-	    this.x_RW = 0.0;  // Params_HS.x_RW_max;  // Right Wall (RW) piston is initially fully extended, so that piston area is a square
+	    this.x_RW = Params_HS.x_RW_0;  // set Right Wall (RW) piston initial position
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
-	    this.gsh = new GasSpeedHistogram();
+	    this.cps = new CollisionPressureStats_HS(this.mc.ui);
+	    this.psh = new ParticleQuantityHistogram(ParticleQuantityHistogram.get_reasonable_v_bin_width(Params_HS.kT0, Params_HS.m_single_value, Params_HS.N));// 0.2);  // psh = particle speed histogram
+	    this.peh = new ParticleQuantityHistogram(ParticleQuantityHistogram.get_reasonable_E_bin_width(Params_HS.kT0, Params_HS.N));// 0.5);  // peh = particle energy histogram
 	    this.cet = new CollisionEventsTable();
 	    this.particles = new Array();
-	    this.initialize_particles_collision_structures_etc();
-
-	    // initialize quantities involved in time-averaging
-	    this.num_t_avg_contribs = 0;
-	    this.P_x_cumul = 0.0;
-	    this.P_y_cumul = 0.0;
+	    this.initialize_particle_basics();
+	    this.do_post_particle_creation_tasks();
+	    this.initialize_collision_structures();
 
 	} else {
 
-	    this.gsh = GasSpeedHistogram.copy(this.c_prev.gsh);
+	    this.cps = CollisionPressureStats_HS.copy(this.c_prev.cps);
+	    this.psh = ParticleQuantityHistogram.copy(this.c_prev.psh);
+	    this.peh = ParticleQuantityHistogram.copy(this.c_prev.peh);  // peh = particle energy histogram
 	    this.copy_particles_collision_structures_etc();
 
 	    // determine this timestep's x_RW and v_RW initial values (actual values may change during timestep's update_state() routines)
 	    this.x_RW = this.c_prev.x_RW;  // initial Right Wall (RW) piston position is always taken from previous CoordsHS
-	    if (this.mc.rs.params_changed) {  // value of initial Right Wall (RW) piston velocity depends on various things...
+	    if ((this.mc.rs.params_changed) || (Coords_HS.WC_just_occurred)) {  // value of initial Right Wall (RW) piston velocity depends on various things...
 
 		if (Coords_HS.WC_just_occurred) {  // if a Wall-Container (WC) collision just occurred
 
@@ -458,7 +251,7 @@ class Coords_HS extends Coords {
 		    // determine whether requested value of v_RW is allowed given state of x_RW
 		    let requested_v_pist_0 = this.p.v_pist_0;
 		    let attempting_overcompress = ((requested_v_pist_0 > 0) && (this.x_RW >= Params_HS.x_RW_max));  // can't compress beyond compression limit
-		    let attempting_overexpand = ((requested_v_pist_0 < 0) && (this.x_RW <= 0.0));  // can't expand beyond expansion limit
+		    let attempting_overexpand = ((requested_v_pist_0 < 0) && (this.x_RW <= Params_HS.x_RW_min));  // can't expand beyond expansion limit
 		    if (attempting_overcompress || attempting_overexpand) {
 			this.v_RW = 0.0;
 			this.p.v_pist_0 = 0.0;
@@ -474,16 +267,72 @@ class Coords_HS extends Coords {
 		this.v_RW = this.c_prev.v_RW;
 	    }
 
-	    // copy over quantities involved in time-averaging
-	    this.num_t_avg_contribs = this.c_prev.num_t_avg_contribs;
-	    this.P_x_cumul = this.c_prev.P_x_cumul;
-	    this.P_y_cumul = this.c_prev.P_y_cumul;
-
 	    this.update_state(Params_HS.ds);
 	}
+	this.check_basic_machinery_integrity_and_output();
 	//this.check_cet_table_and_entries_integrity_and_output(true);
     }
 
+    get_rand_x_centered_interval(length, offset) {
+
+	let Dx = length - 2.0*offset;
+	return (Dx*this.mc.unif01_rng() + offset);
+    }
+
+    get_rand_y_centered_interval(length, offset) {
+
+	let Dy = length - 2.0*offset;
+	return (Dy*this.mc.unif01_rng() + offset);
+    }
+
+    get_kT() {  // wrapper for convenience
+	return this.mc.get_kT(Params_HS.N, this.particles);
+    }
+
+    get_Lx() {
+	return (Params_HS.Lx_max - this.x_RW);  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
+    }
+
+    get_area() {
+	return (Params_HS.Ly * this.get_Lx());  // NOTE: RW piston coordinate is flipped: positive (negative) is compression (expansion)
+    }
+
+    get_total_particle_area() {
+
+	let total_particle_area = 0.0;
+	for (let i = 0; i < Params_HS.N; i++) {
+	    let particle_area = Math.PI * this.particles[i].R * this.particles[i].R;
+	    total_particle_area += particle_area;
+	}
+	return total_particle_area;
+    }
+
+    get_area_frac() {
+	return Params_HS.total_particle_area / this.get_area();
+    }
+
+    particle_config_free_of_overlaps() {
+
+	for (let i = 1; i < this.particles.length; i++) {  // use particles.length instead of N to be able to check partially-formed config; check each pair... NOTE starting index of i == 1
+	    for (let j = 0; j < i; j++) {        //                    NOTE ending index of j == i - 1
+		if (CollisionEvent_PP.are_overlapping(this.particles[i], this.particles[j])) {
+		    return false;
+		}
+	    }
+	}
+	return true;
+    }
+
+    candidate_particle_position_free_of_overlaps(cand_particle) {
+
+	for (let j = 0; j < this.particles.length; j++) {  // use particles.length instead of N to be able to check partially-formed config
+	    if (CollisionEvent_PP.are_overlapping(this.particles[j], cand_particle)) {
+		return false;
+	    }
+	}
+	return true;
+    }
+    
     // add entries to both the main data structure (cet.table) and auxiliary entries within each particle's cet_entries array
     add_collision_event_PP(i, j, s_to_add) {  // s_to_add will be added to Ds_coll to give absolute time s_coll for collision event
 
@@ -495,42 +344,359 @@ class Coords_HS extends Coords {
 	this.particles[j].cet_entries.insert(copy(ce));
     }
 
-    initialize_particles_on_grid() {
+    get_particle_rho_val_i(indx) {  // determine and return new particle's density value index (which then is used to determine density)
 
-	let new_p;
-	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (useful for passing into methods that set both)
-	//let rx = this.mc.mbde.get_rand_x();  // random x position
-	//let ry = this.mc.mbde.get_rand_y();  // random y position
+	if (Params_HS.UICI_rho.use_distribution()) {  // if rho distribution is being used...
+	    let modf_parts = modf(indx / Params_HS.num_particles_per_rho_val);
+	    return parseInt(modf_parts[0]);
+	} else {  // otherwise, all particles have the same rho_val_i and rho value
+	    return 0;
+	}
+    }
+
+    // REVIEW HOW THIS METHOD FITS IN AND CONSIDER REFACTORING TO SIMPLIFY
+    get_particle_mass_val(rho_val, R_val) {  // determine and return new particle's mass
+
+	if (Params_HS.UICI_rho.all_particles_same_m()) {
+	    return Params_HS.m_single_value;
+	} else {
+	    return ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);
+	}
+    }
+
+    report_num_particles_w_R_below_cutoff() {
+
+	let num_particles_w_R_below_cutoff = 0;
+	for (let i = 0; i < Params_HS.N; i++) {
+	    if (this.particles[i].R < Params_HS.R_tiny_particle_cutoff) {
+		num_particles_w_R_below_cutoff += 1;
+	    }
+	}
+	console.log("INFO:   ", num_particles_w_R_below_cutoff, "out of", Params_HS.N, "particles are below cutoff and therefore depicted as open circles");
+    }
+
+    set_up_grid_structures(N, only_perimeter, shuffle_spots) {
 
 	// determine grid_size ("size" of grid, meaning the number of particles per row or column)
-	let grid_size = 1;
-	while (Params_HS.N > grid_size*grid_size) {
-	    grid_size += 1;
+	this.grid_size = 1;
+	while (N > this.grid_size*this.grid_size) {
+	    this.grid_size += 1;
 	}
-	let grid_seg_length = 1.0 / (grid_size + 1);
+	this.grid_seg_length = 1.0 / (this.grid_size + 1);
+	this.under_grid_spacing = this.grid_seg_length - Coords_HS.EPSILON;
+	this.under_half_grid_spacing = this.grid_seg_length/2.0 - Coords_HS.EPSILON;
 
-	for (let i = 0; i < Params_HS.N; i++) {
+	// add N coordinate pairs to an array, which can then be optionally shuffled
+	this.grid_coordinate_pairs = [];
+	for (let i = 0; i < N; i++) {
+	    let ci = this.grid_size - 1 - parseInt(Math.floor(i / this.grid_size));  // ci = column index
+	    let ri = i % this.grid_size;  // ri = row index
+	    let xc = (ri + 1) * this.grid_seg_length;
+	    let yc = (ci + 1) * this.grid_seg_length;
+	    let on_verticals = (((ci == 1) || (ci == this.grid_size - 2)) && (ri >= 1) && (ri <= this.grid_size - 2));
+	    let on_horizontals = (((ri == 1) || (ri == this.grid_size - 2)) && (ci >= 1) && (ci <= this.grid_size - 2));
+	    let on_perimeter = on_verticals || on_horizontals;  // site is on (not necessarily outermost) square perimeter
+	    if (( ! only_perimeter) || (on_perimeter)) {
+		this.grid_coordinate_pairs.push([xc, yc]);
+	    }
+	}
+	if (shuffle_spots) this.grid_coordinate_pairs = shuffle(this.grid_coordinate_pairs, {'copy': 'none'});  // shuffle items (the coordinate pairs) to randomize density arrangement
+    }
 
-	    let ci = grid_size - 1 - parseInt(Math.floor(i/grid_size));
-	    let ri = i % grid_size;
-	    let x = (ri + 1) * grid_seg_length;
-	    let y = (ci + 1) * grid_seg_length;
+    // create specific particle arrangement for the confinement IC (#4)
+    // ASSUME piston is fully extended when this method is called, so that Lx = Ly = 1
+    create_particles_confinement_IC() {
 
-	    this.mc.mbde.load_vc_MBD_v_comps(vc, Params_HS.T, Params_HS.m);
-	    let vx = vc.x;
-	    let vy = vc.y;
+	// set up confined particles first so that the red i == 0 tracker particle is one of them
+	let num_confined_particles = Params_HS.N - this.grid_coordinate_pairs.length;
+	let confined_particle_pseudo_kT = Params_HS.N * Params_HS.kT0 / num_confined_particles;
+	console.log("confined_particle_pseudo_kT =", confined_particle_pseudo_kT);////////////
+	let pc = {x: 0.0, y: 0.0};  // pc = position components (to pass into methods that set both)
+	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
+	let R_val = 0.003;
+	let rho_val_i = 0;
+	let rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
+	let mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
+	Coords_HS.dummy_particle.R = R_val;  // needs to be set for call(s) to are_overlapping() below
+	let offset_from_wall = 2.6 * this.grid_seg_length;
+	for (let i = 0; i < num_confined_particles; i++) {
 
-	    new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, vx, vy);
-	    //new_p = new GasParticle_HS(x, y, Params_HS.R, Params_HS.m, 1, 0.1);//////////
-	    new_p.v_hist_bi = GasSpeedHistogram.get_bin_indx(new_p.get_speed());
-	    CU.incr_entry_OM(this.gsh.hist, new_p.v_hist_bi);  // increment bin count
+	    let particle_positioning_successful = false;
+	    for (let j = 0; j < Params_HS.num_IC_creation_attempts; j++) {  // stop trying after a certain # failed attempts
+
+		Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(this.get_Lx(), offset_from_wall);  // candidate x position
+		Coords_HS.dummy_particle.y = this.get_rand_y_centered_interval(Params_HS.Ly, offset_from_wall);  // candidate y position
+
+		if (this.candidate_particle_position_free_of_overlaps(Coords_HS.dummy_particle)) {
+		    particle_positioning_successful = true;
+		    pc.x = Coords_HS.dummy_particle.x;
+		    pc.y = Coords_HS.dummy_particle.y;
+		    break;
+		}
+	    }
+	    if ( ! particle_positioning_successful) {
+		throw new Error("ERROR:   Failed to find a non-overlapping position for particle even after " + Params_HS.num_IC_creation_attempts + " attempts.  Check parameter values and/or try reloading SSNS.");
+	    }
+
+	    this.mc.mbde.load_vc_spec_v_rand_dir(vc, this.mc.mbde.get_BD_v(confined_particle_pseudo_kT, mass_val));
+	    let new_p = new GasParticle_HS(pc.x, pc.y, R_val, mass_val, vc.x, vc.y, rho_val_i, rho_val);
+	    this.particles.push(new_p);
+	}
+
+	// set up large enclosure particles second (see note above)
+	R_val = this.grid_seg_length/2.0 - Coords_HS.EPSILON;
+	rho_val_i = 3;
+	rho_val = Params_HS.rho_vals[rho_val_i];     // ... to determine density
+	mass_val = ModelCalc_HS.get_m_from_rho_and_R(rho_val, R_val);  // determine new particle's mass
+
+	for (let i = 0; i < this.grid_coordinate_pairs.length; i++) {  // 
+
+	    let xc = this.grid_coordinate_pairs[i][0];  // x position
+	    let yc = this.grid_coordinate_pairs[i][1];  // y position
+	    let new_p = new GasParticle_HS(xc, yc, R_val, mass_val, 0.0, 0.0, rho_val_i, rho_val);  // 0.0 for vx and vy
 	    this.particles.push(new_p);
 	}
     }
 
-    initialize_particles_collision_structures_etc() {
+    get_sorted_R_arr() {
 
-	this.initialize_particles_on_grid();
+	let R_vals = [];
+	if (Params_HS.UICI_R.use_distribution()) {  // if R distribution is being used...
+
+	    for (let i = 0; i < Params_HS.N; i++) {
+		R_vals.push(this.mc.get_rand_R_val(Params_HS.R_min, Params_HS.R_max, Params_HS.R_cutoff));
+	    }
+	    R_vals = R_vals.sort( (R1, R2) => R2 - R1);  // sort bigger R's first so they are positioned first below
+
+	} else {  // otherwise, all particles have the same R value, which we calculate from target_area_frac
+
+	    let particle_area = Params_HS.target_area_frac * this.get_area() / Params_HS.N;
+	    Params_HS.R_single_value = Math.sqrt(particle_area / Math.PI);
+	    for (let i = 0; i < Params_HS.N; i++) {
+		R_vals.push(Params_HS.R_single_value);
+	    }
+	}
+	return R_vals;
+    }
+
+    // create particles, setting R, x, and y to random values along the way (R's are random only if requested)
+    create_particles_w_random_R_x_y() {
+
+	let R_vals = this.get_sorted_R_arr();
+	for (let i = 0; i < Params_HS.N; i++) {
+
+	    Coords_HS.dummy_particle.R = R_vals[i];  // set dummy particle's R using array from above
+	    let particle_positioning_successful = false;
+	    for (let j = 0; j < Params_HS.num_IC_creation_attempts; j++) {  // make repeated attempts to position this particle
+
+		let dist_from_wall = Coords_HS.dummy_particle.R + Coords_HS.EPSILON;
+		Coords_HS.dummy_particle.x = this.get_rand_x_centered_interval(this.get_Lx(), dist_from_wall);  // candidate x position
+		Coords_HS.dummy_particle.y = this.get_rand_y_centered_interval(Params_HS.Ly, dist_from_wall);  // candidate y position
+
+		if (this.candidate_particle_position_free_of_overlaps(Coords_HS.dummy_particle)) {  // check dummy particle against existing particles array entries for overlap
+
+		    particle_positioning_successful = true;
+		    let new_p = new GasParticle_HS(Coords_HS.dummy_particle.x, Coords_HS.dummy_particle.y, Coords_HS.dummy_particle.R, 0.0, 0.0, 0.0, 0, 0.0);
+		    let random_position = this.mc.discunif_rng(0, this.particles.length);
+		    this.particles.splice(random_position, 0, new_p);  // (0 is # of items to delete in splice() method)
+		    break;
+		}
+	    }
+	    if ( ! particle_positioning_successful) {
+		throw new Error("ERROR:   Failed to find a non-overlapping position for particle even after " + Params_HS.num_IC_creation_attempts + " attempts.  Check parameter values and/or try reloading SSNS.");
+	    }
+	}
+    }
+
+    // create particles, setting R, x, and y along the way; positions will be on grid and R's will be (if requested) random
+    create_particles_on_grid_w_random_R() {
+
+	let R_vals = this.get_sorted_R_arr();  // positioning particles in descending order of R might not be necessary here w/ R_cutoff, but no harm...
+	for (let i = 0; i < Params_HS.N; i++) {
+
+	    Coords_HS.dummy_particle.R = R_vals[i];  // set dummy particle's R using array from above
+	    let particle_positioning_successful = false;
+	    for (let j = 0; j < this.grid_coordinate_pairs.length; j++) {  // iterate down grid_coordinate_pairs, i.e., try all unfilled grid positions
+
+		Coords_HS.dummy_particle.x = this.grid_coordinate_pairs[j][0];  // candidate x position
+		Coords_HS.dummy_particle.y = this.grid_coordinate_pairs[j][1];  // candidate y position
+		if (this.candidate_particle_position_free_of_overlaps(Coords_HS.dummy_particle)) {
+
+		    particle_positioning_successful = true;
+		    this.grid_coordinate_pairs.splice(j, 1);
+		    let new_p = new GasParticle_HS(Coords_HS.dummy_particle.x, Coords_HS.dummy_particle.y, Coords_HS.dummy_particle.R, 0.0, 0.0, 0.0, 0, 0.0);
+		    let random_position = this.mc.discunif_rng(0, this.particles.length);
+		    this.particles.splice(random_position, 0, new_p);  // (0 is # of items to delete in splice() method)
+		    break;
+		}
+	    }
+	    if ( ! particle_positioning_successful) {
+		console.log("ERROR:   Failed to find a non-overlapping position for particle out of all remaining grid spots.  Check parameter values and/or try reloading SSNS.");
+	    }
+	}
+    }
+    
+    set_particle_rho_mass() {
+
+	for (let i = 0; i < Params_HS.N; i++) {
+
+	    let cp = this.particles[i];  // for convenience
+	    cp.rho_val_i = this.get_particle_rho_val_i(i);  // determine new particle's density value index, which then is used...
+	    cp.rho = Params_HS.rho_vals[cp.rho_val_i];     // ... to determine density
+	    cp.m = this.get_particle_mass_val(cp.rho, cp.R);  // determine new particle's mass
+	}
+    }
+    
+    set_particle_velocity_eql(p, kT, m) {
+
+	let vc = {x: 0.0, y: 0.0};  // vc = velocity components (to pass into methods that set both)
+	let v_Boltzmann = this.mc.mbde.get_BD_v(kT, m);  // draw E from Boltzmann dist, then convert to v via m*v^2/2
+	this.mc.mbde.load_vc_spec_v_rand_dir(vc, v_Boltzmann);  // pick random direction and load v components
+	p.vx = vc.x;
+	p.vy = vc.y;
+    }
+
+    get_single_v_conserve_tot_energy() {
+
+	let sum_of_masses = 0.0;
+	for (let i = 0; i < Params_HS.N; i++) {
+	    sum_of_masses += this.particles[i].m;
+	}
+	return Math.sqrt(2.0 * Params_HS.N * Params_HS.kT0 / sum_of_masses);
+    }
+
+    set_particle_velocities_implosion() {
+
+	let x_mid = this.get_Lx() / 2.0;
+	let y_mid = Params_HS.Ly / 2.0;
+
+	// calculate the sum of m_i * d_i^2 for use below
+	let sum_m_d2 = 0.0;
+	for (let i = 0; i < Params_HS.N; i++) {
+	    let Dx = this.particles[i].x - x_mid;
+	    let Dy = this.particles[i].y - y_mid;
+	    let dist_from_center = Math.sqrt( Dx*Dx + Dy*Dy );
+	    sum_m_d2 += this.particles[i].m * dist_from_center * dist_from_center;
+	}
+
+	// actually set particle velocities
+	let speed_mult_fctr = Math.sqrt(2.0 * Params_HS.N * Params_HS.kT0 / sum_m_d2);  // use sum_m_d2 from above so that total energy is N*k_B*T_0
+	for (let i = 0; i < Params_HS.N; i++) {
+	    let Dx = this.particles[i].x - x_mid;
+	    let Dy = this.particles[i].y - y_mid;
+	    let dist_from_center = Math.sqrt( Dx*Dx + Dy*Dy );
+	    let speed = speed_mult_fctr * dist_from_center;
+	    let angle_from_center = atan2(Dy, Dx);  // note argument order!
+	    this.particles[i].vx = -1.0 * speed * Math.cos(angle_from_center);
+	    this.particles[i].vy = -1.0 * speed * Math.sin(angle_from_center);
+	}
+    }
+
+    do_post_particle_creation_tasks() {
+
+	// all ICs except confinement (4) allow user to switch rho and R between single values and distributions
+	if (Params_HS.UICI_IC.v == 4) {
+
+	    $("#UI_P_SM_HS_rho").hide();
+	    $("#UI_P_SM_HS_R").hide();
+	} else {
+
+	    $("#UI_P_SM_HS_rho").show();
+	    $("#UI_P_SM_HS_R").show();
+	}
+
+	// store quantity histogram bin indices and update respective histograms
+	for (let i = 0; i < Params_HS.N; i++) {
+
+	    this.particles[i].v_hist_bi = this.psh.get_bin_indx(this.particles[i].get_speed());
+	    CU.incr_entry_OM(this.psh.hist, this.particles[i].v_hist_bi);  // increment bin count
+	    this.particles[i].E_hist_bi = this.peh.get_bin_indx(this.particles[i].get_KE());
+	    CU.incr_entry_OM(this.peh.hist, this.particles[i].E_hist_bi);  // increment bin count
+	}
+
+	// miscellaneous tasks
+	console.log("INFO:   Aiming for area fraction of", Params_HS.target_area_frac, "using auto-calculated R_max of", Params_HS.R_max, "and R_cutoff of", Params_HS.R_cutoff);
+	Params_HS.total_particle_area = this.get_total_particle_area();
+	let area_frac = this.get_area_frac();
+	//console.log("INFO:   Generated gas of particles is", ((this.particle_config_free_of_overlaps() ? "" : "NOT") + "free of overlaps and has area fraction of"), area_frac);  // GET RID OF OVERLAP CHECK???
+	console.log("INFO:   Generated gas of particles has total particle area", Params_HS.total_particle_area, " and (currently) area fraction", area_frac);
+	this.report_num_particles_w_R_below_cutoff();
+	ModelCalc_HS.Z_Solana = ModelCalc_HS.get_Z_Solana(area_frac);
+	ModelCalc_HS.Z_SHY = ModelCalc_HS.get_Z_SHY(area_frac);
+	console.log("INFO:   Z_Solana =", ModelCalc_HS.Z_Solana);
+	console.log("INFO:   Z_SHY =", ModelCalc_HS.Z_SHY);
+	console.log("INFO:   kT =", this.get_kT());
+    }
+    
+    initialize_particle_basics() {
+
+	let ideal_R_max = ModelCalc_HS.get_R_max_from_mean_area_frac(Params_HS.N, 1e-10, Params_HS.R_dist_a, Params_HS.R_dist_b, this.get_area(), Params_HS.target_area_frac);  // NOTE: 0 for R_min, here
+	Params_HS.R_max = ideal_R_max;
+
+	switch (Params_HS.UICI_IC.v) {
+
+	case 0:  // random | single v_0
+
+	    Params_HS.R_min = Params_HS.R_tiny_particle_cutoff + Coords_HS.EPSILON;  // would rather have all particles filled in... nicer visually
+	    Params_HS.R_cutoff = Math.min(ideal_R_max, 0.75);  // this setup not ideal yet... ideal_R_max may be > 1, which obviously won't fit
+	    this.create_particles_w_random_R_x_y();
+	    this.set_particle_rho_mass();
+	    let single_v0 = this.get_single_v_conserve_tot_energy();
+	    let rand_angle = this.mc.mbde.get_rand_angle();
+	    for (let i = 0; i < Params_HS.N; i++) {
+		this.particles[i].vx = single_v0 * Math.cos(rand_angle);
+		this.particles[i].vy = single_v0 * Math.sin(rand_angle);
+	    }
+	    break;
+
+	case 1:  // im/ex-plosion
+
+	    this.set_up_grid_structures(Params_HS.N, false, true);
+	    Params_HS.R_min = Params_HS.R_tiny_particle_cutoff + Coords_HS.EPSILON;  // would rather have all particles filled in... nicer visually
+	    Params_HS.R_cutoff = this.under_half_grid_spacing/2.0;
+	    this.create_particles_on_grid_w_random_R();
+	    this.set_particle_rho_mass();
+	    this.set_particle_velocities_implosion();
+	    break;
+
+	case 2:  // 1D oscillators
+
+	    this.set_up_grid_structures(Params_HS.N, false, true);
+	    Params_HS.R_min = Params_HS.R_tiny_particle_cutoff + Coords_HS.EPSILON;  // would rather have all particles filled in... nicer visually
+	    Params_HS.R_cutoff = this.under_half_grid_spacing;
+	    this.create_particles_on_grid_w_random_R();
+	    this.set_particle_rho_mass();
+	    for (let i = 0; i < Params_HS.N; i++) {
+		let speed = this.mc.mbde.get_BD_v(Params_HS.kT0, this.particles[i].m);
+		this.particles[i].vx = this.mc.get_rand_sign() * speed;
+		this.particles[i].vy = 0.0;
+	    }
+	    break;
+
+	case 3:  // equilibrium
+
+	    Params_HS.R_cutoff = Math.min(ideal_R_max, 0.75);  // this setup not ideal yet... ideal_R_max may be > 1, which obviously won't fit
+	    this.create_particles_w_random_R_x_y();
+	    this.set_particle_rho_mass();
+	    for (let i = 0; i < Params_HS.N; i++) {
+		this.set_particle_velocity_eql(this.particles[i], Params_HS.kT0, this.particles[i].m);
+	    }
+	    break;
+
+	case 4:  // confinement
+
+	    this.set_up_grid_structures(36, true, false);
+	    this.create_particles_confinement_IC();
+	    break;
+
+	default:
+	    console.log("ERROR:   invalid code value in initialize_particle_basics()");
+	    break;
+	}
+    }
+
+    initialize_collision_structures() {
+
 	this.RW_cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);  // tracks all PW/WC collisions Right Wall (RW) might have
 	Coords_HS.WC_just_occurred = false;
 
@@ -587,6 +753,7 @@ class Coords_HS extends Coords {
 	}
     }
 
+    // PLANNED REFACTORING: tentative plan is to wrap cet_entries, RW_cet_entries in a group of related classes in either collision.js or a separate source file
     // update all relevant data structures in the "processing" of a Particle-Particle (PP) collision
     // system has been time-evolved to the exact moment of the collision when this method is called...
     update_collision_structures_PP(curr_s) {  // curr_s is current absolute time which is required argument for methods that add collision events
@@ -599,6 +766,22 @@ class Coords_HS extends Coords {
 
 	CollisionEvent_PP.process_collision(pa, pb);  // update velocities via hard sphere impact equations
 
+	// update v histogram for pa, then pb
+	CU.decr_entry_OM(this.psh.hist, pa.v_hist_bi);  // decrement bin count of pa old speed value
+	pa.v_hist_bi = this.psh.get_bin_indx(pa.get_speed());  // store bin index corresponding to pa new speed value
+	CU.incr_entry_OM(this.psh.hist, pa.v_hist_bi);  // increment bin count of pa new speed value
+	CU.decr_entry_OM(this.psh.hist, pb.v_hist_bi);  // decrement bin count of pb old speed value
+	pb.v_hist_bi = this.psh.get_bin_indx(pb.get_speed());  // store bin index corresponding to pb new speed value
+	CU.incr_entry_OM(this.psh.hist, pb.v_hist_bi);  // increment bin count of pb new speed value
+	
+	// update E histogram for pa, then pb
+	CU.decr_entry_OM(this.peh.hist, pa.E_hist_bi);  // decrement bin count of pa old speed value
+	pa.E_hist_bi = this.peh.get_bin_indx(pa.get_KE());  // store bin index corresponding to pa new speed value
+	CU.incr_entry_OM(this.peh.hist, pa.E_hist_bi);  // increment bin count of pa new speed value
+	CU.decr_entry_OM(this.peh.hist, pb.E_hist_bi);  // decrement bin count of pb old speed value
+	pb.E_hist_bi = this.peh.get_bin_indx(pb.get_KE());  // store bin index corresponding to pb new speed value
+	CU.incr_entry_OM(this.peh.hist, pb.E_hist_bi);  // increment bin count of pb new speed value
+	
 	// iterate over pa's cet_entries performing necessary deletions
 	for (let cei = pa.cet_entries.begin(); !cei.equals(pa.cet_entries.end()); cei.next()) {
 	    this.cet.table.eraseElementByKey(cei.pointer);  // erase entry in main table (will take care of one at this.cet.table.front() )
@@ -663,16 +846,29 @@ class Coords_HS extends Coords {
 	}
     }
 
+    // PLANNED REFACTORING: tentative plan is to wrap cet_entries, RW_cet_entries in a group of related classes in either collision.js or a separate source file
     // update all relevant data structures in the "processing" of a Particle-Wall (PW) collision
     // system has been time-evolved to the exact moment of the collision when this method is called...
-    update_collision_structures_PW(curr_s) {  // curr_s is current absolute time which is required argument for methods that add collision events
+    update_collision_structures_PW(curr_s, cps, ds) {  // curr_s is current absolute time which is required argument for methods that add collision events
 
 	// for convenience
 	let pi = this.cet.table.front().pi;
 	let wi = this.cet.table.front().wi;
-	let prt = this.particles[this.cet.table.front().pi];
+	let prt = this.particles[this.cet.table.front().pi];  // prt = particle
 
-	CollisionEvent_PW.process_collision(prt, wi, this.v_RW);  // update velocity of particle
+	CollisionEvent_PW.process_collision(prt, wi, this.v_RW, cps, ds, this.get_Lx());  // update velocity of particle, etc.
+
+	// if collision is with a moving right wall (RW) --- the only case that might change particle's speed/KE --- update histograms
+	if ((wi == Params_HS.R_W) && (this.v_RW != 0.0)) {
+
+	    CU.decr_entry_OM(this.psh.hist, prt.v_hist_bi);  // decrement bin count of old speed value
+	    prt.v_hist_bi = this.psh.get_bin_indx(prt.get_speed());  // store bin index corresponding to new speed value
+	    CU.incr_entry_OM(this.psh.hist, prt.v_hist_bi);  // increment bin count of new speed value
+
+	    CU.decr_entry_OM(this.peh.hist, prt.E_hist_bi);  // decrement bin count of old energy value
+	    prt.E_hist_bi = this.peh.get_bin_indx(prt.get_KE());  // store bin index corresponding to new energy value
+	    CU.incr_entry_OM(this.peh.hist, prt.E_hist_bi);  // increment bin count of new energy value
+	}
 
 	// iterate over prt's cet_entries performing necessary deletions
 	for (let cei = prt.cet_entries.begin(); !cei.equals(prt.cet_entries.end()); cei.next()) {
@@ -709,6 +905,7 @@ class Coords_HS extends Coords {
 	}
     }
 
+    // PLANNED REFACTORING: tentative plan is to wrap cet_entries, RW_cet_entries in a group of related classes in either collision.js or a separate source file
     delete_and_reenter_RW_entries(curr_s) {  // curr_s is current absolute time which is required argument for methods that add collision events
 
 	// iterate over Right Wall's cet_entries performing necessary deletions
@@ -739,12 +936,13 @@ class Coords_HS extends Coords {
 	}
     }
     
+    // PLANNED REFACTORING: tentative plan is to wrap cet_entries, RW_cet_entries in a group of related classes in either collision.js or a separate source file
     // update all relevant data structures in the "processing" of a Wall-Container (WC) collision
     // system has been time-evolved to the exact moment of the collision when this method is called...
     update_collision_structures_WC(curr_s) {  // curr_s is current absolute time which is required argument for methods that add collision events
 
 	// process the collision
-	this.x_RW = (this.v_RW > 0.0) ? Params_HS.x_RW_max : 0.0;  // fix piston position; NOTE: v_pist positive (negative) is compression (expansion)
+	this.x_RW = (this.v_RW > 0.0) ? Params_HS.x_RW_max : Params_HS.x_RW_min;  // fix piston position; NOTE: v_pist positive (negative) is compression (expansion)
 	this.v_RW = 0.0;  // and stop the motion of the piston
 
 	this.delete_and_reenter_RW_entries(curr_s);  // update collision event data structures
@@ -753,17 +951,33 @@ class Coords_HS extends Coords {
 	// NOTE: no need to check for new WC since we know the piston is stopped after collision processing above
     }
 
-    update_collision_structures(curr_s) {
+    update_collision_structures(curr_s, cps, ds) {
 
 	if (this.cet.table.front().is_PP()) {  // if top entry is a PP collision...
 	    this.update_collision_structures_PP(curr_s);
 	} else if (this.cet.table.front().is_PW()) {  // else, if top entry is PW collision...
-	    this.update_collision_structures_PW(curr_s);
+	    this.update_collision_structures_PW(curr_s, cps, ds);
 	} else {  // else, top entry is WC collision...
 	    this.update_collision_structures_WC(curr_s);
 	}
     }
 
+    check_integrity_and_output(output_individual_entries) {
+
+	check_basic_machinery_integrity_and_output();
+	check_cet_table_and_entries_integrity_and_output(output_individual_entries);
+    }
+
+    check_basic_machinery_integrity_and_output() {
+
+	console.log("INFO:   checking basic machinery integrity...");
+	if ( ! ((1.0 >= Params_HS.x_RW_max) && (Params_HS.x_RW_max >= this.x_RW) && (this.x_RW >= Params_HS.x_RW_min) && (Params_HS.x_RW_min >= 0.0)) ) {
+	    alert("ERROR 119962: x_RW and/or limits out of range!...");
+	    console.log("1.0", Params_HS.x_RW_max, this.x_RW, Params_HS.x_RW_min, "0.0");  // was getting minor bugs tripping this ERROR, so currently trying to figure it out...
+	}
+    }
+
+    // PLANNED REFACTORING: tentative plan is to wrap cet_entries, RW_cet_entries in a group of related classes in either collision.js or a separate source file
     check_cet_table_and_entries_integrity_and_output(output_individual_entries) {
 
 	let PP_entries_main = 0;
@@ -860,19 +1074,6 @@ class Coords_HS extends Coords {
 	}
     }
 
-    get_V() {
-	return Params_HS.Ly * (Params_HS.Lx_max - this.x_RW);
-    }
-
-    get_total_KE() {
-
-	let total_KE = 0.0;
-    	for (let i = 0; i < Params_HS.N; i++) {
-	    total_KE += this.particles[i].get_KE();
-	}
-	return total_KE;
-    }
-
     time_evolve(s) {
 
 	// update position of each particle
@@ -887,11 +1088,6 @@ class Coords_HS extends Coords {
 
     update_state(ds) {
 
-	this.num_x_collisions = 0;
-	this.num_y_collisions = 0;
-	this.P_x = 0.0;
-	this.P_y = 0.0;
-
 	let curr_s = Coords_HS.s;
 	let new_s = Coords_HS.s + ds;
 
@@ -900,35 +1096,18 @@ class Coords_HS extends Coords {
 	    let partial_ds = this.cet.table.front().s - curr_s;
 	    this.time_evolve(partial_ds);
 	    curr_s += partial_ds;
-	    this.update_collision_structures(curr_s);
+	    this.update_collision_structures(curr_s, this.cps, ds);
 	}
 
 	this.time_evolve(new_s - curr_s);
+	this.cps.update_for_time_step(this.get_area(), Params_HS.N, this.get_kT());
 
-	// update x-direction position and quantities	    
-	//this.num_x_collisions += this.gpud.num_collisions;  // ...then grab calculated values
-	//this.P_x += 2.0 * this.gpud.num_collisions * this.particles[i].m * Math.abs(this.particles[i].vx) / (2 * Params_HS.Ly * ds);  // 2*Ly in denominator converts force to pressure
-
-	let total_KE = this.get_total_KE();
-	let avg_KE = total_KE / Params_HS.N;  // same as avg_T since k_B = 1
-	let VT_constant = this.get_V() * avg_KE;
-	//console.log("total_KE =", total_KE);/////////
-	//console.log("avg_KE =", avg_KE);/////////
-	console.log("VT_constant =", avg_KE, VT_constant);/////////
-	
-	// update time-averaged quantities
-	this.num_t_avg_contribs += 1;
-	this.P_x_cumul += this.P_x;
-	this.P_y_cumul += this.P_y;
-	this.P_x_t_avg = this.P_x_cumul / this.num_t_avg_contribs;
-	this.P_y_t_avg = this.P_y_cumul / this.num_t_avg_contribs;
-	//this.PVoNkT_x_t_avg = this.P_x_t_avg * Params_HS.V / (Params_HS.N * Params_HS.T);
-	//this.PVoNkT_y_t_avg = this.P_y_t_avg * Params_HS.V / (Params_HS.N * Params_HS.T);
+	//console.log("this.cet.table.size() =", this.cet.table.size())
+	//this.cet.output_info();
+	//console.log("this.v,x_RW,s =", this.v_RW, this.x_RW, Coords_HS.s);/////////
 
 	// update (continuous time) clock; (don't confuse with SSNS discrete time step t)
 	Coords_HS.s = new_s;
-	//console.log("this.cet.table.size() = ", this.cet.table.size());//////////
-	//console.log("this.v,x_RW,s =", this.v_RW, this.x_RW, Coords_HS.s);/////////
     }
 
     output() {
@@ -947,21 +1126,15 @@ class Trajectory_HS extends Trajectory {
     constructor(sim) {
 
 	Coords_HS.s = 0.0;  // zero the official "clock" for our continuous time gas system; (don't confuse with SSNS discrete time step t)
-
-	// still figuring out best way to store parameter values...
 	Params_HS.N = Params_HS.UINI_N.v;
-	Params_HS.T = Params_HS.UINI_T.v;
+	Params_HS.kT0 = Params_HS.UINI_kT0.v;
+	Params_HS.num_particles_per_rho_val = parseInt(Math.ceil(Params_HS.N / Params_HS.num_rho_vals));
 
 	super(sim);
-
-	// still figuring out best way to store parameter values...
-	this.N = Params_HS.N;
-	this.T = Params_HS.T;
-	this.m = Params_HS.m;
     }
 
     gmc() {  // gmc = get ModelCalc object
-	return new ModelCalc_HS(this.sim.rs);  // arg is reference to RunState object this.sim.rs to access params_changed in CoordsHS constructor...
+	return new ModelCalc_HS(this.sim.ui, this.sim.rs);  // args are references to UserInterface and RunState objects needed within...
     }
 
     gp() {  // gp = get Params object
@@ -977,6 +1150,8 @@ class Trajectory_HS extends Trajectory {
     }
 
     get_max_num_t_steps() {
-	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
+	let max_num_t_steps = this.mc.get_max_num_t_steps();
+	console.log("INFO:   HS max_num_t_steps calculated as ", max_num_t_steps);
+	return max_num_t_steps;
     }
 }

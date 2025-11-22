@@ -20,21 +20,24 @@ class ModelCalc_GM extends ModelCalc {
     }
 }
 
-class Params_GM extends Params {  // NOTE: this is a 0-parameter model!!!  x_0 and y_0 are "parameters" in interface, but kept in Coords_GM
+class Params_GM extends Params {  // NOTE: this is a 0-parameter model, in the sense that instances of Params_GM are empty and passed around, but not used
+
+    static UINI_x_0;  // = new UINI_float(this, "UI_P_ND_GM_x_0", false);  assignment occurs in UserInterface(); see discussion there
+    static UINI_y_0;  // = new UINI_float(this, "UI_P_ND_GM_y_0", false);  assignment occurs in UserInterface(); see discussion there
+    static UICI_IC;  // = new UICI_GM(this, "UI_P_ND_GM_IC", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor() {
 	super();
     }
+
     push_vals_to_UI() {}  // needed only because Params requires it
+
     get_info_str() {  // needed only because Params requires it
 	return "** 0-PARAMETER MODEL **";
     }
 }
 
 class Coords_GM extends Coords {
-
-    static x_0 = undefined;  // = new UINI_float(this, "UI_P_ND_GM_x_0", false);  assignment occurs in UserInterface(); see discussion there
-    static y_0 = undefined;  // = new UINI_float(this, "UI_P_ND_GM_y_0", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
@@ -73,7 +76,7 @@ class Trajectory_GM extends Trajectory {
     }
 
     gc_ic(mc) {  // gc_ic = get Coords, initial condition
-	return new Coords_GM(mc, [Coords_GM.x_0.v, Coords_GM.y_0.v]);  // packaging initial coords helps distinguish 2-argument constructor...
+	return new Coords_GM(mc, [Params_GM.UINI_x_0.v, Params_GM.UINI_y_0.v]);  // packaging initial coords helps distinguish 2-argument constructor...
     }
 
     gc_nv(mc, p, c_prev) {  // gc_nv = get Coords, new value
@@ -81,6 +84,6 @@ class Trajectory_GM extends Trajectory {
     }
 
     get_max_num_t_steps() {
-	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
+	return Trajectory.DEFAULT_MAX_NUM_T_STEPS;
     }
 }

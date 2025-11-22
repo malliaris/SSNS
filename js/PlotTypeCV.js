@@ -11,7 +11,7 @@ class PlotTypeCV extends PlotType {
 
 	super();
 
-	this.canv_dim = undefined;  // "declaration" (set within)
+	this.canv_dim;  // "declaration" (set within)
     }
 
     get_plot_width() {
@@ -34,7 +34,8 @@ class PlotTypeCV extends PlotType {
     }
 
     // take x, y coordinates and radius R -- all in relative units, i.e., on the unit square -- and draw corresponding circle on canvas
-    draw_circle(x, y, R, filled, color) {
+    // fillStyle expected to be set outside of this method (hopefully it doesn't need to be set before each call, which will speed canvas drawing up)
+    draw_filled_circle(x, y, R) {
 
 	let xc = this.rtoa(x);
 	let yc = this.fyc(this.rtoa(y));
@@ -42,13 +43,20 @@ class PlotTypeCV extends PlotType {
 
 	this.cc.beginPath();
 	this.cc.arc(xc, yc, Rc, 0, 2*Math.PI);
-	if (filled) {
-	    this.cc.fillStyle = color;
-	    this.cc.fill();
-	} else {  // outlined
-	    this.cc.strokeStyle = color;
-	    this.cc.stroke();
-	}
+	this.cc.fill();
+    }
+
+    // take x, y coordinates and radius R -- all in relative units, i.e., on the unit square -- and draw corresponding circle on canvas
+    // strokeStyle expected to be set outside of this method (hopefully it doesn't need to be set before each call, which will speed canvas drawing up)
+    draw_stroked_circle(x, y, R) {
+
+	let xc = this.rtoa(x);
+	let yc = this.fyc(this.rtoa(y));
+	let Rc = this.rtoa(R);
+
+	this.cc.beginPath();
+	this.cc.arc(xc, yc, Rc, 0, 2*Math.PI);
+	this.cc.stroke();
     }
 
     // take x coordinate and width w -- all in relative units, i.e., on the unit square -- and draw corresponding vertical line on canvas
@@ -121,8 +129,10 @@ class PlotTypeCV_IG extends PlotTypeCV_Gas {
 	for (let i = 0; i < this.trj.get_x(t).particles.length; i++) {
 
 	    let cp = this.trj.get_x(t).particles[i];  // cp = current particle
-	    this.draw_circle(cp.x, cp.y, cp.R, true, "black");
+	    this.cc.fillStyle = (i == 0) ? "red" : "black";  // the tracker particle corresponds to i == 0
+	    this.draw_filled_circle(cp.x, cp.y, Params_IG.visualization_R);
 	}
+	this.draw_vertical_line(Params_IG.Lx, 0.001, "black");  // WHY is line appearing grey when thickness is very small??
     }
 }
 
@@ -132,13 +142,54 @@ class PlotTypeCV_HS extends PlotTypeCV_Gas {
 	super(trj);
     }
 
+    static get_rho_greyscale_str_from_0_1_val(v) {
+	let vstr = (roundn(255.0 * (1.0 - v), 0)).toString();
+	//return "rgba(" + vstr + ", " + vstr + ", " + vstr + ", 1)";  // 4th argument is opacity?
+	return "rgb(" + vstr + ", " + vstr + ", " + vstr + ")";
+    }
+
     update_canvas(t) {
 
 	this.clear_canvas();
+	let color_str;
+	let prev_stroke_color_str = "";  // to prevent unnecessary calls to strokeStyle (see note below)
+	let prev_fill_color_str = "";  // to prevent unnecessary calls to fillStyle (see note below)
 	for (let i = 0; i < this.trj.get_x(t).particles.length; i++) {
 
 	    let cp = this.trj.get_x(t).particles[i];  // cp = current particle
-	    this.draw_circle(cp.x, cp.y, cp.R, true, "black");
+
+	    // determine particle color
+	    // NOTE: the SSNS HS code is organized so that the number of different particle colors is ~1, and so that all particles of a given color are drawn in succession,
+	    //       thus limiting calls to set strokeStyle/fillStyle for efficiency; we tried a different color for each particle, and it's **really** slow for large N!
+	    if ((i == 0) && Params_HS.color_tracker_particle) {  // the tracker particle, if enabled, is always red
+		color_str = "red";
+	    } else if (Params_HS.UICI_rho.all_particles_same_m()) {
+		color_str = "black";
+	    } else {
+		color_str = Params_HS.rho_greyscale_val_strs[cp.rho_val_i];
+	    }
+
+	    // draw either a stroked (i.e., outlined) circle, or a filled one
+	    if (Params_HS.draw_tiny_particles_artificially_large && (cp.R < Params_HS.R_tiny_particle_cutoff)) {
+
+		// possibly need to update particle stroke color (see note above)
+		let stroke_color_str = color_str;
+		if (stroke_color_str != prev_stroke_color_str) {
+		    this.cc.strokeStyle = stroke_color_str;  // call only made if necessary, i.e., if color choice has changed
+		    prev_stroke_color_str = stroke_color_str;  // ready for next iteration
+		}
+		this.draw_stroked_circle(cp.x, cp.y, Params_HS.R_tiny_particle_drawn_as);
+
+	    } else {
+
+		// possibly need to update particle fill color (see note above)
+		let fill_color_str = color_str;
+		if (fill_color_str != prev_fill_color_str) {
+		    this.cc.fillStyle = fill_color_str;  // call only made if necessary, i.e., if color choice has changed
+		    prev_fill_color_str = fill_color_str;  // ready for next iteration
+		}
+		this.draw_filled_circle(cp.x, cp.y, cp.R);
+	    }
 	}
 	let x_piston = 1.0 - this.trj.get_x(t).x_RW;  // subtract since piston's coordinate system has origin at zero compression
 	this.draw_vertical_line(x_piston, 0.001, "black");  // WHY is line appearing grey when thickness is very small??
@@ -154,7 +205,7 @@ class PlotTypeCV_Spin extends PlotTypeCV {
 
 	this.trj = trj;
 	if (!this.get_color_from_spin_val) throw new Error("Derived PlotTypeCV must define get_color_from_spin_val()");
-	this.tile_dim = undefined;  // "declaration" (set within)
+	this.tile_dim;  // "declaration" (set within)
 	this.determine_tile_canv_dims(this.trj.mc.N);
     }
 

@@ -32,12 +32,18 @@ class PlotTypePP extends PlotType {
 }
 
 // a crude version of the LM bifurcation diagram can be outlined by varying r (not quite a phase portrait -- I know)
-class PlotTypePP_LM extends PlotTypePP {
+class PlotTypePP_Select extends PlotTypePP {
+
+    static max_num_data_pts = 10000;///////////////////////500;
 
     constructor(trj) {
 
 	super();
+
+	if (!this.append_data_pt) throw new Error("Derived PlotTypePP_Select must define append_data_pt()");
+
 	this.trj = trj;
+	this.select_data = [];
 
 	// flot plot options -- actual data written into property "flot_data_obj['data']" in plot() method
 	this.flot_data_opts_reg = {  // for regular points
@@ -48,28 +54,120 @@ class PlotTypePP_LM extends PlotTypePP {
 		radius: 2,
 	    },
 	};
+    }
 
-	this.flot_data_opts_curr_t = {  // additional outline circle to indicate current t
-	    color: "#000000",
+    get_plot_data_cond_append(t, to_append) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
+
+	if (to_append) {  // aux_ctr, etc. used as a signal that a single data point should be collected
+
+	    if (this.select_data.length < PlotTypePP_Select.max_num_data_pts) {
+
+		this.append_data_pt(t, this.select_data);
+		console.log("INFO:   data point", this.select_data.at(-1), " collected and appended.");
+
+	    } else {
+		console.log("INFO:   unable to append another data point as PlotTypePP_Select.max_num_data_pts has been reached (", PlotTypePP_Select.max_num_data_pts, ")...");
+	    }
+	}
+	return this.select_data;
+    }
+
+    get_flot_gen_opts() {
+	return this.flot_gen_opts;
+    }
+}
+
+class PlotTypePP_HS extends PlotTypePP_Select {
+
+    constructor(trj) {
+
+	super(trj);
+
+	this.flot_gen_opts = {};
+	let curr_kT = this.trj.get_x(this.trj.t_0).get_kT();
+	let NkT = Params_HS.N * curr_kT;
+	let VR = 1.0;
+	let p_min = 0.0;
+	let p_max = 10.2 * NkT;  // the lower T isotherm will leave the plot at V = 0.1
+	let VL_isotherms = NkT / p_max;
+	this.set_xlim_flot(this.flot_gen_opts, 0.0, 1.0);
+	this.set_ylim_flot(this.flot_gen_opts, p_min, p_max);
+
+	this.flot_data_opts_isotherm_adiabat = {  // for PP isotherm/adiabat plot
+	    color: "rgba(0, 0, 0, 1)",
 	    points: {
+		fillColor: "rgba(0, 0, 0, 0.5)",
 		show: true,
-		radius: 6,
-		fill: 0.3,
-		fillColor: null,
+		radius: 3.2,
+		lineWidth: 2,
 	    },
 	};
 
-	this.flot_gen_opts = {
-	    xaxis: {  // really the r axis
-		autoScale: "none",
-		min: 0,
-		max: 4,
+	// plot isotherm 1 "it1" -- the one at lower T
+	let fxn_obj = V => {return NkT / V; };
+	let data_it1 = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, fxn_obj);  // it1 = iso-therm 1
+	this.flot_data_opts_theory_it1 = copy(PlotType.flot_data_opts_theory_curve);
+	this.flot_data_opts_theory_it1["data"] = data_it1;
+
+	// plot isotherm 2 "it2" -- the one at higher T
+	fxn_obj = V => {return 2.5 * NkT / V; };  // 2nd isotherm at temp 2.5 times the 1st
+	let data_it2 = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, fxn_obj);  // it2 = iso-therm 2; reusing VL_isotherms means some data will be off of plot, but no big deal...
+	this.flot_data_opts_theory_it2 = copy(PlotType.flot_data_opts_theory_curve);
+	this.flot_data_opts_theory_it2["color"] = "rgba(255, 0, 0)";
+	this.flot_data_opts_theory_it2["data"] = data_it2;
+
+	// plot adiabat
+    	fxn_obj = V => {return NkT / ( V*V); };  // adiabat intersects 1st isotherm at V = 1; 2D monatomic => heat capacity ratio gamma = (2 + 2) / 2 = 2; pV^gamma = pV^2 = const
+	let data_ab = this.trj.mc.mbde.get_flot_p_of_V_curve(VL_isotherms, VR, 1000, fxn_obj);  // ab = adia-bat; reusing VL_isotherms means some data will be off of plot, but no big deal...
+	this.flot_data_opts_theory_ab = copy(PlotType.flot_data_opts_theory_curve);
+	this.flot_data_opts_theory_ab["color"] = "rgba(60, 60, 255)";
+	this.flot_data_opts_theory_ab["data"] = data_ab;
+}
+
+    get_ext_x_axis_lbl_str() {
+	return "V";
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "p";
+    }
+    
+    append_data_pt(t, arr) {
+
+	let V_val = this.trj.get_x(t).get_area();
+	let p_val = 0.5 * (this.trj.get_x(t).cps.P_x_t_avg + this.trj.get_x(t).cps.P_y_t_avg);
+	let kT_val = this.trj.get_x(t).get_kT();
+	arr.push( [ V_val, p_val ] );
+    }
+
+    get_flot_data_series(t) {
+	let data_series = [];
+	data_series.push(this.flot_data_opts_theory_it1);
+	data_series.push(this.flot_data_opts_theory_it2);
+	data_series.push(this.flot_data_opts_theory_ab);
+	this.flot_data_opts_isotherm_adiabat["data"] = this.get_plot_data_cond_append(t, (this.trj.sim.ui.pos_within_data_pt == 4));
+	data_series.push(this.flot_data_opts_isotherm_adiabat);
+	return data_series;
+    }
+}
+
+class PlotTypePP_LM extends PlotTypePP_Select {
+
+    constructor(trj) {
+
+	super(trj);
+
+	this.flot_gen_opts = {};
+	this.set_xlim_flot(this.flot_gen_opts, 0.0, 4.0);
+	this.set_ylim_flot(this.flot_gen_opts, 0.0, 1.0);
+	this.flot_data_opts_bifurc_dgrm = {  // for PP bifurcation diagram
+	    color: "rgba(0, 0, 0, 1)",
+	    points: {
+		fillColor: "rgba(0, 0, 0, 0.5)",
+		show: true,
+		radius: 1.5,
+		lineWidth: 0.7,
 	    },
-	    yaxis: {  // really the x axis
-		autoScale: "none",
-		min: 0,
-		max: 1,
-	    }
 	};
     }
 
@@ -81,41 +179,21 @@ class PlotTypePP_LM extends PlotTypePP {
 	return "x";
     }
 
-    get_plot_data_reg(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
-
-	let max_num_data_pts = 1000;  // eventually put this in UI?
-	let num_data_pts_up_to_t = t - this.trj.t_0 + 1;  // how much past trajectory is there to possibly plot?
-	let num_data_pts = Math.min(max_num_data_pts, num_data_pts_up_to_t);  // determine how much we will actually plot
-	let t_i = t - num_data_pts + 1;
-	let data = [];
-	for (let s = t_i; s <= t; s++) {
-	    let curr_r_val = this.trj.segs[this.trj.get_si(s)].p.r;
-	    data.push( [ curr_r_val, this.trj.get_x(s).x ] );
-	}
-	return data;
-    }
-
-    get_plot_data_curr_t(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
+    append_data_pt(t, arr) {
 
 	let curr_r_val = this.trj.segs[this.trj.get_si(t)].p.r;
-	return [ [ curr_r_val, this.trj.get_x(t).x ] ];
+	arr.push( [ curr_r_val, this.trj.get_x(t).x ] );
     }
 
     get_flot_data_series(t) {
 	let data_series = [];
-	this.flot_data_opts_reg["data"] = this.get_plot_data_reg(t);
-	data_series.push(this.flot_data_opts_reg);
-	this.flot_data_opts_curr_t["data"] = this.get_plot_data_curr_t(t);
-	data_series.push(this.flot_data_opts_curr_t);
+	this.flot_data_opts_bifurc_dgrm["data"] = this.get_plot_data_cond_append(t, (this.trj.sim.ui.pos_within_data_pt == 1));
+	data_series.push(this.flot_data_opts_bifurc_dgrm);
 	return data_series;
-    }
-
-    get_flot_gen_opts() {
-	return this.flot_gen_opts;
     }
 }
 
-class PlotTypePP_GM extends PlotTypePP {
+class PlotTypePP_All extends PlotTypePP {
 
     constructor(trj) {
 
@@ -141,34 +219,11 @@ class PlotTypePP_GM extends PlotTypePP {
 		fillColor: null,
 	    },
 	};
-
-	this.flot_gen_opts = {
-	    xaxis: {
-		autoScale: "none",
-		min: -4,
-		max: 9,
-		transform: function (v) { return -v; },  // make the gingerbread-man easier to recognize by flipping axis
-	    },
-	    yaxis: {
-		autoScale: "none",
-		min: -4,
-		max: 9,
-		transform: function (v) { return -v; },  // make the gingerbread-man easier to recognize by flipping axis
-	    }
-	};
-    }
-
-    get_ext_x_axis_lbl_str() {
-	return "\\xleftarrow{\\hspace*{1.0cm}} x";
-    }
-
-    get_ext_y_axis_lbl_str() {
-	return "\\xleftarrow{\\hspace*{1.0cm}} y";
     }
 
     get_plot_data_reg(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
 
-	let max_num_data_pts = 2000;  // eventually put this in UI?
+	let max_num_data_pts = 500;
 	let num_data_pts_up_to_t = t - this.trj.t_0 + 1;  // how much past trajectory is there to possibly plot?
 	let num_data_pts = Math.min(max_num_data_pts, num_data_pts_up_to_t);  // determine how much we will actually plot
 	let t_i = t - num_data_pts + 1;
@@ -195,5 +250,27 @@ class PlotTypePP_GM extends PlotTypePP {
 
     get_flot_gen_opts() {
 	return this.flot_gen_opts;
+    }
+}
+
+class PlotTypePP_GM extends PlotTypePP_All {
+
+    constructor(trj) {
+
+	super(trj);
+
+	this.flot_gen_opts = {};
+	this.set_xlim_flot(this.flot_gen_opts, -4.0, 10.0);
+	this.set_ylim_flot(this.flot_gen_opts, -4.0, 10.0);
+	this.flot_gen_opts["xaxis"]["transform"] = function (v) { return -v; };  // make the gingerbread-man easier to recognize by flipping axis
+	this.flot_gen_opts["yaxis"]["transform"] = function (v) { return -v; };  // make the gingerbread-man easier to recognize by flipping axis
+    }
+
+    get_ext_x_axis_lbl_str() {
+	return "\\xleftarrow{\\hspace*{1.0cm}} x";
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\xleftarrow{\\hspace*{1.0cm}} y";
     }
 }

@@ -32,27 +32,31 @@ class PlottingMachinery {
 
 	case "RW":
 	    this.plots["RW"] = {};
+	    this.plots["RW"]["XT"] = new PlotTypeXT_RW(this.sim.trjs["RW"]);
 	    this.plots["RW"]["HX"] = new PlotTypeHX_RW(this.sim.trjs["RW"]);
 	    break;
 	case "MN":
 	    this.plots["MN"] = {};
-	    this.plots["MN"]["XT"] = new PlotTypeXT_MN(this.sim.trjs["MN"]);
 	    this.plots["MN"]["HX"] = new PlotTypeHX_MN(this.sim.trjs["MN"]);
+	    this.plots["MN"]["XT"] = new PlotTypeXT_MN(this.sim.trjs["MN"]);
 	    break;
 	case "CH":
 	    this.plots["CH"] = {};
+	    this.plots["CH"]["XT"] = new PlotTypeXT_CH(this.sim.trjs["CH"]);
 	    this.plots["CH"]["HX"] = new PlotTypeHX_CH(this.sim.trjs["CH"]);
 	    break;
 	case "IG":
 	    this.plots["IG"] = {};
-	    this.plots["IG"]["XT"] = new PlotTypeXT_IG(this.sim.trjs["IG"]);
-	    this.plots["IG"]["HX"] = new PlotTypeHX_IG(this.sim.trjs["IG"]);
 	    this.plots["IG"]["CV"] = new PlotTypeCV_IG(this.sim.trjs["IG"]);
+	    this.plots["IG"]["HX"] = new PlotTypeHX_IG(this.sim.trjs["IG"]);
+	    this.plots["IG"]["XT"] = new PlotTypeXT_IG(this.sim.trjs["IG"]);
 	    break;
 	case "HS":
 	    this.plots["HS"] = {};
 	    this.plots["HS"]["CV"] = new PlotTypeCV_HS(this.sim.trjs["HS"]);
+	    this.plots["HS"]["XT"] = new PlotTypeXT_HS(this.sim.trjs["HS"]);
 	    this.plots["HS"]["HX"] = new PlotTypeHX_HS(this.sim.trjs["HS"]);
+	    this.plots["HS"]["PP"] = new PlotTypePP_HS(this.sim.trjs["HS"]);
 	    break;
 	case "IS":
 	    this.plots["IS"] = {};

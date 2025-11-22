@@ -21,8 +21,8 @@ class ModelCalc_RW extends ModelCalc_SP {
 
 class Params_RW extends Params {
 
-    static l = undefined;  // = new UINI_float(this, "UI_P_SP_RW_l", true);  assignment occurs in UserInterface(); see discussion there
-    static r = undefined;  // = new UINI_float(this, "UI_P_SP_RW_r", true);  assignment occurs in UserInterface(); see discussion there
+    static l;  // = new UINI_float(this, "UI_P_SP_RW_l", true);  assignment occurs in UserInterface(); see discussion there
+    static r;  // = new UINI_float(this, "UI_P_SP_RW_r", true);  assignment occurs in UserInterface(); see discussion there
 
     constructor(l_val, r_val) {
 	super();
@@ -42,8 +42,8 @@ class Params_RW extends Params {
 
 class Coords_RW extends Coords_SP_finite {
 
-    static N = undefined;  // = new UINI_int(this, "UI_P_SP_RW_N", false);  assignment occurs in UserInterface(); see discussion there
-    static x_0 = undefined;  // = new UINI_int(this, "UI_P_SP_RW_x_0", false);  assignment occurs in UserInterface(); see discussion there
+    static N;  // = new UINI_int(this, "UI_P_SP_RW_N", false);  assignment occurs in UserInterface(); see discussion there
+    static x_0;  // = new UINI_int(this, "UI_P_SP_RW_x_0", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor(...args) {  // "..." is Javascript spread operator
 	super(...args);
@@ -73,6 +73,6 @@ class Trajectory_RW extends Trajectory_SP {
     }
 
     get_max_num_t_steps() {
-	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
+	return Trajectory.DEFAULT_MAX_NUM_T_STEPS;
     }
 }

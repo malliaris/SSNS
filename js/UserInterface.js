@@ -43,20 +43,26 @@ class UserInterface {
 	Params_CH.alpha = new UINI_float(this, "UI_P_SP_CH_alpha", true);
 	Params_CH.beta = new UINI_float(this, "UI_P_SP_CH_beta", true);
 	Coords_CH.x_0 = new UINI_int(this, "UI_P_SP_CH_x_0", false);
-	Params_IG.N = new UINI_int(this, "UI_P_SM_IG_N", false);
-	Params_IG.V = new UINI_float(this, "UI_P_SM_IG_V", false);
-	Params_IG.T = new UINI_float(this, "UI_P_SM_IG_T", false);
+	Params_IG.UINI_N = new UINI_int(this, "UI_P_SM_IG_N", false);
+	Params_IG.UINI_V = new UINI_float(this, "UI_P_SM_IG_V", false);
+	Params_IG.UINI_kT0 = new UINI_float(this, "UI_P_SM_IG_kT0", false);
+	Params_IG.UICI_BC = new UICI_IG(this, "UI_P_SM_IG_BC", ["\\small \\mathrm{reflecting \\; | \\; reflecting}", "\\small \\mathrm{reflecting \\; | \\; periodic}", "\\small \\mathrm{periodic \\; | \\; reflecting}", "\\small \\mathrm{periodic \\; | \\; periodic}"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", true);
 	Params_HS.UINI_N = new UINI_int(this, "UI_P_SM_HS_N", false);
-	Params_HS.UINI_T = new UINI_float(this, "UI_P_SM_HS_T", false);
+	Params_HS.UINI_kT0 = new UINI_float(this, "UI_P_SM_HS_kT0", false);
 	Params_HS.UINI_v_pist = new UINI_float(this, "UI_P_SM_HS_v_pist", true);  // can be thought of as v_pist_0 in that the internal value may change within a timestep
+	Params_HS.UICI_rho = new UICI_HS_rho(this, "UI_P_SM_HS_rho", ["\\small \\mathrm{single \\; value}", "\\small \\mathrm{distribution}", "\\small \\! \\! m \\! = \\! \\rho V \\! = \\! \\mathrm{const.}"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
+	Params_HS.UICI_R = new UICI_HS_R(this, "UI_P_SM_HS_R", ["\\small \\mathrm{single \\; value}", "\\small \\mathrm{distribution}"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
+	Params_HS.UICI_IC = new UICI_HS_IC(this, "UI_P_SM_HS_IC", ["\\mathrm{single} \\; \\mathbf{v}_0", "\\textrm{im/ex-plosion}", "\\mathrm{1D \\; oscillators}", "\\mathrm{equilibrium}", "\\mathrm{confinement}"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
 	Params_IS.T = new UINI_float(this, "UI_P_SM_IS_T", true);
 	Coords_IS.N = new UINI_int(this, "UI_P_SM_IS_N", false);
 	Params_XY.T = new UINI_float(this, "UI_P_SM_XY_T", true);
 	Coords_XY.N = new UINI_int(this, "UI_P_SM_XY_N", false);
-	Params_LM.r = new UINI_float(this, "UI_P_ND_LM_r", true);
-	Coords_LM.x_0 = new UINI_float(this, "UI_P_ND_LM_x_0", false);
-	Coords_GM.x_0 = new UINI_float(this, "UI_P_ND_GM_x_0", false);
-	Coords_GM.y_0 = new UINI_float(this, "UI_P_ND_GM_y_0", false);
+	Params_LM.UINI_r = new UINI_float(this, "UI_P_ND_LM_r", true);
+	Params_LM.UINI_x_0 = new UINI_float(this, "UI_P_ND_LM_x_0", false);
+	Params_LM.UICI_IC = new UICI_LM(this, "UI_P_ND_LM_IC", ["(1.25, 0.9999)", "\\small (3.83, 0.738903394256)", "\\footnotesize (3.44, 0.999999999132462)", "(4.0, 0.75001)", "(0.999, 0.5)"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
+	Params_GM.UINI_x_0 = new UINI_float(this, "UI_P_ND_GM_x_0", false);
+	Params_GM.UINI_y_0 = new UINI_float(this, "UI_P_ND_GM_y_0", false);
+	Params_GM.UICI_IC = new UICI_GM(this, "UI_P_ND_GM_IC", ["(0.9, -2)", "(1.1, 0)", "(0.8, 0.4)", "(5, -0.8)", "(5.73, -2)"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
 	Params_SH.UINI_N = new UINI_even_int(this, "UI_P_FD_SH_N", false);  // even integer required!
 	Params_SH.UINI_rhoL = new UINI_float(this, "UI_P_FD_SH_rhoL", false);
 	Params_SH.UINI_rhoR = new UINI_float(this, "UI_P_FD_SH_rhoR", false);
@@ -67,7 +73,11 @@ class UserInterface {
 	Params_PF.UINI_Ub = new UINI_float(this, "UI_P_FD_PF_Ub", true);
 	Params_PF.UINI_mu = new UINI_float(this, "UI_P_FD_PF_mu", true);
 	Params_PF.UINI_N = new UINI_int(this, "UI_P_FD_PF_N", false);
-	Params_PF.UINI_Dt = new UINI_float(this, "UI_P_FD_PF_Dt", true);
+	Params_PF.UINI_Ds = new UINI_float(this, "UI_P_FD_PF_Ds", true);
+
+	// auxiliary counter, etc. used for miscellaneous, ST-dependent signaling by user, e.g., in update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation()
+	this.aux_ctr = 0;
+	this.pos_within_data_pt;
 
 	// other UI stuff
 	for (let ST_val of Simulator.unregistered_STs.values()) {  // if any disabled ST's have parameter HTML content (e.g., while under development), hide it
@@ -96,6 +106,11 @@ class UserInterface {
 	this.bsvs = this.get_bsvs();
 	this.update_UI_dd_btn_sizes();
 	console.log("INFO:\tBootstrap viewport size =", this.bsvs);
+    }
+
+    update_displayed_t_0_t_max() {
+	this.t_0.sv(this.sim.trjs[this.sim.ST].t_0);
+	this.t_max.sv(this.sim.trjs[this.sim.ST].t_max);
     }
 
     push_dd_state_to_UI() {
@@ -241,6 +256,39 @@ class UserInterface {
 	this.push_dd_state_to_UI();
     }
 
+    // called from within case "CK" in Simulator via repeated presses of unmarked UI button to incrementally construct HS PP p-V diagram
+    // a couple things, e.g., value of Params_HS.x_RW_0, will need to be adjusted before use; see GitHub technical notes for more:
+    //
+    // https://github.com/malliaris/SSNS/blob/ST_LZ_Lorenz/README.md#hard-sphere-gas-p-v-diagram-creation
+    //
+    update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation() {
+
+	let x_RW_lim_v_pist_arr = [[0.95, 0.9, 0.0], [0.95, 0.8, -1e100], [0.95, 0.7, -1e100], [0.95, 0.6, -1e100], [0.95, 0.5, -1e100], [0.95, 0.4, -1e100], [0.95, 0.3, -1e100], [0.95, 0.2, -1e100], [0.95, 0.1, -1e100], [0.95, 0.0, -1e100], [0.1, 0.0, 0.01], [0.2, 0.0, 0.01], [0.3, 0.0, 0.01], [0.4, 0.0, 0.01], [0.5, 0.0, 0.01], [0.6, 0.0, 0.01], [0.6, 0.5, -1e100], [0.6, 0.4, -1e100], [0.6, 0.3, -1e100], [0.6, 0.2, -1e100], [0.6, 0.1, -1e100], [0.6, 0.0, -1e100]];
+	let num_sweep_pos = 5
+	let data_pt_num = Math.floor(this.aux_ctr / num_sweep_pos);
+	this.pos_within_data_pt = this.aux_ctr % num_sweep_pos;
+	console.log("this.aux_ctr,this.pos_within_data_pt =", this.aux_ctr, this.pos_within_data_pt);///////////////
+
+	if (this.pos_within_data_pt == 0) {
+	    // open
+	} else if (this.pos_within_data_pt == 1) {
+	    console.log("Params_HS.x_RW_max,min , vpist =", Params_HS.x_RW_max, Params_HS.x_RW_min, Params_HS.UINI_v_pist.v);///////////
+	    Params_HS.x_RW_max = x_RW_lim_v_pist_arr[data_pt_num][0];
+	    Params_HS.x_RW_min = x_RW_lim_v_pist_arr[data_pt_num][1];
+	    Params_HS.UINI_v_pist.sv(x_RW_lim_v_pist_arr[data_pt_num][2]);
+	    this.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+	    console.log("Params_HS.x_RW_max,min , vpist =", Params_HS.x_RW_max, Params_HS.x_RW_min, Params_HS.UINI_v_pist.v);///////////
+	} else if (this.pos_within_data_pt == 2) {
+	    // reset_accumulators() call in CollisionPressureStats
+	} else if (this.pos_within_data_pt == 3) {
+	    // open
+	} else if (this.pos_within_data_pt == 4) {
+	    // collect data point
+	}
+	this.aux_ctr += 1;
+	//console.log("this.aux_ctr,this.pos_within_data_pt =", this.aux_ctr, this.pos_within_data_pt);///////////////
+    }
+    
     handle_ws_update(str_val) {  // trigger replot if window size changes
 	let curr_ws = PlotTypeXT.window_size.v;
 	PlotTypeXT.window_size.try_update(str_val); 
@@ -274,6 +322,16 @@ class UserInterface {
 	}
     }
 
+    handle_t_max_checkbox_change() {
+	if (CU.gcb("UI_CTRL_use_t_max")) {
+	    $("#UI_CTRL_t_max").removeAttr("disabled");
+	} else {
+	    $("#UI_CTRL_t_max").attr("disabled", "true");
+	    this.t_max.sv(this.sim.trjs[this.sim.ST].t_max);
+	}
+    }
+    
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
     handle_RW_l_update(str_val) {  // enforce 0 <= l <= 1 and 0 <= l + r = 1 - s <= 1
 	if (Params_RW.l.yields_valid_value(str_val)) {
 	    let req_l = Params_RW.l.parse_from_str(str_val);
@@ -289,6 +347,7 @@ class UserInterface {
 	}
     }
 
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
     handle_RW_r_update(str_val) {  // enforce 0 <= r <= 1 and 0 <= r + l = 1 - s <= 1
 	if (Params_RW.r.yields_valid_value(str_val)) {
 	    let req_r = Params_RW.r.parse_from_str(str_val);
@@ -301,6 +360,74 @@ class UserInterface {
 	} else {
 	    console.log("INFO:\thandle_RW_r_update() failed to parse a valid number... restoring previous valid value to UI...");
 	    Params_RW.r.sv(Params_RW.r.v);  // if proposed new value is invalid, push current valid value back to UI
+	}
+    }
+
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
+    handle_RW_N_update(str_val) {  // enforce x_0 <= N
+	if (Coords_RW.N.yields_valid_value(str_val)) {
+	    let proposed_new_N = Coords_RW.N.parse_from_str(str_val);
+	    Coords_RW.N.set_min_max_or_val(proposed_new_N);
+	    if (Coords_RW.x_0.v > Coords_RW.N.v) {
+		Coords_RW.x_0.sv(Coords_RW.N.v);
+	    }
+	    if (Coords_RW.N.indicate_params_changed) {
+		this.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+	    }
+	} else {
+	    console.log("INFO:\thandle_RW_N_update() failed to parse a valid number... restoring previous valid value to UI...");
+	    Coords_RW.N.sv(Coords_RW.N.v);  // if proposed new value is invalid, push current valid value back to UI
+	}
+    }
+
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
+    handle_RW_x_0_update(str_val) {  // enforce x_0 <= N
+	if (Coords_RW.x_0.yields_valid_value(str_val)) {
+	    let proposed_new_x_0 = Coords_RW.x_0.parse_from_str(str_val);
+	    Coords_RW.x_0.set_min_max_or_val(proposed_new_x_0);
+	    if (Coords_RW.N.v < Coords_RW.x_0.v) {
+		Coords_RW.N.sv(Coords_RW.x_0.v);
+	    }
+	    if (Coords_RW.x_0.indicate_params_changed) {
+		this.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+	    }
+	} else {
+	    console.log("INFO:\thandle_RW_x_0_update() failed to parse a valid number... restoring previous valid value to UI...");
+	    Coords_RW.x_0.sv(Coords_RW.x_0.v);  // if proposed new value is invalid, push current valid value back to UI
+	}
+    }
+
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
+    handle_MN_N_update(str_val) {  // enforce x_0 <= N
+	if (Coords_MN.N.yields_valid_value(str_val)) {
+	    let proposed_new_N = Coords_MN.N.parse_from_str(str_val);
+	    Coords_MN.N.set_min_max_or_val(proposed_new_N);
+	    if (Coords_MN.x_0.v > Coords_MN.N.v) {
+		Coords_MN.x_0.sv(Coords_MN.N.v);
+	    }
+	    if (Coords_MN.N.indicate_params_changed) {
+		this.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+	    }
+	} else {
+	    console.log("INFO:\thandle_MN_N_update() failed to parse a valid number... restoring previous valid value to UI...");
+	    Coords_MN.N.sv(Coords_MN.N.v);  // if proposed new value is invalid, push current valid value back to UI
+	}
+    }
+
+    // eventually refactor so that the underlying Params_AB is an instance of, e.g., UINI_int_AB and "override" the try_update() method
+    handle_MN_x_0_update(str_val) {  // enforce x_0 <= N
+	if (Coords_MN.x_0.yields_valid_value(str_val)) {
+	    let proposed_new_x_0 = Coords_MN.x_0.parse_from_str(str_val);
+	    Coords_MN.x_0.set_min_max_or_val(proposed_new_x_0);
+	    if (Coords_MN.N.v < Coords_MN.x_0.v) {
+		Coords_MN.N.sv(Coords_MN.x_0.v);
+	    }
+	    if (Coords_MN.x_0.indicate_params_changed) {
+		this.indicate_new_param_vals_ready_to_pull_UI_to_traj();
+	    }
+	} else {
+	    console.log("INFO:\thandle_MN_x_0_update() failed to parse a valid number... restoring previous valid value to UI...");
+	    Coords_MN.x_0.sv(Coords_MN.x_0.v);  // if proposed new value is invalid, push current valid value back to UI
 	}
     }
 
@@ -320,10 +447,13 @@ class UserInterface {
 	// plot stuff
 	this.sim.pm.plots[this.sim.ST][this.sim.PT].switch_plot_and_update_ext_axes();
 
-	// interface stuff
+	// interface stuff: updating of always-shown UI element content
+	this.update_displayed_t_0_t_max();
 	CU.sk("UI_INDCTR_ST", "\\texttt{" + this.sim.ST + "}");
 	this.update_SYS_dd_ST_background(this.sim.ST);
 	this.update_plot_type_buttons();
+
+	// interface stuff: showing/hiding of UI elements
 	this.show_ST_params(this.sim.ST);  // show/hide ST-specific parameters
 	if (this.sim.trjs[this.sim.ST].mc.model_is_stoch()) {  // show/hide stochastic system machinery
 	    $(".UI_CTRL_STOCH").show();

@@ -16,7 +16,7 @@ class PlotTypeXT extends PlotType {
     static flot_partial_seg_opts = { lines: {show: true}, points: {show: true, fillColor: "purple"}, color: "purple" }; // purple just a placeholder
     static flot_seg_connector_opts = { lines: {show: true}, color: "purple" };  // purple just a placeholder... will be overwritten
     static flot_initial_gen_opts_XT = { xaxis: {tickDecimals: 0} };
-    static window_size = undefined;  // = new UINI_int(this, "UI_CTRL_window_size", false);  assignment occurs in UserInterface(); see discussion there
+    static window_size;  // = new UINI_int(this, "UI_CTRL_window_size", false);  assignment occurs in UserInterface(); see discussion there
     
     constructor() {
 
@@ -198,10 +198,6 @@ class PlotTypeXT extends PlotType {
 	}
     }
 
-    get_flot_gen_opts() {
-	return this.flot_gen_opts;
-    }
-
     get_ext_x_axis_lbl_str() {
 	return "\\phantom{00} \\mathrm{time \\; step} \\; t";
     }
@@ -211,7 +207,7 @@ class PlotTypeXT extends PlotType {
     }
 
     plot(t) {
-	$.plot($("#" + this.get_html_targ_id_str()), this.get_flot_data_series(t), this.get_flot_gen_opts());
+	$.plot($("#" + this.get_html_targ_id_str()), this.get_flot_data_series(t), this.get_flot_gen_opts(t));
     }
 }
 
@@ -258,6 +254,10 @@ class PlotTypeXT_custom extends PlotTypeXT {
 	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
 	return fds;
     }
+
+    get_flot_gen_opts(t) {
+	return this.flot_gen_opts;
+    }
 }
 
 class PlotTypeXT_rect extends PlotTypeXT {  // "standard" PlotTypeXT, i.e., not custom
@@ -297,11 +297,13 @@ class PlotTypeXT_SP extends PlotTypeXT_rect {
 	}
 	return fds;
     }
+
+    get_flot_gen_opts(t) {
+	return this.flot_gen_opts;
+    }
 }
 
-//this.set_flot_ylim(this.flot_gen_opts, -1, Coords_RW.N + 1);
-
-class PlotTypeXT_MN extends PlotTypeXT_SP {
+class PlotTypeXT_SP_finite extends PlotTypeXT_SP {
 
     constructor(trj) {
 
@@ -314,13 +316,92 @@ class PlotTypeXT_MN extends PlotTypeXT_SP {
 	//this.set_yticks_intgr_flot(this.flot_gen_opts, y_min, y_max);  // COMMENT OUT except for small N
 	this.flot_gen_opts["yaxis"]["tickDecimals"] = 0;  // NOTE: yaxis only exists from previous commands
     }
+}
 
-    get_ext_y_axis_lbl_str() {
-	return "\\mathrm{ \\# \\; of \\; individuals}";
+class PlotTypeXT_SP_semiinf extends PlotTypeXT_SP {
+
+    constructor(trj) {
+
+	super();
+	this.trj = trj;
+	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
+	this.flot_gen_opts["yaxis"] = {};
+	this.flot_gen_opts["yaxis"]["tickDecimals"] = 0;  // NOTE: the tick labeling may be a bit funky for the first few steps before there is spread/travel in ensemble
     }
 }
 
-class PlotTypeXT_IG extends PlotTypeXT_rect {
+class PlotTypeXT_RW extends PlotTypeXT_SP_finite {
+
+    constructor(trj) {
+	super(trj);
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\mathrm{position} \\; \\; x(t)";
+    }
+}
+
+class PlotTypeXT_MN extends PlotTypeXT_SP_finite {
+
+    constructor(trj) {
+	super(trj);
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\mathrm{ \\# \\; individuals} \\; \\; x(t)";
+    }
+}
+
+class PlotTypeXT_CH extends PlotTypeXT_SP_semiinf {
+
+    constructor(trj) {
+	super(trj);
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\mathrm{ \\# \\; particles} \\; \\; x(t)";
+    }
+}
+
+class PlotTypeXT_Gas extends PlotTypeXT_rect {
+
+    constructor() {
+
+	super();
+
+	this.T_T0_color = "#fabb00";
+	this.eta_color = "#00aa00";
+	this.Z_x_color = "#ff00ff";
+	this.Z_y_color = "#00bbff";
+	this.Z_color = "#0000ff";
+	this.Z_SHY_color = "#ff0000";
+    }
+
+    // PlotTypeXT_Gas classes IG and HS generally require plotting multiple quantities, so we use color to identify **quantity** and vertical lines to indicate **TrajSeg boundaries**
+    get_arr_seg_boundary_locs() {
+
+	let loc_arr = [];
+	let si_i = this.trj.get_si(this.t_i);  // determine si_i = segment index, initial
+	let si_f = this.trj.get_si(this.t_f);  // determine si_f = segment index, final
+	for (let si = si_i; si < si_f; si++) {
+	    loc_arr.push(this.trj.segs[si].t_last + 0.5);
+	}
+	return loc_arr;
+    }
+
+    // PlotTypeXT_Gas classes IG and HS generally require plotting multiple quantities, so we use color to identify **quantity** and vertical lines to indicate **TrajSeg boundaries**
+    overwrite_line_color(flot_arr, new_color_str) {  // operates on arrays returned from assemble_data_by_seg()
+
+	for (let i = 0; i < (flot_arr.length - 1); i++) {  // skip first entry (which is black open circle representing current time)
+	    flot_arr.at(i + 1).color = new_color_str;
+	    if ("points" in flot_arr.at(i + 1)) {
+		flot_arr.at(i + 1).points.fillColor = new_color_str;
+	    }
+	}
+    }
+}
+
+class PlotTypeXT_IG extends PlotTypeXT_Gas {
 
     constructor(trj) {
 
@@ -331,19 +412,126 @@ class PlotTypeXT_IG extends PlotTypeXT_rect {
     }
 
     get_ext_y_axis_lbl_str() {
-	return "\\mathrm{gas \\; pressure, \\; etc.}";
+	return "\\textcolor{" + this.T_T0_color + "}{ T / T_0 } \\, , \\; \\textcolor{" + this.Z_color + "}{Z}_{\\textcolor{" + this.Z_x_color + "}{x},\\textcolor{" + this.Z_y_color + "}{y}}";
     }
 
     get_flot_data_series(t) {
+
 	this.update_window();  // updates values of this.t_L/i/f/R; consider small class to encapsulate window t's and return it from call
 	this.update_x_axis_flot(this.flot_gen_opts, this.t_L, this.t_R, this.trj.t_edge);
 
 	let fds = [];  // fds = flot_data_series
-	let fxn_obj = t => {return this.trj.get_x(t).PVoNkT_x_t_avg; };
-	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
-	fxn_obj = t => {return this.trj.get_x(t).PVoNkT_y_t_avg; };
-	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
+
+	// plot T / T_0
+	let fxn_obj = t => {return this.trj.get_x(t).get_kT() / Params_IG.kT0; };
+	let curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.T_T0_color);
+	fds = fds.concat(curr_arr);
+
+	// plot Z_x = P_x A / N <E>
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_x_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_x_color);
+	fds = fds.concat(curr_arr);
+
+	// plot Z_y = P_y A / N <E>
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_y_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_y_color);
+	fds = fds.concat(curr_arr);
+
+	// plot Z = (Z_x + Z_y) / 2
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_color);
+	fds = fds.concat(curr_arr);
+
 	return fds;
+    }
+
+    get_flot_gen_opts(t) {
+	return this.flot_gen_opts;
+    }
+}
+
+class PlotTypeXT_HS extends PlotTypeXT_Gas {
+
+    constructor(trj) {
+
+	super();
+	this.trj = trj;
+	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
+	this.set_ylim_flot(this.flot_gen_opts, 0, 2.0);
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\textcolor{" + this.T_T0_color + "}{ T / T_0 } \\, , \\; \\textcolor{" + this.eta_color + "}{{\\large \\eta}} \\, , \\; \\textcolor{" + this.Z_color + "}{Z}_{\\textcolor{" + this.Z_x_color + "}{x},\\textcolor{" + this.Z_y_color + "}{y}} \\, , \\; \\textcolor{" + this.Z_SHY_color + "}{Z / Z_{\\mathrm{SHY}}}";
+    }
+
+    get_flot_data_series(t) {
+
+	this.update_window();  // updates values of this.t_L/i/f/R; consider small class to encapsulate window t's and return it from call
+	this.update_x_axis_flot(this.flot_gen_opts, this.t_L, this.t_R, this.trj.t_edge);
+
+	let fds = [];  // fds = flot_data_series
+
+	// plot area fraction eta
+	let fxn_obj = t => {return this.trj.get_x(t).get_area_frac(); };
+	//let fxn_obj = t => {return this.trj.get_x(t).get_area(); };
+	let curr_arr = [];  // used to manipulate smaller array pieces as they're added to fds
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.eta_color);
+	fds = fds.concat(curr_arr);
+
+	// plot T / T_0
+	fxn_obj = t => {return this.trj.get_x(t).get_kT() / Params_HS.kT0; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.T_T0_color);
+	fds = fds.concat(curr_arr);
+
+	// plot Z_x = P_x A / N <E>
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_x_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_x_color);
+	fds = fds.concat(curr_arr);
+
+	// plot Z_y = P_y A / N <E>
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_y_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_y_color);
+	fds = fds.concat(curr_arr);
+
+	// plot Z = (Z_x + Z_y) / 2
+	fxn_obj = t => {return this.trj.get_x(t).cps.Z_t_avg; };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_color);
+	fds = fds.concat(curr_arr);
+
+	// plot Z / Z_SHY
+	fxn_obj = t => {return this.trj.get_x(t).cps.get_Z_SHY_t_avg(); };
+	curr_arr = [];
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.Z_SHY_color);
+	fds = fds.concat(curr_arr);
+
+	return fds;
+    }
+
+    get_flot_gen_opts(t) {
+	let opts = copy(this.flot_gen_opts);
+	let seg_boundary_locs = this.get_arr_seg_boundary_locs();
+	for (let i = 0; i < seg_boundary_locs.length; i++) {
+	    this.add_vert_line_flot(opts, seg_boundary_locs[i], 10, "#dddddd");
+	}
+	return opts;
     }
 }
 
@@ -368,6 +556,25 @@ class PlotTypeXT_LM extends PlotTypeXT_rect {
 	let fds = [];  // fds = flot_data_series
 	this.assemble_data_by_seg(fds, fxn_obj, this.t_i, this.t_f);
 	return fds;
+    }
+
+    get_flot_gen_opts(t) {
+
+	let opts = copy(this.flot_gen_opts);  // copy from this.flot_gen_opts to retain y limits, etc.
+	let curr_r = this.trj.segs[this.trj.get_si(t)].p.r;
+	if (curr_r > 1.0) {
+	    let r_osc_2 = 1.0 + Math.sqrt(6.0);  // ~= 3.44949
+	    if (curr_r < r_osc_2) {  // if 3 < r < 3.44949, we plot horizontal lines for the two values that x will oscillate between
+		let root_term = Math.sqrt((curr_r - 3.0) * (curr_r + 1.0));
+		let curr_x_fixed_upper = 0.5 * (curr_r + 1.0 + root_term) / curr_r;
+		let curr_x_fixed_lower = 0.5 * (curr_r + 1.0 - root_term) / curr_r;
+		this.add_horiz_line_flot(opts, curr_x_fixed_upper, 1, "yellow");
+		this.add_horiz_line_flot(opts, curr_x_fixed_lower, 1, "yellow");
+	    }
+	    let curr_x_fixed = (curr_r - 1.0) / curr_r;
+	    this.add_horiz_line_flot(opts, curr_x_fixed, 1, "cyan");
+	}
+	return opts;
     }
 }
 

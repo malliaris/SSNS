@@ -21,7 +21,7 @@
 #plot_x_axis_lbl      {margin-left: 2em; height: 3em; width: 350px; font-size: 18px; padding-top: 0.25em; text-align: center; }  /* and margin-left here */
 #plot_y_axis_lbl      {position: absolute; height: 2em; width: 350px; left: 0px; top: 0px; font-size: 18px; padding-top: 0.0em; text-align: center;  /* with height here */
 		       transform: rotate(-90deg) translateX(-175px); transform-origin: left top; }
-#plot_CV_Gas           {border: 10px solid black; }
+#plot_CV_Gas           {border: 2px solid black; }
 
 .btn-ssns {
     color: #ffffff;
@@ -54,16 +54,18 @@
 }
 .emulated_help_btn {
     background-color: #999999;
-    pointer-events: none;
     padding: 0 4px 1px 4px;
     margin-bottom: 4px;
+}
+.UICI_btn {
+    background-color: #f0f0f0;
+    cursor:pointer; 
 }
 .plot_icon_axes            {border-left: 3px solid; border-bottom: 3px solid; border-radius: 0px 0px 0px 3px; }
 
 .gentle_warning            {color: #bbbbbb; }
 .btn_contrast_txt          {color: #aaaaaa; }
-
-.btn_w_txt                 {letter-spacing: 0.05em; }
+/*.btn_w_txt                 {letter-spacing: 0.05em; } NOT USED ANYMORE? */
 
 .t_indicators_etc          {pointer-events: none; color: #000000; background-color: #cccccc; }  /* match colors to .btn-ssns entries above */
 #PRMS_icon_and_indicator   {border: 0px solid yellow; }
@@ -80,6 +82,8 @@
 .katex_txt                 {color: #666666; }
 .ctrl_eff_immed            {background-color: #e1f3ff; }       /* controls for which a change takes effect "immediately" */
 .ctrl_eff_reload           {background-color: #dbffe8; }       /* controls for which a change takes effect on next reload */
+.ctrl_precip_reload        {background-color: #dddddd; }       /* controls for which initiating a change also precipitates a reload */
+
 .katex_symb                {width: 3.2em; }
 
 #md_txt                    {font-size: 18px; margin-bottom: -0.75rem; }  /* (negative margin-bottom offsets positive margin-bottom from p, ul, etc.) */
@@ -96,7 +100,6 @@
 .hv_home_curr              {color: #000000; pointer-events: none; padding-top: 0.6rem; border: 1px solid #333333; }
 .hv_home_curr:hover        {color: #000000; }  /* needed for Android Chrome mobile (!) */
 .hv_curr_page              {padding: 0.06rem 0.2rem; color: #333333; border: 1px solid #333333; }
-.hv_curr_page_not_ready    {padding: 0.06rem 0.2rem; color: #333333; border: 1px solid orange; }  /* DELETE WHEN READY */
 .hv_emulated_btn           {color: #ffffff; background-color: #bbbbbb; }  /* match colors to .btn-ssns entries above */
 .hv_emulated_btn_td        {text-align: center; vertical-align: middle !important; }
 .hv_emulated_btn_span      {color: #ffffff; background-color: #bbbbbb; }  /* match colors to .btn-ssns entries above */

@@ -13,7 +13,7 @@
 
 class ModelCalc_Stoch extends ModelCalc {
 
-    static rng_seed = undefined;  // = new UINI_int(this, "UI_CTRL_rng_seed", false);  assignment occurs in UserInterface(); see discussion there
+    static rng_seed;  // = new UINI_int(this, "UI_CTRL_rng_seed", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor() {
 
@@ -104,8 +104,8 @@ class ModelCalc_SP extends ModelCalc_Stoch {
 
 class Coords_SP extends Coords {
 
-    static num_IEM = undefined;  // = new UINI_int(this, "UI_CTRL_SP_NI", false);  assignment occurs in UserInterface(); see discussion there
-    static num_GEM = undefined;  // = new UINI_int(this, "UI_CTRL_SP_NG", false);  assignment occurs in UserInterface(); see discussion there
+    static num_IEM;  // = new UINI_int(this, "UI_CTRL_SP_NI", false);  assignment occurs in UserInterface(); see discussion there
+    static num_GEM;  // = new UINI_int(this, "UI_CTRL_SP_NG", false);  assignment occurs in UserInterface(); see discussion there
 
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
@@ -124,16 +124,16 @@ class Coords_SP_finite extends Coords_SP {
 
 	// data structure allocation
 	if (Coords_SP.num_IEM.v > 0) {
-	    this.x_indiv = zeros([ Coords_SP.num_IEM.v ], {'dtype': 'int32'});
+	    this.x_indiv = zeros('int32', [ Coords_SP.num_IEM.v ]);
 	}
 	if (Coords_SP.num_GEM.v > 0) {
-	    this.H_x_group = zeros([ num_x ], {'dtype': 'int32'});
+	    this.H_x_group = zeros('int32', [ num_x ]);
 	}
 
 	if (this.constructing_init_cond) {
 
 	    let x_0 = this.extra_args[1];
-	    if (x_0 > N) {
+	    if (x_0 > N) {  // SHOULD NEVER BE REACHED SINCE js AUTOCORRECTS INPUT FIELD VALUES
 		throw new Error("ERROR 970132: invalid x_0 value in Coords_SP().  Exiting...");
 	    }
 	    if (Coords_SP.num_IEM.v > 0) {
@@ -183,8 +183,11 @@ class Coords_SP_semiinf extends Coords_SP {
     constructor(...args) {  // see discussion of # args at definition of abstract Coords()
 
 	super(...args);
-
+	
 	// data structure allocation
+	if (Coords_SP.num_IEM.v > 0) {
+	    this.x_indiv = zeros('int32', [ Coords_SP.num_IEM.v ]);  // don't need an OrderedMap here since position x is stored as **value**, not index in structure
+	}
 	if (Coords_SP.num_GEM.v > 0) {
 	    this.H_x_group = new OrderedMap();
 	}
@@ -192,21 +195,32 @@ class Coords_SP_semiinf extends Coords_SP {
 	if (this.constructing_init_cond) {
 
 	    let x_0 = this.extra_args[0];
+	    if (Coords_SP.num_IEM.v > 0) {
+		for (let i = 0; i < Coords_SP.num_IEM.v; i++) {
+		    this.x_indiv.set(i, x_0);
+		}
+	    }
 	    if (Coords_SP.num_GEM.v > 0) {
 		this.H_x_group.setElement(x_0, Coords_SP.num_GEM.v);
 	    }
 
 	} else {
 
+	    if (Coords_SP.num_IEM.v > 0) {
+		for (let i = 0; i < Coords_SP.num_IEM.v; i++) {
+		    let x_prev = this.c_prev.x_indiv.get(i);
+		    this.x_indiv.set(i, this.mc.get_x_new(this.p, x_prev));
+		}
+	    }
 	    if (Coords_SP.num_GEM.v > 0) {
 
 		this.c_prev.H_x_group.forEach((element, index) => {
-
+	    
 		    let x = element[0];
 		    let num_at_x = element[1];
-		    let P_step_R = this.mc.get_P_step_R(this.p, x);
+		    let P_step_R = this.mc.get_P_step_R(this.p, x);  // see note at ModelCalc_CH.get_P_gt_1_protective_fctr()
 		    let P_step_L = this.mc.get_P_step_L(this.p, x);
-		    let P_step_L_given_non_step_R = P_step_L / (1.0 - P_step_R);  // need this conditional probability since we're doing 2 binomial draws
+		    let P_step_L_given_non_step_R = Math.min(1.0, P_step_L / (1.0 - P_step_R));  // need this cond. prob. for 2nd binomial draw; min() protects against numerical error, e.g., 1.0000000000000002
 		    let num_step_R = this.mc.binom_rng_0(num_at_x, P_step_R);  // one binomial draw to determine # moving R...
 		    let num_stay_put_or_step_L = num_at_x - num_step_R;
 		    let num_step_L = this.mc.binom_rng_0(num_stay_put_or_step_L, P_step_L_given_non_step_R);  // another to determine # moving L...
@@ -237,7 +251,7 @@ class Trajectory_SP extends Trajectory_Stoch {
     }
 
     get_max_num_t_steps() {
-	return Trajectory.DEFAULT_MAX_NUM_T_STEPS
+	return Trajectory.DEFAULT_MAX_NUM_T_STEPS;
     }
 
     set_rng_states_from_edge_vals() {
@@ -303,6 +317,11 @@ class ModelCalc_Spin extends ModelCalc_Stoch {
 	    let P_accept = this.get_Boltzmann_factor(Delta_E, T)
 	    return (this.unif01_rng() < P_accept);
 	}
+    }
+
+    get_max_num_t_steps(N) {
+	let raw_val = 1000000000.0 / (N*N);  // rough assumption that memory usage is linear in # spins (quadratic in N)
+	return parseInt(Math.floor(raw_val) + 1);  // + 1 makes negligible difference in memory usage, but leads to "rounder" numbers if we always deal with powers of 10
     }
 }
 

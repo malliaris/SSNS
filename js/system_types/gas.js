@@ -14,14 +14,13 @@
 //
 class GasParticle {
 
-    constructor(x, y, R, m, vx, vy) {
+    constructor(x, y, m, vx, vy) {
 	this.x = x;
 	this.y = y;
-	this.R = R;
 	this.m = m;
 	this.vx = vx;
 	this.vy = vy;
-	this.v_hist_bi;  // bi = bin index (in GasSpeedHistogram)
+	this.v_hist_bi;  // v_hist_bi = v histogram bin index
     }
 
     get_speed() {
@@ -34,72 +33,83 @@ class GasParticle {
     }
 }
 
-// class to "wrap" the particle update code, which gets used for both the x and y directions
-//
-// * in another language, we would have a method instead of a class and pass in references, e.g., &vx or &vy, but that's not possible in js
-// * after calling set_inputs(...), the new/needed values are present in this.num_collisions, this.new_z, and this.new_vz
-// * to clarify: arguments are passed in by value, so method does not modify anything external, and so new values need to be "installed" explicitly after the call
-//
-// The following particle-update code rests on these assumptions:
-//
-// * ideal gas, i.e., no particle-particle collisions
-// * point particles, i.e., R = 0 for wall collision purposes, even if graphically R > 0
-// * walls do not move, i.e., no piston for compression/expansion work
-// * BC are periodic, reflecting, or something similarly simple
-//
-// Making these assumptions allows us to use, e.g., x += vx*dt and then wrap/reflect and count collisions after the fact, keeping things simple
-//
-class GasSpeedHistogram {
+class ParticleQuantityHistogram {
 
-    static bin_width = 0.01;
-
-    static get_bin_indx(v) {
-	return parseInt(modf(v / GasSpeedHistogram.bin_width)[0]);
-    }
-
-    static get_x_bin_start(bi) {
-	return bi * GasSpeedHistogram.bin_width;
-    }
-
-    constructor() {
+    constructor(bin_width) {
 
 	this.hist = new OrderedMap();
+	this.bin_width = bin_width;
     }
 
-    static copy(gsh_to_cpy) {  // "copy constructor"
+    static copy(pqh_to_cpy) {  // "copy constructor"
 	
-	let new_gsh = new GasSpeedHistogram();
-	new_gsh.hist = new OrderedMap(gsh_to_cpy.hist);  // NOTE: I think this "copy constructor" happens to work, but shouldn't be counted on generally!!
-	return new_gsh;
+	let new_pqh = new ParticleQuantityHistogram(pqh_to_cpy.bin_width);
+	new_pqh.hist = new OrderedMap(pqh_to_cpy.hist);  // NOTE: I think this "copy constructor" happens to work, but shouldn't be counted on generally!!
+	return new_pqh;
+    }
+
+    static get_reasonable_E_bin_width(kT, N) {  // adjustable factor (based on aesthetics) times std. dev. of distribution divided by root N
+	return 10.0 * kT / Math.sqrt(N);
+    }
+    
+    static get_reasonable_v_bin_width(kT, m, N) {  // adjustable factor (based on aesthetics) times std. dev. of distribution divided by root N
+	return 5.0 * Math.sqrt( kT / (m * N) );
+    }
+    
+    get_bin_indx(v) {
+	return parseInt(modf(v / this.bin_width)[0]);
+    }
+
+    get_x_bin_start(bi) {
+	return bi * this.bin_width;
+    }
+
+    get_x_bin_mid(bi) {
+	return (bi + 0.5) * this.bin_width;
     }
 
     get_x_val_min() {
-	return (this.hist.front()[0] + 0.5) * GasSpeedHistogram.bin_width;
+	return (this.hist.front()[0] + 0.5) * this.bin_width;
     }
 
     get_x_val_max() {
-	return (this.hist.back()[0] + 0.5) * GasSpeedHistogram.bin_width;
+	return (this.hist.back()[0] + 0.5) * this.bin_width;
     }
 
     // needed since flot library does not natively support histogram plotting, but rather line plots in a "step" style
-    get_flot_hist_data() {
+    get_flot_hist_data(mult_fctr) {
 
 	let data = [];
 	let most_recent_i = this.hist.front()[0];  // initialize
 	this.hist.forEach((element, index) => {
 
 	    let i = element[0];
-	    let H_i = element[1];
+	    let H_i = mult_fctr * element[1];
 	    if (i > most_recent_i + 1) {  // if there is a "gap" we add an artificial data point at its left side and with y-value 0 for correct histogram
-		data.push( [ GasSpeedHistogram.get_x_bin_start(most_recent_i + 1), 0 ] );
+		data.push( [ this.get_x_bin_start(most_recent_i + 1), 0 ] );
 	    }
-	    data.push( [ GasSpeedHistogram.get_x_bin_start(i), H_i ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    data.push( [ this.get_x_bin_start(i), H_i ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	    most_recent_i = i;
 	});
 
-	let extra_pair = [ data.at(-1)[0] + GasSpeedHistogram.bin_width, data.at(-1)[1] ];  // add extra pair to "terminate" the histogram at right edge
+	let extra_pair = [ data.at(-1)[0] + this.bin_width, data.at(-1)[1] ];  // add extra pair to "terminate" the histogram at right edge
 	data.push(extra_pair);
 	
+	return data;
+    }
+
+    get_flot_semilog_point_data(mult_fctr) {
+
+	let data = [];
+	this.hist.forEach((element, index) => {
+
+	    let i = element[0];
+	    let x = this.get_x_bin_mid(i);
+	    let log_H_x = Math.log(mult_fctr * element[1]);
+	    //data.push( [ i, log_H_i ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	    data.push( [ x, log_H_x ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	});
+
 	return data;
     }
 
@@ -114,22 +124,11 @@ class GasSpeedHistogram {
 }
 
 //
-// formulae for 2D Maxwell-Boltzmann distribution, etc.
-// (taken from wikipedia page section for n-D results with n = 2)
-// https://en.wikipedia.org/wiki/Maxwell%E2%80%93Boltzmann_distribution#In_n-dimensional_space
 //
 class MaxBoltzDistEtc {
 
     constructor(mc) {
 	this.mc = mc;
-    }
-
-    get_rand_x() {
-	return (Params_IG.Lx * this.mc.unif01_rng());
-    }
-
-    get_rand_y() {
-	return (Params_IG.Ly * this.mc.unif01_rng());
     }
 
     get_rand_angle() {
@@ -156,7 +155,16 @@ class MaxBoltzDistEtc {
     get_MBD_v_mode(kT, m) {
 	return Math.sqrt(kT / m);
     }
-    
+
+    get_BD_energy(kT) {
+	return this.mc.exponential_rng(1.0 / kT);
+    }
+
+    get_BD_v(kT, m) {
+	let KE = this.get_BD_energy(kT);
+	return Math.sqrt(2.0 * KE / m);
+    }
+
     get_draw_chi_dist_2_dof() {
 	return this.mc.chi_rng(2);
     }
@@ -191,6 +199,19 @@ class MaxBoltzDistEtc {
 	}
 	return arr_to_return;
     }
+
+    get_flot_p_of_V_curve(VL, VR, num_points, fxn_of_V) {
+
+	let arr_to_return = [];
+	let V_vals = linspace(VL, VR, num_points);
+	for (let i = 0; i < num_points; i++) {
+
+	    let V = V_vals[i];
+	    let p = fxn_of_V(V);
+	    arr_to_return.push( [ V, p ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	}
+	return arr_to_return;
+    }
 }
 
 class ModelCalc_Gas extends ModelCalc {
@@ -201,13 +222,30 @@ class ModelCalc_Gas extends ModelCalc {
 
 	this.mbde = new MaxBoltzDistEtc(this);
 	this.unif01_rng = randu.factory({'seed': ModelCalc_Stoch.rng_seed.v });
+	this.discunif_rng = discreteUniform.factory({'seed': ModelCalc_Stoch.rng_seed.v });
+	this.exponential_rng = exponential.factory({'seed': ModelCalc_Stoch.rng_seed.v });
 	this.normal_rng = normal.factory({'seed': ModelCalc_Stoch.rng_seed.v });
 	this.chi_rng = chi.factory({'seed': ModelCalc_Stoch.rng_seed.v });
 	this.chi_squared_rng = chisquare.factory({'seed': ModelCalc_Stoch.rng_seed.v });  // NOTE: "chisquare", i.e., library class has no 'd' at end
-	console.log("INFO:\tusing PRNG algorithm Mersenne Twister 19937 (the default) on all:", this.unif01_rng.PRNG.NAME, this.chi_rng.PRNG.NAME, this.chi_squared_rng.PRNG.NAME);
+	this.beta_rng = beta.factory({'seed': ModelCalc_Stoch.rng_seed.v });
+	console.log("INFO:\tusing PRNG algorithm Mersenne Twister 19937 (the default) on all:", this.unif01_rng.PRNG.NAME, this.discunif_rng.PRNG.NAME, this.exponential_rng.PRNG.NAME, this.normal_rng.PRNG.NAME, this.chi_rng.PRNG.NAME, this.chi_squared_rng.PRNG.NAME, this.beta_rng.PRNG.NAME);
 	console.log("INFO:\tusing seed value = " + ModelCalc_Stoch.rng_seed.v);
 	console.log("INFO:\tNOTE: ModelCalc_HS **does not** extend ModelCalc_Stoch!  While PRNGs are used for initial condition, all time evolution is deterministic!");
     }
 
     model_is_stoch() {return false; }  // model considered non-stochastic since time evolution is non-stochastic (even though initial condition might be randomly generated)
+
+    get_total_KE(N, prts) {
+
+	let total_KE = 0.0;
+    	for (let i = 0; i < N; i++) {
+	    total_KE += prts[i].get_KE();
+	}
+	return total_KE;
+    }
+
+    // get the temperature T (as kT), which is just the average KE for both IG and HS gas
+    get_kT(N, prts) {
+	return this.get_total_KE(N, prts) / N;
+    }
 }

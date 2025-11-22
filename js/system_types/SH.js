@@ -123,10 +123,10 @@ class ModelCalc_SH extends ModelCalc {
 	ModelCalc_SH.rho3 = this.get_rho(ModelCalc_SH.p3, ModelCalc_SH.c3);
     }
 
-    get_traj_max_t_val() {  // we calculate max_t such that simulation stops just before shock hits boundary
+    get_max_num_t_steps() {  // we calculate max_t such that simulation stops just before shock hits boundary
 	let num_steps_shock_f = (0.5 * Params_SH.L_x / ModelCalc_SH.u_shock) / Params_SH.ds;  // (L/2)/u is time, then converted to float num time steps
-	let max_t = parseInt(Math.floor(0.95 * num_steps_shock_f));  // take 95% of val, round down, and return result...
-	return max_t;
+	let max_num = parseInt(Math.floor(0.95 * num_steps_shock_f));  // take 95% of val, round down, and return result...
+	return max_num;
     }
     
     // NOTE: each of these derived quantities is used in calculating flux vectors in load_flux_vectors(); ORDER BELOW IS IMPORTANT!!!
@@ -284,9 +284,8 @@ class Trajectory_SH extends Trajectory {
     }
 
     get_max_num_t_steps() {
-	let traj_max_t_val = this.mc.get_traj_max_t_val();
-	console.log("INFO:   SH t_max set to", traj_max_t_val - 1);  // is there an off-by-1 issue here???
-	return traj_max_t_val;
-	//return Trajectory.DEFAULT_MAX_NUM_T_STEPS
+	let max_num_t_steps = this.mc.get_max_num_t_steps();
+	console.log("INFO:   SH max_num_t_steps calculated as ", max_num_t_steps);
+	return max_num_t_steps;
     }
 }

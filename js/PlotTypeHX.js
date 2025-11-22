@@ -25,13 +25,6 @@ class PlotTypeHX extends PlotType {
 	    fillColor: "rgba(50, 50, 255, 0.5)"
 	}
     };
-    static flot_data_opts_theory_curve = {
-	color: "rgba(240, 120, 20, 1.0)",
-	lines: {
-	    show: true,
-	    lineWidth: 2,
-	}
-    };
     static flot_data_opts_theory_points = {
 	color: "rgba(240, 120, 20, 1.0)",
 	points: {
@@ -75,7 +68,14 @@ class PlotTypeHX_Gas extends PlotTypeHX {
 
 	this.trj = trj;
 	this.flot_data_opts_hist = copy(PlotTypeHX.flot_data_opts_histogram);
-	this.flot_data_opts_theory = copy(PlotTypeHX.flot_data_opts_theory_curve);
+	this.flot_data_opts_theory = copy(PlotType.flot_data_opts_theory_curve);
+    }
+}
+
+class PlotTypeHX_IG extends PlotTypeHX_Gas {
+
+    constructor(trj) {
+	super(trj);
     }
 
     get_ext_y_axis_lbl_str() {
@@ -89,18 +89,18 @@ class PlotTypeHX_Gas extends PlotTypeHX {
     get_flot_data_series(t) {
 
 	let data_series = [];
-	let curr_gsh = this.trj.get_x(t).gsh;  // current gas speed histogram object, from which we will draw all data
+	let curr_psh = this.trj.get_x(t).psh;  // current particle speed histogram object, from which we will draw all data
 
 	// load histogram data
-	let hist_data = curr_gsh.get_flot_hist_data();  // flot library does not have histograms, so we must create data ("anchor" gaps, etc.)
+	let hist_data = curr_psh.get_flot_hist_data(1.0);  // 1.0 is multiplicative factor for returned data (not used, here)
 	this.flot_data_opts_hist["data"] = hist_data;
 	data_series.push(this.flot_data_opts_hist);
 	
 	// load theoretical functional form over-plot (2D Maxwell-Boltzmann speed distribution)
-	let vL = 0.0;  //curr_gsh.get_x_val_min();
-	let vR = curr_gsh.get_x_val_max();
-	let mult_fctr = GasSpeedHistogram.bin_width * this.trj.N;  // multiply pdf by bin width to get a probability, and by N to get expected num particles
-	let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, this.trj.T, this.trj.m, mult_fctr);
+	let vL = 0.0;  //curr_psh.get_x_val_min();
+	let vR = curr_psh.get_x_val_max();
+	let mult_fctr = curr_psh.bin_width * Params_IG.N;  // multiply pdf by bin width to get a probability, and by N to get expected num particles
+	let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, Params_IG.kT0, Params_IG.m, mult_fctr);
 	this.flot_data_opts_theory["data"] = theory_data;
 	data_series.push(this.flot_data_opts_theory);
 
@@ -110,17 +110,87 @@ class PlotTypeHX_Gas extends PlotTypeHX {
     get_flot_gen_opts(t) { return {}; }
 }
 
-class PlotTypeHX_IG extends PlotTypeHX_Gas {
-
-    constructor(trj) {
-	super(trj);
-    }
-}
-
 class PlotTypeHX_HS extends PlotTypeHX_Gas {
 
     constructor(trj) {
+
 	super(trj);
+
+	this.flot_data_opts_Boltz = {
+
+	    color: "rgba(40, 40, 200, 0.2)",
+	    points: {
+		show: true,
+		radius: 4,
+		fill: 0.8,
+		fillColor: "rgba(50, 50, 255, 0.5)"
+	    }
+	};
+    }
+
+    get_ext_y_axis_lbl_str() {
+
+	if (Params_HS.UICI_rho.all_particles_same_m()) {
+	    return "\\mathrm{ \\# \\; particles}";
+	} else {
+	    return "\\ln \\left[ \\mathrm{ \\# \\; particles} \\right]";
+	}	    
+    }
+
+    get_ext_x_axis_lbl_str() {
+
+	if (Params_HS.UICI_rho.all_particles_same_m()) {
+	    return "\\mathrm{ particle \\; speed} \\; v";
+	} else {
+	    return "\\mathrm{ particle \\; energy} \\; E";
+	}
+    }
+
+    get_flot_data_series(t) {
+
+	let data_series = [];
+	let curr_psh = this.trj.get_x(t).psh;  // current gas speed histogram object, from which we will draw all data
+	let curr_peh = this.trj.get_x(t).peh;  // current particle energy histogram object, from which we will draw data
+
+	let curr_kT = this.trj.get_x(t).get_kT();
+	let avg_ish_v = Math.sqrt(2.0 * curr_kT / Params_HS.m_single_value);  // OBSOLETE?
+
+	if (Params_HS.UICI_rho.all_particles_same_m()) {
+	
+	    let vL = 0.0;  //curr_psh.get_x_val_min();
+	    let vR = CU.round_up_above_fluctuations(curr_psh.get_x_val_max());
+
+	    // load v histogram data
+	    let v_hist_data = curr_psh.get_flot_hist_data(1.0);  // 1.0 is multiplicative factor for returned data (not used, here)
+	    this.flot_data_opts_hist["data"] = v_hist_data;
+	    data_series.push(this.flot_data_opts_hist);
+
+	    // load theoretical functional form over-plot (2D Maxwell-Boltzmann speed distribution)
+	    let mult_fctr = curr_psh.bin_width * Params_HS.N;  // multiply pdf by bin width to get a probability and by Params_HS.N to get expected # particles
+	    let theory_data = this.trj.mc.mbde.get_flot_MBD_pdf(vL, vR, 100, curr_kT, Params_HS.m_single_value, mult_fctr);
+	    this.flot_data_opts_theory["data"] = theory_data;
+	    data_series.push(this.flot_data_opts_theory);
+
+	} else {
+
+	    let y_intercept = Math.log(Params_HS.N * curr_peh.bin_width / curr_kT);
+	    let x_intercept = y_intercept * curr_kT;
+	    this.flot_data_opts_theory["data"] = [[0, y_intercept], [x_intercept, 0]];//theory_data;
+	    data_series.push(this.flot_data_opts_theory);
+
+	    // load E histogram data
+	    let E_hist_data = curr_peh.get_flot_semilog_point_data(1.0);  // 1.0 is multiplicative factor for returned data (not used, here)
+	    this.flot_data_opts_Boltz["data"] = E_hist_data;
+	    data_series.push(this.flot_data_opts_Boltz);
+	}
+
+	return data_series;
+    }
+
+    get_flot_gen_opts(t) {
+	let opts = {};
+	//this.set_xlim_flot(opts, -0.05, 5);
+	return opts;
     }
 }
 
@@ -128,35 +198,17 @@ class PlotTypeHX_SP extends PlotTypeHX {
 
     constructor() {
 	super();
-	this.flot_data_opts = copy(PlotTypeHX.flot_data_opts_histogram);
-    }
-
-    get_ext_y_axis_lbl_str() {
-	return "\\mathrm{ \\# \\; ensemble \\; members}";
-    }
-
-    get_flot_data_series(t) {
-
-	let data_series = [];
-	this.flot_data_opts["data"] = this.get_plot_data(t);
-	data_series.push(this.flot_data_opts);
-	/*
-	let pd = new poisson.Poisson(100);
-	let temp_data = [];
-	for (let x = 50; x < 151; x++) {
-	    temp_data.push( [ x, 10000*pd.pmf(x) ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	}
-	let temp_obj = {};
-	temp_obj["data"] = temp_data;
-	data_series.push(temp_obj);
-	*/
-	return data_series;
+	this.flot_data_opts_hist = copy(PlotTypeHX.flot_data_opts_histogram);
     }
 
     get_flot_gen_opts(t) { return {}; }
 }
 
 class PlotTypeHX_SP_finite extends PlotTypeHX_SP {
+
+    constructor() {
+	super();
+    }
 
     get_plot_data(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
 
@@ -168,20 +220,28 @@ class PlotTypeHX_SP_finite extends PlotTypeHX_SP {
 	let hist_data = this.get_hist_data_flot(data);
 	return hist_data;
     }
+
+    get_flot_data_series(t) {
+
+	let data_series = [];
+	this.flot_data_opts_hist["data"] = this.get_plot_data(t);
+	data_series.push(this.flot_data_opts_hist);
+	return data_series;
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\mathrm{ \\ln \\; \\# \\; ensemble \\; members}";
+    }
 }
 
 class PlotTypeHX_SP_semiinf extends PlotTypeHX_SP {
 
-    get_plot_data(t) {  // returns what flot documentation call "rawdata" which has format [ [x0, y0], [x1, y1], ... ]
+    constructor() {
+	super();
+    }
 
-	let data = [];
-	this.trj.get_x(t).H_x_group.forEach((element, index) => {
-	    let x = element[0];
-	    let H_x = element[1];
-	    data.push( [ x, H_x ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
-	});
-	let hist_data = this.get_hist_data_flot(data);
-	return hist_data;
+    get_ext_y_axis_lbl_str() {
+	return "\\mathrm{ \\# \\; ensemble \\; members}";
     }
 }
 
@@ -214,10 +274,55 @@ class PlotTypeHX_CH extends PlotTypeHX_SP_semiinf {
     constructor(trj) {
 	super();
 	this.trj = trj;
+
+	this.flot_data_opts_analyt_ss = {
+	    color: "rgb(240, 120, 20)",
+	    lines: {
+		show: true,
+		lineWidth: 1,
+		steps: false,
+		fill: false,
+		fillColor: "rgb(240, 120, 20)"
+	    },
+	    points: {
+		show: true,
+		radius: 1,
+		fill: 0.8,
+		fillColor: null,
+	    }
+	};
     }
 
     get_ext_x_axis_lbl_str() {
 	return "\\mathrm{ \\# \\; of \\; particles}";
+    }
+
+    get_flot_data_series(t) {
+
+	let data_series = [];
+
+	let data = [];
+	this.trj.get_x(t).H_x_group.forEach((element, index) => {  // NOTE: H_x_group here is an OrderedMap, unlike in finite SP above
+	    let x = element[0];
+	    let H_x = element[1];
+	    data.push( [ x, H_x ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	});
+	this.flot_data_opts_hist["data"] = this.get_hist_data_flot(data);
+	data_series.push(this.flot_data_opts_hist);
+
+	data = [];
+	let curr_params = this.trj.segs[this.trj.get_si(t)].p;
+	let lambda = curr_params.alpha / curr_params.beta;
+	let x_min = Math.max(0, Math.floor(lambda - 3.0*Math.sqrt(lambda)));  // stop plotting theory points at 4 std. dev. above the mean
+	let x_max = Math.ceil(lambda + 3.0*Math.sqrt(lambda));  // stop plotting theory points at 4 std. dev. above the mean
+	for (let x = x_min; x <= x_max; x++) {
+	    let yv = poisson.pmf(x, lambda) * Coords_SP.num_GEM.v;
+	    data.push( [ x, yv ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
+	}
+	this.flot_data_opts_analyt_ss["data"] = data;
+	data_series.push(this.flot_data_opts_analyt_ss);
+	
+	return data_series;
     }
 }
 
@@ -347,11 +452,11 @@ class PlotTypeHX_PF extends PlotTypeHX {
 	let N = Params_PF.N;
 
 	// plot the individual slab velocities in histogram form
-	let curr_v_vect = ndarray2array(this.trj.get_x(t).vs);  // vector vs has N + 2 entries, with first and last being movable boundaries
+	let curr_v_vect = this.trj.get_x(t).vs;  // vector vs has N + 2 entries, with first and last being movable boundaries
 	let hist_data = [];
 	let spacing = 1.0/N;  // N + 2 entries will run from -1/N to 1 + 1/N
-	for (let i = 0; i < curr_v_vect.length; i++) {
-	    let v_val = curr_v_vect[curr_v_vect.length - 1 - i];  // i --> curr_v_vect.length - 1 - i to flip top-to-bottom
+	for (let i = 0; i < curr_v_vect.shape[0]; i++) {
+	    let v_val = curr_v_vect.get(curr_v_vect.length - 1 - i);  // i --> curr_v_vect.length - 1 - i to flip top-to-bottom
 	    hist_data.push( [ v_val, (i - 0.5)*spacing ] );  // flot requires format [ [x0, y0], [x1, y1], ... ]
 	}
 	this.flot_data_opts_hist["data"] = hist_data;
