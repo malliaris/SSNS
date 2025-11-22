@@ -637,6 +637,7 @@ class Coords_HS extends Coords {
 
 	case 0:  // random | single v_0
 
+	    Params_HS.R_min = Params_HS.R_tiny_particle_cutoff + Coords_HS.EPSILON;  // would rather have all particles filled in... nicer visually
 	    Params_HS.R_cutoff = Math.min(ideal_R_max, 0.75);  // this setup not ideal yet... ideal_R_max may be > 1, which obviously won't fit
 	    this.create_particles_w_random_R_x_y();
 	    this.set_particle_rho_mass();
