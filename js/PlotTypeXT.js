@@ -28,6 +28,18 @@ class PlotTypeXT extends PlotType {
 	// this.t_L, this.t_i, this.t_f this.t_R;  "declaration"... these will be set in update_window() and used in plot()
     }
 
+    get_html_targ_id_str() {
+	return "plot_flot";
+    }
+
+    get_plot_width() {
+	return PlotType.non_square_plot_width;
+    }
+
+    get_plot_height() {
+	return PlotType.non_square_plot_height;
+    }
+
     get_a_R(tl, ws) {  // args are trajectory length and window size
 	let min_tl_ws = Math.min(tl, ws);
 	let val_from_frac_formula = Math.floor(PlotTypeXT.f_R * min_tl_ws);
@@ -211,6 +223,7 @@ class PlotTypeXT extends PlotType {
     }
 }
 
+/* OBSOLETE???  CONSIDER DELETING
 class PlotTypeXT_custom extends PlotTypeXT {
 
     constructor(trj, html_targ, pw, ph, fgo) {
@@ -259,27 +272,9 @@ class PlotTypeXT_custom extends PlotTypeXT {
 	return this.flot_gen_opts;
     }
 }
+*/
 
-class PlotTypeXT_rect extends PlotTypeXT {  // "standard" PlotTypeXT, i.e., not custom
-
-    constructor() {
-	super();
-    }
-
-    get_html_targ_id_str() {
-	return "plot_flot";
-    }
-
-    get_plot_width() {
-	return PlotType.non_square_plot_width;
-    }
-
-    get_plot_height() {
-	return PlotType.non_square_plot_height;
-    }
-}
-
-class PlotTypeXT_SP extends PlotTypeXT_rect {
+class PlotTypeXT_SP extends PlotTypeXT {
 
     constructor() {
 	super();
@@ -363,7 +358,7 @@ class PlotTypeXT_CH extends PlotTypeXT_SP_semiinf {
     }
 }
 
-class PlotTypeXT_Gas extends PlotTypeXT_rect {
+class PlotTypeXT_Gas extends PlotTypeXT {
 
     constructor() {
 
@@ -535,7 +530,7 @@ class PlotTypeXT_HS extends PlotTypeXT_Gas {
     }
 }
 
-class PlotTypeXT_LM extends PlotTypeXT_rect {
+class PlotTypeXT_LM extends PlotTypeXT {
 
     constructor(trj) {
 
