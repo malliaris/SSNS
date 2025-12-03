@@ -455,7 +455,9 @@ class UserInterface {
 
 	// interface stuff: showing/hiding of UI elements
 	this.show_ST_params(this.sim.ST);  // show/hide ST-specific parameters
+	console.log("WIRUWORUI this.sim.ST =", this.sim.ST);////////////
 	if (this.sim.trjs[this.sim.ST].mc.model_is_stoch()) {  // show/hide stochastic system machinery
+	    console.log("wiruworui this.sim.ST =", this.sim.ST);////////////
 	    $(".UI_CTRL_STOCH").show();
 	    if (this.sim.ST_area == "SP") {  // show/hide stochastic process ensemble parameters (which are subset of stochastic system machinery)
 		$(".UI_CTRL_SP").show();
@@ -464,7 +466,11 @@ class UserInterface {
 	    }
 	} else {
 	    $(".UI_CTRL_STOCH").hide();
-	    $(".UI_CTRL_Gas_IC").show();  // some ST (e.g., IG) use random numbers to generate IC, but are not "stoch", i.e., time evolution is deterministic
+	    if ((this.sim.ST == "IG") || (this.sim.ST == "HS")) {  // the gas ST (IG and HS) use random numbers to generate IC, but not in update eqns, i.e., they are not "stoch"
+		$(".UI_CTRL_Gas_IC").show();
+	    } else {
+		$(".UI_CTRL_Gas_IC").hide();
+	    }
 	}
 	if (this.sim.PT == "XT") {  // window size input only applies to PlotTypeXT
 	    $("#UI_window_size_input_group").show();
