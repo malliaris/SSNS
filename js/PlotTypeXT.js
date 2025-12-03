@@ -218,6 +218,17 @@ class PlotTypeXT extends PlotType {
 	return PlotTypeXT.flot_traj_seg_color_cycle[ i % PlotTypeXT.flot_traj_seg_color_cycle.length ];
     }
 
+    // some ST's, e.g., IG, HS, plot multiple quantities, so we overwrite/ride default coloration and use color to identify **quantity** and, e.g., vertical lines to indicate **TrajSeg boundaries**
+    overwrite_line_color(flot_arr, new_color_str) {  // operates on arrays returned from assemble_data_by_seg()
+
+	for (let i = 0; i < (flot_arr.length - 1); i++) {  // skip first entry (which is black open circle representing current time)
+	    flot_arr.at(i + 1).color = new_color_str;
+	    if ("points" in flot_arr.at(i + 1)) {
+		flot_arr.at(i + 1).points.fillColor = new_color_str;
+	    }
+	}
+    }
+
     plot(t) {
 	$.plot($("#" + this.get_html_targ_id_str()), this.get_flot_data_series(t), this.get_flot_gen_opts(t));
     }
@@ -382,17 +393,6 @@ class PlotTypeXT_Gas extends PlotTypeXT {
 	    loc_arr.push(this.trj.segs[si].t_last + 0.5);
 	}
 	return loc_arr;
-    }
-
-    // PlotTypeXT_Gas classes IG and HS generally require plotting multiple quantities, so we use color to identify **quantity** and vertical lines to indicate **TrajSeg boundaries**
-    overwrite_line_color(flot_arr, new_color_str) {  // operates on arrays returned from assemble_data_by_seg()
-
-	for (let i = 0; i < (flot_arr.length - 1); i++) {  // skip first entry (which is black open circle representing current time)
-	    flot_arr.at(i + 1).color = new_color_str;
-	    if ("points" in flot_arr.at(i + 1)) {
-		flot_arr.at(i + 1).points.fillColor = new_color_str;
-	    }
-	}
     }
 }
 
@@ -573,9 +573,48 @@ class PlotTypeXT_LM extends PlotTypeXT {
     }
 }
 
-class PlotTypeXT_PF extends PlotTypeXT_LM {  // TEMPORARY, TO ALLOW FOR TESTING!!!
+class PlotTypeXT_GM extends PlotTypeXT {
 
     constructor(trj) {
-	super(trj);
+
+	super();
+	this.trj = trj;
+	this.flot_gen_opts = copy(PlotTypeXT.flot_initial_gen_opts_XT);
+	this.set_ylim_flot(this.flot_gen_opts, -4, 10);
+	this.x_color = "#f07714";
+	this.y_color = "#0044ff";
+    }
+
+    get_ext_y_axis_lbl_str() {
+	return "\\textcolor{" + this.x_color + "}{ x(t) } , \\; \\; \\textcolor{" + this.y_color + "}{ y(t) }";
+    }
+
+    get_flot_data_series(t) {
+
+	this.update_window();  // updates values of this.t_L/i/f/R; consider small class to encapsulate window t's and return it from call
+	this.update_x_axis_flot(this.flot_gen_opts, this.t_L, this.t_R, this.trj.t_edge);
+
+	let fds = [];  // fds = flot_data_series
+
+	// plot x(t)
+	let fxn_obj = t => {return this.trj.get_x(t).x; };
+	let curr_arr = [];  // used to manipulate smaller array pieces as they're added to fds
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.x_color);
+	fds = fds.concat(curr_arr);
+
+	// plot y(t)
+	fxn_obj = t => {return this.trj.get_x(t).y; };
+	curr_arr = [];  // used to manipulate smaller array pieces as they're added to fds
+	this.assemble_data_by_seg(curr_arr, fxn_obj, this.t_i, this.t_f);
+	this.overwrite_line_color(curr_arr, this.y_color);
+	fds = fds.concat(curr_arr);
+
+	return fds;
+    }
+
+    get_flot_gen_opts(t) {
+	return this.flot_gen_opts;
     }
 }
+
