@@ -82,6 +82,9 @@ class Simulator {
 	case "XY":
 	    this.trjs["XY"] = new Trajectory_XY(this);
 	    break;
+	case "LZ":
+	    this.trjs["LZ"] = new Trajectory_LZ(this);
+	    break;
 	case "LM":
 	    this.trjs["LM"] = new Trajectory_LM(this);
 	    break;
@@ -175,8 +178,13 @@ class Simulator {
 	    break;
 	case "CK":
 
-	    //this.ui.update_aux_ctr_etc_for_HS_PP_isotherm_adiabat_plot_creation();
-	    
+	    //let dummy_traj = new Trajectory_LZ(this);
+	    //console.log(dummy_traj.segs[0].p.get_info_str());
+	    //dummy_traj.get_cx().output();
+
+	    console.log(this.trjs["LZ"].segs[0].p.get_info_str());
+	    this.trjs["LZ"].get_cx().output();
+
 	    break;
 	default:
 	    console.log("ERROR 912352: bad code");
