@@ -257,6 +257,17 @@
 </div><!-- CLOSES div class="row" -->
 
 
+<div class="row" id="UI_P_ND_LZ">
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \sigma $$ </span></div><input id="UI_P_ND_LZ_sigma" class="form-control" type="number" min="0.0" max="100.0" step="0.1" value="10.0" onchange="Params_LZ.UINI_sigma.try_update(this.value); "></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \rho $$ </span></div><input id="UI_P_ND_LZ_rho" class="form-control" type="number" min="0.0" max="100.0" step="0.1" value="28.0" onchange="Params_LZ.UINI_rho.try_update(this.value); "></div></div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_E_NOT_IMPLEMENTED'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_eff_immed px-2 py-1"> $$ \beta $$ </span></div><input id="UI_P_ND_LZ_beta" class="form-control" type="number" min="0.0" max="100.0" step="0.01" value="2.6667" onchange="Params_LZ.UINI_beta.try_update(this.value); "></div></div>
+
+</div><!-- CLOSES div class="row" -->
+
+
 <div class="row" id="UI_P_ND_LM">
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1"><div class="input-group input-group-lg"><div class="input-group-prepend" onclick="window.sim.ui.hv.show_view('HV_P_ND_LM_IC'); "><span class="input-group-text d-inline-flex justify-content-center katex_symb ctrl_precip_reload px-2 py-1"> $$ \mathrm{IC} \atop (r, x_0) $$ </span></div><span class="form-control d-flex justify-content-between UICI_btn" onclick="Params_LM.UICI_IC.cycle(); "><span id="UI_P_ND_LM_IC_UICI_val"></span><span><img id="UI_P_ND_LM_IC_UICI_img" height="30" width="6" src=""> &#128070;</span></span></div></div>
@@ -509,7 +520,7 @@
 
 <div id="UI_ST_area_ND">
 <div id="UI_ST_ND_LZ_form_check" class="form-check pl-4 py-1">
-<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_LZ" value="LZ" onchange="window.sim.process_cmd('ST'); " disabled>
+<input class="form-check-input" type="radio" name="UI_ST" id="UI_ST_ND_LZ" value="LZ" onchange="window.sim.process_cmd('ST'); ">
 <label class="form-check-label w-100" for="UI_ST_ND_LZ">Lorenz system ($$ \texttt{LZ} $$)</label>
 </div>
 <div id="UI_ST_ND_LM_form_check" class="form-check pl-4 py-1">
@@ -624,6 +635,7 @@
 <script src="/static/js/SSNT/system_types/HS.js"></script>
 <script src="/static/js/SSNT/system_types/IS.js"></script>
 <script src="/static/js/SSNT/system_types/XY.js"></script>
+<script src="/static/js/SSNT/system_types/LZ.js"></script>
 <script src="/static/js/SSNT/system_types/LM.js"></script>
 <script src="/static/js/SSNT/system_types/GM.js"></script>
 <script src="/static/js/SSNT/system_types/PF.js"></script>

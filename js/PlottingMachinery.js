@@ -66,6 +66,10 @@ class PlottingMachinery {
 	    this.plots["XY"] = {};
 	    this.plots["XY"]["CV"] = new PlotTypeCV_XY(this.sim.trjs["XY"]);
 	    break;
+	case "LZ":
+	    this.plots["LZ"] = {};
+	    this.plots["LZ"]["XT"] = new PlotTypeXT_LM(this.sim.trjs["LM"]);  // TEMPORARY HYBRID!!!!!!!!
+	    break;
 	case "LM":
 	    this.plots["LM"] = {};
 	    this.plots["LM"]["XT"] = new PlotTypeXT_LM(this.sim.trjs["LM"]);

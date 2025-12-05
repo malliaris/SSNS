@@ -57,6 +57,9 @@ class UserInterface {
 	Coords_IS.N = new UINI_int(this, "UI_P_SM_IS_N", false);
 	Params_XY.T = new UINI_float(this, "UI_P_SM_XY_T", true);
 	Coords_XY.N = new UINI_int(this, "UI_P_SM_XY_N", false);
+	Params_LZ.UINI_sigma = new UINI_float(this, "UI_P_ND_LZ_sigma", true);
+	Params_LZ.UINI_rho = new UINI_float(this, "UI_P_ND_LZ_rho", true);
+	Params_LZ.UINI_beta = new UINI_float(this, "UI_P_ND_LZ_beta", true);
 	Params_LM.UINI_r = new UINI_float(this, "UI_P_ND_LM_r", true);
 	Params_LM.UINI_x_0 = new UINI_float(this, "UI_P_ND_LM_x_0", false);
 	Params_LM.UICI_IC = new UICI_LM(this, "UI_P_ND_LM_IC", ["(1.25, 0.9999)", "\\small (3.83, 0.738903394256)", "\\footnotesize (3.44, 0.999999999132462)", "(4.0, 0.75001)", "(0.999, 0.5)"], "/static/images/SSNS/UICI/cycle_indicator_", ".svg", false);
