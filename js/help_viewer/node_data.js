@@ -39,7 +39,9 @@ HelpViewer.hvn_lookup_map["HV_HOME"].md_txt_html = String.raw`
 
 <p><strong>SSNS</strong>, which stands for <strong>S</strong>imple, <strong>S</strong>tochastic and <strong>N</strong>onlinear <strong>S</strong>imulator, is a web app that offers interactive exploration of examples from various <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics">STEM</a> fields.  Welcome!</p>
 
-<p><strong>Quick Start:</strong> press <i class="fas fa-xl fa-xmark hv_close_btn"></i> above and then <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-lg fa-video"></i></button></p>
+<p><strong>Quickest Start:</strong> press <i class="fas fa-xl fa-xmark hv_close_btn"></i> above and then <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-lg fa-video"></i></button></p>
+
+<p><strong>Video Tutorial:</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_VID_TUTORIAL'); ">here</a> 1 2 3</p>
 
 <p>The <i class="fas fa-fw fa-house"></i> above represents the top of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_HELP_VIEWER'); ">help viewer</a> hierarchy.  Within-help links are in <a class="hv_link" style="cursor: text; ">this blue</a>.  Outbound links (mostly to <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/">Wikipedia</a>) are in <a class="hv_ext_link">this blue</a>.  The hierarchy branches from here:</p>
 
@@ -146,6 +148,32 @@ HelpViewer.hvn_lookup_map["HV_HELP_VIEWER"].md_txt_html = String.raw`
 <p>Navigation within the help viewer is done via <a class="hv_link" style="cursor: text; ">light blue links</a>.  They are present in page text, the breadcrumbs, and a rudimentary back button <a class="hv_link" style="cursor: text; "><i class="fas fa-fw fa-arrow-left"></i></a>.  External links (usually to Wikipedia) are in <a class="hv_ext_link">this shade of blue</a>.</p>
 
 Launching the help viewer with <button type="button" class="btn btn-sm emulated_help_btn"><img height="15" width="10" src="/static/images/SSNS/question_mark.svg"></button> shows the last displayed page.  Alternatively, clicking a colored symbol background in the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_CTRL_DROPDOWN'); "><samp>CTRL</samp></a> or <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_PRMS_DROPDOWN'); "><samp>PRMS</samp></a> dropdown areas opens the corresponding quantity's page.  The viewer can always be closed with <i class="fas fa-xl fa-xmark hv_close_btn"></i>.  Also, if viewing the page for a system type, click the <a class="hv_link" style="cursor: text; "><i class="fa-solid fa-up-right-from-square"></i></a> next to its name to close the viewer and load it in the main interface.</p>
+
+`;
+
+
+
+HelpViewer.hvn_lookup_map["HV_VID_TUTORIAL"].header_txt = String.raw`Video Tutorials`;
+HelpViewer.hvn_lookup_map["HV_VID_TUTORIAL"].md_txt_html = String.raw`
+
+<div id="outermost_div" class="container-fluid d-flex justify-content-center">
+<div id="player_playlist_container">
+
+<video id="vid_player" width="100%" controls preload="auto" data-setup="{}">
+  <source id="vid_source" src="" type="video/mp4" />
+  <p>Please make sure your web browser has JavaScript enabled and supports HTML5 video.</p>
+</video>
+
+<div id="playlist_buttons" class="btn-group-vertical text-monospace" style="width: 100%;">
+<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="p6DmsR.mp4"><span>1 of 3: basic usage with GM</span><span></span></button>
+<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="C3C7XP.mp4"><span>2 of 3: adding a PlotType</span><span></span></button>
+<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="" disabled><span>3 of 3: new mini-app: LZ</span><span></span></button>
+</div>
+
+<p>hw</p>
+
+</div>
+</div>
 
 `;
 

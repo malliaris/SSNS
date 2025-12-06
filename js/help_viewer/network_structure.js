@@ -39,6 +39,7 @@ new HelpViewerNode("HV_HOME", [
 
 	new HelpViewerNode("HV_SYS_DROPDOWN", []),
 	new HelpViewerNode("HV_HELP_VIEWER", []),
+	new HelpViewerNode("HV_VID_TUTORIAL", []),
 
     ]),
 

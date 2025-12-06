@@ -104,15 +104,16 @@ class HelpViewer {
 
     static hvn_network;  // see notes at top of this file
     static hvn_lookup_map;  // see notes at top of this file
+    static bp;  // basic playlist for video tutorial in HV_VID_TUTORIAL
     
     constructor(sim, bsvs) {
 
 	// basic/miscellaneous settings
 	this.sim = sim;
-	this.initial_view = "HV_ST_CH";// GAS_THEORY_COMPARISON GAS_MODELS CONCEPTS _P_SM_HS_v_pist";//    // default setting
+	this.initial_view = "HV_VID_TUTORIAL";// GAS_THEORY_COMPARISON GAS_MODELS CONCEPTS _P_SM_HS_v_pist";//    // default setting
 	this.curr_view = "";
 	this.prev_view = "";
-	this.show_on_load = false;  // whether to show HelpViewer on app loading
+	this.show_on_load = true;  // whether to show HelpViewer on app loading
 	$("#md_container").on("hidden.bs.modal", function ()   { this.deployed = false;  });
 	$("#md_container").on("shown.bs.modal", function ()   { this.deployed = true;  });
 
@@ -129,6 +130,10 @@ class HelpViewer {
 	if (this.show_on_load) {  // if indicated, show HelpViewer on app loading
 	    this.show_view(this.initial_view);
 	}
+
+	this.initialize_vid_tutorial();/////////
+
+
     }
 
     help_btn_pressed() {  // remember last shown view, or show Home
@@ -181,5 +186,9 @@ class HelpViewer {
 	if (this.prev_view != "") {  // update back button
 	    $("#hv_back_btn_link").attr("onclick", "window.sim.ui.hv.show_view('" + this.prev_view + "'); ");
 	}
+    }
+
+    initialize_vid_tutorial() {
+	HelpViewer.bp = new BasicPlaylist("player_playlist_container", "vid_player", "vid_source", "playlist_buttons", "/d/ephemeral/available_files/");
     }
 }
