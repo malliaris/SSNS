@@ -579,6 +579,7 @@
 <div class="modal fade" id="md_container" tabindex="-1">
 <div class="modal-dialog modal-xl" style="">
 <div class="modal-content">
+    
 <div id="md_header" class="modal-header justify-content-start align-items-center p-0">
 <div class="" id="md_home_back">
 <a id="hv_home_icon" class="hv_link ml-2" onclick="window.sim.ui.hv.show_view('HV_HOME'); "><i class="fas fa-fw fa-xl fa-house pt-2 pb-1"></i></a><br/>
@@ -587,9 +588,42 @@
 <div id="md_breadcrumbs" class="align-self-start pt-2">
 </div>
 <button type="button" class="close my-0 mr-0 py-1 pl-1 pr-2" data-dismiss="modal" ><i class="fas fa-2xl fa-xmark"></i></button>
+</div><!-- CLOSES div id="md_header" -->
+
+
+
+<div class="modal-body pt-1 pl-2 pr-1 pb-0">
+
+
+
+
+<div style="display: none; " id="HV_VID_TUTORIAL_div">
+<div class="container-fluid d-flex justify-content-center">
+<div id="player_playlist_container">
+
+<video id="vid_player" width="100%" controls preload="auto" data-setup="{}">
+  <source id="vid_source" src="" type="video/mp4" />
+  <p>Please make sure your web browser has JavaScript enabled and supports HTML5 video.</p>
+</video>
+
+<div id="playlist_buttons" class="pb-1 btn-group-vertical text-monospace" style="width: 100%;">
+<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="p6DmsR.mp4"><span>1 of 3: basic usage with GM</span><span></span></button>
+<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="C3C7XP.mp4"><span>2 of 3: adding a PlotType</span><span></span></button>
+<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="" disabled><span>3 of 3: new mini-app: LZ</span><span></span></button>
 </div>
 
-<div id="md_txt" class="modal-body pt-1 pl-2 pr-1 pb-0"></div><!-- this is the div that HelpViewer.show_view() places help page html content into -->
+</div></div></div><!-- CLOSES div id="HV_VID_TUTORIAL_div" -->
+
+
+
+
+<div id="md_txt"></div><!-- this is the div that HelpViewer.show_view() places help page html content into -->
+
+
+
+</div>
+
+
 
 </div></div></div><!-- CLOSES div class="modal-content" through div class="modal fade" -->
 

@@ -154,28 +154,8 @@ Launching the help viewer with <button type="button" class="btn btn-sm emulated_
 
 
 HelpViewer.hvn_lookup_map["HV_VID_TUTORIAL"].header_txt = String.raw`Video Tutorials`;
-HelpViewer.hvn_lookup_map["HV_VID_TUTORIAL"].md_txt_html = String.raw`
-
-<div id="outermost_div" class="container-fluid d-flex justify-content-center">
-<div id="player_playlist_container">
-
-<video id="vid_player" width="100%" controls preload="auto" data-setup="{}">
-  <source id="vid_source" src="" type="video/mp4" />
-  <p>Please make sure your web browser has JavaScript enabled and supports HTML5 video.</p>
-</video>
-
-<div id="playlist_buttons" class="btn-group-vertical text-monospace" style="width: 100%;">
-<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="p6DmsR.mp4"><span>1 of 3: basic usage with GM</span><span></span></button>
-<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="C3C7XP.mp4"><span>2 of 3: adding a PlotType</span><span></span></button>
-<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="" disabled><span>3 of 3: new mini-app: LZ</span><span></span></button>
-</div>
-
-<p>hw</p>
-
-</div>
-</div>
-
-`;
+// NOT USED since <video> machinery sits alongside md_txt div in a separate div called HV_VID_TUTORIAL_div
+// HelpViewer.hvn_lookup_map["HV_VID_TUTORIAL"].md_txt_html = String.raw``;
 
 
 
