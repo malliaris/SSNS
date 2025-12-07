@@ -197,7 +197,7 @@ class HelpViewer {
     }
 
     initialize_vid_tutorial() {
-	HelpViewer.bp = new BasicPlaylist("player_playlist_container", "vid_player", "vid_source", "playlist_buttons", "/d/ephemeral/available_files/");
+	HelpViewer.bp = new BasicPlaylist("player_playlist_container", "vid_player", "vid_source", "playlist_buttons", "/static/videos/SSNS/");
 	$("#md_container").on("hide.bs.modal", function ()   { HelpViewer.bp.vp.pause();  });  // pause player if HV is closed
     }
 }

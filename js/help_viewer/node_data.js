@@ -41,9 +41,9 @@ HelpViewer.hvn_lookup_map["HV_HOME"].md_txt_html = String.raw`
 
 <p><strong>Quickest Start:</strong> press <i class="fas fa-xl fa-xmark hv_close_btn"></i> above and then <button type="button" class="btn btn-ssns-demo btn-sm px-1 py-0"><i class="fas fa-lg fa-video"></i></button></p>
 
-<p><strong>Video Tutorial:</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_VID_TUTORIAL'); ">here</a> 1 2 3</p>
+<p><strong>Video Tutorial:</strong> a <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_VID_TUTORIAL'); ">playlist</a> of three videos, ordered from basic to advanced</p>
 
-<p>The <i class="fas fa-fw fa-house"></i> above represents the top of the <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_HELP_VIEWER'); ">help viewer</a> hierarchy.  Within-help links are in <a class="hv_link" style="cursor: text; ">this blue</a>.  Outbound links (mostly to <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/">Wikipedia</a>) are in <a class="hv_ext_link">this blue</a>.  The hierarchy branches from here:</p>
+<p>This page is the top of a hierarchical <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_HELP_VIEWER'); ">help viewer</a> which branches into the following sections:</p>
 
 <ul><li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_USING'); ">How to use</a></li>
 <li><a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_COMPUTATION'); ">Computation</a></li>
@@ -64,12 +64,7 @@ HelpViewer.hvn_lookup_map["HV_USING"].md_txt_html = String.raw`
 
 <p>The <strong>SSNS</strong> app is like an audio recorder in that <strong><em>playback can only occur after some data is recorded</em></strong>.  In the screenshot, the currently loaded <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_SYS_DROPDOWN'); ">system type</a> is <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_ST_LM'); ">$$ \texttt{LM} $$</a>, 12 time steps have been recorded, and the current time is $$t = 9$$.</p>
 
-<!--
-text-align: center; vertical-align: middle !important; 
-<td class="hv_emulated_btn_td"></td>
--->
-
-
+<p>This information is also covered in video 1 of the <strong>SSNS</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_VID_TUTORIAL'); ">video tutorial</a>.</p>
 
 `;
 
@@ -204,7 +199,9 @@ HelpViewer.hvn_lookup_map["HV_CODE_ORGANIZATION"].md_txt_html = String.raw`
 
 <a target="_blank" href="//tedm.us/static/images/SSNS/TrajSeg_composition.svg"><img class="hv_fw_img" src="/static/images/SSNS/TrajSeg_composition_-_no_section_label.svg"></a>
 
-<p>Finally, each $$\texttt{Coords}$$ object holds all <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Dependent_and_independent_variables">dependent variable</a> data for a single time step &mdash; it could be, e.g., a single scalar value, or a large 2D matrix of values.  See GitHub <i class="fa-brands fa-github" style="color: black; "></i> for more <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/tree/main/docs/class_diagrams">class diagrams</a>, <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/blob/main/README.md#abbreviations-labels-etc">abbreviation info</a>, etc.</p>
+<p>Finally, each $$\texttt{Coords}$$ object holds all <a target="_blank" class="hv_ext_link" href="//en.wikipedia.org/wiki/Dependent_and_independent_variables">dependent variable</a> data for a single time step &mdash; it could be, e.g., a single scalar value, or a large 2D collection of values.</p>
+
+<p>Videos 2 and 3 of the <strong>SSNS</strong> <a class="hv_link" onclick="window.sim.ui.hv.show_view('HV_VID_TUTORIAL'); ">video tutorial</a> show these hierarchies in action as new chunks of code are added.  GitHub <i class="fa-brands fa-github" style="color: black; "></i> has more <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/tree/main/docs/class_diagrams">class diagrams</a>, technical details, and handy things like a table of <a target="_blank" class="hv_ext_link" href="//github.com/malliaris/SSNS/blob/main/README.md#abbreviations-labels-etc">abbreviations</a>.</p>
 
 `;
 
