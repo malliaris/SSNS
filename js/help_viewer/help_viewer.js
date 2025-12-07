@@ -134,20 +134,39 @@ class HelpViewer {
 	}
     }
 
-    help_btn_pressed() {  // remember last shown view, or show Home
+    help_btn_pressed() {  // remember last shown view, or, if this is first deployment, show default
 
 	if (this.curr_view == "") {
-	    this.show_view('HV_HOME');
-	} else {
-	    this.sim.rs.set_NR();  // exit from any running mode while using help viewer  STILL NEEDED?  REFACTOR HERE?
-	    $("#md_container").modal("show");
+	    this.curr_view = this.initial_view;
 	}
+	this.show_view(this.curr_view);
     }
 
+    update_modal_containers(v) {
+
+	let hvn = HelpViewer.hvn_lookup_map[v];
+	CU.sh("md_breadcrumbs", hvn.breadcrumbs_html);
+	if (v == "HV_VID_TUTORIAL") {
+
+	    $("#HV_VID_TUTORIAL_div").show();
+	    $("#md_txt").hide();
+
+	} else {
+
+	    $("#md_txt").show();
+	    $("#HV_VID_TUTORIAL_div").hide();
+	    
+	    $("#md_txt").html(hvn.md_txt_html);
+	    renderMathInElement(document.getElementById("md_txt"), KatexSetup.delim_obj);  // KatexSetup.delim_obj defined in <head> at top of SSNS.html	
+	    $(".hv_fw_img").css("width", this.fw_width);  // set width of any image in inserted modal html
+	    $("#hv_ssns_screenshot").css("width", this.hv_ssns_screenshot_width);  // set width of any image in inserted modal html
+	}
+    }
+    
     show_view(v) {
 
-	this.sim.rs.set_NR();  // exit from any running mode while using help viewer  STILL NEEDED?  REFACTOR HERE?
-
+	this.sim.rs.set_NR();  // exit from any running mode while using help viewer
+	if (v != "HV_VID_TUTORIAL") HelpViewer.bp.vp.pause();  // pause player if page other than video tutorial is about to be shown
 	$('#md_container').modal('handleUpdate');  // reload modal to "scroll to top" of page about to be shown
 	
 	// update appearance/behavior of Home icon
@@ -159,27 +178,8 @@ class HelpViewer {
 	    $("#hv_home_icon").addClass("hv_link");
 	}
 
-	// show incoming view (and modal, if it's hidden)
-	console.log("AAAAA v =", v);//////////
-	let hvn = HelpViewer.hvn_lookup_map[v];
-	CU.sh("md_breadcrumbs", hvn.breadcrumbs_html);
-	if (v == "HV_VID_TUTORIAL") {
-	    console.log("AAABB v =", v);//////////
-	    $("#HV_VID_TUTORIAL_div").show();
-	    $("#md_txt").hide();
-
-	} else {
-	    console.log("AAACC v =", v);//////////
-
-	    $("#md_txt").show();
-	    $("#HV_VID_TUTORIAL_div").hide();
-	    
-	    $("#md_txt").html(hvn.md_txt_html);
-	    renderMathInElement(document.getElementById("md_txt"), KatexSetup.delim_obj);  // KatexSetup.delim_obj defined in <head> at top of SSNS.html	
-	    $(".hv_fw_img").css("width", this.fw_width);  // set width of any image in inserted modal html
-	    $("#hv_ssns_screenshot").css("width", this.hv_ssns_screenshot_width);  // set width of any image in inserted modal html
-	}
-
+	// prepare for and show incoming view (and modal, if it's hidden)
+	this.update_modal_containers(v);
 	if ( ! this.deployed) $("#md_container").modal("show");
 
 	// if we're about to gain our one step of "history," enable back button (a one-time transition)

@@ -590,14 +590,10 @@
 <button type="button" class="close my-0 mr-0 py-1 pl-1 pr-2" data-dismiss="modal" ><i class="fas fa-2xl fa-xmark"></i></button>
 </div><!-- CLOSES div id="md_header" -->
 
+<div class="modal-body pt-1 pl-2 pr-1 pb-0"><!-- modal-body, which will be dynamically updated to contain either of its 2 child div's -->
 
 
-<div class="modal-body pt-1 pl-2 pr-1 pb-0">
-
-
-
-
-<div style="display: none; " id="HV_VID_TUTORIAL_div">
+<div style="display: none; " id="HV_VID_TUTORIAL_div"><!-- child div #1: the video tutorial -->
 <div class="container-fluid d-flex justify-content-center">
 <div id="player_playlist_container">
 
@@ -612,20 +608,16 @@
 <button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="" disabled><span>3 of 3: new mini-app: LZ</span><span></span></button>
 </div>
 
-</div></div></div><!-- CLOSES div id="HV_VID_TUTORIAL_div" -->
+</div></div></div><!-- CLOSES 3 divs beginning with id="HV_VID_TUTORIAL_div" -->
 
 
+<div id="md_txt"></div><!-- child div #2: a non-video-tutorial help page -- see HelpViewer.show_view() -->
 
 
-<div id="md_txt"></div><!-- this is the div that HelpViewer.show_view() places help page html content into -->
+</div><!-- closes modal-body -->
 
 
-
-</div>
-
-
-
-</div></div></div><!-- CLOSES div class="modal-content" through div class="modal fade" -->
+</div></div></div><!-- CLOSES 3 divs beginning with class="modal fade" -->
 
 
 
