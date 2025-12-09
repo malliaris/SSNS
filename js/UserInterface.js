@@ -442,7 +442,7 @@ class UserInterface {
 	$("#PRMS_icon_and_indicator").css("border-width", "0px");  // visual indication from above has served its purpose
     }
 
-    remove_record_btns_attention_css() {
+    remove_record_btns_attention_css() {  // used to temporarily highlight recording buttons' appearance to guide user to them
     	$(".rec_btn").removeClass("btn-ssns-attention");
     	$(".rec_btn").addClass("btn-ssns");
     }

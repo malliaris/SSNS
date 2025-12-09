@@ -49,14 +49,18 @@
     background-color: #999999;
 }
 .btn-ssns-attention {
-    color: #cf2200;
+    animation: btn-ssns-attention-animation 4s ease-in-out infinite;
     background-color: #bbbbbb;
     border-color: #ffffff;
 }
 .btn-ssns-attention:hover {
-    color: #cf2200;
     background-color: #b0b0b0;
     border-color: #ffffff;
+}
+@keyframes btn-ssns-attention-animation {
+    0% {color: #bbbbbb; }
+    50% {color: #cf2200; }
+    100% {color: #bbbbbb; }
 }
 .btn-ssns-demo {
     color: #ffffff;
