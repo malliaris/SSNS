@@ -455,9 +455,7 @@ class UserInterface {
 
 	// interface stuff: showing/hiding of UI elements
 	this.show_ST_params(this.sim.ST);  // show/hide ST-specific parameters
-	console.log("WIRUWORUI this.sim.ST =", this.sim.ST);////////////
 	if (this.sim.trjs[this.sim.ST].mc.model_is_stoch()) {  // show/hide stochastic system machinery
-	    console.log("wiruworui this.sim.ST =", this.sim.ST);////////////
 	    $(".UI_CTRL_STOCH").show();
 	    if (this.sim.ST_area == "SP") {  // show/hide stochastic process ensemble parameters (which are subset of stochastic system machinery)
 		$(".UI_CTRL_SP").show();
