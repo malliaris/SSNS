@@ -104,12 +104,13 @@ class HelpViewer {
 
     static hvn_network;  // see notes at top of this file
     static hvn_lookup_map;  // see notes at top of this file
+    static bp;  // basic playlist for video tutorial in HV_VID_TUTORIAL
     
     constructor(sim, bsvs) {
 
 	// basic/miscellaneous settings
 	this.sim = sim;
-	this.initial_view = "HV_ST_CH";// GAS_THEORY_COMPARISON GAS_MODELS CONCEPTS _P_SM_HS_v_pist";//    // default setting
+	this.initial_view = "HV_HOME";// VID_TUTORIAL GAS_THEORY_COMPARISON GAS_MODELS CONCEPTS _P_SM_HS_v_pist";//    // default setting
 	this.curr_view = "";
 	this.prev_view = "";
 	this.show_on_load = false;  // whether to show HelpViewer on app loading
@@ -126,29 +127,46 @@ class HelpViewer {
 	let hv_ssns_screenshot_min_width = parseInt($("#hv_ssns_screenshot_min_width_px").val());  // read in screenshot min width val and...
 	this.hv_ssns_screenshot_width = (bsvs <= 3) ? hv_ssns_screenshot_min_width : this.fw_width;  // use it on xs, sm, and md viewports only
 
+	this.initialize_vid_tutorial();
+
 	if (this.show_on_load) {  // if indicated, show HelpViewer on app loading
 	    this.show_view(this.initial_view);
 	}
     }
 
-    help_btn_pressed() {  // remember last shown view, or show Home
+    help_btn_pressed() {  // remember last shown view, or, if this is first deployment, show default
 
 	if (this.curr_view == "") {
-	    this.show_view('HV_HOME');
-	} else {
-	    this.sim.rs.set_NR();  // exit from any running mode while using help viewer
-	    $("#md_container").modal("show");
+	    this.curr_view = this.initial_view;
 	}
+	this.show_view(this.curr_view);
     }
 
+    update_modal_containers(v) {
+
+	let hvn = HelpViewer.hvn_lookup_map[v];
+	CU.sh("md_breadcrumbs", hvn.breadcrumbs_html);
+	if (v == "HV_VID_TUTORIAL") {
+
+	    $("#HV_VID_TUTORIAL_div").show();
+	    $("#md_txt").hide();
+
+	} else {
+
+	    $("#md_txt").show();
+	    $("#HV_VID_TUTORIAL_div").hide();
+	    
+	    $("#md_txt").html(hvn.md_txt_html);
+	    renderMathInElement(document.getElementById("md_txt"), KatexSetup.delim_obj);  // KatexSetup.delim_obj defined in <head> at top of SSNS.html	
+	    $(".hv_fw_img").css("width", this.fw_width);  // set width of any image in inserted modal html
+	    $("#hv_ssns_screenshot").css("width", this.hv_ssns_screenshot_width);  // set width of any image in inserted modal html
+	}
+    }
+    
     show_view(v) {
 
 	this.sim.rs.set_NR();  // exit from any running mode while using help viewer
-
-	// hide outgoing view if it is showing
-	if (this.curr_view != "") {
-	    $("#" + this.curr_view).hide();
-	}
+	if (v != "HV_VID_TUTORIAL") HelpViewer.bp.vp.pause();  // pause player if page other than video tutorial is about to be shown
 	$('#md_container').modal('handleUpdate');  // reload modal to "scroll to top" of page about to be shown
 	
 	// update appearance/behavior of Home icon
@@ -160,13 +178,8 @@ class HelpViewer {
 	    $("#hv_home_icon").addClass("hv_link");
 	}
 
-	// show incoming view (and modal, if it's hidden)
-	let hvn = HelpViewer.hvn_lookup_map[v];
-	CU.sh("md_breadcrumbs", hvn.breadcrumbs_html);
-	$("#md_txt").html(hvn.md_txt_html);
-	renderMathInElement(document.getElementById("md_txt"), KatexSetup.delim_obj);  // KatexSetup.delim_obj defined in <head> at top of SSNS.html	
-	$(".hv_fw_img").css("width", this.fw_width);  // set width of any image in inserted modal html
-	$("#hv_ssns_screenshot").css("width", this.hv_ssns_screenshot_width);  // set width of any image in inserted modal html
+	// prepare for and show incoming view (and modal, if it's hidden)
+	this.update_modal_containers(v);
 	if ( ! this.deployed) $("#md_container").modal("show");
 
 	// if we're about to gain our one step of "history," enable back button (a one-time transition)
@@ -181,5 +194,10 @@ class HelpViewer {
 	if (this.prev_view != "") {  // update back button
 	    $("#hv_back_btn_link").attr("onclick", "window.sim.ui.hv.show_view('" + this.prev_view + "'); ");
 	}
+    }
+
+    initialize_vid_tutorial() {
+	HelpViewer.bp = new BasicPlaylist("player_playlist_container", "vid_player", "vid_source", "playlist_buttons", "/static/videos/SSNS/");
+	$("#md_container").on("hide.bs.modal", function ()   { HelpViewer.bp.vp.pause();  });  // pause player if HV is closed
     }
 }

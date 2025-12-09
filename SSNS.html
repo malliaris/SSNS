@@ -9,7 +9,7 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet">
-<link href="/static/css/SSNT.css" rel="stylesheet">
+<link href="/static/css/SSNS.css" rel="stylesheet">
 
 <!-- KaTeX js stuff (LaTeX typesetting for the web) -->
 <script>
@@ -579,6 +579,7 @@
 <div class="modal fade" id="md_container" tabindex="-1">
 <div class="modal-dialog modal-xl" style="">
 <div class="modal-content">
+    
 <div id="md_header" class="modal-header justify-content-start align-items-center p-0">
 <div class="" id="md_home_back">
 <a id="hv_home_icon" class="hv_link ml-2" onclick="window.sim.ui.hv.show_view('HV_HOME'); "><i class="fas fa-fw fa-xl fa-house pt-2 pb-1"></i></a><br/>
@@ -587,11 +588,36 @@
 <div id="md_breadcrumbs" class="align-self-start pt-2">
 </div>
 <button type="button" class="close my-0 mr-0 py-1 pl-1 pr-2" data-dismiss="modal" ><i class="fas fa-2xl fa-xmark"></i></button>
+</div><!-- CLOSES div id="md_header" -->
+
+<div class="modal-body pt-1 pl-2 pr-1 pb-0"><!-- modal-body, which will be dynamically updated to contain either of its 2 child div's -->
+
+
+<div style="display: none; " id="HV_VID_TUTORIAL_div"><!-- child div #1: the video tutorial -->
+<div class="container-fluid d-flex justify-content-center">
+<div id="player_playlist_container">
+
+<video id="vid_player" width="100%" controls preload="auto" data-setup="{}">
+  <source id="vid_source" src="" type="video/mp4" />
+  <p>Please make sure your web browser has JavaScript enabled and supports HTML5 video.</p>
+</video>
+
+<div id="playlist_buttons" class="pb-1 btn-group-vertical text-monospace" style="width: 100%;">
+<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="1.mp4"><span>1 of 3: basic usage with GM</span><span></span></button>
+<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="2.mp4"><span>2 of 3: adding a PlotType</span><span></span></button>
+<button type="button" class="btn btn-secondary d-flex justify-content-between" onclick="HelpViewer.bp.process_click($(this)); " data-fn="3.mp4"><span>3 of 3: new mini-app: LZ</span><span></span></button>
 </div>
 
-<div id="md_txt" class="modal-body pt-1 pl-2 pr-1 pb-0"></div><!-- this is the div that HelpViewer.show_view() places help page html content into -->
+</div></div></div><!-- CLOSES 3 divs beginning with id="HV_VID_TUTORIAL_div" -->
 
-</div></div></div><!-- CLOSES div class="modal-content" through div class="modal fade" -->
+
+<div id="md_txt"></div><!-- child div #2: a non-video-tutorial help page -- see HelpViewer.show_view() -->
+
+
+</div><!-- closes modal-body -->
+
+
+</div></div></div><!-- CLOSES 3 divs beginning with class="modal fade" -->
 
 
 
@@ -610,36 +636,37 @@
   const {PriorityQueue, OrderedMap, OrderedSet} = sdsl;
 </script>
 
-<script src="/static/js/SSNT/CU.js"></script>
-<script src="/static/js/SSNT/UINI.js"></script>
-<script src="/static/js/SSNT/UICI.js"></script>
-<script src="/static/js/SSNT/traj_base.js"></script>
-<script src="/static/js/SSNT/traj_intermed.js"></script>
-<script src="/static/js/SSNT/system_types/gas.js"></script>
-<script src="/static/js/SSNT/system_types/collision.js"></script>
-<script src="/static/js/SSNT/system_types/RW.js"></script>
-<script src="/static/js/SSNT/system_types/MN.js"></script>
-<script src="/static/js/SSNT/system_types/CH.js"></script>
-<script src="/static/js/SSNT/system_types/IG.js"></script>
-<script src="/static/js/SSNT/system_types/HS.js"></script>
-<script src="/static/js/SSNT/system_types/IS.js"></script>
-<script src="/static/js/SSNT/system_types/XY.js"></script>
-<script src="/static/js/SSNT/system_types/LM.js"></script>
-<script src="/static/js/SSNT/system_types/GM.js"></script>
-<script src="/static/js/SSNT/system_types/PF.js"></script>
-<script src="/static/js/SSNT/system_types/SH.js"></script>
-<script src="/static/js/SSNT/PlotType.js"></script>
-<script src="/static/js/SSNT/PlotTypeXT.js"></script>
-<script src="/static/js/SSNT/PlotTypeHX.js"></script>
-<script src="/static/js/SSNT/PlotTypeCV.js"></script>
-<script src="/static/js/SSNT/PlotTypePP.js"></script>
-<script src="/static/js/SSNT/PlottingMachinery.js"></script>
-<script src="/static/js/SSNT/help_viewer/help_viewer.js"></script>
-<script src="/static/js/SSNT/help_viewer/network_structure.js"></script>
-<script src="/static/js/SSNT/help_viewer/node_data.js"></script>
-<script src="/static/js/SSNT/RunState.js"></script>
-<script src="/static/js/SSNT/UserInterface.js"></script>
-<script src="/static/js/SSNT/Simulator.js"></script>
+<script src="/static/js/p/BasicPlaylist.js"></script>
+<script src="/static/js/SSNS/CU.js"></script>
+<script src="/static/js/SSNS/UINI.js"></script>
+<script src="/static/js/SSNS/UICI.js"></script>
+<script src="/static/js/SSNS/traj_base.js"></script>
+<script src="/static/js/SSNS/traj_intermed.js"></script>
+<script src="/static/js/SSNS/system_types/gas.js"></script>
+<script src="/static/js/SSNS/system_types/collision.js"></script>
+<script src="/static/js/SSNS/system_types/RW.js"></script>
+<script src="/static/js/SSNS/system_types/MN.js"></script>
+<script src="/static/js/SSNS/system_types/CH.js"></script>
+<script src="/static/js/SSNS/system_types/IG.js"></script>
+<script src="/static/js/SSNS/system_types/HS.js"></script>
+<script src="/static/js/SSNS/system_types/IS.js"></script>
+<script src="/static/js/SSNS/system_types/XY.js"></script>
+<script src="/static/js/SSNS/system_types/LM.js"></script>
+<script src="/static/js/SSNS/system_types/GM.js"></script>
+<script src="/static/js/SSNS/system_types/PF.js"></script>
+<script src="/static/js/SSNS/system_types/SH.js"></script>
+<script src="/static/js/SSNS/PlotType.js"></script>
+<script src="/static/js/SSNS/PlotTypeXT.js"></script>
+<script src="/static/js/SSNS/PlotTypeHX.js"></script>
+<script src="/static/js/SSNS/PlotTypeCV.js"></script>
+<script src="/static/js/SSNS/PlotTypePP.js"></script>
+<script src="/static/js/SSNS/PlottingMachinery.js"></script>
+<script src="/static/js/SSNS/help_viewer/help_viewer.js"></script>
+<script src="/static/js/SSNS/help_viewer/network_structure.js"></script>
+<script src="/static/js/SSNS/help_viewer/node_data.js"></script>
+<script src="/static/js/SSNS/RunState.js"></script>
+<script src="/static/js/SSNS/UserInterface.js"></script>
+<script src="/static/js/SSNS/Simulator.js"></script>
 
 
 
