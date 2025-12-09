@@ -13,7 +13,7 @@ class PlottingMachinery {
 
 	// js object of objects containing all PlotType instances
 	// * will be indexed as plots[sim.ST][sim.PT], e.g., to call plot() update
-	// * used in ui.update_plot_type_buttons() to only show exiting plot types for given system type as non-disabled
+	// * used in ui.update_plot_type_buttons() to only show existing plot types for given system type as non-disabled
 	// * once a plot type for given system type is used by user, that "setting" is remembered in active_PT_by_ST js object
 	// * listing order of plot types for given system type does matter in that the first listed will be active by default
 	this.set_plot_container_dimensions(bsvs);
