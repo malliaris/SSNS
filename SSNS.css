@@ -36,6 +36,7 @@
     color: #eeeeee;
     background-color: #cccccc;
     border-color: #eeeeee;
+    pointer-events: none;
     opacity: 1.0;
 }
 .btn-ssns-emphasis {
@@ -46,6 +47,16 @@
 .btn-ssns-emphasis:hover {  /* needed on mobile (!) */
     color: #ffffff;
     background-color: #999999;
+}
+.btn-ssns-attention {
+    color: #cf2200;
+    background-color: #bbbbbb;
+    border-color: #ffffff;
+}
+.btn-ssns-attention:hover {
+    color: #cf2200;
+    background-color: #b0b0b0;
+    border-color: #ffffff;
 }
 .btn-ssns-demo {
     color: #ffffff;

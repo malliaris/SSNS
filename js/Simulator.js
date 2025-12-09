@@ -30,6 +30,7 @@ class Simulator {
 	this.update_ST();  // contains initial call to this.update_plot_and_UI()
 	this.ui.handle_t_max_checkbox_change();  // here (rather than in ui constructor) since system-dependent max_num_t_steps vals, etc. have to be in place)
 	this.timeout_id;  // "declaration" only; used with setTimeout() and clearTimeout()
+	this.recording_taken_place = false;  // used to control recording buttons' colors to help user
 
 
 	////////////////////////////  TESTING AREA -- EMPTY WHEN DONE TESTING!  ///////////////////////////////
@@ -129,6 +130,11 @@ class Simulator {
 	    this.update_plot_and_UI();
 	    break;
 	case "SR":  // SR == Step (forward 1 step in time and) Record
+	    if ( ! this.recording_taken_place) {
+		console.log("this.recording_taken_place !");
+		this.ui.remove_record_btns_attention_css();
+		this.recording_taken_place = true;
+	    }
 	    this.trjs[this.ST].step_forward_and_record();
 	    this.update_plot_and_UI();
 	    break;
@@ -149,6 +155,11 @@ class Simulator {
 	    this.run_forward();  // update_plot_and_UI() called within...
 	    break;
 	case "RC":  // RC == Record
+	    if ( ! this.recording_taken_place) {
+		console.log("this.recording_taken_place !");
+		this.ui.remove_record_btns_attention_css();
+		this.recording_taken_place = true;
+	    }
 	    this.rs.set_RC();
 	    this.run_record();  // update_plot_and_UI() called within...
 	    break;
@@ -258,5 +269,23 @@ class Simulator {
 	let current_t = this.trjs[this.ST].t;
 	CU.sk("UI_INDCTR_t", "t = " + current_t);
 	this.pm.plots[this.ST][this.PT].plot(current_t);  // COMMENT OUT THIS LINE TO TEMPORARILY DISABLE PLOTTING
+
+	/*
+	if ( ! this.rs.is_RN()) {
+	    $("#btn_cmd_PS").attr("disabled", "true");
+	} else {
+	    $("#btn_cmd_PS").removeAttr("disabled");
+	}
+	if (this.trjs[this.ST].at_t_0()) {
+	    $("#btn_cmd_RB").attr("disabled", "true");
+	} else {
+	    $("#btn_cmd_RB").removeAttr("disabled");
+	}
+	if (this.trjs[this.ST].at_t_edge()) {
+	    $("#btn_cmd_RF").attr("disabled", "true");
+	} else {
+	    $("#btn_cmd_RF").removeAttr("disabled");
+	}
+	*/    
     }
 }

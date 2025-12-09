@@ -222,7 +222,7 @@ class UserInterface {
 	    $(ui_btn_str).attr("onclick", "");
     	    $(ui_btn_str).removeClass("btn-ssns btn-ssns-emphasis");
     	    $(ui_btn_str).removeAttr("disabled");
-	    $(ui_btn_str).css("pointer-events", "none");
+	    $(ui_btn_str).css("pointer-events", "auto");
 
 	    // put each button into 1 of 3 categories -- disabled, being used, and available -- by adding attributes/modifiers
 	    if ( ! Object.keys(this.sim.pm.plots[this.sim.ST]).includes(PT_val)) {  // if PT is not available for this ST, disable
@@ -230,10 +230,10 @@ class UserInterface {
     		$(ui_btn_str).attr("disabled", "true");
 	    } else if (PT_val == this.sim.PT) {  // if this is the PT currently being used, make it "chosen", but no onclick needed
     		$(ui_btn_str).addClass("btn-ssns-emphasis");
+		$(ui_btn_str).css("pointer-events", "none");
 	    } else {  // if this PT is available to switch to, add onclick and enable clicking
     		$(ui_btn_str).addClass("btn-ssns");
 		$(ui_btn_str).attr("onclick", "window.sim.switch_PT_within_ST('" + PT_val + "'); ");
-		$(ui_btn_str).css("pointer-events", "auto");
 	    }
 	}
     }
@@ -442,6 +442,11 @@ class UserInterface {
 	$("#PRMS_icon_and_indicator").css("border-width", "0px");  // visual indication from above has served its purpose
     }
 
+    remove_record_btns_attention_css() {
+    	$(".rec_btn").removeClass("btn-ssns-attention");
+    	$(".rec_btn").addClass("btn-ssns");
+    }
+    
     update_ST_PT_dep_settings() {
 
 	// plot stuff
