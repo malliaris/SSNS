@@ -49,7 +49,7 @@
     background-color: #999999;
 }
 .btn-ssns-attention {
-    animation: btn-ssns-attention-animation 4s ease-in-out infinite;
+    /* animation: btn-ssns-attention-animation 4s ease-in-out infinite; */
     background-color: #bbbbbb;
     border-color: #ffffff;
 }
@@ -57,10 +57,23 @@
     background-color: #b0b0b0;
     border-color: #ffffff;
 }
-@keyframes btn-ssns-attention-animation {
-    0% {color: #bbbbbb; }
-    50% {color: #cf2200; }
-    100% {color: #bbbbbb; }
+.flash-grp-1-of-2 {
+    animation: animation-flash-shown-first 4s ease-in-out infinite;
+}
+.flash-grp-2-of-2 {
+    animation: animation-flash-shown-second 4s ease-in-out infinite;
+}
+@keyframes animation-flash-shown-first {
+    0%   {opacity: 1.0; }
+    25%  {opacity: 0.5; }
+    50%  {opacity: 0.0; }
+    100% {opacity: 0.5; }
+}
+@keyframes animation-flash-shown-second {
+    0%   {opacity: 0.0; }
+    25%  {opacity: 0.5; }
+    50%  {opacity: 1.0; }
+    100% {opacity: 0.5; }
 }
 .btn-ssns-demo {
     color: #ffffff;
