@@ -58,22 +58,23 @@
     border-color: #ffffff;
 }
 .flash-grp-1-of-2 {
-    animation: animation-flash-shown-first 4s ease-in-out infinite;
+    animation: animation-flash-shown-first 8s linear infinite;
 }
 .flash-grp-2-of-2 {
-    animation: animation-flash-shown-second 4s ease-in-out infinite;
+    animation: animation-flash-shown-second 8s linear infinite;
 }
 @keyframes animation-flash-shown-first {
-    0%   {opacity: 1.0; }
-    25%  {opacity: 0.5; }
-    50%  {opacity: 0.0; }
-    100% {opacity: 0.5; }
+    0%   {opacity: 0.0; }
+    5%  {opacity: 0.0; }
+    25%  {opacity: 1.0; }
+    45%  {opacity: 0.0; }
+    100% {opacity: 0.0; }
 }
 @keyframes animation-flash-shown-second {
     0%   {opacity: 0.0; }
-    25%  {opacity: 0.5; }
-    50%  {opacity: 1.0; }
-    100% {opacity: 0.5; }
+    60%  {opacity: 0.0; }
+    80%  {opacity: 1.0; }
+    100% {opacity: 0.0; }
 }
 .btn-ssns-demo {
     color: #ffffff;
