@@ -442,9 +442,9 @@ class UserInterface {
 	$("#PRMS_icon_and_indicator").css("border-width", "0px");  // visual indication from above has served its purpose
     }
 
-    remove_record_btns_attention_css() {  // used to temporarily highlight recording buttons' appearance to guide user to them
-    	$(".rec_btn").removeClass("btn-ssns-attention");
-    	$(".rec_btn").addClass("btn-ssns");
+    remove_attn_flash_on_btns() {  // part of machinery used to temporarily draw attention to recording and help buttons through color and flashing
+    	$(".attn-flash-grp-2").hide();
+    	$(".attn-flash").removeClass("attn-flash-rec attn-flash-help attn-flash-grp-1 attn-flash-grp-2");
     }
     
     update_ST_PT_dep_settings() {

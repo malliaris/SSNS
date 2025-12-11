@@ -120,7 +120,7 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1">
 <div class="btn-group btn-group-lg d-flex">
-<button type="button" class="btn rec_btn btn-ssns-attention px-1 flex-fill" onclick="window.sim.process_cmd('RC'); "><i style="color: #cf2200; " class="flash-grp-1-of-2 fas fa-fw fa-xl fa-video"></i><span class="flash-grp-2-of-2" style="color: #cf2200; position: absolute; left: 1em; top: 0em; font-size: 14px; "><samp>RECORD <br/> TRAJ.</samp></span></button>
+<button type="button" class="btn btn-ssns px-1 flex-fill" onclick="window.sim.process_cmd('RC'); "><i class="attn-flash attn-flash-rec attn-flash-grp-1 fas fa-fw fa-xl fa-video"></i><span class="attn-flash attn-flash-rec attn-flash-grp-2" style="position: absolute; left: 1em; top: 0em; font-size: 14px; "><samp>RECORD TRAJ.</samp></span></button>
 <button type="button" class="btn btn-ssns px-1 flex-fill" onclick="window.sim.process_cmd('RB'); "><i class="fas fa-fw fa-xl fa-flip-horizontal fa-play"></i></button>
 <button type="button" class="btn btn-ssns px-1 flex-fill" onclick="window.sim.process_cmd('PS'); "><i class="fas fa-fw fa-xl fa-pause"></i></button>
 <button type="button" class="btn btn-ssns px-1 flex-fill" onclick="window.sim.process_cmd('RF'); "><i class="fas fa-fw fa-xl fa-play"></i></button>
@@ -145,7 +145,7 @@
 </button>
 
 <button type="button" class="btn btn-ssns-emphasis px-0 flex-fill" onclick="window.sim.ui.hv.help_btn_pressed(); ">
-<img id="UI_help_btn_qm" height="30" width="20" src="/static/images/SSNS/question_mark.svg">
+<img id="UI_help_btn_qm" class="attn-flash attn-flash-help attn-flash-grp-1" height="30" width="20" src="/static/images/SSNS/question_mark.svg">
 </button>
 
 </div>
@@ -333,7 +333,7 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-1">
 <div class="btn-group btn-group-lg d-flex">
-<button type="button" class="btn rec_btn btn-ssns-attention btn_w_txt px-0 flex-fill" onclick="window.sim.process_cmd('SR'); "><i class="fas fa-fw fa-lg fa-video pr-2" data-fa-transform="down-1"></i><samp>STEP</samp></button>
+<button type="button" class="btn btn-ssns btn_w_txt px-0 flex-fill" onclick="window.sim.process_cmd('SR'); "><span class="attn-flash attn-flash-rec attn-flash-grp-1"><i class="fas fa-fw fa-lg fa-video pr-2" data-fa-transform="down-1"></i><samp>STEP</samp></span></button>
 <button type="button" class="btn btn-ssns px-1 flex-fill" onclick="window.sim.process_cmd('JB'); "><i class="fas fa-fw fa-lg fa-backward-fast"></i></button>
 <button type="button" class="btn btn-ssns px-1 flex-fill" onclick="window.sim.process_cmd('SB'); "><i class="fas fa-fw fa-lg fa-backward-step"></i></button>
 <button type="button" class="btn btn-ssns px-1 flex-fill" onclick="window.sim.process_cmd('SF'); "><i class="fas fa-fw fa-lg fa-forward-step"></i></button>

@@ -30,7 +30,7 @@ class Simulator {
 	this.update_ST();  // contains initial call to this.update_plot_and_UI()
 	this.ui.handle_t_max_checkbox_change();  // here (rather than in ui constructor) since system-dependent max_num_t_steps vals, etc. have to be in place)
 	this.timeout_id;  // "declaration" only; used with setTimeout() and clearTimeout()
-	this.recording_taken_place = false;  // used to temporarily highlight recording buttons' appearance to guide user to them
+	this.recording_taken_place = false;  // part of machinery used to temporarily draw attention to recording and help buttons through color and flashing
 
 
 	////////////////////////////  TESTING AREA -- EMPTY WHEN DONE TESTING!  ///////////////////////////////
@@ -130,8 +130,8 @@ class Simulator {
 	    this.update_plot_and_UI();
 	    break;
 	case "SR":  // SR == Step (forward 1 step in time and) Record
-	    if ( ! this.recording_taken_place) {  // used to temporarily highlight recording buttons' appearance to guide user to them
-		this.ui.remove_record_btns_attention_css();
+	    if ( ! this.recording_taken_place) {  // part of machinery used to temporarily draw attention to recording and help buttons through color and flashing
+		this.ui.remove_attn_flash_on_btns();
 		this.recording_taken_place = true;
 	    }
 	    this.trjs[this.ST].step_forward_and_record();
@@ -154,8 +154,8 @@ class Simulator {
 	    this.run_forward();  // update_plot_and_UI() called within...
 	    break;
 	case "RC":  // RC == Record
-	    if ( ! this.recording_taken_place) {  // used to temporarily highlight recording buttons' appearance to guide user to them
-		this.ui.remove_record_btns_attention_css();
+	    if ( ! this.recording_taken_place) {  // part of machinery used to temporarily draw attention to recording and help buttons through color and flashing
+		this.ui.remove_attn_flash_on_btns();
 		this.recording_taken_place = true;
 	    }
 	    this.rs.set_RC();

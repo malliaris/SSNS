@@ -48,34 +48,33 @@
     color: #ffffff;
     background-color: #999999;
 }
-.btn-ssns-attention {
-    /* animation: btn-ssns-attention-animation 4s ease-in-out infinite; */
-    background-color: #bbbbbb;
-    border-color: #ffffff;
+/* START machinery used to temporarily draw attention to recording and help buttons through color and flashing */
+.attn-flash-rec {
+    color: #cf2200;
 }
-.btn-ssns-attention:hover {
-    background-color: #b0b0b0;
-    border-color: #ffffff;
+.attn-flash-help {
+    color: #fcec4c;
 }
-.flash-grp-1-of-2 {
-    animation: animation-flash-shown-first 8s linear infinite;
+.attn-flash-grp-1 {
+    animation: anim-flash-shown-first 8s linear infinite;
 }
-.flash-grp-2-of-2 {
-    animation: animation-flash-shown-second 8s linear infinite;
+.attn-flash-grp-2 {
+    animation: anim-flash-shown-second 8s linear infinite;
 }
-@keyframes animation-flash-shown-first {
+@keyframes anim-flash-shown-first {
     0%   {opacity: 0.0; }
     5%  {opacity: 0.0; }
     25%  {opacity: 1.0; }
     45%  {opacity: 0.0; }
     100% {opacity: 0.0; }
 }
-@keyframes animation-flash-shown-second {
+@keyframes anim-flash-shown-second {
     0%   {opacity: 0.0; }
     60%  {opacity: 0.0; }
     80%  {opacity: 1.0; }
     100% {opacity: 0.0; }
 }
+/* END machinery used to temporarily draw attention to recording and help buttons through color and flashing */
 .btn-ssns-demo {
     color: #ffffff;
     background-color: #bbbbbb;
