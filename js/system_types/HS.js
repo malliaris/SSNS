@@ -215,6 +215,7 @@ class Coords_HS extends Coords {
 
 	if (this.constructing_init_cond) {
 
+	    this.sWEW = 0.0;  // the official "clock" for our continuous time gas system; using s rather than t so as not to confuse with SSNS discrete time step t
 	    this.x_RW = Params_HS.x_RW_0;  // set Right Wall (RW) piston initial position
 	    this.v_RW = this.extra_args[1];  // this is basically parameter v_pist_0, passed in an awkward way since Params p is not available
 	    this.cps = new CollisionPressureStats_HS(this.mc.ui);
@@ -224,10 +225,12 @@ class Coords_HS extends Coords {
 	    this.particles = new Array();
 	    this.initialize_particle_basics();
 	    this.do_post_particle_creation_tasks();
-	    this.initialize_collision_structures();
+	    //this.initialize_collision_structures(Coords_HS.s);
+	    this.initialize_collision_structures(this.sWEW);
 
 	} else {
 
+	    this.sWEW = this.c_prev.sWEW;  // the official "clock" for our continuous time gas system; using s rather than t so as not to confuse with SSNS discrete time step t; will be advanced in update_state()
 	    this.cps = CollisionPressureStats_HS.copy(this.c_prev.cps);
 	    this.psh = ParticleQuantityHistogram.copy(this.c_prev.psh);
 	    this.peh = ParticleQuantityHistogram.copy(this.c_prev.peh);  // peh = particle energy histogram
@@ -259,7 +262,8 @@ class Coords_HS extends Coords {
 			Params_HS.UINI_v_pist.sv(0.0);  // push corrected value back to UI
 		    } else {  // otherwise, go ahead with requested value and update data structures accordingly
 			this.v_RW = this.p.v_pist_0;
-			this.delete_and_reenter_RW_entries(Coords_HS.s);  // since v_RW has been changed
+			//this.delete_and_reenter_RW_entries(Coords_HS.s);  // since v_RW has been changed
+			this.delete_and_reenter_RW_entries(this.sWEW);  // since v_RW has been changed
 		    }
 		}
 
@@ -267,7 +271,9 @@ class Coords_HS extends Coords {
 		this.v_RW = this.c_prev.v_RW;
 	    }
 
+	    //console.log("aaaaaA this.sWEW = ", this.sWEW);
 	    this.update_state(Params_HS.ds);
+	    //console.log("aaaaaB this.sWEW = ", this.sWEW);
 	}
 	//this.check_basic_machinery_integrity_and_output();
 	//this.check_cet_table_and_entries_integrity_and_output(true);
@@ -695,7 +701,7 @@ class Coords_HS extends Coords {
 	}
     }
 
-    initialize_collision_structures() {
+    initialize_collision_structures(curr_s) {
 
 	this.RW_cet_entries = new OrderedSet([], CollisionEvent.compare_CEs);  // tracks all PW/WC collisions Right Wall (RW) might have
 	Coords_HS.WC_just_occurred = false;
@@ -703,14 +709,14 @@ class Coords_HS extends Coords {
 	// initial insertion into CollisionEventsTable of possible Wall-Container (WC) collision
 	// this is the Right Wall (RW) of the container which acts as a piston and will hit "stops" at its min/max extent
 	if (CollisionEvent_WC.piston_is_moving(this.v_RW)) {
-	    let ce = new CollisionEvent_WC(this.x_RW, this.v_RW, Coords_HS.s);  // Coords_HS.s == 0.0 at this point
-	    this.cet.table.insert(ce);  // Coords_HS.s == 0.0 at this point
+	    let ce = new CollisionEvent_WC(this.x_RW, this.v_RW, curr_s);
+	    this.cet.table.insert(ce);
 	    this.RW_cet_entries.insert(copy(ce));
 	}
 	
 	// initial insertion into CollisionEventsTable of potential future Particle-Wall (PW) collisions
 	for (let i = 0; i < Params_HS.N; i++) {
-	    let ce_array = CollisionEvent_PW.get_wall_collision_event_array(this.particles[i], i, this.x_RW, this.v_RW, Coords_HS.s);  // Coords_HS.s == 0.0 at this point
+	    let ce_array = CollisionEvent_PW.get_wall_collision_event_array(this.particles[i], i, this.x_RW, this.v_RW, curr_s);
 	    for (let ce of ce_array) {
 		if (ce != null) {
 		    this.cet.table.insert(ce);
@@ -726,7 +732,7 @@ class Coords_HS extends Coords {
 	for (let i = 1; i < Params_HS.N; i++) {  // check each pair... NOTE starting index of i == 1
 	    for (let j = 0; j < i; j++) {        //                    NOTE ending index of j == i - 1
 		if (CollisionEvent_PP.will_collide(this.particles[i], this.particles[j])) {
-		    this.add_collision_event_PP(j, i, Coords_HS.s);  // by convention, we have pai < pbi, so we use j,i rather than i,j
+		    this.add_collision_event_PP(j, i, curr_s);  // by convention, we have pai < pbi, so we use j,i rather than i,j
 		}
 	    }
 	}
@@ -1074,23 +1080,24 @@ class Coords_HS extends Coords {
 	}
     }
 
-    time_evolve(s) {
+    time_evolve(Ds) {  // any arbitrary Ds... not necessarily equal to ds
 
 	// update position of each particle
     	for (let i = 0; i < Params_HS.N; i++) {
-	    this.particles[i].x += this.particles[i].vx * s;
-	    this.particles[i].y += this.particles[i].vy * s;
+	    this.particles[i].x += this.particles[i].vx * Ds;
+	    this.particles[i].y += this.particles[i].vy * Ds;
 	}
 
 	// update position of Right Wall (RW)
-	this.x_RW += this.v_RW * s;
+	this.x_RW += this.v_RW * Ds;
     }
 
     update_state(ds) {
 
-	let curr_s = Coords_HS.s;
-	let new_s = Coords_HS.s + ds;
-
+	//let curr_s = Coords_HS.s;
+	//let new_s = Coords_HS.s + ds;
+	let new_sWEW = this.sWEW + ds;
+/*
 	while ((this.cet.table.size() > 0) && (this.cet.table.front().s < new_s)) {
 
 	    let partial_ds = this.cet.table.front().s - curr_s;
@@ -1100,19 +1107,26 @@ class Coords_HS extends Coords {
 	}
 
 	this.time_evolve(new_s - curr_s);
+*/
+	while ((this.cet.table.size() > 0) && (this.cet.table.front().s < new_sWEW)) {
+
+	    let partial_ds = this.cet.table.front().s - this.sWEW;
+	    this.time_evolve(partial_ds);
+	    this.sWEW += partial_ds;
+	    this.update_collision_structures(this.sWEW, this.cps, ds);
+	}
+	this.time_evolve(new_sWEW - this.sWEW);
+
 	this.cps.update_for_time_step(this.get_area(), Params_HS.N, this.get_kT());
 
-	//console.log("this.cet.table.size() =", this.cet.table.size())
-	//this.cet.output_info();
-	//console.log("this.v,x_RW,s =", this.v_RW, this.x_RW, Coords_HS.s);/////////
-
 	// update (continuous time) clock; (don't confuse with SSNS discrete time step t)
-	Coords_HS.s = new_s;
+	//Coords_HS.s = new_s;
+	this.sWEW = new_sWEW;
     }
 
     output() {
 
-	console.log("Coords_HS.s =", Coords_HS.s);
+	console.log("this.s =", this.sWEW);
 	console.log("this.x_RW =", this.x_RW);
 	for (let i = 0; i < Params_HS.N; i++) {
 	    let cp = this.particles[i];  // cp = current particle; for convenience
@@ -1125,7 +1139,7 @@ class Trajectory_HS extends Trajectory {
 
     constructor(sim) {
 
-	Coords_HS.s = 0.0;  // zero the official "clock" for our continuous time gas system; (don't confuse with SSNS discrete time step t)
+	//Coords_HS.s = 0.0;  // zero the official "clock" for our continuous time gas system; (don't confuse with SSNS discrete time step t)
 	Params_HS.N = Params_HS.UINI_N.v;
 	Params_HS.kT0 = Params_HS.UINI_kT0.v;
 	Params_HS.num_particles_per_rho_val = parseInt(Math.ceil(Params_HS.N / Params_HS.num_rho_vals));
