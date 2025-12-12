@@ -116,11 +116,14 @@ class Params_PF extends Params {
     }
 
     get_info_str() {
-	return "Dpol = " + this.Dpol;
-	return "Ut = " + this.Ut;
-	return "Ub = " + this.Ub;
-	return "mu = " + this.mu;
-	return "Dt = " + this.Dt;
+
+	let info_str = "";
+	info_str += "Dpol = " + this.Dpol + ", ";
+	info_str += "Ut = " + this.Ut + ", ";
+	info_str += "Ub = " + this.Ub + ", ";
+	info_str += "mu = " + this.mu + ", ";
+	info_str += "Dt = " + this.Dt;
+	return info_str;
     }
 }
 

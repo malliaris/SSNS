@@ -267,23 +267,5 @@ class Simulator {
 	let current_t = this.trjs[this.ST].t;
 	CU.sk("UI_INDCTR_t", "t = " + current_t);
 	this.pm.plots[this.ST][this.PT].plot(current_t);  // COMMENT OUT THIS LINE TO TEMPORARILY DISABLE PLOTTING
-
-	/*
-	if ( ! this.rs.is_RN()) {
-	    $("#btn_cmd_PS").attr("disabled", "true");
-	} else {
-	    $("#btn_cmd_PS").removeAttr("disabled");
-	}
-	if (this.trjs[this.ST].at_t_0()) {
-	    $("#btn_cmd_RB").attr("disabled", "true");
-	} else {
-	    $("#btn_cmd_RB").removeAttr("disabled");
-	}
-	if (this.trjs[this.ST].at_t_edge()) {
-	    $("#btn_cmd_RF").attr("disabled", "true");
-	} else {
-	    $("#btn_cmd_RF").removeAttr("disabled");
-	}
-	*/    
     }
 }

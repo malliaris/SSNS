@@ -120,8 +120,7 @@ class Params_IG extends Params {
     }
 
     get_info_str() {
-	return "x BC reflecting? = " + this.x_BC_refl;
-	return "y BC reflecting? = " + this.y_BC_refl;
+	return "x, y BCs reflecting? = " + this.x_BC_refl + ", " + this.y_BC_refl;
     }
 }
 

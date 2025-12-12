@@ -4,6 +4,7 @@
 #navbar_div_container {} /*background-color: #eee; }*/
 .nav-link {color: #222222; }
 #navbar_message       {color: #505050; font-size: 16px; }  /* NOTE: additional CSS (e.g., font-size: 12px) inline in SSNS.html... tidy up at some point */
+.imple {font-size: 14px; }
 #plot_container {}
 
 
@@ -50,16 +51,21 @@
 }
 /* START machinery used to temporarily draw attention to recording and help buttons through color and flashing */
 .attn-flash-rec {
-    color: #cf2200;
+    color: #ffffff;  /* cf2200 */
 }
 .attn-flash-help {
-    color: #fcec4c;
+    color: #fcec4c;  /* redundant at the moment with value inside question_mark.svg */
 }
 .attn-flash-grp-1 {
-    animation: anim-flash-shown-first 8s linear infinite;
+    animation: anim-flash-shown-first 6s linear infinite;
 }
 .attn-flash-grp-2 {
-    animation: anim-flash-shown-second 8s linear infinite;
+    animation: anim-flash-shown-second 6s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
 }
 @keyframes anim-flash-shown-first {
     0%   {opacity: 0.0; }

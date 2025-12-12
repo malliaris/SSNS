@@ -168,7 +168,13 @@ class HelpViewer {
 	this.sim.rs.set_NR();  // exit from any running mode while using help viewer
 	if (v != "HV_VID_TUTORIAL") HelpViewer.bp.vp.pause();  // pause player if page other than video tutorial is about to be shown
 	$('#md_container').modal('handleUpdate');  // reload modal to "scroll to top" of page about to be shown
-	
+
+	// now that help viewer has been "discovered", disable machinery used to temporarily draw attention to recording and help buttons through color and flashing
+	if ( ! this.sim.recording_taken_place) {
+	    this.sim.ui.remove_attn_flash_on_btns();
+	    this.sim.recording_taken_place = true;
+	}
+
 	// update appearance/behavior of Home icon
 	if (v == "HV_HOME") {
 	    $("#hv_home_icon").removeClass("hv_link");
