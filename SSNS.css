@@ -51,7 +51,7 @@
 }
 /* START machinery used to temporarily draw attention to recording and help buttons through color and flashing */
 .attn-flash-rec {
-    color: #ffffff;  /* cf2200 */
+    color: #1c9933;  /* cf2200 */
 }
 .attn-flash-help {
     color: #fcec4c;  /* redundant at the moment with value inside question_mark.svg */
